@@ -10,6 +10,6 @@ namespace Staffinfo.DAL.Models
         /// <summary>
         /// Due date for the rank (months count)
         /// </summary>
-        public int DueDate { get; set; }
+        public int Term { get; set; }
     }
 }

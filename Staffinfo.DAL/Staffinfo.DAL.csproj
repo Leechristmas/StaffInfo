@@ -40,11 +40,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\Common\Entity.cs" />
+    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\Location.cs" />
+    <Compile Include="Models\MesAchievement.cs" />
+    <Compile Include="Models\MilitaryService.cs" />
+    <Compile Include="Models\Passport.cs" />
+    <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\Rank.cs" />
+    <Compile Include="Models\Service.cs" />
+    <Compile Include="Models\WorkTerm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Mapping\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
