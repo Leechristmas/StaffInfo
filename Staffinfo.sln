@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staffinfo.DAL", "Staffinfo.DAL\Staffinfo.DAL.csproj", "{9960415B-90F6-4F66-AC50-1EE384E3E0FE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{A64AEC86-87CA-4D67-AD85-9EEE7F0F3D0B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C3A0CDB3-27B4-408E-9EDF-BF25FFA6CE13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staffinfo.DAL.Tests", "Staffinfo.DAL.Tests\Staffinfo.DAL.Tests.csproj", "{33D3D377-CC29-4237-94A4-A38CBD1A7C7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +25,15 @@ Global
 		{A64AEC86-87CA-4D67-AD85-9EEE7F0F3D0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A64AEC86-87CA-4D67-AD85-9EEE7F0F3D0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A64AEC86-87CA-4D67-AD85-9EEE7F0F3D0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33D3D377-CC29-4237-94A4-A38CBD1A7C7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33D3D377-CC29-4237-94A4-A38CBD1A7C7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33D3D377-CC29-4237-94A4-A38CBD1A7C7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33D3D377-CC29-4237-94A4-A38CBD1A7C7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{33D3D377-CC29-4237-94A4-A38CBD1A7C7C} = {C3A0CDB3-27B4-408E-9EDF-BF25FFA6CE13}
 	EndGlobalSection
 EndGlobal
