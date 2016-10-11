@@ -7,7 +7,7 @@ namespace Staffinfo.DAL.Models
         public string PostName { get; set; }
         public int PostWeight { get; set; }
 
-        public int ServiceId { get; set; }
-        public Service Service { get; set; }
+        public int? ServiceId { get; set; }
+        public virtual Service Service { get; set; }
     }
 }

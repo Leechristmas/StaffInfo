@@ -15,15 +15,15 @@ namespace Staffinfo.DAL.Models
 
         //navigation properties
         public int? ActualRankId { get; set; }
-        public Rank ActualRank { get; set; }
+        public virtual Rank ActualRank { get; set; }
 
         public int? ActualPostId { get; set; }
-        public Post ActualPost { get; set; }
+        public virtual Post ActualPost { get; set; }
 
         public int? PassportId { get; set; }
-        public Passport Passport { get; set; }
+        public virtual Passport Passport { get; set; }
 
         public int? AddressId { get; set; }
-        public Address Address { get; set; }
+        public virtual Address Address { get; set; }
     }
 }

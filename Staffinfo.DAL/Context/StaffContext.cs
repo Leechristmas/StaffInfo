@@ -17,11 +17,14 @@ namespace Staffinfo.DAL.Context
         }
 
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Post> Posts { get; set; } 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations
-                .Add(new AddressMap());
+                .Add(new AddressMap())
+                .Add(new PostMap())
+                .Add(new ServiceMap());
         }
     }
 }

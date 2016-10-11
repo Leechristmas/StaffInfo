@@ -12,9 +12,9 @@ namespace Staffinfo.DAL.Models
 
         //navigation properties
         public int? EmployeeId { get; set; }
-        public Employee Employee { get; set; }
+        public virtual Employee Employee { get; set; }
 
         public int? LocationId { get; set; }
-        public Location Location { get; set; }
+        public virtual Location Location { get; set; }
     }
 }

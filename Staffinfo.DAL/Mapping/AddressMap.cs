@@ -5,10 +5,7 @@ namespace Staffinfo.DAL.Mapping
 {
     public class AddressMap: BaseMap<Address>
     {
-        public AddressMap(string tableName) : base(tableName)
-        { }
-
-        public AddressMap(): this("tbl_Address")
+        public AddressMap(): base("tbl_Address")
         {
             //properties
             this.Property(t => t.City).IsRequired().HasColumnName("City");

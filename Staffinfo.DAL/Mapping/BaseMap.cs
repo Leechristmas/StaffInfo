@@ -5,7 +5,7 @@ namespace Staffinfo.DAL.Mapping
 {
     public class BaseMap<T>: EntityTypeConfiguration<T> where T: Entity
     {
-        public BaseMap(string tableName)
+        protected BaseMap(string tableName)
         {
             this.ToTable(tableName);
 

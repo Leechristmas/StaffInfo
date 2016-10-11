@@ -10,16 +10,16 @@ namespace Staffinfo.DAL.Models
         public string Description { get; set; }
 
         public int? EmployeeId { get; set; }
-        public Employee Employee { get; set; }
+        public virtual Employee Employee { get; set; }
 
         public int? LocationId { get; set; }
-        public Location Location { get; set; }
+        public virtual Location Location { get; set; }
 
         public int? PostId { get; set; }
-        public Post Post { get; set; }
+        public virtual Post Post { get; set; }
 
         public int? RankId { get; set; }
-        public Rank Rank { get; set; }
+        public virtual Rank Rank { get; set; }
 
     }
 }

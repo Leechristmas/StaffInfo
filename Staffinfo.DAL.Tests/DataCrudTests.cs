@@ -16,5 +16,16 @@ namespace Staffinfo.DAL.Tests
 
             Assert.IsTrue(addr.Count > 0);
         }
+
+        [TestMethod]
+        public void Get_AllPosts()
+        {
+            var t = _db.Posts.Find(1);
+            var posts = _db.Posts.ToList();
+
+            var t2 = posts[0].Service;
+
+            Assert.IsTrue(posts.Count > 0);
+        }
     }
 }
