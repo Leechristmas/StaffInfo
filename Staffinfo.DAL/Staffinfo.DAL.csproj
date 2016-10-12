@@ -54,10 +54,12 @@
     <Compile Include="Mapping\BaseMap.cs" />
     <Compile Include="Mapping\EmployeeMap.cs" />
     <Compile Include="Mapping\LocationMap.cs" />
+    <Compile Include="Mapping\MilitaryServiceMap.cs" />
     <Compile Include="Mapping\PassportMap.cs" />
     <Compile Include="Mapping\PostMap.cs" />
     <Compile Include="Mapping\RankMap.cs" />
     <Compile Include="Mapping\ServiceMap.cs" />
+    <Compile Include="Mapping\WorkTermMap.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Common\Entity.cs" />
     <Compile Include="Models\Employee.cs" />
