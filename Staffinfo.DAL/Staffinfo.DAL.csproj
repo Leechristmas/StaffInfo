@@ -54,6 +54,7 @@
     <Compile Include="Mapping\BaseMap.cs" />
     <Compile Include="Mapping\EmployeeMap.cs" />
     <Compile Include="Mapping\LocationMap.cs" />
+    <Compile Include="Mapping\MesAchievementMap.cs" />
     <Compile Include="Mapping\MilitaryServiceMap.cs" />
     <Compile Include="Mapping\PassportMap.cs" />
     <Compile Include="Mapping\PostMap.cs" />
