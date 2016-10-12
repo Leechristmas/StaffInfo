@@ -4,7 +4,7 @@ using Staffinfo.DAL.Models.Common;
 
 namespace Staffinfo.DAL.Repositories.Interfaces
 {
-    public interface IRepository<T> where T : Entity
+    public interface IRepository<T>
     {
         /// <summary>
         /// Returns all items
@@ -20,7 +20,7 @@ namespace Staffinfo.DAL.Repositories.Interfaces
         T Select(int id);
 
         /// <summary>
-        /// Returns the item satisfying for the predicate
+        /// Returns the items satisfying for the predicate
         /// </summary>
         /// <param name="predicate">search condition</param>
         /// <returns></returns>
