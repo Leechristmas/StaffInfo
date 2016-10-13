@@ -38,6 +38,10 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -50,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\StaffContext.cs" />
+    <Compile Include="Infrastructure\DIConfig.cs" />
+    <Compile Include="Infrastructure\StaffInjectModule.cs" />
     <Compile Include="Mapping\AddressMap.cs" />
     <Compile Include="Mapping\BaseMap.cs" />
     <Compile Include="Mapping\EmployeeMap.cs" />
@@ -76,6 +82,7 @@
     <Compile Include="Repositories\AddressRepository.cs" />
     <Compile Include="Repositories\EmployeeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IStaffRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUnitRepository.cs" />
     <Compile Include="Repositories\LocationRepository.cs" />
     <Compile Include="Repositories\MesAchievementRepository.cs" />
@@ -84,6 +91,7 @@
     <Compile Include="Repositories\PostRepository.cs" />
     <Compile Include="Repositories\RankRepository.cs" />
     <Compile Include="Repositories\ServiceRepository.cs" />
+    <Compile Include="Repositories\StaffUnitRepository.cs" />
     <Compile Include="Repositories\WorkTermRepository.cs" />
   </ItemGroup>
   <ItemGroup>

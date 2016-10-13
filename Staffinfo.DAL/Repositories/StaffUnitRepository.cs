@@ -1,5 +1,7 @@
 ﻿using System;
+using Ninject;
 using Staffinfo.DAL.Context;
+using Staffinfo.DAL.Infrastructure;
 using Staffinfo.DAL.Models;
 using Staffinfo.DAL.Repositories.Interfaces;
 
@@ -28,7 +30,8 @@ namespace Staffinfo.DAL.Repositories
         private ServiceRepository _serviceRepository;
         private WorkTermRepository _workTermRepository;
 
-        public IRepository<Address> AddressRepository => _addressRepository ?? new AddressRepository(_staffContext);
+        public IRepository<Address> AddressRepository
+            => _addressRepository ?? DIConfig.Kernel.Get<IRepository<Address>>();
         public IRepository<Employee> EmployeeRepository => _employeeRepository ?? new EmployeeRepository(_staffContext);
         public IRepository<Location> LocationRepository => _locationRepository ?? new LocationRepository(_staffContext);
 
