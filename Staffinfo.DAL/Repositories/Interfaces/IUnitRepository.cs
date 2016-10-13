@@ -18,7 +18,5 @@ namespace Staffinfo.DAL.Repositories.Interfaces
         IRepository<Rank> RankRepository { get; }
         IRepository<Service> ServiceRepository { get; }
         IRepository<WorkTerm> WorkTermRepository { get; }
-
-        void Save();
     }
 }

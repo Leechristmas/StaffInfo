@@ -16,7 +16,7 @@ namespace Staffinfo.DAL.Mapping
             HasOptional(t => t.Employee).WithMany().HasForeignKey(t => t.EmployeeId);
 
             this.Property(t => t.LocationId).IsOptional().HasColumnName("LocationID");
-            HasOptional(t => t.Location).WithMany().HasForeignKey(t => t.Location);
+            HasOptional(t => t.Location).WithMany().HasForeignKey(t => t.LocationId);
         }
     }
 }

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using Staffinfo.DAL.Models.Common;
 
 namespace Staffinfo.DAL.Repositories.Interfaces
 {
-    public interface IRepository<T>
+    public interface IRepository<T> where T : Entity
     {
+        DbSet<T> Table { get; set; }
+
         /// <summary>
         /// Returns all items
         /// </summary>
@@ -30,7 +33,7 @@ namespace Staffinfo.DAL.Repositories.Interfaces
         /// Creates new item and saves this one in database
         /// </summary>
         /// <param name="item">item to save</param>
-        void Create(T item);
+        T Create(T item);
 
         /// <summary>
         /// Updates the item
@@ -43,5 +46,10 @@ namespace Staffinfo.DAL.Repositories.Interfaces
         /// </summary>
         /// <param name="id">id of the item to remove</param>
         void Delete(int id);
+
+        /// <summary>
+        /// Saves all changes
+        /// </summary>
+        void Save();
     }
 }

@@ -20,19 +20,21 @@ namespace Staffinfo.DAL.Infrastructure
         private void AddRepositoryBindings()
         {
             this.Bind<StaffContext>().ToSelf().InSingletonScope();
+
             //Unit repository
             this.Bind<IUnitRepository>().To<StaffUnitRepository>();
 
-            this.Bind<IRepository<Address>>().To<AddressRepository>();
-            this.Bind<IRepository<Employee>>().To<EmployeeRepository>();
-            this.Bind<IRepository<Location>>().To<LocationRepository>();
-            this.Bind<IRepository<MesAchievement>>().To<MesAchievementRepository>();
-            this.Bind<IRepository<MilitaryService>>().To<MilitaryServiceRepository>();
-            this.Bind<IRepository<Passport>>().To<PassportRepository>();
-            this.Bind<IRepository<Post>>().To<PostRepository>();
-            this.Bind<IRepository<Rank>>().To<RankRepository>();
-            this.Bind<IRepository<Service>>().To<ServiceRepository>();
-            this.Bind<IRepository<WorkTerm>>().To<WorkTermRepository>();
+            this.Bind<IRepository<Address>>().To<Repository<Address>>();
+            this.Bind<IRepository<Employee>>().To<Repository<Employee>>();
+            this.Bind<IRepository<Location>>().To<Repository<Location>>();
+            this.Bind<IRepository<MesAchievement>>().To<Repository<MesAchievement>>();
+            this.Bind<IRepository<MilitaryService>>().To<Repository<MilitaryService>>();
+            this.Bind<IRepository<Passport>>().To<Repository<Passport>>();
+            this.Bind<IRepository<Post>>().To<Repository<Post>>();
+            this.Bind<IRepository<Rank>>().To<Repository<Rank>>();
+            this.Bind<IRepository<Service>>().To<Repository<Service>>();
+            this.Bind<IRepository<WorkTerm>>().To<Repository<WorkTerm>>();
+            
         }
     }
 }

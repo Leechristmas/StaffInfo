@@ -10,48 +10,44 @@ namespace Staffinfo.DAL.Repositories
     /// <summary>
     /// Unit repository (Unit Of Work pattern)
     /// </summary>
-    public class StaffUnitRepository: IUnitRepository
+    public class StaffUnitRepository: IUnitRepository, IStaffRepository
     {
-        private readonly StaffContext _staffContext;
+        [Inject]
+        public StaffContext StaffContext { get; set; }
 
-        public StaffUnitRepository()
+        public StaffUnitRepository(IRepository<Address> addressRepository, IRepository<Employee> employeeRepository, IRepository<Location> locationRepository, IRepository<MesAchievement> mesAchievementRepository, IRepository<MilitaryService> militaryServiceRepository, IRepository<Passport> passportRepository, IRepository<Post> postRepository, IRepository<Rank> rankRepository, IRepository<Service> serviceRepository, IRepository<WorkTerm> workTermRepository)
         {
-            _staffContext = new StaffContext();
+            AddressRepository = addressRepository;
+            EmployeeRepository = employeeRepository;
+            LocationRepository = locationRepository;
+            MesAchievementRepository = mesAchievementRepository;
+            MilitaryServiceRepository = militaryServiceRepository;
+            PassportRepository = passportRepository;
+            PostRepository = postRepository;
+            RankRepository = rankRepository;
+            ServiceRepository = serviceRepository;
+            WorkTermRepository = workTermRepository;
         }
 
-        private AddressRepository _addressRepository;
-        private EmployeeRepository _employeeRepository;
-        private LocationRepository _locationRepository;
-        private MesAchievementRepository _mesAchievementRepository;
-        private MilitaryServiceRepository _militaryServiceRepository;
-        private PassportRepository _passportRepository;
-        private PostRepository _postRepository;
-        private RankRepository _rankRepository;
-        private ServiceRepository _serviceRepository;
-        private WorkTermRepository _workTermRepository;
+        public IRepository<Address> AddressRepository { get; }
 
-        public IRepository<Address> AddressRepository
-            => _addressRepository ?? DIConfig.Kernel.Get<IRepository<Address>>();
-        public IRepository<Employee> EmployeeRepository => _employeeRepository ?? new EmployeeRepository(_staffContext);
-        public IRepository<Location> LocationRepository => _locationRepository ?? new LocationRepository(_staffContext);
+        public IRepository<Employee> EmployeeRepository { get; }
 
-        public IRepository<MesAchievement> MesAchievementRepository
-            => _mesAchievementRepository ?? new MesAchievementRepository(_staffContext);
+        public IRepository<Location> LocationRepository { get; }
 
-        public IRepository<MilitaryService> MilitaryServiceRepository
-            => _militaryServiceRepository ?? new MilitaryServiceRepository(_staffContext);
+        public IRepository<MesAchievement> MesAchievementRepository { get; }
 
-        public IRepository<Passport> PassportRepository => _passportRepository ?? new PassportRepository(_staffContext);
-        public IRepository<Post> PostRepository => _postRepository ?? new PostRepository(_staffContext);
-        public IRepository<Rank> RankRepository => _rankRepository ?? new RankRepository(_staffContext);
-        public IRepository<Service> ServiceRepository => _serviceRepository ?? new ServiceRepository(_staffContext);
-        public IRepository<WorkTerm> WorkTermRepository => _workTermRepository ?? new WorkTermRepository(_staffContext);
+        public IRepository<MilitaryService> MilitaryServiceRepository { get; }
 
-        public void Save()
-        {
-            _staffContext.SaveChanges();
-        }
+        public IRepository<Passport> PassportRepository { get; }
 
+        public IRepository<Post> PostRepository { get; }
+
+        public IRepository<Rank> RankRepository { get; }
+
+        public IRepository<Service> ServiceRepository { get; }
+
+        public IRepository<WorkTerm> WorkTermRepository { get; }
 
         #region IDisposable
 
@@ -63,7 +59,7 @@ namespace Staffinfo.DAL.Repositories
             {
                 if (disposing)
                 {
-                    _staffContext.Dispose();
+                    Dispose();
                 }
                 this._disposed = true;
             }
