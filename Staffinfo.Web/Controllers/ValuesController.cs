@@ -7,7 +7,8 @@ using System.Web.Http;
 
 namespace Staffinfo.Web.Controllers
 {
-    [Authorize]
+    //For tests the filter was commented
+    //[Authorize]
     public class ValuesController : ApiController
     {
         // GET api/values

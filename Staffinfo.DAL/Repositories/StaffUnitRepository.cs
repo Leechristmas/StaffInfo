@@ -1,7 +1,6 @@
 ﻿using System;
 using Ninject;
 using Staffinfo.DAL.Context;
-using Staffinfo.DAL.Infrastructure;
 using Staffinfo.DAL.Models;
 using Staffinfo.DAL.Repositories.Interfaces;
 
@@ -14,7 +13,7 @@ namespace Staffinfo.DAL.Repositories
     {
         [Inject]
         public StaffContext StaffContext { get; set; }
-
+        
         public StaffUnitRepository(IRepository<Address> addressRepository, IRepository<Employee> employeeRepository, IRepository<Location> locationRepository, IRepository<MesAchievement> mesAchievementRepository, IRepository<MilitaryService> militaryServiceRepository, IRepository<Passport> passportRepository, IRepository<Post> postRepository, IRepository<Rank> rankRepository, IRepository<Service> serviceRepository, IRepository<WorkTerm> workTermRepository)
         {
             AddressRepository = addressRepository;
@@ -49,29 +48,35 @@ namespace Staffinfo.DAL.Repositories
 
         public IRepository<WorkTerm> WorkTermRepository { get; }
 
-        #region IDisposable
+        #region Implementing interface IDisposable
 
-        private bool _disposed = false;
+        // Flag: Убит ли объект?
+        private bool disposed;
 
-        public virtual void Dispose(bool disposing)
-        {
-            if (!this._disposed)
-            {
-                if (disposing)
-                {
-                    Dispose();
-                }
-                this._disposed = true;
-            }
-        }
-
+        /// <summary>
+        /// Осуществляет освобождение ресурсов по запросу пользователя.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        #endregion
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
 
+            if (disposing)
+            {
+                // Освобождение управляемых ресурсов.
+            }
+
+            // Освобождение неуправляемых ресурсов.
+
+            disposed = true;
+        }
+
+        #endregion Implementing interface IDisposable
     }
 }
