@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staffinfo.SPA.Tests", "Staf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staffinfo.API", "Staffinfo.API\Staffinfo.API.csproj", "{F0B29A2C-3D68-41D7-829A-240B7819B57D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staffinfo.Web", "Staffinfo.Web\Staffinfo.Web.csproj", "{D3DE79B9-5551-4ECC-9A9C-FACDDCBD7665}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{F0B29A2C-3D68-41D7-829A-240B7819B57D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0B29A2C-3D68-41D7-829A-240B7819B57D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0B29A2C-3D68-41D7-829A-240B7819B57D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3DE79B9-5551-4ECC-9A9C-FACDDCBD7665}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3DE79B9-5551-4ECC-9A9C-FACDDCBD7665}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3DE79B9-5551-4ECC-9A9C-FACDDCBD7665}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3DE79B9-5551-4ECC-9A9C-FACDDCBD7665}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
