@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Staffinfo.API.Models;
 using Staffinfo.DAL.Models;
 using Staffinfo.DAL.Repositories.Interfaces;
 
@@ -19,9 +20,9 @@ namespace Staffinfo.API.Controllers
         }
 
         // GET: api/Employee
-        public IEnumerable<string> Get()
+        public IEnumerable<EmployeeViewModel> Get()
         {
-            return _repository.EmployeeRepository.Select().Select(e => e.EmployeeLastname);
+            return _repository.EmployeeRepository.Select().Select(e => new EmployeeViewModel(e));
         }
 
         // GET: api/Employee/5
