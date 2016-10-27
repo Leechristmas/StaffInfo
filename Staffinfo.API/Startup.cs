@@ -3,6 +3,8 @@ using System.Web.Http;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.OAuth;
+using Ninject.Web.Common.OwinHost;
+using Ninject.Web.WebApi.OwinHost;
 using Owin;
 using Staffinfo.API.Providers;
 
@@ -19,7 +21,10 @@ namespace Staffinfo.API
 
             WebApiConfig.Register(config);
             app.UseCors(CorsOptions.AllowAll);
-            app.UseWebApi(config);
+
+            //app.UseWebApi(config);
+            app.UseNinjectMiddleware(() => NinjectConfig.CreateKernel.Value);
+            app.UseNinjectWebApi(config);
         }
 
         public void ConfigureOAuth(IAppBuilder app)
