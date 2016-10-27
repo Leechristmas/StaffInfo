@@ -1,17 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staffinfo.DAL", "Staffinfo.DAL\Staffinfo.DAL.csproj", "{9960415B-90F6-4F66-AC50-1EE384E3E0FE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C3A0CDB3-27B4-408E-9EDF-BF25FFA6CE13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staffinfo.DAL.Tests", "Staffinfo.DAL.Tests\Staffinfo.DAL.Tests.csproj", "{33D3D377-CC29-4237-94A4-A38CBD1A7C7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staffinfo.Web.Tests", "Staffinfo.Web.Tests\Staffinfo.Web.Tests.csproj", "{70956980-A551-4DBD-AC9E-6C33CCB0B28A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staffinfo.SPA.Tests", "Staffinfo.SPA.Tests\Staffinfo.SPA.Tests.csproj", "{72226E46-EF2B-4429-99CA-A219A635214E}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staffinfo.API", "Staffinfo.API\Staffinfo.API.csproj", "{F0B29A2C-3D68-41D7-829A-240B7819B57D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staffinfo.Web", "Staffinfo.Web\Staffinfo.Web.csproj", "{D3DE79B9-5551-4ECC-9A9C-FACDDCBD7665}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staffinfo.DAL.Tests", "Tests\Staffinfo.DAL.Tests\Staffinfo.DAL.Tests.csproj", "{33D3D377-CC29-4237-94A4-A38CBD1A7C7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +27,18 @@ Global
 		{9960415B-90F6-4F66-AC50-1EE384E3E0FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9960415B-90F6-4F66-AC50-1EE384E3E0FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9960415B-90F6-4F66-AC50-1EE384E3E0FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33D3D377-CC29-4237-94A4-A38CBD1A7C7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33D3D377-CC29-4237-94A4-A38CBD1A7C7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33D3D377-CC29-4237-94A4-A38CBD1A7C7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33D3D377-CC29-4237-94A4-A38CBD1A7C7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70956980-A551-4DBD-AC9E-6C33CCB0B28A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70956980-A551-4DBD-AC9E-6C33CCB0B28A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70956980-A551-4DBD-AC9E-6C33CCB0B28A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70956980-A551-4DBD-AC9E-6C33CCB0B28A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72226E46-EF2B-4429-99CA-A219A635214E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72226E46-EF2B-4429-99CA-A219A635214E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72226E46-EF2B-4429-99CA-A219A635214E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72226E46-EF2B-4429-99CA-A219A635214E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F0B29A2C-3D68-41D7-829A-240B7819B57D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F0B29A2C-3D68-41D7-829A-240B7819B57D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0B29A2C-3D68-41D7-829A-240B7819B57D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -31,15 +47,13 @@ Global
 		{D3DE79B9-5551-4ECC-9A9C-FACDDCBD7665}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3DE79B9-5551-4ECC-9A9C-FACDDCBD7665}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3DE79B9-5551-4ECC-9A9C-FACDDCBD7665}.Release|Any CPU.Build.0 = Release|Any CPU
-		{33D3D377-CC29-4237-94A4-A38CBD1A7C7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{33D3D377-CC29-4237-94A4-A38CBD1A7C7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{33D3D377-CC29-4237-94A4-A38CBD1A7C7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{33D3D377-CC29-4237-94A4-A38CBD1A7C7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{33D3D377-CC29-4237-94A4-A38CBD1A7C7C} = {C3A0CDB3-27B4-408E-9EDF-BF25FFA6CE13}
+		{70956980-A551-4DBD-AC9E-6C33CCB0B28A} = {C3A0CDB3-27B4-408E-9EDF-BF25FFA6CE13}
+		{72226E46-EF2B-4429-99CA-A219A635214E} = {C3A0CDB3-27B4-408E-9EDF-BF25FFA6CE13}
 	EndGlobalSection
 EndGlobal
