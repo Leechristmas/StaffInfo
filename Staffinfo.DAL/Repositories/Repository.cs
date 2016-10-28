@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using Ninject;
 using Staffinfo.DAL.Context;
 using Staffinfo.DAL.Models.Common;
@@ -31,19 +32,20 @@ namespace Staffinfo.DAL.Repositories
 
         public DbSet<T> Table { get; set; }
 
-        public IEnumerable<T> Select()
+        public async Task<IEnumerable<T>> SelectAsync()
         {
-            return Table.ToList();
+            return await Table.ToListAsync();
         }
 
-        public T Select(int id)
+        public async Task<T> SelectAsync(int id)
         {
-            return Table.Find(id);
+            return await Table.FindAsync(id);
         }
 
-        public IEnumerable<T> Find(Func<T, bool> predicate)
+        //TODO:async recieving by a condition
+        public async Task<IEnumerable<T>> FindAsync(Func<T, bool> predicate)
         {
-            return Table.Where(predicate).ToList();
+            return await Table.AsQueryable().Where(predicate).AsQueryable().ToListAsync();
         }
 
         public T Create(T item)
@@ -65,9 +67,9 @@ namespace Staffinfo.DAL.Repositories
             }
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            StaffContext.SaveChanges();
+            await StaffContext.SaveChangesAsync();
         }
     }
 }
