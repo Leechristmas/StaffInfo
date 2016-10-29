@@ -2,9 +2,10 @@
 <html data-ng-app="StaffinfoApp">
 <head>
     <meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible" />
-    <title>AngularJS Authentication</title>
+    <title>База данных ПАСО</title>
     <link href="content/css/bootstrap.min.css" rel="stylesheet" />
     <link href="content/css/style.css" rel="stylesheet" />
+    <link href="content/css/site.css" rel="stylesheet" />
     <link href="content/css/loading-bar.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 </head>
@@ -15,27 +16,18 @@
                 <button class="btn btn-success navbar-toggle" data-ng-click="navbarExpanded = !navbarExpanded">
                     <span class="glyphicon glyphicon-chevron-down"></span>
                 </button>
-                <a class="navbar-brand" href="#/">Home</a>
+                <a class="navbar-brand" href="#/">База Данных Гомельского ПАСО</a>
             </div>
             <div class="collapse navbar-collapse" data-collapse="!navbarExpanded">
                 <ul class="nav navbar-nav navbar-right">
-                    <li data-ng-hide="!authentication.isAuth"><a href="#">Welcome {{authentication.userName}}</a></li>
-                    <li data-ng-hide="!authentication.isAuth"><a href="#/orders">My Orders</a></li>
-                    <li data-ng-hide="!authentication.isAuth"><a href="" data-ng-click="logOut()">Logout</a></li>
-                    <li data-ng-hide="authentication.isAuth"> <a href="#/login">Login</a></li>
-                    <li data-ng-hide="authentication.isAuth"> <a href="#/signup">Sign Up</a></li>
+                    <li data-ng-hide="!authentication.isAuth"><a href="#">Вы вошли как {{authentication.userName}}</a></li>
+                    <li data-ng-hide="!authentication.isAuth"><a href="" data-ng-click="logOut()">Выйти</a></li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="jumbotron">
-        <div class="container">
-            <div class="page-header text-center">
-                <h1>AngularJS Authentication</h1>
-            </div>
-            <p>This single page application is built using AngularJS, it is using OAuth bearer token authentication, ASP.NET Web API 2, OWIN middleware, and ASP.NET Identity to generate tokens and register users.</p>
-        </div>
-    </div>
+
+
     <div class="container">
         <div data-ng-view="">
         </div>
@@ -55,6 +47,7 @@
     <script src="Scripts/angular-route.min.js"></script>
     <script src="scripts/angular-local-storage.min.js"></script>
     <script src="scripts/loading-bar.min.js"></script>
+    <script src="scripts/Chart.js"></script>
     <!-- Load app main script -->
     <script src="app/app.js"></script>
     <!-- Load services -->

@@ -203,6 +203,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\create_database_infrastructure.sql" />
+    <Content Include="App_Data\fill_test_database.sql" />
     <Content Include="index.html" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -228,9 +230,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Staffinfo.DAL\Staffinfo.DAL.csproj">
       <Project>{9960415B-90F6-4F66-AC50-1EE384E3E0FE}</Project>
