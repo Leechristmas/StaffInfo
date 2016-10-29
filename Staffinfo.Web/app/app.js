@@ -18,11 +18,21 @@ app.config(function ($routeProvider) {
     });
 
     $routeProvider.when("/orders", {
-        controller: "ordersController",
-        templateUrl: "/app/views/orders.html"
+        controller: "dashboardController",
+        templateUrl: "/app/views/dashboard.html"
     });
 
     $routeProvider.otherwise({ redirectTo: "/home" });
+});
+
+app.config(function($httpProvider) {
+    $httpProvider.interceptors.push('authInterceptorService');
+});
+
+//http path to the API
+var serviceBase = 'http://localhost:21200/';
+app.constant('ngAuthSettings', {
+    apiServiceBaseUri: serviceBase
 });
 
 app.run(['authService', function (authService) {

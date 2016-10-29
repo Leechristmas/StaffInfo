@@ -29,7 +29,7 @@ namespace Staffinfo.API
 
         public void ConfigureOAuth(IAppBuilder app)
         {
-            OAuthAuthorizationServerOptions authorizationServerOptions = new OAuthAuthorizationServerOptions
+            OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
@@ -37,10 +37,10 @@ namespace Staffinfo.API
                 Provider = new AuthorizationServerProvider()
             };
 
-            app.UseOAuthAuthorizationServer(authorizationServerOptions);
+            // Token Generation
+            app.UseOAuthAuthorizationServer(OAuthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
         }
-              
     }
 }
