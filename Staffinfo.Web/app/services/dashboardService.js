@@ -5,14 +5,14 @@ app.factory('dashboardService', [
         var serviceBase = ngAuthSettings.apiServiceBaseUri;
         var dashboardServiceFactory = {};
 
-        var _getData = function () {
-            return $http.get(serviceBase + 'api/employee')
+        var _getEmployees = function () {
+            return $http.get(serviceBase + 'api/employees')
                 .then(function (result) {
                     return result;
                 });
         };
 
-        dashboardServiceFactory.getData = _getData;
+        dashboardServiceFactory.getEmployees = _getEmployees;
 
         return dashboardServiceFactory;
     }
