@@ -43,7 +43,7 @@ namespace Staffinfo.DAL.Repositories
         }
 
         //TODO:async recieving by a condition
-        public async Task<IEnumerable<T>> FindAsync(Func<T, bool> predicate)
+        public async Task<IEnumerable<T>> WhereAsync(Func<T, bool> predicate)
         {
             return await Table.AsQueryable().Where(predicate).AsQueryable().ToListAsync();
         }

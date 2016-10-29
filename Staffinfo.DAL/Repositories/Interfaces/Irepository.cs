@@ -28,8 +28,8 @@ namespace Staffinfo.DAL.Repositories.Interfaces
         /// </summary>
         /// <param name="predicate">search condition</param>
         /// <returns></returns>
-        Task<IEnumerable<T>> FindAsync(Func<T, Boolean> predicate);
-
+        Task<IEnumerable<T>> WhereAsync(Func<T, Boolean> predicate);
+        
         /// <summary>
         /// Creates new item and saves this one in database
         /// </summary>

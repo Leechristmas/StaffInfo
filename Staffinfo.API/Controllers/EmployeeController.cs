@@ -11,6 +11,7 @@ using Staffinfo.DAL.Repositories.Interfaces;
 
 namespace Staffinfo.API.Controllers
 {
+    [Route("api/employees")]
     public class EmployeeController : ApiController
     {
         private readonly IUnitRepository _repository;
@@ -20,17 +21,29 @@ namespace Staffinfo.API.Controllers
             _repository = repository;
         }
 
-        // GET: api/Employee
-        public async Task<IEnumerable<EmployeeViewModel>> Get()
+        // GET: api/Employees
+        /// <summary>
+        /// Returns all employees
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IEnumerable<EmployeeViewModel>> GetAllEmployees()
         {
             var all = await _repository.EmployeeRepository.SelectAsync();
             return all.Select(e => new EmployeeViewModel(e));
         }
 
-        // GET: api/Employee/5
-        public string Get(int id)
+        // GET: api/Employees/5
+        /// <summary>
+        /// Returns employee by id
+        /// </summary>
+        /// <param name="id">id of desired employee</param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<EmployeeViewModel> GetEmployee(int id)
         {
-            return "value";
+            Employee employee = await _repository.EmployeeRepository.SelectAsync(id);
+            return new EmployeeViewModel(employee);
         }
 
         // POST: api/Employee
@@ -46,6 +59,60 @@ namespace Staffinfo.API.Controllers
         // DELETE: api/Employee/5
         public void Delete(int id)
         {
+            _repository.EmployeeRepository.Delete(id);
+            _repository.EmployeeRepository.SaveAsync();
         }
+
+        #region Reference Books
+
+        /// <summary>
+        /// Returns all ranks
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/employees/ranks")]
+        public async Task<IEnumerable<Rank>> GetRanks()
+        {
+            return await _repository.RankRepository.SelectAsync();
+        }
+
+        [HttpGet]
+        [Route("api/employees/ranks/{id}")]
+        public async Task<Rank> GetRank(int id)
+        {
+            return await _repository.RankRepository.SelectAsync(id);
+        }
+
+        [HttpGet]
+        [Route("api/employees/services")]
+        public async Task<IEnumerable<Service>> GetServices()
+        {
+            return await _repository.ServiceRepository.SelectAsync();
+        }
+
+        [HttpGet]
+        [Route("api/employees/services/{id}")]
+        public async Task<Service> GetService(int id)
+        {
+            return await _repository.ServiceRepository.SelectAsync(id);
+        }
+
+        [HttpGet]
+        [Route("api/employees/posts")]
+        public async Task<IEnumerable<Post>> GetPosts()
+        {
+            return await _repository.PostRepository.SelectAsync();
+        }
+
+        [HttpGet]
+        [Route("api/employees/posts/{id}")]
+        public async Task<Post> GetPost(int id)
+        {
+            return await _repository.PostRepository.SelectAsync(id);
+        }
+
+
+        #endregion
+
     }
 }
