@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Threading.Tasks;
 using Staffinfo.DAL.Models.Common;
 
 namespace Staffinfo.DAL.Repositories.Interfaces
@@ -13,21 +14,21 @@ namespace Staffinfo.DAL.Repositories.Interfaces
         /// Returns all items
         /// </summary>
         /// <returns></returns>
-        IEnumerable<T> Select();
+        Task<IEnumerable<T>> SelectAsync();
 
         /// <summary>
         /// Returns the item by id
         /// </summary>
         /// <param name="id">id of the item</param>
         /// <returns></returns>
-        T Select(int id);
+        Task<T> SelectAsync(int id);
 
         /// <summary>
         /// Returns the items satisfying for the predicate
         /// </summary>
         /// <param name="predicate">search condition</param>
         /// <returns></returns>
-        IEnumerable<T> Find(Func<T, Boolean> predicate);
+        Task<IEnumerable<T>> FindAsync(Func<T, Boolean> predicate);
 
         /// <summary>
         /// Creates new item and saves this one in database
@@ -50,6 +51,6 @@ namespace Staffinfo.DAL.Repositories.Interfaces
         /// <summary>
         /// Saves all changes
         /// </summary>
-        void Save();
+        Task SaveAsync();
     }
 }

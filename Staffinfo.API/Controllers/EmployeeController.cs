@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Staffinfo.API.Models;
 using Staffinfo.DAL.Models;
@@ -20,9 +21,10 @@ namespace Staffinfo.API.Controllers
         }
 
         // GET: api/Employee
-        public IEnumerable<EmployeeViewModel> Get()
+        public async Task<IEnumerable<EmployeeViewModel>> Get()
         {
-            return _repository.EmployeeRepository.Select().Select(e => new EmployeeViewModel(e));
+            var all = await _repository.EmployeeRepository.SelectAsync();
+            return all.Select(e => new EmployeeViewModel(e));
         }
 
         // GET: api/Employee/5
