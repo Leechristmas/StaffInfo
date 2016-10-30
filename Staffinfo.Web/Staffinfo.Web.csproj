@@ -93,6 +93,8 @@
     <Content Include="content\css\cerulean-bootstrap-theme.min.css" />
     <Content Include="scripts\angular-animate.min.js.map" />
     <Content Include="scripts\angular-aria.min.js.map" />
+    <Content Include="scripts\angular-chart.js" />
+    <Content Include="scripts\angular-chart.min.js" />
     <Content Include="scripts\angular-cookies.min.js.map" />
     <Content Include="scripts\angular-loader.min.js.map" />
     <Content Include="scripts\angular-local-storage.js" />
@@ -106,7 +108,6 @@
     <Content Include="scripts\angular-touch.min.js.map" />
     <Content Include="scripts\angular.min.js.map" />
     <Content Include="scripts\angular-local-storage.min.js.map" />
-    <None Include="scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="scripts\angular-animate.js" />
     <Content Include="scripts\angular-animate.min.js" />
     <Content Include="scripts\angular-aria.js" />
@@ -880,12 +881,7 @@
     <Content Include="scripts\i18n\angular-locale_zh.js" />
     <Content Include="scripts\i18n\angular-locale_zu-za.js" />
     <Content Include="scripts\i18n\angular-locale_zu.js" />
-    <Content Include="scripts\jquery-3.1.1.js" />
-    <Content Include="scripts\jquery-3.1.1.min.js" />
-    <Content Include="scripts\jquery-3.1.1.slim.js" />
-    <Content Include="scripts\jquery-3.1.1.slim.min.js" />
-    <Content Include="scripts\jquery-3.1.1.slim.min.map" />
-    <Content Include="scripts\jquery-3.1.1.min.map" />
+    <Content Include="scripts\angular-chart.min.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

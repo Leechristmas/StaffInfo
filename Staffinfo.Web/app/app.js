@@ -1,4 +1,4 @@
-﻿var app = angular.module('StaffinfoApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar']);
+﻿var app = angular.module('StaffinfoApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar', 'chart.js']);
 
 app.config(function ($routeProvider) {
 
