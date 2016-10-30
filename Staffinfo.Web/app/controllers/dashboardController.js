@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 app.controller('dashboardController', [
-    '$scope', function ($scope) {
+    '$scope', 'dashboardService', function ($scope, dashboardService) {
         $scope.employees = [];
 
         //dashboardService.getEmployees().then(function (results) {
@@ -9,6 +9,14 @@ app.controller('dashboardController', [
         //}, function(error) {
         //    //alert
         //});;
+
+        dashboardService.getEmployees().then(function(results) {
+            $scope.employees = results.data;
+        }, function(error) {
+            //alert
+        });
+
+        
 
         //chart config
         $scope.data = [10, 27, 16, 22, 11, 8, 5];
