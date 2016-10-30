@@ -67,8 +67,7 @@ namespace Staffinfo.API.Models
             PassportId = employee.PassportId;
             Passport = employee.Passport?.PassportNumber;
             AddressId = employee.AddressId;
-            Address = $"г. {employee.Address?.City}, ул. {employee.Address?.Street}, д. {employee.Address?.House}" +
-                      (String.IsNullOrEmpty(employee.Address?.Flat) ? "" : $"/{employee.Address.Flat}");
+            Address = $"г. {employee.Address?.City}, {employee.Address?.Area} обл., {employee.Address?.DetailedAddress}";
         }
     }
 }

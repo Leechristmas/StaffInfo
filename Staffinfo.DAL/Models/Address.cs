@@ -14,13 +14,14 @@ namespace Staffinfo.DAL.Models
 
         [MaxLength(60)]
         [Required]
-        public string Street { get; set; }
+        public string Area { get; set; }
 
-        [MaxLength(10)]
+        [MaxLength(100)]
         [Required]
-        public string House { get; set; }
+        public string DetailedAddress { get; set; }
 
-        [MaxLength(5)]
-        public string Flat { get; set; }
+        [MaxLength(6)]
+        [Required]
+        public string ZipCode { get; set; }
     }
 }

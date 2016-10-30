@@ -9,9 +9,9 @@ namespace Staffinfo.DAL.Mapping
         {
             //properties
             this.Property(t => t.City).IsRequired().HasColumnName("City");
-            this.Property(t => t.Street).IsRequired().HasColumnName("Street");
-            this.Property(t => t.House).IsRequired().HasColumnName("House");
-            this.Property(t => t.Flat).IsOptional().HasColumnName("Flat");
+            this.Property(t => t.Area).IsRequired().HasColumnName("Area");
+            this.Property(t => t.DetailedAddress).IsRequired().HasColumnName("DetailedAddress");
+            this.Property(t => t.ZipCode).IsOptional().HasColumnName("ZipCode");
         }
     }
 }
