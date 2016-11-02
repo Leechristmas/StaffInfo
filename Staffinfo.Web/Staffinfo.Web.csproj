@@ -88,9 +88,6 @@
     <Content Include="content\css\angular-material.layouts.ie_fixes.css" />
     <Content Include="content\css\angular-material.layouts.min.css" />
     <Content Include="content\css\angular-material.min.css" />
-    <Content Include="content\css\bootstrap-datetimepicker.css" />
-    <Content Include="content\css\bootstrap-datetimepicker.min.css" />
-    <Content Include="content\css\cerulean-bootstrap-theme.css" />
     <Content Include="content\css\site.css" />
     <Content Include="content\css\style.css" />
     <Content Include="content\fonts\glyphicons-halflings-regular.eot" />
@@ -100,11 +97,8 @@
     <Content Include="content\css\loading-bar.css" />
     <Content Include="content\css\loading-bar.min.css" />
     <Content Include="packages.config" />
-    <Content Include="content\css\cerulean-bootstrap-theme.min.css" />
-    <Content Include="scripts\angular-animate.min.js.map" />
     <Content Include="scripts\angular-animate\angular-animate.js" />
     <Content Include="scripts\angular-animate\angular-animate.min.js" />
-    <Content Include="scripts\angular-aria.min.js.map" />
     <Content Include="scripts\angular-aria\angular-aria.js" />
     <Content Include="scripts\angular-aria\angular-aria.min.js" />
     <Content Include="scripts\angular-chart.js" />
@@ -125,10 +119,6 @@
     <Content Include="scripts\angular-touch.min.js.map" />
     <Content Include="scripts\angular.min.js.map" />
     <Content Include="scripts\angular-local-storage.min.js.map" />
-    <Content Include="scripts\angular-animate.js" />
-    <Content Include="scripts\angular-animate.min.js" />
-    <Content Include="scripts\angular-aria.js" />
-    <Content Include="scripts\angular-aria.min.js" />
     <Content Include="scripts\angular-cookies.js" />
     <Content Include="scripts\angular-cookies.min.js" />
     <Content Include="scripts\angular-csp.css" />
@@ -916,12 +906,8 @@
     <Content Include="content\css\bootstrap.min.css" />
     <Content Include="content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="index.html" />
-    <Content Include="scripts\bootstrap-datetimepicker.js" />
-    <Content Include="scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="scripts\loading-bar.js" />
     <Content Include="scripts\loading-bar.min.js" />
-    <Content Include="scripts\moment.js" />
-    <Content Include="scripts\moment.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
