@@ -23,14 +23,23 @@ namespace Staffinfo.API.Controllers
 
         // GET: api/Employees
         /// <summary>
-        /// Returns all employees
+        /// Returns all ACTUAL employees
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         public async Task<IEnumerable<EmployeeViewModel>> GetAllEmployees()
         {
-            var all = await _repository.EmployeeRepository.SelectAsync();
-            return all.Select(e => new EmployeeViewModel(e));
+            var all = await _repository.EmployeeRepository.WhereAsync(e => !e.IsPensioner);
+            return all.Select(e => new EmployeeViewModel
+            {
+                Id = e.Id,
+                EmployeeLastname = e.EmployeeLastname,
+                EmployeeFirstname = e.EmployeeFirstname,
+                EmployeeMiddlename = e.EmployeeMiddlename,
+                ActualPost = e.ActualPost.PostName,
+                ActualRank = e.ActualRank.RankName,
+                BirthDate = e.BirthDate
+            });
         }
 
         // GET: api/Employees/5
