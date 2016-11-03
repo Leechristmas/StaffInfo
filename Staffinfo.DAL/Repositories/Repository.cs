@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 using Ninject;
@@ -45,7 +46,7 @@ namespace Staffinfo.DAL.Repositories
         //TODO:async recieving by a condition
         public async Task<IEnumerable<T>> WhereAsync(Func<T, bool> predicate)
         {
-            return await Table.AsQueryable().Where(predicate).AsQueryable().ToListAsync();
+            return (await Table.ToListAsync()).Where(predicate);
         }
 
         public T Create(T item)
