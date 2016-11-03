@@ -58,11 +58,16 @@ app.factory('authService', [
 
         }
 
+        var _isAuthenticated = function() {
+            return !!localStorageService.get('authorizationData');
+        }
+
         authServiceFactory.saveRegistration = _saveRegistration;
         authServiceFactory.login = _login;
         authServiceFactory.logOut = _logOut;
         authServiceFactory.fillAuthData = _fillAuthData;
         authServiceFactory.authentication = _authentication;
+        authServiceFactory.isAuthenticated = _isAuthenticated;
 
         return authServiceFactory;
     }

@@ -117,6 +117,8 @@
     <Content Include="scripts\angular-route.min.js.map" />
     <Content Include="scripts\angular-sanitize.min.js.map" />
     <Content Include="scripts\angular-touch.min.js.map" />
+    <Content Include="scripts\angular-ui-router.js" />
+    <Content Include="scripts\angular-ui-router.min.js" />
     <Content Include="scripts\angular.min.js.map" />
     <Content Include="scripts\angular-local-storage.min.js.map" />
     <Content Include="scripts\angular-cookies.js" />

@@ -1,36 +1,46 @@
-﻿var app = angular.module('StaffinfoApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar', 'chart.js', 'ngMaterial']);
+﻿'use strict';
 
-app.config(function ($routeProvider) {
+var app = angular.module('StaffinfoApp', ['ui.router', 'LocalStorageModule', 'angular-loading-bar', 'chart.js', 'ngMaterial']);
 
-    $routeProvider.when("/home", {
-        controller: "homeController",
-        templateUrl: "/app/views/home.html"
-    });
+app.config(function ($stateProvider, $urlRouterProvider) {
 
-    $routeProvider.when("/login", {
-        controller: "loginController",
-        templateUrl: "/app/views/login.html"
-    });
+    $stateProvider
+        .state('home', {
+            url: "/home",
+            controller: "homeController",
+            templateUrl: "app/views/home.html",
+            noLogin: true
+        }).state('login', {
+            url: "/login",
+            controller: "loginController",
+            templateUrl: "app/views/login.html",
+            noLogin: true
+        }).state('signup', {
+            url: "/signup",
+            controller: "signupController",
+            templateUrl: "app/views/signup.html",
+            noLogin: false
+        }).state('dashboard', {
+            url: "/dashboard",
+            controller: "dashboardController",
+            templateUrl: "app/views/dashboard.html",
+            noLogin: false
+        }).state('employees', {
+            url: "/employees",
+            controller: "dashboardController",
+            templateUrl: "app/views/employees.html",
+            noLogin: false
+        });
 
-    $routeProvider.when("/signup", {
-        controller: "signupController",
-        templateUrl: "/app/views/signup.html"
-    });
-
-    $routeProvider.when("/dashboard", {
-        controller: "dashboardController",
-        templateUrl: "/app/views/dashboard.html"
-    });
-
-    $routeProvider.when("/employees", {
-        controller: "employeesController",
-        templateUrl: "/app/views/employees.html"
-    });
-
-    $routeProvider.otherwise({ redirectTo: "/home" });
+    $urlRouterProvider.otherwise("/home");
 });
 
-app.config(function($httpProvider) {
+app.config(function ($mdThemingProvider) {
+    $mdThemingProvider.theme('default')
+        .primaryPalette('blue');
+});
+
+app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptorService');
 });
 
@@ -40,6 +50,23 @@ app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase
 });
 
-app.run(['authService', function (authService) {
+app.run(['$rootScope', '$state', '$stateParams', 'authService', function ($rootScope, $state, $stateParams, authService) {
     authService.fillAuthData();
+
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
+
+    $rootScope.user = null;
+
+    // Здесь мы будем проверять авторизацию
+    $rootScope.$on('$stateChangeStart',
+      function (event, toState, toParams, fromState, fromParams) {
+          if (!toState.noLogin) {
+              event.preventDefault();
+              $rootScope.$state.go('login');
+          }
+      }
+    );
 }]);
+
+
