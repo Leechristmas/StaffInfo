@@ -34,6 +34,7 @@ app.factory('authService', [
                 })
                 .error(function (err, status) {
                     _logOut();
+                    err = { error_description : "Неизвестная ошибка. Ваша сессия была закрыта." }
                     deferred.reject(err);
                 });
 

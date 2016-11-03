@@ -6,7 +6,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider
         .state('home', {
-            url: "/home",
+            url: "/",
             controller: "homeController",
             templateUrl: "app/views/home.html",
             noLogin: true
@@ -32,7 +32,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             noLogin: false
         });
 
-    $urlRouterProvider.otherwise("/home");
+    $urlRouterProvider.otherwise("/");
 });
 
 app.config(function ($mdThemingProvider) {
@@ -61,7 +61,7 @@ app.run(['$rootScope', '$state', '$stateParams', 'authService', function ($rootS
     // Здесь мы будем проверять авторизацию
     $rootScope.$on('$stateChangeStart',
       function (event, toState, toParams, fromState, fromParams) {
-          if (!toState.noLogin) {
+          if (!toState.noLogin && !authService.isAuthenticated()) {
               event.preventDefault();
               $rootScope.$state.go('login');
           }
