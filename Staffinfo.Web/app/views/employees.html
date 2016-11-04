@@ -6,12 +6,17 @@
             <label>Поиск по фамилии</label>
             <input type="text" ng-model="filterText"/>
         </md-input-container>
+
+        <div ng-hide="true">
+            {{(filteredItems = (employees | filter: filterText))}}
+        </div>
     </md-card>
 
     <mdt-table
         paginated-rows="{isEnabled:true, rowsPerPageValues: [5,10,20,50]}"
         mdt-row="{
-               data: employees,
+               data: filteredItems,
+               'table-row-id-key': 'id',
                'column-keys': [
                     'employeeLastname',
                     'employeeFirstname',
