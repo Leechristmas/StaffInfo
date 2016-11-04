@@ -1,36 +1,38 @@
-﻿<mdt-table selectable-rows="true"
-           table-card="{title: Nutrition, actionIcons: true}">
+﻿<h2>Действующие Сотрудники</h2>
+<md-icon md-svg-icon="social:android" aria-label="android "></md-icon>
+<div layout-margin>
+    <md-card style="margin: 0px">
+        <md-input-container style="margin: 15px;">
+            <label>Поиск по фамилии</label>
+            <input type="text" ng-model="filterText"/>
+        </md-input-container>
+    </md-card>
 
-    <mdt-header-row>
-        <!-- defining column descriptions, align content to the left -->
-        <mdt-column align-rule="left"
-                    column-definition="The total amount of food energy in the given serving size.">
-            Dessert (100g serving)
-        </mdt-column>
+    <mdt-table
+        paginated-rows="{isEnabled:true, rowsPerPageValues: [5,10,20,50]}"
+        mdt-row="{
+               data: employees,
+               'column-keys': [
+                    'employeeLastname',
+                    'employeeFirstname',
+                    'employeeMiddlename',
+                    'actualPost',
+                    'actualRank',
+                    'birthDate'
+               ]
+               }">
+        <mdt-header-row>
+            <mdt-column align-rule="left">Фамилия</mdt-column>
+            <mdt-column align-rule="left">Имя</mdt-column>
+            <mdt-column align-rule="left">Отчество</mdt-column>
+            <mdt-column align-rule="left">Должность</mdt-column>
+            <mdt-column align-rule="left">Звание</mdt-column>
+            <mdt-column align-rule="left">Дата Рождения (ГГГГ-ММ-ДД)</mdt-column>
+        </mdt-header-row>
 
-        <!-- in case of inline menu (INLINE-MENU FEATURE DOES NOT EXIST YET) -->
-        <mdt-column inline-menu="[ {iceCream: 'Ice Cream', pastry: 'Pastry', other: 'Other'} ]">Type</mdt-column>
+        <mdt-custom-cell column-key="employeeLastname">
+            <a ng-href="/dashboard">{{value}}</a>
+        </mdt-custom-cell>
 
-        <!-- inline text editing (EDITABLE-FIELDS FEATURE DOES NOT EXIST YET) -->
-        <mdt-column editable-field="textInput">
-            Calories
-        </mdt-column>
-
-        <!-- in case of sortable columns, we can set the defaultly sortable column -->
-        <mdt-column sortable-rows-default>
-            Fat (g)
-        </mdt-column>
-        <mdt-column>Carbs (g)</mdt-column>
-        <mdt-column>Protein (g)</mdt-column>
-    </mdt-header-row>
-
-    <mdt-row ng-repeat="nutrition in nutritionList">
-        <mdt-cell>Frozen Joghurt</mdt-cell>
-        <mdt-cell>159</mdt-cell>
-        <mdt-cell>6</mdt-cell>
-        <mdt-cell>24</mdt-cell>
-        <mdt-cell>4</mdt-cell>
-        <mdt-cell>87</mdt-cell>
-    </mdt-row>
-
-</mdt-table>
+    </mdt-table>
+</div>

@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var app = angular.module('StaffinfoApp', ['ui.router', 'LocalStorageModule', 'angular-loading-bar', 'chart.js', 'ngMaterial']);
+var app = angular.module('StaffinfoApp', ['ui.router', 'ngMaterial', 'mdDataTable', 'LocalStorageModule', 'angular-loading-bar', 'chart.js']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
@@ -27,7 +27,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             noLogin: false
         }).state('employees', {
             url: "/employees",
-            controller: "dashboardController",
+            controller: "employeesController",
             templateUrl: "app/views/employees.html",
             noLogin: false
         });
@@ -58,7 +58,6 @@ app.run(['$rootScope', '$state', '$stateParams', 'authService', function ($rootS
 
     $rootScope.user = null;
 
-    // Здесь мы будем проверять авторизацию
     $rootScope.$on('$stateChangeStart',
       function (event, toState, toParams, fromState, fromParams) {
           if (!toState.noLogin && !authService.isAuthenticated()) {

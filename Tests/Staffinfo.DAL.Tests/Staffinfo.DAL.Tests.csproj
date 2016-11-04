@@ -71,7 +71,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Staffinfo.DAL\Staffinfo.DAL.csproj">
+    <ProjectReference Include="..\..\Staffinfo.DAL\Staffinfo.DAL.csproj">
       <Project>{9960415B-90F6-4F66-AC50-1EE384E3E0FE}</Project>
       <Name>Staffinfo.DAL</Name>
     </ProjectReference>

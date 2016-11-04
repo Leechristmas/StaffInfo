@@ -910,13 +910,20 @@
     <Content Include="index.html" />
     <Content Include="scripts\loading-bar.js" />
     <Content Include="scripts\loading-bar.min.js" />
+    <Content Include="scripts\lodash.core.js" />
+    <Content Include="scripts\lodash.core.min.js" />
+    <Content Include="scripts\lodash.js" />
+    <Content Include="scripts\lodash.min.js" />
+    <Content Include="scripts\md-data-table-style.css" />
+    <Content Include="scripts\md-data-table-templates.js" />
+    <Content Include="scripts\md-data-table.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\directives\" />
+    <Folder Include="app\directives\mdt\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
