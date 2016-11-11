@@ -4,24 +4,30 @@ app.controller('dashboardController', [
     '$scope', 'dashboardService', function ($scope, dashboardService) {
         $scope.employees = [];
 
-        //dashboardService.getEmployees().then(function (results) {
+        //dashboardService.getEmployees().then(function(results) {
         //    $scope.employees = results.data;
         //}, function(error) {
         //    //alert
-        //});;
+        //});
 
-        dashboardService.getEmployees().then(function(results) {
-            $scope.employees = results.data;
-        }, function(error) {
-            //alert
-        });
+        //service chart data
+        $scope.serviceChart = {
+            data: [10, 27, 16, 22, 11, 8, 5],
+            labels: ["Водолазная", "Пожарная", "Медицинская", "Химическая", "Взрывотехническая", "Аппарат отряда", "Отдел кадрового делопроизводства"],
+            options: {
+                legend: {
+                    display: true
+                }
+            }
+        };
 
-        
-
-        //chart config
-        $scope.data = [10, 27, 16, 22, 11, 8, 5];
-        $scope.labels = ["Водолазная", "Пожарная", "Медицинская", "Химическая", "Взрывотехническая", "Аппарат отряда", "Отдел кадрового делопроизводства"];
-        $scope.options = {};
+        $scope.highRankChart = {
+            labels: ["Лейтенант", "Мл. Лейтенант", "Ст. Лейтенант", "Капитан", "Майор", "Подполковник"],
+            data: [
+                [4, 5, 6, 8, 10, 6]
+            ],
+            options: {}
+    };
 
     }
 ]);

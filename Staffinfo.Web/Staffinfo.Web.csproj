@@ -119,7 +119,6 @@
     <Content Include="scripts\angular-touch.min.js.map" />
     <Content Include="scripts\angular-ui-router.js" />
     <Content Include="scripts\angular-ui-router.min.js" />
-    <Content Include="scripts\angular.min.js.map" />
     <Content Include="scripts\angular-local-storage.min.js.map" />
     <Content Include="scripts\angular-cookies.js" />
     <Content Include="scripts\angular-cookies.min.js" />
@@ -142,8 +141,6 @@
     <Content Include="scripts\angular-scenario.js" />
     <Content Include="scripts\angular-touch.js" />
     <Content Include="scripts\angular-touch.min.js" />
-    <Content Include="scripts\angular.js" />
-    <Content Include="scripts\angular.min.js" />
     <Content Include="scripts\angular\angular.js" />
     <Content Include="scripts\angular\angular.min.js" />
     <Content Include="scripts\Chart.js" />
@@ -910,20 +907,17 @@
     <Content Include="index.html" />
     <Content Include="scripts\loading-bar.js" />
     <Content Include="scripts\loading-bar.min.js" />
-    <Content Include="scripts\lodash.core.js" />
-    <Content Include="scripts\lodash.core.min.js" />
-    <Content Include="scripts\lodash.js" />
-    <Content Include="scripts\lodash.min.js" />
-    <Content Include="scripts\md-data-table-style.css" />
-    <Content Include="scripts\md-data-table-templates.js" />
-    <Content Include="scripts\md-data-table.js" />
+    <Content Include="scripts\md-data-table\md-data-table.css" />
+    <Content Include="scripts\md-data-table\md-data-table.js" />
+    <Content Include="scripts\md-data-table\md-data-table.min.css" />
+    <Content Include="scripts\md-data-table\md-data-table.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\directives\mdt\" />
+    <Folder Include="app\directives\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

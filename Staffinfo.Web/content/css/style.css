@@ -36,3 +36,8 @@
 .mdtTableContainer tr td {
     border-bottom: 0;
 }
+
+.chartContainer {
+    height: 45%;
+    width: 45%;
+}

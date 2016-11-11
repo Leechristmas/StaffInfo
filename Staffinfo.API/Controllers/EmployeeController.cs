@@ -56,8 +56,12 @@ namespace Staffinfo.API.Controllers
         }
 
         // POST: api/Employee
-        public void Post([FromBody]string value)
+        public EmployeeViewModel Post([FromBody]EmployeeViewModel value)
         {
+            Employee newEmpl = _repository.EmployeeRepository.Create(EmployeeViewModel.GetEmployeeFromModel(value));
+            _repository.EmployeeRepository.SaveAsync();
+
+            return new EmployeeViewModel(newEmpl);
         }
 
         // PUT: api/Employee/5

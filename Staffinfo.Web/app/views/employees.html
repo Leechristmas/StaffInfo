@@ -1,43 +1,29 @@
 ﻿<h2>Действующие Сотрудники</h2>
-<md-icon md-svg-icon="social:android" aria-label="android "></md-icon>
-<div layout-margin>
-    <md-card style="margin: 0px">
-        <md-input-container style="margin: 15px;">
-            <label>Поиск по фамилии</label>
-            <input type="text" ng-model="filterText"/>
-        </md-input-container>
+<md-table-container>
+    <table md-table>
+        <thead md-head>
+            <tr md-row>
+                <th md-column md-numeric>#</th>
+                <th md-column>Фамилия</th>
+                <th md-column>Имя</th>
+                <th md-column>Отчество</th>
+                <th md-column>Должность</th>
+                <th md-column>Звание</th>
+                <th md-column>Дата Рождения</th>
+            </tr>
+        </thead>
+        <tbody md-body>
+            <tr md-row ng-repeat="empl in employees">
+                <td md-cell>{{empl.id}}</td>
+                <td md-cell><a href="#">{{empl.employeeLastname}}</a></td>
+                <td md-cell>{{empl.employeeFirstname}}</td>
+                <td md-cell>{{empl.employeeMiddlename}}</td>
+                <td md-cell>{{empl.actualPost}}</td>
+                <td md-cell>{{empl.actualRank}}</td>
+                <td md-cell>{{empl.birthDate.toISOString().slice(0, 10)}}</td>
+            </tr>
+        </tbody>
+    </table>
+</md-table-container>
 
-        <div ng-hide="true">
-            {{(filteredItems = (employees | filter: filterText))}}
-        </div>
-    </md-card>
-
-    <mdt-table
-        paginated-rows="{isEnabled:true, rowsPerPageValues: [5,10,20,50]}"
-        mdt-row="{
-               data: filteredItems,
-               'table-row-id-key': 'id',
-               'column-keys': [
-                    'employeeLastname',
-                    'employeeFirstname',
-                    'employeeMiddlename',
-                    'actualPost',
-                    'actualRank',
-                    'birthDate'
-               ]
-               }">
-        <mdt-header-row>
-            <mdt-column align-rule="left">Фамилия</mdt-column>
-            <mdt-column align-rule="left">Имя</mdt-column>
-            <mdt-column align-rule="left">Отчество</mdt-column>
-            <mdt-column align-rule="left">Должность</mdt-column>
-            <mdt-column align-rule="left">Звание</mdt-column>
-            <mdt-column align-rule="left">Дата Рождения (ГГГГ-ММ-ДД)</mdt-column>
-        </mdt-header-row>
-
-        <mdt-custom-cell column-key="employeeLastname">
-            <a ng-href="/dashboard">{{value}}</a>
-        </mdt-custom-cell>
-
-    </mdt-table>
-</div>
+<!--<md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{employees.count}}" md-on-paginate="getDesserts" md-page-select></md-table-pagination>-->

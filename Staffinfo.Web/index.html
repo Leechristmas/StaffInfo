@@ -6,10 +6,9 @@
     <link href="content/css/bootstrap.min.css" rel="stylesheet" />
     <link href="content/css/loading-bar.min.css" rel="stylesheet" />
     <link href="content/css/angular-material.min.css" rel="stylesheet" />
-    <link href="scripts/md-data-table-style.css" rel="stylesheet" />
     <link href="content/css/style.css" rel="stylesheet" />
-    <link href="content/css/site.css" rel="stylesheet" />
-
+    <link href="content/css/site.css" rel="stylesheet"/>
+    <link href="scripts/md-data-table/md-data-table.css" rel="stylesheet"/>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 </head>
@@ -27,21 +26,21 @@
                         </md-button>
                         <md-menu-content width="4">
                             <md-menu-item>
-                                <md-button href="#/employees">
+                                <md-button href="#/employees" ng-click="menuClick()">
                                     <div layout="row">
                                         <p flex>Действующие</p>
                                     </div>
                                 </md-button>
                             </md-menu-item>
                             <md-menu-item>
-                                <md-button href="#">
+                                <md-button href="#" ng-click="menuClick()">
                                     <div layout="row">
                                         <p flex>Пенсионеры</p>
                                     </div>
                                 </md-button>
                             </md-menu-item>
                             <md-menu-item>
-                                <md-button href="#">
+                                <md-button href="#" ng-click="menuClick()">
                                     <div layout="row">
                                         <p flex>Уволенные</p>
                                     </div>
@@ -54,7 +53,9 @@
                     Отчеты
                 </md-button>
                 <span flex></span>
-                <h4 data-ng-hide="!authentication.isAuth">Вы вошли как {{authentication.userName}}</h4>
+                <md-button data-ng-hide="!authentication.isAuth" href="#/dashboard">
+                    Вы вошли как <strong>{{authentication.userName}}</strong>
+                </md-button>
                 <md-button class="md-raised" aria-label="Войти" data-ng-hide="authentication.isAuth" href="#/login">Войти</md-button>
                 <md-button class="md-raised" aria-label="Выйти" data-ng-hide="!authentication.isAuth" data-ng-click="logOut()">Выйти</md-button>
             </div>
@@ -65,7 +66,7 @@
 
     </div>
 
-    <script src="scripts/angular.js"></script>
+    <script src="scripts/angular/angular.js"></script>
 
     <!-- 3rd party libraries -->
     <script src="Scripts/angular-ui-router.js"></script>
@@ -73,7 +74,6 @@
     <script src="scripts/loading-bar.js"></script>
     <script src="scripts/Chart.min.js"></script>
     <script src="scripts/angular-chart.js"></script>
-    <script src="scripts/lodash.js"></script>
     <!-- Angular Material requires Angular.js Libraries -->
     <script src="scripts/angular-animate/angular-animate.js"></script>
     <script src="scripts/angular-aria/angular-aria.js"></script>
@@ -82,9 +82,8 @@
     <script src="scripts/angular-material/angular-material.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.7.1/angular-material-icons.min.js"></script>
     <script src="scripts/angular-sanitize.js"></script>
-    <!-- MdDataTable library -->
-    <script src="scripts/md-data-table-templates.js"></script>
-    <script src="scripts/md-data-table.js"></script>
+<!-- MdDataTable library -->
+    <script src="scripts/md-data-table/md-data-table.js"></script>
     <!-- Load app main script -->
     <script src="app/app.js"></script>
     <!-- Load services -->

@@ -12,6 +12,10 @@ app.controller('indexController', ['$scope', '$location', 'authService', '$mdDia
         $mdOpenMenu(ev);
     };
 
+    this.menuClick = function() {
+        originatorEv = null;
+    }
+
     $scope.authentication = authService.authentication;
 
 }]);

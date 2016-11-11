@@ -4,8 +4,13 @@
     </div>
     <div>
         <h3>Службы</h3>
-        <canvas id="pie" class="chart chart-pie"
-                chart-data="data" chart-labels="labels" chart-options="options">
-        </canvas>
+        <div>
+            <canvas id="serviceChart" class="chart chart-pie"
+                    chart-data="serviceChart.data" chart-labels="serviceChart.labels" chart-options="serviceChart.options"></canvas>
+        </div>
+        <div>
+            <canvas id="highRankChart" class="chart chart-radar"
+                    chart-data="highRankChart.data" chart-options="highRankChart.options" chart-labels="highRankChart.labels"></canvas>
+        </div>
     </div>
 </div>

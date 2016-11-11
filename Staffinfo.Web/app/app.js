@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var app = angular.module('StaffinfoApp', ['ui.router', 'ngMaterial', 'mdDataTable', 'LocalStorageModule', 'angular-loading-bar', 'chart.js']);
+var app = angular.module('StaffinfoApp', ['ui.router', 'ngMaterial', 'md.data.table', 'LocalStorageModule', 'angular-loading-bar', 'chart.js']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
