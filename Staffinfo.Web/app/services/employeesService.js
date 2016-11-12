@@ -3,23 +3,16 @@
 app.factory('employeesService', [
     "$http", 'ngAuthSettings', function ($http, ngAuthSettings) {
         var employeesServiceFactory = {};
+
+        //base address to API
         var serviceBase = ngAuthSettings.apiServiceBaseUri;
 
+        //returns actual employees with pagination 
         var _getEmployees = function (query) {
             return $http.get(serviceBase + 'api/employees?offset=' + (query.page-1)*query.limit + '&limit=' + query.limit).then(function (response) {
                 return response;
             });
         }
-
-        var data = {
-            Id: 4,
-            employeeLastname: "Иванов",
-            employeeFirstname: "Петр",
-            employeeMiddlename: "Геннадьевич",
-            actualPost: "Спасатель-водолаз",
-            actualRank: "Ст. Сержант",
-            birthDate: new Date(1989, 11, 1).toISOString().slice(0, 10)
-        };
 
         var config = {};
 

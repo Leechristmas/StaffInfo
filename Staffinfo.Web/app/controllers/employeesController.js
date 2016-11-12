@@ -62,6 +62,7 @@ app.controller('employeesController', ['$scope', 'employeesService', '$mdToast',
 
     $scope.selected = [];
 
+    //options for queries to API and pagination
     $scope.query = {
         order: 'employeeLastname',
         limit: 10,
@@ -74,15 +75,11 @@ app.controller('employeesController', ['$scope', 'employeesService', '$mdToast',
     };
 
     $scope.getEmployees = function () {
-        var defered = $q.defer();
-        $scope.promise = defered.promise;
 
-        employeesService.getEmployees($scope.query).then(function (response) {
+        $scope.promise = employeesService.getEmployees($scope.query).then(function (response) {
             $scope.employees = response.data;
             $scope.total = response.headers('X-Total-Count');
         });
-
-        defered.resolve();
     }
 
     $scope.getDate = function (date){
