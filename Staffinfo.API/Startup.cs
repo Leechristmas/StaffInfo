@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+using System.Web.Cors;
 using System.Web.Http;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
@@ -15,12 +17,29 @@ namespace Staffinfo.API
     {
         public void Configuration(IAppBuilder app)
         {
+            //cors configuration
+            var policy = new CorsPolicy
+            {
+                AllowAnyHeader = true,
+                AllowAnyMethod = true,
+                AllowAnyOrigin = true,
+                SupportsCredentials = true
+            };
+            policy.ExposedHeaders.Add("X-Total-Count");
+            app.UseCors(new CorsOptions
+            {
+                PolicyProvider = new CorsPolicyProvider
+                {
+                    PolicyResolver = context => Task.FromResult(policy)
+                }
+            });
+
+
             HttpConfiguration config = new HttpConfiguration();
 
             ConfigureOAuth(app);
 
             WebApiConfig.Register(config);
-            app.UseCors(CorsOptions.AllowAll);
 
             //app.UseWebApi(config);
             app.UseNinjectMiddleware(() => NinjectConfig.CreateKernel.Value);

@@ -5,9 +5,9 @@ app.factory('employeesService', [
         var employeesServiceFactory = {};
         var serviceBase = ngAuthSettings.apiServiceBaseUri;
 
-        var _getEmployees = function () {
-            return $http.get(serviceBase + 'api/employees').then(function (results) {
-                return results;
+        var _getEmployees = function (query) {
+            return $http.get(serviceBase + 'api/employees?offset=' + (query.page-1)*query.limit + '&limit=' + query.limit).then(function (response) {
+                return response;
             });
         }
 

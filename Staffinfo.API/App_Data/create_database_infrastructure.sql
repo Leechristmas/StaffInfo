@@ -104,6 +104,7 @@ CREATE TABLE dbo.tbl_Passport(
   );
 GO
 
+--if retirementDAte is null, employee is not pensioner!
 CREATE TABLE dbo.tbl_Employee(
   ID INT IDENTITY(1,1) PRIMARY KEY,
   EmployeeFirstname NVARCHAR(60) NOT NULL,
@@ -114,7 +115,7 @@ CREATE TABLE dbo.tbl_Employee(
   AddressID INT NOT NULL,
   ActualRankID INT,
   ActualPostID INT,
-  IsPensioner BIT NOT NULL DEFAULT 0,
+  RetirementDate DATETIME,
   EmployeePhoto VARBINARY(MAX),
   PhotoMimeType NVARCHAR(10)
   --TODO
@@ -126,6 +127,18 @@ ALTER TABLE dbo.tbl_Employee
       CONSTRAINT fk_Employee_Passport
       FOREIGN KEY (PassportID) REFERENCES tbl_Passport;
 GO
+
+--dismissed employees
+CREATE TABLE dbo.tbl_Dismissed(
+  ID INT IDENTITY(1,1) PRIMARY KEY,
+  DismissedLastname NVARCHAR(60) NOT NULL,
+  DismissedFirstname NVARCHAR(60) NOT NULL,
+  DismissedMiddlename NVARCHAR(60) NOT NULL,
+  BirthDate DATETIME NOT NULL,
+  DismissalDate DATETIME NOT NULL,
+  Clause NVARCHAR(10),
+  ClauseDescription NVARCHAR(300)
+); 
 
 --achievement list of ministry of emergency situations service of the employee
 CREATE TABLE dbo.tbl_MESAchievement(

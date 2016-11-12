@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Autofac.Core.Lifetime;
 using Staffinfo.API.Models;
 using Staffinfo.DAL.Models;
 using Staffinfo.DAL.Repositories.Interfaces;
@@ -27,10 +28,13 @@ namespace Staffinfo.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<EmployeeViewModel>> GetAllEmployees()
+        public async Task<IEnumerable<EmployeeViewModel>> GetActualEmployees(int offset, int limit)
         {
             var all = await _repository.EmployeeRepository.WhereAsync(e => !e.IsPensioner);
-            return all.Select(e => new EmployeeViewModel
+
+            System.Web.HttpContext.Current.Response.Headers.Add("X-Total-Count", all.Count().ToString());
+
+            return all.Skip(offset).Take(limit).Select(e => new EmployeeViewModel
             {
                 Id = e.Id,
                 EmployeeLastname = e.EmployeeLastname,
@@ -38,9 +42,33 @@ namespace Staffinfo.API.Controllers
                 EmployeeMiddlename = e.EmployeeMiddlename,
                 ActualPost = e.ActualPost.PostName,
                 ActualRank = e.ActualRank.RankName,
+                ActualPostId = e.ActualPostId,
+                ActualRankId = e.ActualRankId,
                 BirthDate = e.BirthDate
             });
         }
+
+        /// <summary>
+        /// Returns pensioners
+        /// </summary>
+        /// <returns></returns>
+        //[HttpGet]
+        //public async Task<IEnumerable<EmployeeViewModel>> GetPensioners()
+        //{
+        //    var all = await _repository.EmployeeRepository.WhereAsync(e => e.IsPensioner);
+        //    return all.Select(e => new EmployeeViewModel
+        //    {
+        //        Id = e.Id,
+        //        EmployeeLastname = e.EmployeeLastname,
+        //        EmployeeFirstname = e.EmployeeFirstname,
+        //        EmployeeMiddlename = e.EmployeeMiddlename,
+        //        ActualPost = e.ActualPost.PostName,
+        //        ActualRank = e.ActualRank.RankName,
+        //        ActualPostId = e.ActualPostId,
+        //        ActualRankId = e.ActualRankId,
+        //        BirthDate = e.BirthDate
+        //    });
+        //}
 
         // GET: api/Employees/5
         /// <summary>

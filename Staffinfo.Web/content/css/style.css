@@ -41,3 +41,9 @@
     height: 45%;
     width: 45%;
 }
+
+.label {
+    color: #000000;
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 12px;
+}
