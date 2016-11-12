@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-app.controller('employeesController', ['$scope', 'employeesService', '$mdToast', '$q', function ($scope, employeesService, $mdToast, $q) {
+app.controller('employeesController', ['$scope', 'employeesService', '$mdToast', 'messageService', function ($scope, employeesService, $mdToast, messageService) {
     //$scope.employees = [
     //{
     //    id: 1,
@@ -79,6 +79,14 @@ app.controller('employeesController', ['$scope', 'employeesService', '$mdToast',
         $scope.promise = employeesService.getEmployees($scope.query).then(function (response) {
             $scope.employees = response.data;
             $scope.total = response.headers('X-Total-Count');
+        }, function (data) {
+            messageService.setError(data);
+            $mdToast.show({
+                hideDelay: 3000,
+                position: 'top right',
+                controller: 'toastController',
+                templateUrl: 'app/views/error-toast.html'
+            })
         });
     }
 
@@ -88,4 +96,35 @@ app.controller('employeesController', ['$scope', 'employeesService', '$mdToast',
 
     $scope.employees = $scope.getEmployees();
     
+}]).controller('toastController', ['$scope', '$mdDialog', 'messageService', function ($scope, $mdDialog, messageService) {
+
+    var isDlgOpen = false;
+
+    $scope.closeToast = function () {
+        if (isDlgOpen) return;
+
+        $mdToast
+            .hide()
+            .then(function () {
+                isDlgOpen = false;
+            });
+    };
+
+    $scope.openMoreInfo = function (e) {
+        if (isDlgOpen) return;
+        isDlgOpen = true;
+
+        $mdDialog
+            .show($mdDialog
+                .alert()
+                .title('Информация об ошибке')
+                .textContent(messageService.getError())
+                .ariaLabel('More info')
+                .ok('OK')
+                .targetEvent(e)
+            )
+            .then(function () {
+                isDlgOpen = false;
+            });
+    };
 }]);
