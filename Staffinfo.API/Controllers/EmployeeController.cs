@@ -77,10 +77,11 @@ namespace Staffinfo.API.Controllers
         /// <param name="id">id of desired employee</param>
         /// <returns></returns>
         [HttpGet]
+        [Route("api/employees/{id:int}")]
         public async Task<EmployeeViewModel> GetEmployee(int id)
         {
             Employee employee = await _repository.EmployeeRepository.SelectAsync(id);
-            return new EmployeeViewModel(employee);
+            return new DetailedEmployeeViewModel(employee);
         }
 
         // POST: api/Employee

@@ -216,6 +216,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
+    <Compile Include="Models\DetailedEmployeeViewModel.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\PaginationConfig.cs" />
     <Compile Include="Models\UserModel.cs" />

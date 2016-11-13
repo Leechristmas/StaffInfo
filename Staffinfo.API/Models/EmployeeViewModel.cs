@@ -5,7 +5,7 @@ using Staffinfo.DAL.Models;
 namespace Staffinfo.API.Models
 {
     [DataContract]
-    public sealed class EmployeeViewModel: BaseViewModel
+    public class EmployeeViewModel: BaseViewModel
     {
         [DataMember(Name = "EmployeeFirstname")]
         public string EmployeeFirstname { get; set; }
