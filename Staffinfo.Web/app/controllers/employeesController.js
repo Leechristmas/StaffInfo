@@ -165,7 +165,7 @@ app.controller('employeesController', [
                 });
         };
 
-    }]).controller('detailsController', ['$scope', '$mdDialog', 'employeesService', function ($scope, $mdDialog, employeesService) {
+    }]).controller('detailsController', ['$scope', '$mdDialog', 'employeesService', '$timeout', function ($scope, $mdDialog, employeesService, $timeout) {
         $scope.hide = function () {
             $mdDialog.hide();
         };
@@ -178,7 +178,151 @@ app.controller('employeesController', [
             $mdDialog.hide(answer);
         };
 
-        $scope.employee = employeesService.getActualEmployee();
-        $scope.changeable = employeesService.getClone($scope.employee);
+        //shows confirmation for transferring employee
+        $scope.askForTransfer = function (type, ev) {
+            var confirm = {};
+            if (type === 'P') {
+                confirm = $mdDialog.confirm()
+                    .title('Перевод в "Пенсионеры"')
+                    .textContent('Вы уверены, что хотите перенести информацию о сотруднике в базу данных "Пенсионеры"? \nВосстановить утерянную информацию будет невозможно!')
+                    .ariaLabel('Transfer')
+                    .targetEvent(ev)
+                    .ok('Перевести')
+                    .cancel('Отмена');
+                $mdDialog.show(confirm).then(function () {
+                    //transfer to pensioners
+                }, function () {
+                    //cancel
+                });
+            }
+            else if (type === 'F') {
+                confirm = $mdDialog.confirm()
+                    .title('Перевод в "Уволенные"')
+                    .textContent('Вы уверены, что хотите перенести информацию о сотруднике в базу данных "Уволенные"? \nВосстановить утерянную информацию будет невозможно!')
+                    .ariaLabel('Transfer')
+                    .targetEvent(ev)
+                    .ok('Перевести')
+                    .cancel('Отмена');
+                $mdDialog.show(confirm).then(function () {
+                    //transfer to fired
+                }, function () {
+                    //cancel
+                });
+            }
+
+        };
+
+        //$scope.serviceTypes = [
+        //    {
+        //        title: 'Служба в МЧС',
+        //        value: 1
+        //    },
+        //    {
+        //        title: 'Служба в других силовых структурах',
+        //        value: 2
+        //    },
+        //    {
+        //        title: 'Другие места работы',
+        //        value: 3
+        //    }
+        //];
+
+        //$scope.selectedServiceTypeKey = {};
+        //$scope.serviceItems = [];   //list of services
         
+        //forming list by specified serviceType
+        //$scope.setServiceItems = function () {
+        //    switch ($scope.selectedServiceTypeKey) {
+        //    case 1:
+        //        serviceItems = [
+        //        {
+        //            startDate: new Date(2001, 12, 12),
+        //            finishDate: new Date(2002, 12, 12),
+        //            locationId: 1,
+        //            location: "location1",
+        //            rankId: 1,
+        //            rank: 'rank1',
+        //            postId: 1,
+        //            post: 'post1'
+        //        }];
+        //        break;
+        //    default:
+        //            break;
+        //    }
+        //}
+    
+        $scope.mesAchievements = [];
+        $scope.serviceAchievements = [];
+
+        $scope.getMesAchievements = function () {
+            $scope.mesAchievements = [
+                {
+                    startDate: new Date(2001, 12, 12),
+                    finishDate: new Date(2002, 12, 12),
+                    locationId: 1,
+                    location: "location1",
+                    rankId: 1,
+                    rank: 'rank1',
+                    postId: 1,
+                    post: 'post1'
+                }, {
+                    startDate: new Date(2003, 12, 12),
+                    finishDate: new Date(2004, 12, 12),
+                    locationId: 1,
+                    location: "location1",
+                    rankId: 1,
+                    rank: 'rank1',
+                    postId: 1,
+                    post: 'post1'
+                }
+            ];
+            $scope.promise = $timeout(function () {
+                // ...
+            }, 2000);
+        }
+
+        $scope.getServiceAchievements = function() {
+            $scope.serviceAchievements = [
+                {
+                    startDate: new Date(2001, 12, 12),
+                    finishDate: new Date(2002, 12, 12),
+                    locationId: 1,
+                    location: "location1",
+                    rankId: 1,
+                    rank: 'rank1'
+                }, {
+                    startDate: new Date(2003, 12, 12),
+                    finishDate: new Date(2004, 12, 12),
+                    locationId: 1,
+                    location: "location1",
+                    rankId: 1,
+                    rank: 'rank1'
+                }
+            ];
+            $scope.promise = $timeout(function () {
+                // ...
+            }, 2000);
+        }
+
+        //$scope.employee = employeesService.getActualEmployee();
+        $scope.employee = {
+            id: 2,
+            employeeLastname: "Иванов",
+            employeeFirstname: "Петр",
+            employeeMiddlename: "Геннадьевич",
+            actualPost: "Спасатель-водолаз",
+            actualRank: "Ст. Сержант",
+            birthDate: new Date(1989, 11, 1),
+            passportId: 1,
+            passportNumber: 'HB2234598',
+            passportOrganization: 'Гомельский РОВД Гомельской области',
+            addressId: 1,
+            city: 'Гомель',
+            area: 'Гомельская',
+            detailedAddress: 'ул. Советская, д.33 кв.99',
+            zipCode: '247023'
+        };
+
+        $scope.changeable = employeesService.getClone($scope.employee);
+
     }]);
