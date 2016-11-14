@@ -27,7 +27,13 @@ app.controller('dashboardController', [
                 [4, 5, 6, 8, 10, 6]
             ],
             options: {}
-    };
+        };
+
+        $scope.expChart = {
+            labels: ['0-5', '5-10', '10-15', '15-20', '>20'],
+            data: [31, 9, 4, 6, 11],
+            options: {}
+        }
 
     }
 ]);
