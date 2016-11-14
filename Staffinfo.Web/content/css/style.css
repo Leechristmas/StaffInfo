@@ -55,3 +55,7 @@
 .emplRef:hover {
     cursor: pointer;
 }
+
+.dialog-footer {
+    background: #C0C0C0;
+}
