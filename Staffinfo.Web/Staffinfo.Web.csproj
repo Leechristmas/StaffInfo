@@ -77,6 +77,7 @@
     <Content Include="app\services\dashboardService.js" />
     <Content Include="app\services\employeesService.js" />
     <Content Include="app\services\messageService.js" />
+    <Content Include="app\views\addEmployee.html" />
     <Content Include="app\views\dashboard.html" />
     <Content Include="app\views\employeeDetails.html" />
     <Content Include="app\views\employees.html" />
@@ -84,8 +85,6 @@
     <Content Include="app\views\home.html" />
     <Content Include="app\views\login.html" />
     <Content Include="app\views\signup.html" />
-    <Content Include="content\css\angular-material-calendar.css" />
-    <Content Include="content\css\angular-material-calendar.min.css" />
     <Content Include="content\css\angular-material.css" />
     <Content Include="content\css\angular-material.layout-attributes.css" />
     <Content Include="content\css\angular-material.layout-attributes.min.css" />

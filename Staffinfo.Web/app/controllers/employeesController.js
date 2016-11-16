@@ -131,6 +131,27 @@ app.controller('employeesController', [
             return new Date(date);
         }
 
+        $scope.showAddingView = function (ev) {
+            $mdDialog.show({
+                controller: 'addEmployeeController',
+                templateUrl: 'app/views/addEmployee.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true
+            })
+                .then(function () {
+                    $mdToast.show({
+                        hideDelay: 3000,
+                        position: 'top right',
+                        controller: 'toastController',
+                        template: '<md-toast class="md-toast-success">' +
+                                        '<div class="md-toast-content">' +
+                                          'Сотрудник успешно зарегистрирован.' +
+                                        '</div>' +
+                                    '</md-toast>'
+                    });
+                });
+        }
         //$scope.employees = $scope.getEmployees();
 
     }]).controller('toastController', ['$scope', '$mdDialog', 'messageService', function ($scope, $mdDialog, messageService) {
@@ -165,7 +186,7 @@ app.controller('employeesController', [
                 });
         };
 
-    }]).controller('detailsController', ['$scope', '$mdDialog', 'employeesService', '$timeout', function ($scope, $mdDialog, employeesService, $timeout) {
+    }]).controller('detailsController', ['$scope', '$mdDialog', 'employeesService', '$timeout', '$mdToast', function ($scope, $mdDialog, employeesService, $timeout, $mdToast) {
         $scope.hide = function () {
             $mdDialog.hide();
         };
@@ -212,48 +233,31 @@ app.controller('employeesController', [
 
         };
 
-        //$scope.serviceTypes = [
-        //    {
-        //        title: 'Служба в МЧС',
-        //        value: 1
-        //    },
-        //    {
-        //        title: 'Служба в других силовых структурах',
-        //        value: 2
-        //    },
-        //    {
-        //        title: 'Другие места работы',
-        //        value: 3
-        //    }
-        //];
+        //save specified changes for the employee
+        $scope.saveChanges = function () {
+            //save the changes
+            $mdDialog.cancel();
+            $mdToast.show({
+                hideDelay: 3000,
+                position: 'top right',
+                controller: 'toastController',
+                template: '<md-toast class="md-toast-success">' +
+                                '<div class="md-toast-content text-center">' +
+                                  'Изменения приняты.' +
+                                '</div>' +
+                            '</md-toast>'
+            });
+        }
 
-        //$scope.selectedServiceTypeKey = {};
-        //$scope.serviceItems = [];   //list of services
-        
-        //forming list by specified serviceType
-        //$scope.setServiceItems = function () {
-        //    switch ($scope.selectedServiceTypeKey) {
-        //    case 1:
-        //        serviceItems = [
-        //        {
-        //            startDate: new Date(2001, 12, 12),
-        //            finishDate: new Date(2002, 12, 12),
-        //            locationId: 1,
-        //            location: "location1",
-        //            rankId: 1,
-        //            rank: 'rank1',
-        //            postId: 1,
-        //            post: 'post1'
-        //        }];
-        //        break;
-        //    default:
-        //            break;
-        //    }
-        //}
-    
+        //reset all changes
+        $scope.resetChanges = function () {
+            $scope.changeable = employeesService.getClone($scope.employee);
+        }
+
         $scope.mesAchievements = [];
         $scope.serviceAchievements = [];
 
+        //returns MES achievements for employee
         $scope.getMesAchievements = function () {
             $scope.mesAchievements = [
                 {
@@ -281,7 +285,8 @@ app.controller('employeesController', [
             }, 2000);
         }
 
-        $scope.getServiceAchievements = function() {
+        //returns service achievements for employee
+        $scope.getServiceAchievements = function () {
             $scope.serviceAchievements = [
                 {
                     startDate: new Date(2001, 12, 12),
@@ -324,5 +329,25 @@ app.controller('employeesController', [
         };
 
         $scope.changeable = employeesService.getClone($scope.employee);
+
+    }]).controller('addEmployeeController', ['$scope', '$mdDialog', 'employeesService', function ($scope, $mdDialog, employeesService) {
+
+        $scope.hide = function () {
+            $mdDialog.hide();
+        };
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.answer = function (answer) {
+            $mdDialog.hide(answer);
+        };
+
+        $scope.newEmployee = {};
+
+        $scope.saveNewEmployee = function () {
+            //ToDo: 
+        };
 
     }]);
