@@ -30,6 +30,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             controller: "employeesController",
             templateUrl: "app/views/employees.html",
             noLogin: false
+        }).state('details', {
+            url: "/employees/details",
+            controller: 'detailsController',
+            templateUrl: 'app/views/employeeView.html',
+            noLogin: false
         });
 
     $urlRouterProvider.otherwise("/");

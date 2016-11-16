@@ -68,3 +68,12 @@ footer {
     border-top: 1px solid #c0c0c0;
     margin-top: 20px;
 }
+.md-button.md-fab.md-fab-md {
+    width: 36px;
+    height: 36px;
+}
+
+.md-button.md-fab.md-fab-sm {
+    width: 26px;
+    height: 26px;
+}

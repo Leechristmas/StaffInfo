@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 app.controller('employeesController', [
-    '$scope', 'employeesService', '$mdToast', 'messageService', '$mdDialog', function ($scope, employeesService, $mdToast, messageService, $mdDialog) {
+    '$scope', 'employeesService', '$mdToast', 'messageService', '$mdDialog', '$state', function ($scope, employeesService, $mdToast, messageService, $mdDialog, $state) {
         $scope.employees = [
         {
             id: 1,
@@ -75,6 +75,7 @@ app.controller('employeesController', [
             }
         };
 
+        //returns employees with pagination
         $scope.getEmployees = function () {
             $scope.promise = employeesService.getEmployees($scope.query).then(function (response) {
                 $scope.employees = response.data;
@@ -98,29 +99,50 @@ app.controller('employeesController', [
         //opens the dialog window with detailed information about specified employee
         $scope.showDetails = function (ev, id) {
             //$scope.getEmployeeById(id).then(function (response) {
-            //employeesService.setActualEmployee(response.data);
 
-            $mdDialog.show({
-                controller: 'detailsController',
-                templateUrl: 'app/views/employeeDetails.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true
-            })
-            .then(function (answer) {
-                $scope.status = 'You said the information was "' + answer + '".';
-            }, function () {
-                $scope.status = 'You cancelled the dialog.';
-            });
+            var _employee = {
+                id: 2,
+                employeeLastname: "Иванов",
+                employeeFirstname: "Петр",
+                employeeMiddlename: "Геннадьевич",
+                actualPost: "Спасатель-водолаз",
+                actualRank: "Ст. Сержант",
+                birthDate: new Date(1989, 11, 1),
+                passportId: 1,
+                passportNumber: 'HB2234598',
+                passportOrganization: 'Гомельский РОВД Гомельской области',
+                addressId: 1,
+                city: 'Гомель',
+                area: 'Гомельская',
+                detailedAddress: 'ул. Советская, д.33 кв.99',
+                zipCode: '247023'
+            };
 
-        }, function (data) {
-            messageService.setError("Failed. " + data);
-            $mdToast.show({
-                hideDelay: 3000,
-                position: 'top right',
-                controller: 'toastController',
-                templateUrl: 'app/views/error-toast.html'
-            });
+            employeesService.setActualEmployee(_employee);
+
+            $state.go('details');
+
+            //    $mdDialog.show({
+            //        controller: 'detailsController',
+            //        templateUrl: 'app/views/employeeDetails.html',
+            //        parent: angular.element(document.body),
+            //        targetEvent: ev,
+            //        clickOutsideToClose: true
+            //    })
+            //    .then(function (answer) {
+            //        $scope.status = 'You said the information was "' + answer + '".';
+            //    }, function () {
+            //        $scope.status = 'You cancelled the dialog.';
+            //    });
+
+            //}, function (data) {
+            //    messageService.setError("Failed. " + data);
+            //    $mdToast.show({
+            //        hideDelay: 3000,
+            //        position: 'top right',
+            //        controller: 'toastController',
+            //        templateUrl: 'app/views/error-toast.html'
+            //    });
             //});
 
 
@@ -134,7 +156,7 @@ app.controller('employeesController', [
         $scope.showAddingView = function (ev) {
             $mdDialog.show({
                 controller: 'addEmployeeController',
-                templateUrl: 'app/views/addEmployee.html',
+                templateUrl: 'app/views/addEmployeeView.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose: true
@@ -186,7 +208,7 @@ app.controller('employeesController', [
                 });
         };
 
-    }]).controller('detailsController', ['$scope', '$mdDialog', 'employeesService', '$timeout', '$mdToast', function ($scope, $mdDialog, employeesService, $timeout, $mdToast) {
+    }]).controller('detailsController', ['$scope', '$mdDialog', 'employeesService', '$timeout', '$mdToast', '$state', function ($scope, $mdDialog, employeesService, $timeout, $mdToast, $state) {
         $scope.hide = function () {
             $mdDialog.hide();
         };
@@ -195,8 +217,14 @@ app.controller('employeesController', [
             $mdDialog.cancel();
         };
 
-        $scope.answer = function (answer) {
-            $mdDialog.hide(answer);
+        $scope.showAddMesView = function (ev) {
+            $mdDialog.show({
+                controller: 'addEmployeeItemsController',
+                templateUrl: 'app/views/addMesView.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true
+            });
         };
 
         //shows confirmation for transferring employee
@@ -236,7 +264,7 @@ app.controller('employeesController', [
         //save specified changes for the employee
         $scope.saveChanges = function () {
             //save the changes
-            $mdDialog.cancel();
+            $state.go('employees');
             $mdToast.show({
                 hideDelay: 3000,
                 position: 'top right',
@@ -309,28 +337,40 @@ app.controller('employeesController', [
             }, 2000);
         }
 
-        //$scope.employee = employeesService.getActualEmployee();
-        $scope.employee = {
-            id: 2,
-            employeeLastname: "Иванов",
-            employeeFirstname: "Петр",
-            employeeMiddlename: "Геннадьевич",
-            actualPost: "Спасатель-водолаз",
-            actualRank: "Ст. Сержант",
-            birthDate: new Date(1989, 11, 1),
-            passportId: 1,
-            passportNumber: 'HB2234598',
-            passportOrganization: 'Гомельский РОВД Гомельской области',
-            addressId: 1,
-            city: 'Гомель',
-            area: 'Гомельская',
-            detailedAddress: 'ул. Советская, д.33 кв.99',
-            zipCode: '247023'
-        };
+        $scope.employee = employeesService.getActualEmployee();
 
         $scope.changeable = employeesService.getClone($scope.employee);
 
-    }]).controller('addEmployeeController', ['$scope', '$mdDialog', 'employeesService', function ($scope, $mdDialog, employeesService) {
+    }]).controller('addEmployeeItemsController', ['$scope', '$mdDialog', 'employeesService', function ($scope, $mdDialog, employeesService) {
+        $scope.hide = function () {
+            $mdDialog.hide();
+        };
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.mesAchItem = {};
+
+        $scope.locations = [
+            { id: 1, name: 'location_1' },
+            { id: 2, name: 'location_2' },
+            { id: 3, name: 'location_3' }
+        ];
+
+        $scope.ranks = [
+            { id: 1, name: 'rank_1' },
+            { id: 2, name: 'rank_2' },
+            { id: 3, name: 'rank_3' }
+        ];
+
+        $scope.posts = [
+            { id: 1, name: 'post_1' },
+            { id: 2, name: 'post_2' },
+            { id: 3, name: 'post_3' }
+        ];
+
+}]).controller('addEmployeeController', ['$scope', '$mdDialog', 'employeesService', function ($scope, $mdDialog, employeesService) {
 
         $scope.hide = function () {
             $mdDialog.hide();

@@ -1,0 +1,189 @@
+﻿<h2>{{employee.employeeLastname}} {{employee.employeeFirstname}} {{employee.employeeMiddlename}}</h2>
+
+<form>
+    <md-content>
+        <form>
+            <md-tabs style="min-height: 800px">
+                <md-tab label="Личные данные">
+                    <md-content class="md-padding">
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm md-open-on-focus>
+                                <label>Фамилия</label>
+                                <input ng-model="changeable.employeeLastname" required>
+                            </md-input-container>
+
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Имя</label>
+                                <input ng-model="changeable.employeeFirstname" required>
+                            </md-input-container>
+
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Отчество</label>
+                                <input ng-model="changeable.employeeMiddlename" required>
+                            </md-input-container>
+                        </div>
+
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Заметка</label>
+                                <input />
+                            </md-input-container>
+
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Дата Рождения</label>
+                                <md-datepicker ng-model="changeable.birthDate" md-placeholder="Укажите Дату" required></md-datepicker>
+                            </md-input-container>
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Контактные данные">
+                    <md-content class="md-padding">
+                        <h6 class="md-display-1">Домашний Адрес</h6>
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Адрес</label>
+                                <input ng-model="changeable.detailedAddress" required />
+                            </md-input-container>
+                        </div>
+
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Город</label>
+                                <input ng-model="changeable.city" required />
+                            </md-input-container>
+
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Область</label>
+                                <input ng-model="changeable.area" required />
+                            </md-input-container>
+
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Почтовый индекс</label>
+                                <input ng-model="changeable.zipCode" required ng-pattern="/^[0-9]{6}$/" md-maxlength="6" />
+                            </md-input-container>
+                        </div>
+
+                        <h6 class="md-display-1">Пасспортные данные</h6>
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Номер паспорта</label>
+                                <input ng-model="changeable.passportNumber" required md-maxlength="9" />
+                            </md-input-container>
+                        </div>
+
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Организация, выдавшая паспорт</label>
+                                <input ng-model="changeable.passportOrganization" required />
+                            </md-input-container>
+                        </div>
+
+                        <h6 class="md-display-1">Контактный телефон</h6>
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Тел. 1</label>
+                                <input required placeholder="+375 (XX) XXX XX XX" />
+                            </md-input-container>
+
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Тел. 2</label>
+                                <input required placeholder="+375 (XX) XXX XX XX" />
+                            </md-input-container>
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Послужной список (МЧС)" md-on-select="getMesAchievements()">
+                    <md-content class="md-padding">
+                        <h1 class="md-display-1">Служба в МЧС</h1>
+                        <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddMesView($event)">
+                            <md-icon md-svg-src="img/icons/ic_add_24px.svg"></md-icon>
+                            <md-tooltip md-direction="bottom">
+                                Добавить запись
+                            </md-tooltip>
+                        </md-button>
+                        <md-table-container>
+                            <table md-table md-progress="promise">
+                                <thead md-head>
+                                    <tr md-row>
+                                        <th md-column>Начало периода</th>
+                                        <th md-column>Конец периода</th>
+                                        <th md-column>Место</th>
+                                        <th md-column>Должность</th>
+                                        <th md-column>Звание</th>
+                                    </tr>
+                                </thead>
+                                <tbody md-body>
+                                    <tr md-row md-select-id="id" ng-repeat="item in mesAchievements | orderBy: 'startDate'">
+                                        <td md-cell mdDesc="true">{{item.startDate.toISOString().slice(0, 10)}}</td>
+                                        <td md-cell>{{item.finishDate.toISOString().slice(0, 10)}}</td>
+                                        <td md-cell>{{item.location}}</td>
+                                        <td md-cell>{{item.post}}</td>
+                                        <td md-cell>{{item.rank}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </md-table-container>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Послужной список" md-on-select="getServiceAchievements()">
+                    <md-content class="md-padding">
+                        <h1 class="md-display-1">Служба в других силовых структурах</h1>
+                        <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddServiceView($event)">
+                            <md-icon md-svg-src="img/icons/ic_add_24px.svg"></md-icon>
+                            <md-tooltip md-direction="bottom">
+                                Добавить запись
+                            </md-tooltip>
+                        </md-button>
+                        <md-table-container>
+                            <table md-table md-progress="promise">
+                                <thead md-head>
+                                    <tr md-row>
+                                        <th md-column>Начало периода</th>
+                                        <th md-column>Конец периода</th>
+                                        <th md-column>Место</th>
+                                        <th md-column>Звание</th>
+                                    </tr>
+                                </thead>
+                                <tbody md-body>
+                                    <tr md-row md-select-id="id" ng-repeat="item in serviceAchievements | orderBy: 'startDate'">
+                                        <td md-cell mdDesc="true">{{item.startDate.toISOString().slice(0, 10)}}</td>
+                                        <td md-cell>{{item.finishDate.toISOString().slice(0, 10)}}</td>
+                                        <td md-cell>{{item.location}}</td>
+                                        <td md-cell>{{item.rank}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </md-table-container>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Дополнительно">
+                    <md-content class="md-padding">
+                        <h1 class="md-display-1">Действия</h1>
+                        <div layout-gt-sm="row">
+                            <md-button class="md-primary md-rised" ng-click="askForTransfer('P', $event)">Перевести в "Пенсионеры"</md-button>
+                            <md-button class="md-primary md-rised" ng-click="askForTransfer('F', $event)">Перевести в "Уволенные"</md-button>
+                        </div>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </form>
+    </md-content>
+
+    <div class="_md-button-wrap pull-right">
+        <md-button class="md-primary md-raised" ng-click="saveChanges()">
+            Сохранить
+        </md-button>
+        <md-button class="md-primary md-raised" ng-click="resetChanges()">
+            Отмена
+        </md-button>
+    </div>
+
+    <!--<md-dialog-actions layout="row" class="dialog-footer">
+        <md-button ng-click="saveChanges()">
+            Сохранить
+        </md-button>
+        <md-button ng-click="resetChanges()">
+            Отмена
+        </md-button>
+    </md-dialog-actions>-->
+</form>
