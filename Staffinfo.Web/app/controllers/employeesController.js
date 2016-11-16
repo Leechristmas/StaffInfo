@@ -2,64 +2,64 @@
 
 app.controller('employeesController', [
     '$scope', 'employeesService', '$mdToast', 'messageService', '$mdDialog', function ($scope, employeesService, $mdToast, messageService, $mdDialog) {
-        //$scope.employees = [
-        //{
-        //    id: 1,
-        //    employeeLastname: "Иванов",
-        //    employeeFirstname: "Петр",
-        //    employeeMiddlename: "Геннадьевич",
-        //    actualPost: "Спасатель-водолаз",
-        //    actualRank: "Ст. Сержант",
-        //    birthDate: new Date(1989, 11, 1)
-        //}, {
-        //    id: 2,
-        //    employeeLastname: "Иванов",
-        //    employeeFirstname: "Петр",
-        //    employeeMiddlename: "Геннадьевич",
-        //    actualPost: "Спасатель-водолаз",
-        //    actualRank: "Ст. Сержант",
-        //    birthDate: new Date(1989, 11, 1)
-        //}, {
-        //    id: 3,
-        //    employeeLastname: "Иванов",
-        //    employeeFirstname: "Петр",
-        //    employeeMiddlename: "Геннадьевич",
-        //    actualPost: "Спасатель-водолаз",
-        //    actualRank: "Ст. Сержант",
-        //    birthDate: new Date(1989, 11, 1)
-        //}, {
-        //    id: 4,
-        //    employeeLastname: "Иванов",
-        //    employeeFirstname: "Петр",
-        //    employeeMiddlename: "Геннадьевич",
-        //    actualPost: "Спасатель-водолаз",
-        //    actualRank: "Ст. Сержант",
-        //    birthDate: new Date(1989, 11, 1)
-        //}, {
-        //    id: 5,
-        //    employeeLastname: "Иванов",
-        //    employeeFirstname: "Петр",
-        //    employeeMiddlename: "Геннадьевич",
-        //    actualPost: "Спасатель-водолаз",
-        //    actualRank: "Ст. Сержант",
-        //    birthDate: new Date(1989, 11, 1)
-        //}, {
-        //    id: 6,
-        //    employeeLastname: "Иванов",
-        //    employeeFirstname: "Петр",
-        //    employeeMiddlename: "Геннадьевич",
-        //    actualPost: "Спасатель-водолаз",
-        //    actualRank: "Ст. Сержант",
-        //    birthDate: new Date(1989, 11, 1)
-        //}, {
-        //    id: 7,
-        //    employeeLastname: "Иванов",
-        //    employeeFirstname: "Петр",
-        //    employeeMiddlename: "Геннадьевич",
-        //    actualPost: "Спасатель-водолаз",
-        //    actualRank: "Ст. Сержант",
-        //    birthDate: new Date(1989, 11, 1)
-        //}];
+        $scope.employees = [
+        {
+            id: 1,
+            employeeLastname: "Иванов",
+            employeeFirstname: "Петр",
+            employeeMiddlename: "Геннадьевич",
+            actualPost: "Спасатель-водолаз",
+            actualRank: "Ст. Сержант",
+            birthDate: new Date(1989, 11, 1)
+        }, {
+            id: 2,
+            employeeLastname: "Иванов",
+            employeeFirstname: "Петр",
+            employeeMiddlename: "Геннадьевич",
+            actualPost: "Спасатель-водолаз",
+            actualRank: "Ст. Сержант",
+            birthDate: new Date(1989, 11, 1)
+        }, {
+            id: 3,
+            employeeLastname: "Иванов",
+            employeeFirstname: "Петр",
+            employeeMiddlename: "Геннадьевич",
+            actualPost: "Спасатель-водолаз",
+            actualRank: "Ст. Сержант",
+            birthDate: new Date(1989, 11, 1)
+        }, {
+            id: 4,
+            employeeLastname: "Иванов",
+            employeeFirstname: "Петр",
+            employeeMiddlename: "Геннадьевич",
+            actualPost: "Спасатель-водолаз",
+            actualRank: "Ст. Сержант",
+            birthDate: new Date(1989, 11, 1)
+        }, {
+            id: 5,
+            employeeLastname: "Иванов",
+            employeeFirstname: "Петр",
+            employeeMiddlename: "Геннадьевич",
+            actualPost: "Спасатель-водолаз",
+            actualRank: "Ст. Сержант",
+            birthDate: new Date(1989, 11, 1)
+        }, {
+            id: 6,
+            employeeLastname: "Иванов",
+            employeeFirstname: "Петр",
+            employeeMiddlename: "Геннадьевич",
+            actualPost: "Спасатель-водолаз",
+            actualRank: "Ст. Сержант",
+            birthDate: new Date(1989, 11, 1)
+        }, {
+            id: 7,
+            employeeLastname: "Иванов",
+            employeeFirstname: "Петр",
+            employeeMiddlename: "Геннадьевич",
+            actualPost: "Спасатель-водолаз",
+            actualRank: "Ст. Сержант",
+            birthDate: new Date(1989, 11, 1)
+        }];
 
         $scope.selected = [];
 
@@ -97,31 +97,31 @@ app.controller('employeesController', [
 
         //opens the dialog window with detailed information about specified employee
         $scope.showDetails = function (ev, id) {
-            $scope.getEmployeeById(id).then(function (response) {
-                employeesService.setActualEmployee(response.data);
+            //$scope.getEmployeeById(id).then(function (response) {
+            //employeesService.setActualEmployee(response.data);
 
-                $mdDialog.show({
-                    controller: 'detailsController',
-                    templateUrl: 'app/views/employeeDetails.html',
-                    parent: angular.element(document.body),
-                    targetEvent: ev,
-                    clickOutsideToClose: true
-                })
-                .then(function (answer) {
-                    $scope.status = 'You said the information was "' + answer + '".';
-                }, function () {
-                    $scope.status = 'You cancelled the dialog.';
-                });
-
-            }, function (data) {
-                messageService.setError("Failed. " + data);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+            $mdDialog.show({
+                controller: 'detailsController',
+                templateUrl: 'app/views/employeeDetails.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true
+            })
+            .then(function (answer) {
+                $scope.status = 'You said the information was "' + answer + '".';
+            }, function () {
+                $scope.status = 'You cancelled the dialog.';
             });
+
+        }, function (data) {
+            messageService.setError("Failed. " + data);
+            $mdToast.show({
+                hideDelay: 3000,
+                position: 'top right',
+                controller: 'toastController',
+                templateUrl: 'app/views/error-toast.html'
+            });
+            //});
 
 
         };
@@ -131,7 +131,7 @@ app.controller('employeesController', [
             return new Date(date);
         }
 
-        $scope.employees = $scope.getEmployees();
+        //$scope.employees = $scope.getEmployees();
 
     }]).controller('toastController', ['$scope', '$mdDialog', 'messageService', function ($scope, $mdDialog, messageService) {
 

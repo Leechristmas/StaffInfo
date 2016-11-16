@@ -66,6 +66,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\controllers\calendarController.js" />
     <Content Include="app\controllers\dashboardController.js" />
     <Content Include="app\controllers\employeesController.js" />
     <Content Include="app\controllers\homeController.js" />
@@ -74,6 +75,7 @@
     <Content Include="app\controllers\signupController.js" />
     <Content Include="app\services\authInterceptorService.js" />
     <Content Include="app\services\authService.js" />
+    <Content Include="app\services\calendarService.js" />
     <Content Include="app\services\dashboardService.js" />
     <Content Include="app\services\employeesService.js" />
     <Content Include="app\services\messageService.js" />
@@ -84,6 +86,10 @@
     <Content Include="app\views\home.html" />
     <Content Include="app\views\login.html" />
     <Content Include="app\views\signup.html" />
+    <Content Include="content\css\angular-material-calendar.css" />
+    <Content Include="scripts\angular-material-calendar.js" />
+    <Content Include="content\css\angular-material-calendar.min.css" />
+    <Content Include="scripts\angular-material-calendar.min.js" />
     <Content Include="content\css\angular-material.css" />
     <Content Include="content\css\angular-material.layout-attributes.css" />
     <Content Include="content\css\angular-material.layout-attributes.min.css" />
@@ -125,7 +131,7 @@
     <Content Include="scripts\angular-local-storage.min.js.map" />
     <Content Include="scripts\angular-cookies.js" />
     <Content Include="scripts\angular-cookies.min.js" />
-    <Content Include="scripts\angular-csp.css" />
+    <Content Include="content\css\angular-csp.css" />
     <Content Include="scripts\angular-loader.js" />
     <Content Include="scripts\angular-loader.min.js" />
     <Content Include="scripts\angular-message-format.js" />
@@ -910,9 +916,9 @@
     <Content Include="index.html" />
     <Content Include="scripts\loading-bar.js" />
     <Content Include="scripts\loading-bar.min.js" />
-    <Content Include="scripts\md-data-table\md-data-table.css" />
+    <Content Include="content\css\md-data-table.css" />
     <Content Include="scripts\md-data-table\md-data-table.js" />
-    <Content Include="scripts\md-data-table\md-data-table.min.css" />
+    <Content Include="content\css\md-data-table.min.css" />
     <Content Include="scripts\md-data-table\md-data-table.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
