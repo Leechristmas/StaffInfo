@@ -66,7 +66,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\controllers\calendarController.js" />
     <Content Include="app\controllers\dashboardController.js" />
     <Content Include="app\controllers\employeesController.js" />
     <Content Include="app\controllers\homeController.js" />
@@ -75,7 +74,6 @@
     <Content Include="app\controllers\signupController.js" />
     <Content Include="app\services\authInterceptorService.js" />
     <Content Include="app\services\authService.js" />
-    <Content Include="app\services\calendarService.js" />
     <Content Include="app\services\dashboardService.js" />
     <Content Include="app\services\employeesService.js" />
     <Content Include="app\services\messageService.js" />
@@ -87,9 +85,7 @@
     <Content Include="app\views\login.html" />
     <Content Include="app\views\signup.html" />
     <Content Include="content\css\angular-material-calendar.css" />
-    <Content Include="scripts\angular-material-calendar.js" />
     <Content Include="content\css\angular-material-calendar.min.css" />
-    <Content Include="scripts\angular-material-calendar.min.js" />
     <Content Include="content\css\angular-material.css" />
     <Content Include="content\css\angular-material.layout-attributes.css" />
     <Content Include="content\css\angular-material.layout-attributes.min.css" />
