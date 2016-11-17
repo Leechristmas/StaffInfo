@@ -26,6 +26,8 @@ namespace Staffinfo.API
                 SupportsCredentials = true
             };
             policy.ExposedHeaders.Add("X-Total-Count");
+            //policy.Origins.Add("http://localhost:49086");
+            //policy.ExposedHeaders.Add("Access-Control-Allow-Origin");
             app.UseCors(new CorsOptions
             {
                 PolicyProvider = new CorsPolicyProvider
