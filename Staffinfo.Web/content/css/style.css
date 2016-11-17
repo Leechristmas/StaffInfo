@@ -77,3 +77,7 @@ footer {
     width: 26px;
     height: 26px;
 }
+
+.md-datepicker-input {
+    min-width: 210px;
+}

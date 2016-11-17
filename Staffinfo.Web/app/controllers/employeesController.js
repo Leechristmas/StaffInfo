@@ -174,6 +174,28 @@ app.controller('employeesController', [
                     });
                 });
         }
+
+        //deletes the specified employee
+        $scope.deleteEmployee = function(id) {
+            //TODO: deleting
+        }
+
+        $scope.confirmDeleting = function(ev, id) {
+            var confirm = $mdDialog.confirm()
+                    .title('Удаление')
+                    .textContent('Вы уверены, что хотите удалить информацию о сотруднике? \nВосстановить утерянную информацию будет невозможно!')
+                    .ariaLabel('Deleting')
+                    .targetEvent(ev)
+                    .ok('Удалить')
+                    .cancel('Отмена');
+            $mdDialog.show(confirm).then(function () {
+                //delete the employee
+                deleteEmployee(id);
+            }, function () {
+                //cancel
+            });
+        }
+
         //$scope.employees = $scope.getEmployees();
 
     }]).controller('toastController', ['$scope', '$mdDialog', 'messageService', function ($scope, $mdDialog, messageService) {
@@ -227,6 +249,16 @@ app.controller('employeesController', [
             });
         };
 
+        $scope.showAddServiceTimeView = function (ev) {
+            $mdDialog.show({
+                controller: 'addEmployeeItemsController',
+                templateUrl: 'app/views/addServiceTimeView.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true
+            });
+        };
+
         //shows confirmation for transferring employee
         $scope.askForTransfer = function (type, ev) {
             var confirm = {};
@@ -258,7 +290,6 @@ app.controller('employeesController', [
                     //cancel
                 });
             }
-
         };
 
         //save specified changes for the employee
@@ -388,6 +419,7 @@ app.controller('employeesController', [
 
         $scope.saveNewEmployee = function () {
             //ToDo: 
+            var t = employeesService.addNewEmployee($scope.newEmployee);
         };
 
     }]);

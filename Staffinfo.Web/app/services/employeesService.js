@@ -21,6 +21,21 @@ app.factory('employeesService', [
             });
         }
 
+        //adds new employee TODO!
+        var _addNewEmployee = function (employee) {
+            $http.post(serviceBase + 'api/employees', employee, {})
+            .success(function (data, status, headers, config) {
+                //$scope.PostDataResponse = data;
+                alert("success");
+            })
+            .error(function (data, status, header, config) {
+                $scope.ResponseDetails = "Data: " + data +
+                    "<hr />status: " + status +
+                    "<hr />headers: " + header +
+                    "<hr />config: " + config;
+            });
+        }
+
         //returns clone of the specified object
         var _getClone = function clone(obj) {
             if (null == obj || "object" != typeof obj) return obj;
@@ -42,28 +57,12 @@ app.factory('employeesService', [
             _actualEmployee = employee;
         }
 
-        var config = {};
-
-        var _testPost = function() {
-            $http.post(serviceBase + 'api/employees', data, config)
-            .success(function (data, status, headers, config) {
-                //$scope.PostDataResponse = data;
-                alert("success");
-            })
-            .error(function (data, status, header, config) {
-                $scope.ResponseDetails = "Data: " + data +
-                    "<hr />status: " + status +
-                    "<hr />headers: " + header +
-                    "<hr />config: " + config;
-            });
-        }
-
         employeesServiceFactory.getClone = _getClone;
         employeesServiceFactory.getEmployeeById = _getEmployeeById;
         employeesServiceFactory.getActualEmployee = _getActualEmployee;
         employeesServiceFactory.setActualEmployee = _setActualEmployee;
         employeesServiceFactory.getEmployees = _getEmployees;
-        employeesServiceFactory.testPost = _testPost;
+        employeesServiceFactory.addNewEmployee = _addNewEmployee;
 
         return employeesServiceFactory;
     }

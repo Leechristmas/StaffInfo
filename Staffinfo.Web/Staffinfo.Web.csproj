@@ -79,8 +79,8 @@
     <Content Include="app\services\messageService.js" />
     <Content Include="app\views\addEmployeeView.html" />
     <Content Include="app\views\addMesView.html" />
+    <Content Include="app\views\addServiceTimeView.html" />
     <Content Include="app\views\dashboard.html" />
-    <Content Include="app\views\employeeDetails.html" />
     <Content Include="app\views\employees.html" />
     <Content Include="app\views\employeeView.html" />
     <Content Include="app\views\error-toast.html" />
@@ -104,6 +104,7 @@
     <Content Include="content\css\loading-bar.min.css" />
     <Content Include="img\icons\ic_add_24px.svg" />
     <Content Include="img\icons\ic_close_24px.svg" />
+    <Content Include="img\icons\ic_delete_forever_24px.svg" />
     <Content Include="packages.config" />
     <Content Include="scripts\angular-animate\angular-animate.js" />
     <Content Include="scripts\angular-animate\angular-animate.min.js" />

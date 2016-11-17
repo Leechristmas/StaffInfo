@@ -3,7 +3,7 @@
 <form>
     <md-content>
         <form>
-            <md-tabs style="min-height: 800px">
+            <md-tabs style="min-height: 730px;">
                 <md-tab label="Личные данные">
                     <md-content class="md-padding">
                         <div layout-gt-sm="row">
@@ -128,7 +128,7 @@
                 <md-tab label="Послужной список" md-on-select="getServiceAchievements()">
                     <md-content class="md-padding">
                         <h1 class="md-display-1">Служба в других силовых структурах</h1>
-                        <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddServiceView($event)">
+                        <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddServiceTimeView($event)">
                             <md-icon md-svg-src="img/icons/ic_add_24px.svg"></md-icon>
                             <md-tooltip md-direction="bottom">
                                 Добавить запись
@@ -176,14 +176,8 @@
         <md-button class="md-primary md-raised" ng-click="resetChanges()">
             Отмена
         </md-button>
+        <md-button ng-href="#/employees" class="md-primary md-raised pull-right">
+            Назад
+        </md-button>
     </div>
-
-    <!--<md-dialog-actions layout="row" class="dialog-footer">
-        <md-button ng-click="saveChanges()">
-            Сохранить
-        </md-button>
-        <md-button ng-click="resetChanges()">
-            Отмена
-        </md-button>
-    </md-dialog-actions>-->
 </form>

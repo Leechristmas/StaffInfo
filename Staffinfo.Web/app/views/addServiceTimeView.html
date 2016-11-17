@@ -41,15 +41,6 @@
                                 </md-optgroup>
                             </md-select>
                         </md-input-container>
-
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>Должность</label>
-                            <md-select ng-model="mesAchItem.post">
-                                <md-optgroup>
-                                    <md-option ng-value="post.id" ng-repeat="post in posts">{{post.name}}</md-option>
-                                </md-optgroup>
-                            </md-select>
-                        </md-input-container>
                     </div>
 
                     <div class="row">
@@ -63,7 +54,7 @@
         </md-dialog-content>
 
         <md-dialog-actions layout="row" class="dialog-footer">
-            <md-button ng-click="saveNewMesAchievement()" class="md-primary md-raised">
+            <md-button ng-click="saveNewServiceTime()" class="md-primary md-raised">
                 Сохранить
             </md-button>
         </md-dialog-actions>

@@ -1,11 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ninject;
-using Staffinfo.DAL.Context;
-using Staffinfo.DAL.Models;
-using Staffinfo.DAL.Repositories;
-using Staffinfo.DAL.Repositories.Interfaces;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Staffinfo.DAL.Tests
 {
