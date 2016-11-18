@@ -28,20 +28,20 @@ namespace Staffinfo.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<EmployeeViewModel>> GetActualEmployees(int offset, int limit)
+        public async Task<IEnumerable<EmployeeViewModelMin>> GetActualEmployees(int offset, int limit)
         {
-            var all = await _repository.EmployeeRepository.WhereAsync(e => !e.IsPensioner);
+            var all = await _repository.EmployeeRepository.WhereAsync(e => e.RetirementDate == null);
 
             System.Web.HttpContext.Current.Response.Headers.Add("X-Total-Count", all.Count().ToString());
 
-            return all.Skip(offset).Take(limit).Select(e => new EmployeeViewModel
+            return all.Skip(offset).Take(limit).Select(e => new EmployeeViewModelMin
             {
                 Id = e.Id,
                 EmployeeLastname = e.EmployeeLastname,
                 EmployeeFirstname = e.EmployeeFirstname,
                 EmployeeMiddlename = e.EmployeeMiddlename,
-                ActualPost = e.ActualPost.PostName,
-                ActualRank = e.ActualRank.RankName,
+                ActualPost = e.ActualPost?.PostName,
+                ActualRank = e.ActualRank?.RankName,
                 ActualPostId = e.ActualPostId,
                 ActualRankId = e.ActualRankId,
                 BirthDate = e.BirthDate
@@ -78,19 +78,19 @@ namespace Staffinfo.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("api/employees/{id:int}")]
-        public async Task<EmployeeViewModel> GetEmployee(int id)
+        public async Task<EmployeeViewModelMin> GetEmployee(int id)
         {
             Employee employee = await _repository.EmployeeRepository.SelectAsync(id);
-            return new DetailedEmployeeViewModel(employee);
+            return new EmployeeViewModel(employee);
         }
 
         // POST: api/Employee
-        public EmployeeViewModel Post([FromBody]EmployeeViewModel value)
+        public EmployeeViewModelMin Post([FromBody]EmployeeViewModelMin value)
         {
-            Employee newEmpl = _repository.EmployeeRepository.Create(EmployeeViewModel.GetEmployeeFromModel(value));
+            Employee newEmpl = _repository.EmployeeRepository.Create(EmployeeViewModelMin.GetEmployeeFromModel(value));
             _repository.EmployeeRepository.SaveAsync();
 
-            return new EmployeeViewModel(newEmpl);
+            return new EmployeeViewModelMin(newEmpl);
         }
 
         // PUT: api/Employee/5
@@ -99,10 +99,12 @@ namespace Staffinfo.API.Controllers
         }
 
         // DELETE: api/Employee/5
-        public void Delete(int id)
+        [HttpDelete]
+        [Route("api/employees/{id:int}")]
+        public async Task Delete(int id)
         {
             _repository.EmployeeRepository.Delete(id);
-            _repository.EmployeeRepository.SaveAsync();
+            await _repository.EmployeeRepository.SaveAsync();
         }
 
         #region Reference Books
@@ -158,3 +160,4 @@ namespace Staffinfo.API.Controllers
 
     }
 }
+    

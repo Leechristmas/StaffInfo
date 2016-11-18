@@ -148,9 +148,29 @@ app.controller('employeesController', [
         }
 
         //deletes the specified employee
-        $scope.deleteEmployee = function (id) {
+        var _deleteEmployee = function (id) {
             //TODO: deleting
-
+            employeesService.deleteEmployeeById(id).then(function (response) {
+                $scope.employees = $scope.getEmployees();
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                                    '<div class="md-toast-content">' +
+                                      'Информация о сотруднике была удалена.' +
+                                    '</div>' +
+                                '</md-toast>'
+                });
+            },function(error) {
+                messageService.setError(error);
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    templateUrl: 'app/views/error-toast.html'
+                });
+            });
         }
 
         //shows confirmation of employee deletion 
@@ -164,10 +184,15 @@ app.controller('employeesController', [
                     .cancel('Отмена');
             $mdDialog.show(confirm).then(function () {
                 //delete the employee
-                deleteEmployee(id);
+                _deleteEmployee(id);
             }, function () {
                 //cancel
             });
+        }
+
+        $scope.refreshEmployees = function()
+        {
+            $scope.employees = $scope.getEmployees();
         }
 
         $scope.employees = $scope.getEmployees();

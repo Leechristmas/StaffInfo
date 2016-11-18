@@ -36,6 +36,7 @@ DROP TABLE dbo.tbl_Location;
 DROP TABLE dbo.tbl_Passport;
 DROP TABLE dbo.tbl_Address;
 DROP TABLE dbo.tbl_Employee;
+DROP TABLE dbo.tbl_Dismissed;
 DROP TABLE dbo.tbl_Rank;
 DROP TABLE dbo.tbl_Post;
 DROP TABLE dbo.tbl_Service;
@@ -146,7 +147,7 @@ CREATE TABLE dbo.tbl_MESAchievement(
   EmployeeID INT NOT NULL,
   LocationID INT NOT NULL,
   StartDate DATETIME NOT NULL,
-  FinishDate DATETIME NOT NULL,
+  FinishDate DATETIME,
   PostID INT NOT NULL,
   RankID INT NOT NULL,
   Description NVARCHAR(500)
@@ -254,8 +255,8 @@ CREATE TRIGGER EmployeeInsertTrigger on tbl_Employee
   INSTEAD OF INSERT
 AS
 BEGIN
-  INSERT INTO tbl_Employee (EmployeeFirstname, EmployeeLastname, EmployeeMiddlename, BirthDate, PassportID, AddressID, ActualRankID, ActualPostID, IsPensioner)
-    SELECT EmployeeFirstname, EmployeeLastname, EmployeeMiddlename, BirthDate, PassportID, AddressID, dbo.fn_GetActualRankID(ID), dbo.fn_GetActualPostID(ID), IsPensioner
+  INSERT INTO tbl_Employee (EmployeeFirstname, EmployeeLastname, EmployeeMiddlename, BirthDate, PassportID, AddressID, ActualRankID, ActualPostID, RetirementDate)
+    SELECT EmployeeFirstname, EmployeeLastname, EmployeeMiddlename, BirthDate, PassportID, AddressID, dbo.fn_GetActualRankID(ID), dbo.fn_GetActualPostID(ID), NULL
     FROM inserted
 END;
 
@@ -277,21 +278,36 @@ END;
 GO
 
 CREATE TRIGGER EmployeeDeleteTrigger ON tbl_Employee
-  AFTER DELETE
+  INSTEAD OF DELETE
 AS
   BEGIN
-    SELECT * FROM DELETED;
-    SELECT * FROM INSERTED;
+    DELETE FROM dbo.tbl_MESAchievement WHERE EmployeeID IN (SELECT Id FROM DELETED);
+    DELETE FROM dbo.tbl_Employee WHERE ID IN (SELECT ID FROM DELETED);
     --TODO
---  	DELETE ta FROM tbl_Address ta, INSERTED i WHERE ta.ID = i.AddressID;
---    DELETE tp FROM tbl_Passport tp , INSERTED i WHERE tp.ID = i.PassportID;
+  	DELETE ta FROM tbl_Address ta, DELETED d WHERE ta.ID = d.AddressID;
+    DELETE tp FROM tbl_Passport tp , DELETED d WHERE tp.ID = d.PassportID;
   END
 
---CREATE TRIGGER MESAchievementInsertTrigger ON tbl_MESAchievement
---  AFTER INSERT,DELETE,UPDATE
+GO
+
+CREATE TRIGGER MESAchievementInsertUpdateDeleteTrigger ON tbl_MESAchievement
+  AFTER INSERT,DELETE,UPDATE
+AS
+BEGIN
+	UPDATE dbo.tbl_Employee SET ActualRankID = dbo.fn_GetActualRankID(ID), ActualPostID = dbo.fn_GetActualPostID(ID)
+END
+
+GO
+
+--CREATE TRIGGER CheckLastAchieveTrigger ON dbo.tbl_MESAchievement
+--  FOR INSERT
 --AS
---BEGIN
---	
---END
---
---GO
+--  BEGIN
+--  	IF EXISTS(SELECT * FROM INSERTED i WHERE i.FinishDate IS NOT NULL) AND EXISTS(SELECT * FROM dbo.tbl_MESAchievement tm WHERE tm.FinishDate IS NULL) 
+--    BEGIN  
+--    	  ROLLBACK TRAN;
+--        RAISERROR('ERROR: Actual assignment is not already closed!', 16, 2);
+--        RETURN; 
+--    END
+--    
+--  END

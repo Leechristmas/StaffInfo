@@ -9,7 +9,7 @@ namespace Staffinfo.DAL.Models
         public string EmployeeLastname { get; set; }
         public string EmployeeMiddlename { get; set; }
         public DateTime BirthDate { get; set; }
-        public bool IsPensioner { get; set; }
+        public DateTime? RetirementDate { get; set; }
         public byte[] EmployeePhoto { get; set; }
         public string PhotoMimeType { get; set; }
 

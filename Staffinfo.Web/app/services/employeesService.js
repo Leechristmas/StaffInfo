@@ -14,6 +14,10 @@ app.factory('employeesService', [
             });
         }
         
+        var _deleteEmployeeById = function(id) {
+            return $http.delete(serviceBase + 'api/employees/' + id);
+        }
+
         //returns employee by id
         var _getEmployeeById = function(id) {
             return $http.get(serviceBase + 'api/employees/' + id).then(function (response) {
@@ -67,6 +71,7 @@ app.factory('employeesService', [
         employeesServiceFactory.setActualEmployee = _setActualEmployee;
         employeesServiceFactory.getEmployees = _getEmployees;
         employeesServiceFactory.addNewEmployee = _addNewEmployee;
+        employeesServiceFactory.deleteEmployeeById = _deleteEmployeeById;
 
         return employeesServiceFactory;
     }
