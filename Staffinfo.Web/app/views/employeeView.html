@@ -6,7 +6,7 @@
             <md-tabs style="min-height: 730px;">
                 <md-tab>
                     <md-tab-label>
-                        <md-icon md-svg-icon="img/icons/ic_tab_24px.svg"></md-icon> Личные данные
+                        <md-icon md-svg-icon="img/icons/ic_assignment_ind_24px.svg"></md-icon> Личные данные
                     </md-tab-label>
                     <md-tab-body>
                         <md-content class="md-padding">
@@ -104,7 +104,7 @@
                 </md-tab>
                 <md-tab md-on-select="getMesAchievements()">
                     <md-tab-label>
-                        <md-icon md-svg-icon="img/icons/ic_tab_24px.svg"></md-icon> Послужной список (МЧС)
+                        <md-icon md-svg-icon="img/icons/ic_assignment_24px.svg"></md-icon> Послужной список (МЧС)
                     </md-tab-label>
                     <md-tab-body>
                         <md-content class="md-padding">
@@ -142,7 +142,7 @@
                 </md-tab>
                 <md-tab md-on-select="getServiceAchievements()">
                     <md-tab-label>
-                        <md-icon md-svg-icon="img/icons/ic_tab_24px.svg"></md-icon> Послужной список
+                        <md-icon md-svg-icon="img/icons/ic_assignment_24px.svg"></md-icon> Послужной список
                     </md-tab-label>
                     <md-tab-body>
                         <md-content class="md-padding">
@@ -178,7 +178,7 @@
                 </md-tab>
                 <md-tab>
                     <md-tab-label>
-                        <md-icon md-svg-icon="img/icons/ic_tab_24px.svg"></md-icon> Дополнительно
+                        <md-icon md-svg-icon="img/icons/ic_call_to_action_24px.svg"></md-icon> Дополнительно
                     </md-tab-label>
                     <md-tab-body>
                         <md-content class="md-padding">
@@ -196,12 +196,15 @@
 
     <div class="_md-button-wrap pull-right">
         <md-button class="md-primary md-raised" ng-click="saveChanges()" ng-disabled="employeeForm.$invalid">
-            Сохранить
+            <md-icon md-svg-icon="img/icons/ic_save_24px.svg"></md-icon>
+             Сохранить
         </md-button>
         <md-button class="md-primary md-raised" ng-click="resetChanges()">
-            Отмена
+            <md-icon md-svg-icon="img/icons/ic_clear_24px.svg"></md-icon>
+             Отмена
         </md-button>
         <md-button ng-href="#/employees" class="md-primary md-raised pull-right">
+            <md-icon md-svg-icon="img/icons/ic_arrow_back_24px.svg"></md-icon>
             Назад
         </md-button>
     </div>

@@ -19,11 +19,13 @@
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <md-button aria-label="Go Back" data-ng-hide="!authentication.isAuth" href="#/dashboard">
+                    <md-icon md-svg-src="img/icons/ic_dashboard_24px.svg" aria-label="Close dialog"></md-icon>
                     Главная
                 </md-button>
                 <div layout="column" flex="33" flex-sm="100" flex-xs="100" layout-align="center center">
                     <md-menu data-ng-hide="!authentication.isAuth">
                         <md-button aria-label="Employees" ng-click="$mdOpenMenu($event)">
+                            <md-icon md-svg-src="img/icons/ic_group_24px.svg" aria-label="Close dialog"></md-icon>
                             Сотрудники
                         </md-button>
                         <md-menu-content width="4">
@@ -52,6 +54,7 @@
                     </md-menu>
                 </div>
                 <md-button aria-label="Go Back" data-ng-hide="!authentication.isAuth" href="#/reports">
+                    <md-icon md-svg-src="img/icons/ic_description_24px.svg" aria-label="Close dialog"></md-icon>
                     Отчеты
                 </md-button>
                 <span flex></span>
