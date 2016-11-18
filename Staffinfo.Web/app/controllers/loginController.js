@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('loginController', ['$state', '$scope', '$location', 'authService', function ($state, $scope, $location, authService) {
+app.controller('loginController', ['$state', '$scope', '$mdToast', 'authService', function ($state, $scope, $mdToast, authService) {
 
     $scope.loginData = {
         userName: "",
@@ -11,7 +11,18 @@ app.controller('loginController', ['$state', '$scope', '$location', 'authService
     $scope.login = function () {
 
         authService.login($scope.loginData).then(function (response) {
-                $state.go('dashboard');
+            $state.go('dashboard');
+
+            $mdToast.show({
+                hideDelay: 3000,
+                position: 'top right',
+                controller: 'toastController',
+                template: '<md-toast class="md-toast-success">' +
+                                '<div class="md-toast-content">' +
+                                  'Вы вошли в систему.' +
+                                '</div>' +
+                            '</md-toast>'
+            });
             },
          function (err) {
              $scope.message = err.error_description;

@@ -1,71 +1,69 @@
 ﻿<md-dialog aria-label="Добавить запись">
-    <form>
-        <md-toolbar>
-            <div class="md-toolbar-tools">
-                <h2>Добавление записи</h2>
-                <span flex></span>
-                <md-button class="md-icon-button" ng-click="cancel()">
-                    <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
-                </md-button>
-            </div>
-        </md-toolbar>
-        <md-dialog-content style="max-width: 800px; max-height: 810px; min-width: 600px;">
-            <form>
-                <md-content class="md-padding">
-                    <div layout-gt-sm="row">
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>Начало Периода</label>
-                            <md-datepicker ng-model="mesAchItem.startDate" md-placeholder="Укажите Дату" required></md-datepicker>
-                        </md-input-container>
-
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>Конец Периода</label>
-                            <md-datepicker ng-model="mesAchItem.finishDate" md-placeholder="Укажите Дату" required></md-datepicker>
-                        </md-input-container>
-                    </div>
-
-                    <div layout-gt-sm="row">
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>Место</label>
-                            <md-select ng-model="mesAchItem.location">
-                                <md-optgroup>
-                                    <md-option ng-value="location.id" ng-repeat="location in locations">{{location.name}}</md-option>
-                                </md-optgroup>
-                            </md-select>
-                        </md-input-container>
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>Звание</label>
-                            <md-select ng-model="mesAchItem.rank">
-                                <md-optgroup>
-                                    <md-option ng-value="rank.id" ng-repeat="rank in ranks">{{rank.name}}</md-option>
-                                </md-optgroup>
-                            </md-select>
-                        </md-input-container>
-
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>Должность</label>
-                            <md-select ng-model="mesAchItem.post">
-                                <md-optgroup>
-                                    <md-option ng-value="post.id" ng-repeat="post in posts">{{post.name}}</md-option>
-                                </md-optgroup>
-                            </md-select>
-                        </md-input-container>
-                    </div>
-
-                    <div class="row">
-                        <md-input-container class="md-block">
-                            <label>Заметка</label>
-                            <textarea ng-model="mesAchItem.description" columns="1" md-maxlength="150" rows="3"></textarea>
-                        </md-input-container>
-                    </div>
-                </md-content>
-            </form>
-        </md-dialog-content>
-
-        <md-dialog-actions layout="row" class="dialog-footer">
-            <md-button ng-click="saveNewMesAchievement()" class="md-primary md-raised">
-                Сохранить
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Добавление записи</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
             </md-button>
-        </md-dialog-actions>
-    </form>
+        </div>
+    </md-toolbar>
+    <md-dialog-content style="max-width: 800px; max-height: 810px; min-width: 600px;">
+        <form name="itemForm">
+            <md-content class="md-padding">
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Начало Периода</label>
+                        <md-datepicker ng-model="mesAchItem.startDate" md-placeholder="Укажите Дату" required md-max-date="mesAchItem.finishDate"></md-datepicker>
+                    </md-input-container>
+
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Конец Периода</label>
+                        <md-datepicker ng-model="mesAchItem.finishDate" md-placeholder="Укажите Дату" required md-min-date="mesAchItem.startDate"></md-datepicker>
+                    </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Место</label>
+                        <md-select ng-model="mesAchItem.location" required>
+                            <md-optgroup>
+                                <md-option ng-value="location.id" ng-repeat="location in locations">{{location.name}}</md-option>
+                            </md-optgroup>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Звание</label>
+                        <md-select ng-model="mesAchItem.rank" required>
+                            <md-optgroup>
+                                <md-option ng-value="rank.id" ng-repeat="rank in ranks">{{rank.name}}</md-option>
+                            </md-optgroup>
+                        </md-select>
+                    </md-input-container>
+
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Должность</label>
+                        <md-select ng-model="mesAchItem.post" required>
+                            <md-optgroup>
+                                <md-option ng-value="post.id" ng-repeat="post in posts">{{post.name}}</md-option>
+                            </md-optgroup>
+                        </md-select>
+                    </md-input-container>
+                </div>
+
+                <div class="row">
+                    <md-input-container class="md-block">
+                        <label>Заметка</label>
+                        <textarea ng-model="mesAchItem.description" columns="1" md-maxlength="150" rows="3"></textarea>
+                    </md-input-container>
+                </div>
+            </md-content>
+        </form>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" class="dialog-footer">
+        <md-button ng-click="saveNewMesAchievement()" class="md-primary md-raised" ng-disabled="itemForm.$invalid">
+            Сохранить
+        </md-button>
+    </md-dialog-actions>
 </md-dialog>

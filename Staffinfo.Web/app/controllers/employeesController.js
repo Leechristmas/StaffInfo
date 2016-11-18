@@ -72,7 +72,8 @@ app.controller('employeesController', [
                 of: "из",
                 page: 'Текущая',
                 rowsPerPage: 'Кол-во на странице'
-            }
+            },
+            filter: ''
         };
 
         //returns employees with pagination
@@ -162,25 +163,15 @@ app.controller('employeesController', [
                 clickOutsideToClose: true
             })
                 .then(function () {
-                    $mdToast.show({
-                        hideDelay: 3000,
-                        position: 'top right',
-                        controller: 'toastController',
-                        template: '<md-toast class="md-toast-success">' +
-                                        '<div class="md-toast-content">' +
-                                          'Сотрудник успешно зарегистрирован.' +
-                                        '</div>' +
-                                    '</md-toast>'
-                    });
                 });
         }
 
         //deletes the specified employee
-        $scope.deleteEmployee = function(id) {
+        $scope.deleteEmployee = function (id) {
             //TODO: deleting
         }
 
-        $scope.confirmDeleting = function(ev, id) {
+        $scope.confirmDeleting = function (ev, id) {
             var confirm = $mdDialog.confirm()
                     .title('Удаление')
                     .textContent('Вы уверены, что хотите удалить информацию о сотруднике? \nВосстановить утерянную информацию будет невозможно!')
@@ -238,6 +229,8 @@ app.controller('employeesController', [
         $scope.cancel = function () {
             $mdDialog.cancel();
         };
+
+        $scope.maxDate = employeesService.maxDate;
 
         $scope.showAddMesView = function (ev) {
             $mdDialog.show({
@@ -401,7 +394,7 @@ app.controller('employeesController', [
             { id: 3, name: 'post_3' }
         ];
 
-}]).controller('addEmployeeController', ['$scope', '$mdDialog', 'employeesService', function ($scope, $mdDialog, employeesService) {
+    }]).controller('addEmployeeController', ['$scope', '$mdDialog', 'employeesService', '$mdToast', function ($scope, $mdDialog, employeesService, $mdToast) {
 
         $scope.hide = function () {
             $mdDialog.hide();
@@ -411,15 +404,41 @@ app.controller('employeesController', [
             $mdDialog.cancel();
         };
 
-        $scope.answer = function (answer) {
-            $mdDialog.hide(answer);
-        };
+        $scope.maxDate = employeesService.maxDate;
 
-        $scope.newEmployee = {};
+        var employee = {    //testing
+            employeeLastname: "Тестовый",
+            employeeFirstname: "Тест",
+            employeeMiddlename: "Тестович",
+            birthDate: new Date(1989, 11, 1),
+            description: 'тестовое описание',
+            detailedAddress: 'тестовый точный адрес',
+            city: 'тестовый город',
+            area: 'тестовая область',
+            zipCode: '123456',
+            passportNumber: 'HB1234567',
+            passportOrganization: 'тестовая организация',
+            firstPhone: 'первый номер',
+            secondPhone: 'второй номер'
+        }
+
+        $scope.newEmployee = employee;
 
         $scope.saveNewEmployee = function () {
             //ToDo: 
             var t = employeesService.addNewEmployee($scope.newEmployee);
+            $scope.cancel();
+
+            $mdToast.show({
+                hideDelay: 3000,
+                position: 'top right',
+                controller: 'toastController',
+                template: '<md-toast class="md-toast-success">' +
+                                '<div class="md-toast-content">' +
+                                  'Сотрудник успешно зарегистрирован.' +
+                                '</div>' +
+                            '</md-toast>'
+            });
         };
 
     }]);

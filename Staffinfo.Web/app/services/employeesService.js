@@ -26,7 +26,6 @@ app.factory('employeesService', [
             $http.post(serviceBase + 'api/employees', employee, {})
             .success(function (data, status, headers, config) {
                 //$scope.PostDataResponse = data;
-                alert("success");
             })
             .error(function (data, status, header, config) {
                 $scope.ResponseDetails = "Data: " + data +
@@ -57,6 +56,11 @@ app.factory('employeesService', [
             _actualEmployee = employee;
         }
 
+
+        var _now = new Date();
+        var _maxDate = new Date(_now.getFullYear() - 18, _now.getMonth(), _now.getDate());
+
+        employeesServiceFactory.maxDate = _maxDate;
         employeesServiceFactory.getClone = _getClone;
         employeesServiceFactory.getEmployeeById = _getEmployeeById;
         employeesServiceFactory.getActualEmployee = _getActualEmployee;

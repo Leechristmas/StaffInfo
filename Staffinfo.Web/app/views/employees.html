@@ -7,29 +7,36 @@
     </md-tooltip>
 </md-button>
 
+<md-card style="margin: 0; margin-bottom: 10px">
+    <md-input-container style="margin:15px;">
+        <label>Поиск</label>
+        <input type="text" ng-model="query.filter">
+    </md-input-container>
+</md-card>
+
 <md-card class="table-container">
     <md-table-container>
         <table md-table md-progress="promise">
             <thead md-head>
-                <tr md-row>
-                    <th md-column>Фамилия</th>
-                    <th md-column>Имя</th>
-                    <th md-column>Отчество</th>
-                    <th md-column>Должность</th>
-                    <th md-column>Звание</th>
-                    <th md-column>Дата Рождения</th>
-                </tr>
+            <tr md-row>
+                <th md-column>Фамилия</th>
+                <th md-column>Имя</th>
+                <th md-column>Отчество</th>
+                <th md-column>Должность</th>
+                <th md-column>Звание</th>
+                <th md-column>Дата Рождения</th>
+            </tr>
             </thead>
             <tbody md-body>
-                <tr md-row md-select-id="id" ng-repeat="empl in employees | orderBy: query.order">
-                    <td md-cell style="padding-left: 20px"><a ng-click="showDetails($event, empl.id)" class="emplRef">{{empl.employeeLastname}}</a></td>
-                    <td md-cell>{{empl.employeeFirstname}}</td>
-                    <td md-cell>{{empl.employeeMiddlename}}</td>
-                    <td md-cell>{{empl.actualPost}}</td>
-                    <td md-cell>{{empl.actualRank}}</td>
-                    <td md-cell>{{getDate(empl.birthDate).toISOString().slice(0, 10)}}</td>
-                    <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, empl.id)" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon></md-button></td>
-                </tr>
+            <tr md-row md-select-id="id" ng-repeat="empl in employees | orderBy: query.order | filter: query.filter">
+                <td md-cell style="padding-left: 20px"><a ng-click="showDetails($event, empl.id)" class="emplRef">{{empl.employeeLastname}}</a></td>
+                <td md-cell>{{empl.employeeFirstname}}</td>
+                <td md-cell>{{empl.employeeMiddlename}}</td>
+                <td md-cell>{{empl.actualPost}}</td>
+                <td md-cell>{{empl.actualRank}}</td>
+                <td md-cell>{{getDate(empl.birthDate).toISOString().slice(0, 10)}}</td>
+                <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, empl.id)" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon></md-button></td>
+            </tr>
             </tbody>
         </table>
     </md-table-container>
