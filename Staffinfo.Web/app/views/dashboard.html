@@ -1,4 +1,44 @@
-﻿<div class="container">
+﻿<div flex layout="row">
+    <md-sidebar class="md-whiteframe-z2 md-sidenav-left sidenav">
+        Calendar will be here.
+    </md-sidebar>
+
+    <md-content ui-view="" class="dashboard-content">
+        <div>
+            <h2>Общая кадровая структура</h2>
+        </div>
+        <md-tabs style="min-height: 700px;">
+            <md-tab label="Службы">
+                <md-content>
+                    <div>
+                        <h3>Службы</h3>
+                        <div>
+                            <canvas id="serviceChart" class="chart chart-pie"
+                                    chart-data="serviceChart.data" chart-labels="serviceChart.labels" chart-options="serviceChart.options" height="30" width="100"></canvas>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Выслуга лет">
+                <md-content>
+                    <div>
+                        <h3>Выслуга лет</h3>
+                        <div>
+                            <canvas id="expChart" class="chart chart-bar"
+                                    chart-data="expChart.data" chart-labels="expChart.labels" chart-options="expChart.options"  height="30" width="100"></canvas>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+        <!--<div>
+            <canvas id="highRankChart" class="chart chart-radar"
+                    chart-data="highRankChart.data" chart-options="highRankChart.options" chart-labels="highRankChart.labels"></canvas>
+        </div>-->
+    </md-content>
+</div>
+
+<!--<div class="container">
     <div class="page-header">
         <h2>Общая кадровая структура</h2>
     </div>
@@ -10,10 +50,6 @@
                         chart-data="serviceChart.data" chart-labels="serviceChart.labels" chart-options="serviceChart.options"></canvas>
             </div>
         </div>
-        <!--<div>
-            <canvas id="highRankChart" class="chart chart-radar"
-                    chart-data="highRankChart.data" chart-options="highRankChart.options" chart-labels="highRankChart.labels"></canvas>
-        </div>-->
 
         <div>
             <h3>Выслуга лет</h3>
@@ -23,4 +59,4 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->

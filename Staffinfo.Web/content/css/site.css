@@ -79,3 +79,18 @@ hr {}
         border-top-left-radius: 0;
         border-top-right-radius: 0;
     }
+
+.sidenav {
+    width: 25%;
+}
+
+.dashboard-content {
+    width: 75%;
+    min-height: 750px;
+    padding: 15px;
+}
+
+.content {
+    width: 100%;
+    margin-bottom: 15px; 
+}

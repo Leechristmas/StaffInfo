@@ -37,11 +37,6 @@
     border-bottom: 0;
 }
 
-.chartContainer {
-    height: 45%;
-    width: 45%;
-}
-
 .label {
     color: #000000;
     color: rgba(0, 0, 0, 0.54);
@@ -80,4 +75,13 @@ footer {
 
 .md-datepicker-input {
     min-width: 200px;
+}
+
+.md-tabs-canvas {
+    min-width: 730px;
+}
+
+#serviceChart {
+    height: 45%;
+    width: 45%;
 }

@@ -6,9 +6,9 @@
     <link href="content/css/bootstrap.min.css" rel="stylesheet" />
     <link href="content/css/loading-bar.min.css" rel="stylesheet" />
     <link href="content/css/angular-material.min.css" rel="stylesheet" />
+    <link href="content/css/md-data-table.css" rel="stylesheet" />
     <link href="content/css/style.css" rel="stylesheet" />
     <link href="content/css/site.css" rel="stylesheet" />
-    <link href="content/css/md-data-table.css" rel="stylesheet" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 </head>
@@ -64,9 +64,15 @@
         </md-toolbar>
     </div>
 
-    <div class="container" ui-view="">
+<div flex layout="row">
+    <md-content ui-view="" class="content">
 
-    </div>
+    </md-content>
+</div>
+
+    <!--<div class="container" ui-view="">
+
+        </div>-->
 
     <footer>
         <h5 class="text-center"><strong>&copy;Shevchuk</strong></h5>
