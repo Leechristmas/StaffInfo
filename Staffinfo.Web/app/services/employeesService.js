@@ -13,7 +13,7 @@ app.factory('employeesService', [
                 return response;
             });
         }
-
+        
         //returns employee by id
         var _getEmployeeById = function(id) {
             return $http.get(serviceBase + 'api/employees/' + id).then(function (response) {

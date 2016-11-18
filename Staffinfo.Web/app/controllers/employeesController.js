@@ -2,64 +2,64 @@
 
 app.controller('employeesController', [
     '$scope', 'employeesService', '$mdToast', 'messageService', '$mdDialog', '$state', function ($scope, employeesService, $mdToast, messageService, $mdDialog, $state) {
-        $scope.employees = [
-        {
-            id: 1,
-            employeeLastname: "Иванов",
-            employeeFirstname: "Петр",
-            employeeMiddlename: "Геннадьевич",
-            actualPost: "Спасатель-водолаз",
-            actualRank: "Ст. Сержант",
-            birthDate: new Date(1989, 11, 1)
-        }, {
-            id: 2,
-            employeeLastname: "Иванов",
-            employeeFirstname: "Петр",
-            employeeMiddlename: "Геннадьевич",
-            actualPost: "Спасатель-водолаз",
-            actualRank: "Ст. Сержант",
-            birthDate: new Date(1989, 11, 1)
-        }, {
-            id: 3,
-            employeeLastname: "Иванов",
-            employeeFirstname: "Петр",
-            employeeMiddlename: "Геннадьевич",
-            actualPost: "Спасатель-водолаз",
-            actualRank: "Ст. Сержант",
-            birthDate: new Date(1989, 11, 1)
-        }, {
-            id: 4,
-            employeeLastname: "Иванов",
-            employeeFirstname: "Петр",
-            employeeMiddlename: "Геннадьевич",
-            actualPost: "Спасатель-водолаз",
-            actualRank: "Ст. Сержант",
-            birthDate: new Date(1989, 11, 1)
-        }, {
-            id: 5,
-            employeeLastname: "Иванов",
-            employeeFirstname: "Петр",
-            employeeMiddlename: "Геннадьевич",
-            actualPost: "Спасатель-водолаз",
-            actualRank: "Ст. Сержант",
-            birthDate: new Date(1989, 11, 1)
-        }, {
-            id: 6,
-            employeeLastname: "Иванов",
-            employeeFirstname: "Петр",
-            employeeMiddlename: "Геннадьевич",
-            actualPost: "Спасатель-водолаз",
-            actualRank: "Ст. Сержант",
-            birthDate: new Date(1989, 11, 1)
-        }, {
-            id: 7,
-            employeeLastname: "Иванов",
-            employeeFirstname: "Петр",
-            employeeMiddlename: "Геннадьевич",
-            actualPost: "Спасатель-водолаз",
-            actualRank: "Ст. Сержант",
-            birthDate: new Date(1989, 11, 1)
-        }];
+        //$scope.employees = [
+        //{
+        //    id: 1,
+        //    employeeLastname: "Иванов",
+        //    employeeFirstname: "Петр",
+        //    employeeMiddlename: "Геннадьевич",
+        //    actualPost: "Спасатель-водолаз",
+        //    actualRank: "Ст. Сержант",
+        //    birthDate: new Date(1989, 11, 1)
+        //}, {
+        //    id: 2,
+        //    employeeLastname: "Иванов",
+        //    employeeFirstname: "Петр",
+        //    employeeMiddlename: "Геннадьевич",
+        //    actualPost: "Спасатель-водолаз",
+        //    actualRank: "Ст. Сержант",
+        //    birthDate: new Date(1989, 11, 1)
+        //}, {
+        //    id: 3,
+        //    employeeLastname: "Иванов",
+        //    employeeFirstname: "Петр",
+        //    employeeMiddlename: "Геннадьевич",
+        //    actualPost: "Спасатель-водолаз",
+        //    actualRank: "Ст. Сержант",
+        //    birthDate: new Date(1989, 11, 1)
+        //}, {
+        //    id: 4,
+        //    employeeLastname: "Иванов",
+        //    employeeFirstname: "Петр",
+        //    employeeMiddlename: "Геннадьевич",
+        //    actualPost: "Спасатель-водолаз",
+        //    actualRank: "Ст. Сержант",
+        //    birthDate: new Date(1989, 11, 1)
+        //}, {
+        //    id: 5,
+        //    employeeLastname: "Иванов",
+        //    employeeFirstname: "Петр",
+        //    employeeMiddlename: "Геннадьевич",
+        //    actualPost: "Спасатель-водолаз",
+        //    actualRank: "Ст. Сержант",
+        //    birthDate: new Date(1989, 11, 1)
+        //}, {
+        //    id: 6,
+        //    employeeLastname: "Иванов",
+        //    employeeFirstname: "Петр",
+        //    employeeMiddlename: "Геннадьевич",
+        //    actualPost: "Спасатель-водолаз",
+        //    actualRank: "Ст. Сержант",
+        //    birthDate: new Date(1989, 11, 1)
+        //}, {
+        //    id: 7,
+        //    employeeLastname: "Иванов",
+        //    employeeFirstname: "Петр",
+        //    employeeMiddlename: "Геннадьевич",
+        //    actualPost: "Спасатель-водолаз",
+        //    actualRank: "Ст. Сержант",
+        //    birthDate: new Date(1989, 11, 1)
+        //}];
 
         $scope.selected = [];
 
@@ -99,54 +99,34 @@ app.controller('employeesController', [
 
         //opens the dialog window with detailed information about specified employee
         $scope.showDetails = function (ev, id) {
-            //$scope.getEmployeeById(id).then(function (response) {
+            $scope.getEmployeeById(id).then(function(response) {
 
-            var _employee = {
-                id: 2,
-                employeeLastname: "Иванов",
-                employeeFirstname: "Петр",
-                employeeMiddlename: "Геннадьевич",
-                actualPost: "Спасатель-водолаз",
-                actualRank: "Ст. Сержант",
-                birthDate: new Date(1989, 11, 1),
-                passportId: 1,
-                passportNumber: 'HB2234598',
-                passportOrganization: 'Гомельский РОВД Гомельской области',
-                addressId: 1,
-                city: 'Гомель',
-                area: 'Гомельская',
-                detailedAddress: 'ул. Советская, д.33 кв.99',
-                zipCode: '247023'
-            };
+                //var _employee = {
+                //    id: 2,
+                //    employeeLastname: "Иванов",
+                //    employeeFirstname: "Петр",
+                //    employeeMiddlename: "Геннадьевич",
+                //    actualPost: "Спасатель-водолаз",
+                //    actualRank: "Ст. Сержант",
+                //    birthDate: new Date(1989, 11, 1),
+                //    passportId: 1,
+                //    passportNumber: 'HB2234598',
+                //    passportOrganization: 'Гомельский РОВД Гомельской области',
+                //    addressId: 1,
+                //    city: 'Гомель',
+                //    area: 'Гомельская',
+                //    detailedAddress: 'ул. Советская, д.33 кв.99',
+                //    zipCode: '247023'
+                //};
 
-            employeesService.setActualEmployee(_employee);
+                //TODO: set JSON parser for data
+                var employee = response.data;
+                employee.birthDate = new Date(employee.birthDate);
 
-            $state.go('details');
+                employeesService.setActualEmployee(employee);
 
-            //    $mdDialog.show({
-            //        controller: 'detailsController',
-            //        templateUrl: 'app/views/employeeDetails.html',
-            //        parent: angular.element(document.body),
-            //        targetEvent: ev,
-            //        clickOutsideToClose: true
-            //    })
-            //    .then(function (answer) {
-            //        $scope.status = 'You said the information was "' + answer + '".';
-            //    }, function () {
-            //        $scope.status = 'You cancelled the dialog.';
-            //    });
-
-            //}, function (data) {
-            //    messageService.setError("Failed. " + data);
-            //    $mdToast.show({
-            //        hideDelay: 3000,
-            //        position: 'top right',
-            //        controller: 'toastController',
-            //        templateUrl: 'app/views/error-toast.html'
-            //    });
-            //});
-
-
+                $state.go('details');
+            });
         };
 
         //returns date from string
@@ -154,6 +134,7 @@ app.controller('employeesController', [
             return new Date(date);
         }
 
+        //shows the window with form for adding new employee
         $scope.showAddingView = function (ev) {
             $mdDialog.show({
                 controller: 'addEmployeeController',
@@ -169,8 +150,10 @@ app.controller('employeesController', [
         //deletes the specified employee
         $scope.deleteEmployee = function (id) {
             //TODO: deleting
+
         }
 
+        //shows confirmation of employee deletion 
         $scope.confirmDeleting = function (ev, id) {
             var confirm = $mdDialog.confirm()
                     .title('Удаление')
@@ -187,7 +170,7 @@ app.controller('employeesController', [
             });
         }
 
-        //$scope.employees = $scope.getEmployees();
+        $scope.employees = $scope.getEmployees();
 
     }]).controller('toastController', ['$scope', '$mdDialog', 'messageService', function ($scope, $mdDialog, messageService) {
 
