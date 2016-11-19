@@ -239,7 +239,7 @@ app.controller('employeesController', [
                 });
         };
 
-    }]).controller('detailsController', ['$scope', '$mdDialog', 'employeesService', '$timeout', '$mdToast', '$state', function ($scope, $mdDialog, employeesService, $timeout, $mdToast, $state) {
+    }]).controller('detailsController', ['$scope', '$mdDialog', 'employeesService', 'messageService', '$timeout', '$mdToast', '$state', function ($scope, $mdDialog, employeesService, messageService, $timeout, $mdToast, $state) {
         $scope.hide = function () {
             $mdDialog.hide();
         };
@@ -306,17 +306,30 @@ app.controller('employeesController', [
         //save specified changes for the employee
         $scope.saveChanges = function () {
             //save the changes
-            $state.go('employees');
-            $mdToast.show({
-                hideDelay: 3000,
-                position: 'top right',
-                controller: 'toastController',
-                template: '<md-toast class="md-toast-success">' +
-                                '<div class="md-toast-content text-center">' +
-                                  'Изменения приняты.' +
-                                '</div>' +
-                            '</md-toast>'
+
+            employeesService.saveChanges($scope.changeable).then(function(response) {
+                $state.go('employees');
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                                    '<div class="md-toast-content text-center">' +
+                                      'Изменения приняты.' +
+                                    '</div>' +
+                                '</md-toast>'
+                });
+            }, function(error) {
+                messageService.setError(error);
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    templateUrl: 'app/views/error-toast.html'
+                });
             });
+
+            
         }
 
         //reset all changes

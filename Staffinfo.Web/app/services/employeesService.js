@@ -40,6 +40,10 @@ app.factory('employeesService', [
             return copy;
         }
 
+        var _saveChanges = function(employee) {
+            return $http.put(serviceBase + 'api/employees/' + employee.id, employee, {});
+        }
+
         //actual selected employee
         var _actualEmployee = {};
         
@@ -51,7 +55,7 @@ app.factory('employeesService', [
             _actualEmployee = employee;
         }
 
-
+        //max birthDate
         var _now = new Date();
         var _maxDate = new Date(_now.getFullYear() - 18, _now.getMonth(), _now.getDate());
 
@@ -63,6 +67,7 @@ app.factory('employeesService', [
         employeesServiceFactory.getEmployees = _getEmployees;
         employeesServiceFactory.addNewEmployee = _addNewEmployee;
         employeesServiceFactory.deleteEmployeeById = _deleteEmployeeById;
+        employeesServiceFactory.saveChanges = _saveChanges;
 
         return employeesServiceFactory;
     }
