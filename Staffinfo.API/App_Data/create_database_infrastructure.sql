@@ -156,7 +156,7 @@ CREATE TABLE dbo.tbl_MESAchievement(
 
 ALTER TABLE dbo.tbl_MESAchievement
   ADD CONSTRAINT fk_MESAchievement_Employee
-        FOREIGN KEY (EmployeeID) REFERENCES dbo.tbl_Employee,
+        FOREIGN KEY (EmployeeID) REFERENCES dbo.tbl_Employee ON DELETE CASCADE,
       CONSTRAINT fk_MESAchievement_Location
         FOREIGN KEY (LocationID) REFERENCES dbo.tbl_Location,
       CONSTRAINT fk_MESAchievement_Rank
@@ -284,7 +284,7 @@ AS
   BEGIN
   	DELETE ta FROM tbl_Address ta, DELETED d WHERE ta.ID = d.AddressID;
     DELETE tp FROM tbl_Passport tp , DELETED d WHERE tp.ID = d.PassportID;
-    DELETE FROM dbo.tbl_MESAchievement WHERE EmployeeID IN (SELECT Id FROM DELETED);
+    --DELETE FROM dbo.tbl_MESAchievement WHERE EmployeeID IN (SELECT Id FROM DELETED);
     DELETE FROM dbo.tbl_Employee WHERE ID IN (SELECT ID FROM DELETED);
     --TODO
   END

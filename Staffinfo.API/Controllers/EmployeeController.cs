@@ -139,6 +139,7 @@ namespace Staffinfo.API.Controllers
                     address.ZipCode = value.ZipCode;
                 }
                 _repository.AddressRepository.Update(address);
+                await _repository.AddressRepository.SaveAsync();
             }
 
             if (value.PassportId != null)
@@ -150,6 +151,7 @@ namespace Staffinfo.API.Controllers
                     passport.PassportOrganization = value.PassportOrganization;
                 }
                 _repository.PassportRepository.Update(passport);
+                await _repository.PassportRepository.SaveAsync();
             }
 
             Employee original = await _repository.EmployeeRepository.SelectAsync(id);
@@ -162,6 +164,7 @@ namespace Staffinfo.API.Controllers
                 original.Description = value.Description;
             }
             _repository.EmployeeRepository.Update(original);
+            await _repository.EmployeeRepository.SaveAsync();
         }
 
         // DELETE: api/Employee/5
