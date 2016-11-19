@@ -31,6 +31,9 @@ namespace Staffinfo.API.Models
         [DataMember(Name = "actualPostId")]
         public int? ActualPostId { get; set; }
 
+        [DataMember(Name = "description")]
+        public string Description { get; set; }
+
         public EmployeeViewModelMin()
         {
             
@@ -47,6 +50,7 @@ namespace Staffinfo.API.Models
             ActualPost = employee.ActualPost?.PostName;
             ActualPostId = employee.ActualPostId;
             ActualRankId = employee.ActualRankId;
+            Description = employee.Description;
         }
 
         /// <summary>
@@ -64,8 +68,8 @@ namespace Staffinfo.API.Models
                 EmployeeLastname = model.EmployeeLastname,
                 EmployeeMiddlename = model.EmployeeMiddlename,
                 BirthDate = model.BirthDate,
+                Description = model.Description
             };
         }
-
     }
 }

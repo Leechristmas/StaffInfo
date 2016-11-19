@@ -12,6 +12,7 @@ namespace Staffinfo.DAL.Models
         public DateTime? RetirementDate { get; set; }
         public byte[] EmployeePhoto { get; set; }
         public string PhotoMimeType { get; set; }
+        public string Description { get; set; }
 
         //navigation properties
         public int? ActualRankId { get; set; }

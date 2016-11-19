@@ -95,14 +95,14 @@ INSERT INTO dbo.tbl_Passport(PassportNumber, PassportOrganization)
 
 GO
 
-INSERT INTO dbo.tbl_Employee(EmployeeFirstname, EmployeeLastname, EmployeeMiddlename, BirthDate, PassportID, AddressID, RetirementDate)
-  VALUES ('Иван', 'Котов', 'Адольфович', '1974-10-01', 1, 1, NULL),
-	('Петр', 'Герасимов', 'Степанович', '1975-02-04', 2, 2, NULL),
-	('Сергей', 'Левчук', 'Прохорович', '1969-01-04', 3, 3, NULL),
-	('Василий', 'Крапов', 'Петрович', '1974-04-06', 4, 4, NULL),
-	('Артем', 'Иванов', 'Иванович', '1981-04-03', 5, 5, NULL),
-	('Степан', 'Квят', 'Маркович', '1983-04-06', 6, 6, NULL),
-	('Ян', 'Клопов', 'Иванович', '1979-09-03', 7, 7, NULL);
+INSERT INTO dbo.tbl_Employee(EmployeeFirstname, EmployeeLastname, EmployeeMiddlename, BirthDate, PassportID, AddressID, RetirementDate, Description)
+  VALUES ('Иван', 'Котов', 'Адольфович', '1974-10-01', 1, 1, NULL, NULL),
+	('Петр', 'Герасимов', 'Степанович', '1975-02-04', 2, 2, NULL, NULL),
+	('Сергей', 'Левчук', 'Прохорович', '1969-01-04', 3, 3, NULL, NULL),
+	('Василий', 'Крапов', 'Петрович', '1974-04-06', 4, 4, NULL, NULL),
+	('Артем', 'Иванов', 'Иванович', '1981-04-03', 5, 5, NULL, NULL),
+	('Степан', 'Квят', 'Маркович', '1983-04-06', 6, 6, NULL, NULL),
+	('Ян', 'Клопов', 'Иванович', '1979-09-03', 7, 7, NULL, NULL);
 
 GO
 

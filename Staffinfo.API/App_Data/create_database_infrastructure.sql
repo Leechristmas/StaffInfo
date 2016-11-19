@@ -114,11 +114,12 @@ CREATE TABLE dbo.tbl_Employee(
   BirthDate DATETIME NOT NULL,
   PassportID INT NOT NULL,
   AddressID INT NOT NULL,
-  ActualRankID INT,
-  ActualPostID INT,
-  RetirementDate DATETIME,
+  ActualRankID INT DEFAULT NULL,
+  ActualPostID INT DEFAULT NULL,
+  RetirementDate DATETIME DEFAULT NULL,
   EmployeePhoto VARBINARY(MAX),
-  PhotoMimeType NVARCHAR(10)
+  PhotoMimeType NVARCHAR(10),
+  Description NVARCHAR(150)
   --TODO
 );
 
@@ -251,16 +252,16 @@ GO
 --TRIGGERS
 ------------------------------
 --Inserting into Employee table
-CREATE TRIGGER EmployeeInsertTrigger on tbl_Employee
-  INSTEAD OF INSERT
-AS
-BEGIN
-  INSERT INTO tbl_Employee (EmployeeFirstname, EmployeeLastname, EmployeeMiddlename, BirthDate, PassportID, AddressID, ActualRankID, ActualPostID, RetirementDate)
-    SELECT EmployeeFirstname, EmployeeLastname, EmployeeMiddlename, BirthDate, PassportID, AddressID, dbo.fn_GetActualRankID(ID), dbo.fn_GetActualPostID(ID), NULL
-    FROM inserted
-END;
+--CREATE TRIGGER EmployeeInsertTrigger on tbl_Employee
+--  INSTEAD OF INSERT
+--AS
+--BEGIN
+--  INSERT INTO tbl_Employee (EmployeeFirstname, EmployeeLastname, EmployeeMiddlename, BirthDate, PassportID, AddressID, ActualRankID, ActualPostID, RetirementDate)
+--    SELECT EmployeeFirstname, EmployeeLastname, EmployeeMiddlename, BirthDate, PassportID, AddressID, dbo.fn_GetActualRankID(ID), dbo.fn_GetActualPostID(ID), NULL
+--    FROM inserted
+--END;
 
-GO
+--GO
 
 --Updating the actual rank and post for employees
 CREATE TRIGGER MESAchievemntInsertTrigger ON tbl_MESAchievement
@@ -278,14 +279,14 @@ END;
 GO
 
 CREATE TRIGGER EmployeeDeleteTrigger ON tbl_Employee
-  INSTEAD OF DELETE
+  AFTER DELETE
 AS
   BEGIN
+  	DELETE ta FROM tbl_Address ta, DELETED d WHERE ta.ID = d.AddressID;
+    DELETE tp FROM tbl_Passport tp , DELETED d WHERE tp.ID = d.PassportID;
     DELETE FROM dbo.tbl_MESAchievement WHERE EmployeeID IN (SELECT Id FROM DELETED);
     DELETE FROM dbo.tbl_Employee WHERE ID IN (SELECT ID FROM DELETED);
     --TODO
-  	DELETE ta FROM tbl_Address ta, DELETED d WHERE ta.ID = d.AddressID;
-    DELETE tp FROM tbl_Passport tp , DELETED d WHERE tp.ID = d.PassportID;
   END
 
 GO

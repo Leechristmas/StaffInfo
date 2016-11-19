@@ -10,9 +10,10 @@ namespace Staffinfo.DAL.Mapping
             this.Property(t => t.EmployeeLastname).HasColumnName("EmployeeLastname");
             this.Property(t => t.EmployeeMiddlename).HasColumnName("EmployeeMiddlename");
             this.Property(t => t.BirthDate).IsRequired().HasColumnName("BirthDate");
-            this.Property(t => t.RetirementDate).IsRequired().HasColumnName("RetirementDate");
-            this.Property(t => t.PhotoMimeType).HasColumnName("PhotoMimeType");
+            this.Property(t => t.RetirementDate).IsOptional().HasColumnName("RetirementDate");
+            this.Property(t => t.PhotoMimeType).IsOptional().HasColumnName("PhotoMimeType");
             this.Property(t => t.EmployeePhoto).IsOptional().HasColumnName("EmployeePhoto");
+            this.Property(t => t.Description).IsOptional().HasColumnName("Description");
 
             //navigation properties
             this.Property(t => t.ActualRankId).IsOptional().HasColumnName("ActualRankID");

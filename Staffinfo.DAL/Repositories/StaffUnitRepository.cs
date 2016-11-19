@@ -14,7 +14,16 @@ namespace Staffinfo.DAL.Repositories
         [Inject]
         public StaffContext StaffContext { get; set; }
         
-        public StaffUnitRepository(IRepository<Address> addressRepository, IRepository<Employee> employeeRepository, IRepository<Location> locationRepository, IRepository<MesAchievement> mesAchievementRepository, IRepository<MilitaryService> militaryServiceRepository, IRepository<Passport> passportRepository, IRepository<Post> postRepository, IRepository<Rank> rankRepository, IRepository<Service> serviceRepository, IRepository<WorkTerm> workTermRepository)
+        public StaffUnitRepository(IRepository<Address> addressRepository, 
+            IRepository<Employee> employeeRepository, 
+            IRepository<Location> locationRepository, 
+            IRepository<MesAchievement> mesAchievementRepository, 
+            IRepository<MilitaryService> militaryServiceRepository, 
+            IRepository<Passport> passportRepository, 
+            IRepository<Post> postRepository, 
+            IRepository<Rank> rankRepository, 
+            IRepository<Service> serviceRepository, 
+            IRepository<WorkTerm> workTermRepository)
         {
             AddressRepository = addressRepository;
             EmployeeRepository = employeeRepository;

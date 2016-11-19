@@ -99,8 +99,7 @@ app.controller('employeesController', [
 
         //opens the dialog window with detailed information about specified employee
         $scope.showDetails = function (ev, id) {
-            $scope.getEmployeeById(id).then(function(response) {
-
+            $scope.getEmployeeById(id).then(function (response) {
                 //var _employee = {
                 //    id: 2,
                 //    employeeLastname: "Иванов",
@@ -126,6 +125,14 @@ app.controller('employeesController', [
                 employeesService.setActualEmployee(employee);
 
                 $state.go('details');
+            }, function (data) {
+                messageService.setError(data);
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    templateUrl: 'app/views/error-toast.html'
+                });
             });
         };
 
@@ -142,16 +149,20 @@ app.controller('employeesController', [
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose: true
-            })
-                .then(function () {
-                });
+            }).then(function (answer) {
+                $scope.refreshEmployees();
+                console.log('new employee has been added.');
+            }, function () {
+                console.log('adding view has been closed.');
+            });
+            $scope.refreshEmployees();
         }
 
         //deletes the specified employee
         var _deleteEmployee = function (id) {
             //TODO: deleting
             employeesService.deleteEmployeeById(id).then(function (response) {
-                $scope.employees = $scope.getEmployees();
+                $scope.refreshEmployees();//refresh
                 $mdToast.show({
                     hideDelay: 3000,
                     position: 'top right',
@@ -162,7 +173,7 @@ app.controller('employeesController', [
                                     '</div>' +
                                 '</md-toast>'
                 });
-            },function(error) {
+            }, function (error) {
                 messageService.setError(error);
                 $mdToast.show({
                     hideDelay: 3000,
@@ -190,8 +201,7 @@ app.controller('employeesController', [
             });
         }
 
-        $scope.refreshEmployees = function()
-        {
+        $scope.refreshEmployees = function () {
             $scope.employees = $scope.getEmployees();
         }
 
@@ -412,6 +422,10 @@ app.controller('employeesController', [
             $mdDialog.cancel();
         };
 
+        $scope.answer = function (answer) {
+            $mdDialog.hide(answer);
+        };
+
         $scope.maxDate = employeesService.maxDate;
 
         var employee = {    //testing
@@ -434,18 +448,28 @@ app.controller('employeesController', [
 
         $scope.saveNewEmployee = function () {
             //ToDo: 
-            var t = employeesService.addNewEmployee($scope.newEmployee);
-            $scope.cancel();
-
-            $mdToast.show({
-                hideDelay: 3000,
-                position: 'top right',
-                controller: 'toastController',
-                template: '<md-toast class="md-toast-success">' +
-                                '<div class="md-toast-content">' +
-                                  'Сотрудник успешно зарегистрирован.' +
-                                '</div>' +
-                            '</md-toast>'
+            employeesService.addNewEmployee($scope.newEmployee).then(function (response) {
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                                    '<div class="md-toast-content">' +
+                                      'Сотрудник успешно зарегистрирован.' +
+                                    '</div>' +
+                                '</md-toast>'
+                });
+                $mdDialog.hide('save'); //throw the 'answer' to the main employee controller to refresh or do not the employee list
+            }, function (error) {
+                $mdDialog.hide('cancel');
+            }, function (data) {
+                messageService.setError(data);
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    templateUrl: 'app/views/error-toast.html'
+                });
             });
         };
 

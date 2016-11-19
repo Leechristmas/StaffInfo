@@ -22,6 +22,7 @@ namespace Staffinfo.DAL.Context
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<Post> Posts { get; set; } 
         public virtual DbSet<Employee> Employees { get; set; }
+        //public virtual DbSet<EmployeeMin> EmployeesMin { get; set; }
         public virtual DbSet<Location> Locations { get; set; } 
         public virtual DbSet<MesAchievement> MesAchievements { get; set; } 
         public virtual DbSet<MilitaryService> MilitaryServices { get; set; } 
@@ -43,6 +44,7 @@ namespace Staffinfo.DAL.Context
                 .Add(new RankMap())
                 .Add(new ServiceMap())
                 .Add(new WorkTermMap());
+            //.Add(new EmployeeMinMap());
         }
     }
 }

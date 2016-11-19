@@ -44,7 +44,8 @@ namespace Staffinfo.API.Controllers
                 ActualRank = e.ActualRank?.RankName,
                 ActualPostId = e.ActualPostId,
                 ActualRankId = e.ActualRankId,
-                BirthDate = e.BirthDate
+                BirthDate = e.BirthDate,
+                Description = e.Description
             });
         }
 
@@ -85,12 +86,41 @@ namespace Staffinfo.API.Controllers
         }
 
         // POST: api/Employee
-        public EmployeeViewModelMin Post([FromBody]EmployeeViewModelMin value)
+        public async Task Post([FromBody]EmployeeViewModel value)
         {
-            Employee newEmpl = _repository.EmployeeRepository.Create(EmployeeViewModelMin.GetEmployeeFromModel(value));
-            _repository.EmployeeRepository.SaveAsync();
+            //adding passport
+            Passport passport = new Passport
+            {
+                PassportNumber = value.PassportNumber,
+                PassportOrganization = value.PassportOrganization
+            };
+            passport = _repository.PassportRepository.Create(passport);
+            await _repository.PassportRepository.SaveAsync();
 
-            return new EmployeeViewModelMin(newEmpl);
+            //adding address
+            Address address = new Address
+            {
+                City = value.City,
+                Area = value.Area,
+                DetailedAddress = value.DetailedAddress,
+                ZipCode = value.ZipCode
+            };
+            address = _repository.AddressRepository.Create(address);
+            await _repository.AddressRepository.SaveAsync();
+
+            Employee newEmpl = new Employee
+            {
+                Id = 0,
+                EmployeeFirstname = value.EmployeeFirstname,
+                EmployeeLastname = value.EmployeeLastname,
+                EmployeeMiddlename = value.EmployeeMiddlename,
+                BirthDate = value.BirthDate,
+                PassportId = passport.Id,
+                AddressId = address.Id,
+                Description = value.Description
+            };
+            _repository.EmployeeRepository.Create(newEmpl);
+            await _repository.EmployeeRepository.SaveAsync();
         }
 
         // PUT: api/Employee/5
@@ -121,7 +151,7 @@ namespace Staffinfo.API.Controllers
         }
 
         [HttpGet]
-        [Route("api/employees/ranks/{id}")]
+        [Route("api/employees/ranks/{id:int}")]
         public async Task<Rank> GetRank(int id)
         {
             return await _repository.RankRepository.SelectAsync(id);
@@ -135,7 +165,7 @@ namespace Staffinfo.API.Controllers
         }
 
         [HttpGet]
-        [Route("api/employees/services/{id}")]
+        [Route("api/employees/services/{id:int}")]
         public async Task<Service> GetService(int id)
         {
             return await _repository.ServiceRepository.SelectAsync(id);
@@ -149,15 +179,20 @@ namespace Staffinfo.API.Controllers
         }
 
         [HttpGet]
-        [Route("api/employees/posts/{id}")]
+        [Route("api/employees/posts/{id:int}")]
         public async Task<Post> GetPost(int id)
         {
             return await _repository.PostRepository.SelectAsync(id);
         }
 
+        [HttpGet]
+        [Route("api/employees/mesachievements/{emplId:int}")]
+        public async Task<IEnumerable<MesAchievement>> GetMesAchiements(int emplId)
+        {
+            return await _repository.MesAchievementRepository.WhereAsync(i => i.EmployeeId == emplId);
+        } 
 
         #endregion
 
     }
 }
-    

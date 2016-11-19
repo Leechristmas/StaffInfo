@@ -27,16 +27,7 @@ app.factory('employeesService', [
 
         //adds new employee TODO!
         var _addNewEmployee = function (employee) {
-            $http.post(serviceBase + 'api/employees', employee, {})
-            .success(function (data, status, headers, config) {
-                //$scope.PostDataResponse = data;
-            })
-            .error(function (data, status, header, config) {
-                $scope.ResponseDetails = "Data: " + data +
-                    "<hr />status: " + status +
-                    "<hr />headers: " + header +
-                    "<hr />config: " + config;
-            });
+            return $http.post(serviceBase + 'api/employees', employee, {});
         }
 
         //returns clone of the specified object

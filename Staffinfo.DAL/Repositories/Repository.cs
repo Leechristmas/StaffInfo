@@ -51,6 +51,7 @@ namespace Staffinfo.DAL.Repositories
 
         public T Create(T item)
         {
+            StaffContext.Entry(item).State = EntityState.Added;
             return Table.Add(item);
         }
 
