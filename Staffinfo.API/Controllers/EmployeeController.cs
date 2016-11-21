@@ -30,7 +30,7 @@ namespace Staffinfo.API.Controllers
         [HttpGet]
         public async Task<IEnumerable<EmployeeViewModelMin>> GetActualEmployees(int offset, int limit)
         {
-            var all = await _repository.EmployeeRepository.WhereAsync(e => e.RetirementDate == null);
+            var all = await _repository.EmployeeRepository.WhereAsync(e => e.RetirementDate != null);
 
             System.Web.HttpContext.Current.Response.Headers.Add("X-Total-Count", all.Count().ToString());
 
@@ -48,28 +48,6 @@ namespace Staffinfo.API.Controllers
                 Description = e.Description
             });
         }
-
-        /// <summary>
-        /// Returns pensioners
-        /// </summary>
-        /// <returns></returns>
-        //[HttpGet]
-        //public async Task<IEnumerable<EmployeeViewModel>> GetPensioners()
-        //{
-        //    var all = await _repository.EmployeeRepository.WhereAsync(e => e.IsPensioner);
-        //    return all.Select(e => new EmployeeViewModel
-        //    {
-        //        Id = e.Id,
-        //        EmployeeLastname = e.EmployeeLastname,
-        //        EmployeeFirstname = e.EmployeeFirstname,
-        //        EmployeeMiddlename = e.EmployeeMiddlename,
-        //        ActualPost = e.ActualPost.PostName,
-        //        ActualRank = e.ActualRank.RankName,
-        //        ActualPostId = e.ActualPostId,
-        //        ActualRankId = e.ActualRankId,
-        //        BirthDate = e.BirthDate
-        //    });
-        //}
 
         // GET: api/Employees/5
         /// <summary>
@@ -226,10 +204,27 @@ namespace Staffinfo.API.Controllers
 
         [HttpGet]
         [Route("api/employees/mesachievements/{emplId:int}")]
-        public async Task<IEnumerable<MesAchievement>> GetMesAchiements(int emplId)
+        public async Task<IEnumerable<MesAchievementViewModel>> GetMesAchiements(int emplId)
         {
-            return await _repository.MesAchievementRepository.WhereAsync(i => i.EmployeeId == emplId);
-        } 
+            IEnumerable<MesAchievement> mesAchievements = await _repository.MesAchievementRepository.WhereAsync(i => i.EmployeeId == emplId);
+            return mesAchievements.Select(i => new MesAchievementViewModel(i));
+        }
+
+        [HttpGet]
+        [Route("api/employees/military/{emplId:int}")]
+        public async Task<IEnumerable<MilitaryServiceViewModel>> GetMilitary(int emplId)
+        {
+            IEnumerable<MilitaryService> military = await _repository.MilitaryServiceRepository.WhereAsync(i => i.EmployeeId == emplId);
+            return military.Select(i => new MilitaryServiceViewModel(i));
+        }
+
+        [HttpGet]
+        [Route("api/employees/works/{emplId:int}")]
+        public async Task<IEnumerable<WorkTermViewModel>> GetWorks(int emplId)
+        {
+            IEnumerable<WorkTerm> works = await _repository.WorkTermRepository.WhereAsync(i => i.EmployeeId == emplId);
+            return works.Select(i => new WorkTermViewModel(i));
+        }
 
         #endregion
 

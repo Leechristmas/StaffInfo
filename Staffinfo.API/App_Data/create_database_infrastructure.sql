@@ -1,4 +1,4 @@
-USE u0250751_StaffinfoTestDB;
+--USE u0250751_StaffinfoTestDB;
 
 ALTER TABLE dbo.tbl_Post
   DROP CONSTRAINT fk_Post_Service;
@@ -91,9 +91,9 @@ GO
 
 CREATE TABLE dbo.tbl_Address(
   ID INT IDENTITY(1,1) PRIMARY KEY,
-  City NVARCHAR(60) NOT NULL,
-  Area NVARCHAR(60) NOT NULL,
-  DetailedAddress NVARCHAR(100) NOT NULL,
+  City NVARCHAR(30) NOT NULL,
+  Area NVARCHAR(30) NOT NULL,
+  DetailedAddress NVARCHAR(70) NOT NULL,
   ZipCode NVARCHAR(6) NOT NULL
 );
 GO
@@ -101,16 +101,16 @@ GO
 CREATE TABLE dbo.tbl_Passport(
   ID INT IDENTITY(1,1) PRIMARY KEY,
   PassportNumber NVARCHAR(9) NOT NULL,
-  PassportOrganization NVARCHAR(120) NOT NULL
+  PassportOrganization NVARCHAR(50) NOT NULL
   );
 GO
 
 --if retirementDAte is null, employee is not pensioner!
 CREATE TABLE dbo.tbl_Employee(
   ID INT IDENTITY(1,1) PRIMARY KEY,
-  EmployeeFirstname NVARCHAR(60) NOT NULL,
-  EmployeeLastname NVARCHAR(60) NOT NULL,
-  EmployeeMiddlename NVARCHAR(60) NOT NULL,
+  EmployeeFirstname NVARCHAR(30) NOT NULL,
+  EmployeeLastname NVARCHAR(30) NOT NULL,
+  EmployeeMiddlename NVARCHAR(30) NOT NULL,
   BirthDate DATETIME NOT NULL,
   PassportID INT NOT NULL,
   AddressID INT NOT NULL,
@@ -119,7 +119,9 @@ CREATE TABLE dbo.tbl_Employee(
   RetirementDate DATETIME DEFAULT NULL,
   EmployeePhoto VARBINARY(MAX),
   PhotoMimeType NVARCHAR(10),
-  Description NVARCHAR(150)
+  Description NVARCHAR(100),
+  FirstPhoneNumber NVARCHAR(13),
+  SecondPhoneNumber NVARCHAR(13)
   --TODO
 );
 
@@ -133,13 +135,13 @@ GO
 --dismissed employees
 CREATE TABLE dbo.tbl_Dismissed(
   ID INT IDENTITY(1,1) PRIMARY KEY,
-  DismissedLastname NVARCHAR(60) NOT NULL,
-  DismissedFirstname NVARCHAR(60) NOT NULL,
-  DismissedMiddlename NVARCHAR(60) NOT NULL,
+  DismissedLastname NVARCHAR(30) NOT NULL,
+  DismissedFirstname NVARCHAR(30) NOT NULL,
+  DismissedMiddlename NVARCHAR(30) NOT NULL,
   BirthDate DATETIME NOT NULL,
   DismissalDate DATETIME NOT NULL,
   Clause NVARCHAR(10),
-  ClauseDescription NVARCHAR(300)
+  ClauseDescription NVARCHAR(150)
 ); 
 
 --achievement list of ministry of emergency situations service of the employee
@@ -151,7 +153,7 @@ CREATE TABLE dbo.tbl_MESAchievement(
   FinishDate DATETIME,
   PostID INT NOT NULL,
   RankID INT NOT NULL,
-  Description NVARCHAR(500)
+  Description NVARCHAR(200)
 );
 
 ALTER TABLE dbo.tbl_MESAchievement

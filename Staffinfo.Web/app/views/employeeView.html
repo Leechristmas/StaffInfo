@@ -91,12 +91,12 @@
                             <div layout-gt-sm="row">
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label>Тел. 1</label>
-                                    <input placeholder="+375 (XX) XXX XX XX" ng-model="newEmployee.firstPhone" md-maxlength="13" />
+                                    <input placeholder="+375 (XX) XXX XX XX" ng-model="changeable.firstPhoneNumber" md-maxlength="13" />
                                 </md-input-container>
 
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label>Тел. 2</label>
-                                    <input placeholder="+375 (XX) XXX XX XX" ng-model="newEmployee.firstPhone" md-maxlength="13" />
+                                    <input placeholder="+375 (XX) XXX XX XX" ng-model="changeable.secondPhoneNumber" md-maxlength="13" />
                                 </md-input-container>
                             </div>
                         </md-content>
@@ -115,6 +115,12 @@
                                     Добавить запись
                                 </md-tooltip>
                             </md-button>
+                            <md-button class="md-fab md-primary md-fab-md" aria-label="Refresh" ng-click="getMesAchievements()">
+                                <md-icon md-svg-src="img/icons/ic_refresh_24px.svg"></md-icon>
+                                <md-tooltip md-direction="bottom">
+                                    Обновить
+                                </md-tooltip>
+                            </md-button>
                             <md-table-container>
                                 <table md-table md-progress="promise">
                                     <thead md-head>
@@ -128,8 +134,8 @@
                                     </thead>
                                     <tbody md-body>
                                         <tr md-row md-select-id="id" ng-repeat="item in mesAchievements | orderBy: 'startDate'">
-                                            <td md-cell mdDesc="true">{{item.startDate.toISOString().slice(0, 10)}}</td>
-                                            <td md-cell>{{item.finishDate.toISOString().slice(0, 10)}}</td>
+                                            <td md-cell mdDesc="true">{{getDate(item.startDate).toISOString().slice(0, 10)}}</td>
+                                            <td md-cell>{{getDate(item.finishDate).toISOString().slice(0, 10)}}</td>
                                             <td md-cell>{{item.location}}</td>
                                             <td md-cell>{{item.post}}</td>
                                             <td md-cell>{{item.rank}}</td>
@@ -140,17 +146,23 @@
                         </md-content>
                     </md-tab-body>
                 </md-tab>
-                <md-tab md-on-select="getServiceAchievements()">
+                <md-tab md-on-select="getMilitary()">
                     <md-tab-label>
-                        <md-icon md-svg-icon="img/icons/ic_assignment_24px.svg"></md-icon> Послужной список
+                        <md-icon md-svg-icon="img/icons/ic_assignment_24px.svg"></md-icon> Воинская служба
                     </md-tab-label>
                     <md-tab-body>
                         <md-content class="md-padding">
                             <h1 class="md-display-1">Служба в других силовых структурах</h1>
-                            <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddServiceTimeView($event)">
+                            <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddMilitaryView($event)">
                                 <md-icon md-svg-src="img/icons/ic_add_24px.svg"></md-icon>
                                 <md-tooltip md-direction="bottom">
                                     Добавить запись
+                                </md-tooltip>
+                            </md-button>
+                            <md-button class="md-fab md-primary md-fab-md" aria-label="Refresh" ng-click="getMilitary()">
+                                <md-icon md-svg-src="img/icons/ic_refresh_24px.svg"></md-icon>
+                                <md-tooltip md-direction="bottom">
+                                    Обновить
                                 </md-tooltip>
                             </md-button>
                             <md-table-container>
@@ -164,11 +176,53 @@
                                         </tr>
                                     </thead>
                                     <tbody md-body>
-                                        <tr md-row md-select-id="id" ng-repeat="item in serviceAchievements | orderBy: 'startDate'">
-                                            <td md-cell mdDesc="true">{{item.startDate.toISOString().slice(0, 10)}}</td>
-                                            <td md-cell>{{item.finishDate.toISOString().slice(0, 10)}}</td>
+                                        <tr md-row md-select-id="id" ng-repeat="item in military | orderBy: 'startDate'">
+                                            <td md-cell mdDesc="true">{{getDate(item.startDate).toISOString().slice(0, 10)}}</td>
+                                            <td md-cell>{{getDate(item.finishDate).toISOString().slice(0, 10)}}</td>
                                             <td md-cell>{{item.location}}</td>
                                             <td md-cell>{{item.rank}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </md-table-container>
+                        </md-content>
+                    </md-tab-body>
+                </md-tab>
+                <md-tab md-on-select="getWorks()">
+                    <md-tab-label>
+                        <md-icon md-svg-icon="img/icons/ic_assignment_24px.svg"></md-icon> Послужной список
+                    </md-tab-label>
+                    <md-tab-body>
+                        <md-content class="md-padding">
+                            <h1 class="md-display-1">Другие места работы</h1>
+                            <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddMilitaryView($event)">
+                                <md-icon md-svg-src="img/icons/ic_add_24px.svg"></md-icon>
+                                <md-tooltip md-direction="bottom">
+                                    Добавить запись
+                                </md-tooltip>
+                            </md-button>
+                            <md-button class="md-fab md-primary md-fab-md" aria-label="Refresh" ng-click="getWorks()">
+                                <md-icon md-svg-src="img/icons/ic_refresh_24px.svg"></md-icon>
+                                <md-tooltip md-direction="bottom">
+                                    Обновить
+                                </md-tooltip>
+                            </md-button>
+                            <md-table-container>
+                                <table md-table md-progress="promise">
+                                    <thead md-head>
+                                        <tr md-row>
+                                            <th md-column>Начало периода</th>
+                                            <th md-column>Конец периода</th>
+                                            <th md-column>Место</th>
+                                            <th md-column>Звание</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody md-body>
+                                        <tr md-row md-select-id="id" ng-repeat="item in works | orderBy: 'startDate'">
+                                            <td md-cell mdDesc="true">{{getDate(item.startDate).toISOString().slice(0, 10)}}</td>
+                                            <td md-cell>{{getDate(item.finishDate).toISOString().slice(0, 10)}}</td>
+                                            <td md-cell>{{item.location}}</td>
+                                            <td md-cell>{{item.post}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -197,11 +251,11 @@
     <div class="_md-button-wrap pull-right">
         <md-button class="md-primary md-raised" ng-click="saveChanges()" ng-disabled="employeeForm.$invalid">
             <md-icon md-svg-icon="img/icons/ic_save_24px.svg"></md-icon>
-             Сохранить
+            Сохранить
         </md-button>
         <md-button class="md-primary md-raised" ng-click="resetChanges()">
             <md-icon md-svg-icon="img/icons/ic_clear_24px.svg"></md-icon>
-             Отмена
+            Отмена
         </md-button>
         <md-button ng-href="#/employees" class="md-primary md-raised pull-right">
             <md-icon md-svg-icon="img/icons/ic_arrow_back_24px.svg"></md-icon>

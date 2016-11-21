@@ -14,6 +14,8 @@ namespace Staffinfo.DAL.Mapping
             this.Property(t => t.PhotoMimeType).IsOptional().HasColumnName("PhotoMimeType");
             this.Property(t => t.EmployeePhoto).IsOptional().HasColumnName("EmployeePhoto");
             this.Property(t => t.Description).IsOptional().HasColumnName("Description");
+            this.Property(t => t.FirstPhoneNumber).IsOptional().HasColumnName("FirstPhoneNumber");
+            this.Property(t => t.SecondPhoneNumber).IsOptional().HasColumnName("SecondPhoneNumber");
 
             //navigation properties
             this.Property(t => t.ActualRankId).IsOptional().HasColumnName("ActualRankID");

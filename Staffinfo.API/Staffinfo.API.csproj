@@ -221,7 +221,10 @@
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\EmployeeViewModelMin.cs" />
+    <Compile Include="Models\MesAchievementViewModel.cs" />
+    <Compile Include="Models\MilitaryServiceViewModel.cs" />
     <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\WorkTermViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\AuthorizationServerProvider.cs" />
     <Compile Include="Startup.cs" />

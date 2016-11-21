@@ -29,7 +29,13 @@ namespace Staffinfo.API.Models
 
         [DataMember(Name = "zipCode")]
         public string ZipCode { get; set; }
+        
+        [DataMember(Name = "firstPhoneNumber")]
+        public string FirstPhoneNumber { get; set; }
 
+        [DataMember(Name = "secondPhoneNumber")]
+        public string SecondPhoneNumber { get; set; }
+        
         public EmployeeViewModel()
         { }
 
@@ -43,6 +49,8 @@ namespace Staffinfo.API.Models
             PassportId = employee.PassportId;
             PassportNumber = employee.Passport.PassportNumber;
             PassportOrganization = employee.Passport.PassportOrganization;
+            FirstPhoneNumber = employee.FirstPhoneNumber;
+            SecondPhoneNumber = employee.SecondPhoneNumber;
         }
     }
 }

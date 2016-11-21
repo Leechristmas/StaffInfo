@@ -55,10 +55,28 @@ app.factory('employeesService', [
             _actualEmployee = employee;
         }
 
+        //returns promise for getting mes achievements
+        var _getMesAchievements = function() {
+            return $http.get(serviceBase + 'api/employees/mesachievements/' + _actualEmployee.id);
+        }
+
+        //returns promise for getting military
+        var _getMilitary = function() {
+            return $http.get(serviceBase + 'api/employees/military/' + _actualEmployee.id);
+        }
+
+        //returns promise for getting military
+        var _getWorks = function () {
+            return $http.get(serviceBase + 'api/employees/works/' + _actualEmployee.id);
+        }
+
         //max birthDate
         var _now = new Date();
         var _maxDate = new Date(_now.getFullYear() - 18, _now.getMonth(), _now.getDate());
 
+        employeesServiceFactory.getWorks = _getWorks;
+        employeesServiceFactory.getMilitary = _getMilitary;
+        employeesServiceFactory.getMesAchievements = _getMesAchievements;
         employeesServiceFactory.maxDate = _maxDate;
         employeesServiceFactory.getClone = _getClone;
         employeesServiceFactory.getEmployeeById = _getEmployeeById;

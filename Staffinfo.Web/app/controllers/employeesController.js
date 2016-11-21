@@ -2,66 +2,6 @@
 
 app.controller('employeesController', [
     '$scope', 'employeesService', '$mdToast', 'messageService', '$mdDialog', '$state', function ($scope, employeesService, $mdToast, messageService, $mdDialog, $state) {
-        //$scope.employees = [
-        //{
-        //    id: 1,
-        //    employeeLastname: "Иванов",
-        //    employeeFirstname: "Петр",
-        //    employeeMiddlename: "Геннадьевич",
-        //    actualPost: "Спасатель-водолаз",
-        //    actualRank: "Ст. Сержант",
-        //    birthDate: new Date(1989, 11, 1)
-        //}, {
-        //    id: 2,
-        //    employeeLastname: "Иванов",
-        //    employeeFirstname: "Петр",
-        //    employeeMiddlename: "Геннадьевич",
-        //    actualPost: "Спасатель-водолаз",
-        //    actualRank: "Ст. Сержант",
-        //    birthDate: new Date(1989, 11, 1)
-        //}, {
-        //    id: 3,
-        //    employeeLastname: "Иванов",
-        //    employeeFirstname: "Петр",
-        //    employeeMiddlename: "Геннадьевич",
-        //    actualPost: "Спасатель-водолаз",
-        //    actualRank: "Ст. Сержант",
-        //    birthDate: new Date(1989, 11, 1)
-        //}, {
-        //    id: 4,
-        //    employeeLastname: "Иванов",
-        //    employeeFirstname: "Петр",
-        //    employeeMiddlename: "Геннадьевич",
-        //    actualPost: "Спасатель-водолаз",
-        //    actualRank: "Ст. Сержант",
-        //    birthDate: new Date(1989, 11, 1)
-        //}, {
-        //    id: 5,
-        //    employeeLastname: "Иванов",
-        //    employeeFirstname: "Петр",
-        //    employeeMiddlename: "Геннадьевич",
-        //    actualPost: "Спасатель-водолаз",
-        //    actualRank: "Ст. Сержант",
-        //    birthDate: new Date(1989, 11, 1)
-        //}, {
-        //    id: 6,
-        //    employeeLastname: "Иванов",
-        //    employeeFirstname: "Петр",
-        //    employeeMiddlename: "Геннадьевич",
-        //    actualPost: "Спасатель-водолаз",
-        //    actualRank: "Ст. Сержант",
-        //    birthDate: new Date(1989, 11, 1)
-        //}, {
-        //    id: 7,
-        //    employeeLastname: "Иванов",
-        //    employeeFirstname: "Петр",
-        //    employeeMiddlename: "Геннадьевич",
-        //    actualPost: "Спасатель-водолаз",
-        //    actualRank: "Ст. Сержант",
-        //    birthDate: new Date(1989, 11, 1)
-        //}];
-
-        $scope.selected = [];
 
         //options for queries to API and pagination
         $scope.query = {
@@ -100,23 +40,6 @@ app.controller('employeesController', [
         //opens the dialog window with detailed information about specified employee
         $scope.showDetails = function (ev, id) {
             $scope.getEmployeeById(id).then(function (response) {
-                //var _employee = {
-                //    id: 2,
-                //    employeeLastname: "Иванов",
-                //    employeeFirstname: "Петр",
-                //    employeeMiddlename: "Геннадьевич",
-                //    actualPost: "Спасатель-водолаз",
-                //    actualRank: "Ст. Сержант",
-                //    birthDate: new Date(1989, 11, 1),
-                //    passportId: 1,
-                //    passportNumber: 'HB2234598',
-                //    passportOrganization: 'Гомельский РОВД Гомельской области',
-                //    addressId: 1,
-                //    city: 'Гомель',
-                //    area: 'Гомельская',
-                //    detailedAddress: 'ул. Советская, д.33 кв.99',
-                //    zipCode: '247023'
-                //};
 
                 //TODO: set JSON parser for data
                 var employee = response.data;
@@ -260,7 +183,7 @@ app.controller('employeesController', [
             });
         };
 
-        $scope.showAddServiceTimeView = function (ev) {
+        $scope.showAddMilitaryView = function (ev) {
             $mdDialog.show({
                 controller: 'addEmployeeItemsController',
                 templateUrl: 'app/views/addServiceTimeView.html',
@@ -307,7 +230,7 @@ app.controller('employeesController', [
         $scope.saveChanges = function () {
             //save the changes
 
-            employeesService.saveChanges($scope.changeable).then(function(response) {
+            employeesService.saveChanges($scope.changeable).then(function (response) {
                 $state.go('employees');
                 $mdToast.show({
                     hideDelay: 3000,
@@ -319,6 +242,46 @@ app.controller('employeesController', [
                                     '</div>' +
                                 '</md-toast>'
                 });
+            }, function (error) {
+                messageService.setError(error);
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    templateUrl: 'app/views/error-toast.html'
+                });
+            });
+        }
+
+        //reset all changes
+        $scope.resetChanges = function () {
+            $scope.changeable = employeesService.getClone($scope.employee);
+        }
+
+        $scope.mesAchievements = [];
+        $scope.works = [];
+        $scope.military = [];
+
+        //returns MES achievements for employee
+        $scope.getMesAchievements = function () {
+
+            $scope.promise = employeesService.getMesAchievements().then(function (response) {
+                $scope.mesAchievements = response.data;
+            }, function (error) {
+                messageService.setError(error);
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    templateUrl: 'app/views/error-toast.html'
+                });
+            });
+        }
+
+        //returns works for employee
+        $scope.getWorks = function () {
+            $scope.promise = employeesService.getWorks().then(function(response) {
+                $scope.works = response.data;
             }, function(error) {
                 messageService.setError(error);
                 $mdToast.show({
@@ -328,73 +291,31 @@ app.controller('employeesController', [
                     templateUrl: 'app/views/error-toast.html'
                 });
             });
-
-            
         }
 
-        //reset all changes
-        $scope.resetChanges = function () {
-            $scope.changeable = employeesService.getClone($scope.employee);
-        }
-
-        $scope.mesAchievements = [];
-        $scope.serviceAchievements = [];
-
-        //returns MES achievements for employee
-        $scope.getMesAchievements = function () {
-            $scope.mesAchievements = [
-                {
-                    startDate: new Date(2001, 12, 12),
-                    finishDate: new Date(2002, 12, 12),
-                    locationId: 1,
-                    location: "location1",
-                    rankId: 1,
-                    rank: 'rank1',
-                    postId: 1,
-                    post: 'post1'
-                }, {
-                    startDate: new Date(2003, 12, 12),
-                    finishDate: new Date(2004, 12, 12),
-                    locationId: 1,
-                    location: "location1",
-                    rankId: 1,
-                    rank: 'rank1',
-                    postId: 1,
-                    post: 'post1'
-                }
-            ];
-            $scope.promise = $timeout(function () {
-                // ...
-            }, 2000);
-        }
-
-        //returns service achievements for employee
-        $scope.getServiceAchievements = function () {
-            $scope.serviceAchievements = [
-                {
-                    startDate: new Date(2001, 12, 12),
-                    finishDate: new Date(2002, 12, 12),
-                    locationId: 1,
-                    location: "location1",
-                    rankId: 1,
-                    rank: 'rank1'
-                }, {
-                    startDate: new Date(2003, 12, 12),
-                    finishDate: new Date(2004, 12, 12),
-                    locationId: 1,
-                    location: "location1",
-                    rankId: 1,
-                    rank: 'rank1'
-                }
-            ];
-            $scope.promise = $timeout(function () {
-                // ...
-            }, 2000);
+        //returns works for employee
+        $scope.getMilitary = function () {
+            $scope.promise = employeesService.getMilitary().then(function (response) {
+                $scope.military = response.data;
+            }, function (error) {
+                messageService.setError(error);
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    templateUrl: 'app/views/error-toast.html'
+                });
+            });
         }
 
         $scope.employee = employeesService.getActualEmployee();
 
         $scope.changeable = employeesService.getClone($scope.employee);
+
+        //returns date from string
+        $scope.getDate = function (date) {
+            return new Date(date);
+        }
 
     }]).controller('addEmployeeItemsController', ['$scope', '$mdDialog', 'employeesService', function ($scope, $mdDialog, employeesService) {
         $scope.hide = function () {

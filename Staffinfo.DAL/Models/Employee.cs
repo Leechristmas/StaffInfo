@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Staffinfo.DAL.Models.Common;
 
 namespace Staffinfo.DAL.Models
@@ -26,5 +27,11 @@ namespace Staffinfo.DAL.Models
 
         public int? AddressId { get; set; }
         public virtual Address Address { get; set; }
+
+        [MaxLength(13)]
+        public string FirstPhoneNumber { get; set; }
+
+        [MaxLength(13)]
+        public string SecondPhoneNumber { get; set; }
     }
 }
