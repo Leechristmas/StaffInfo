@@ -84,7 +84,7 @@ app.controller('employeesController', [
         //deletes the specified employee
         var _deleteEmployee = function (id) {
             //TODO: deleting
-            employeesService.deleteEmployeeById(id).then(function (response) {
+            $scope.promise = employeesService.deleteEmployeeById(id).then(function (response) {
                 $scope.refreshEmployees();//refresh
                 $mdToast.show({
                     hideDelay: 3000,
@@ -226,10 +226,114 @@ app.controller('employeesController', [
             }
         };
 
+        //deletes work by id
+        var _deleteWork = function(id) {
+            $scope.promise = employeesService.deleteWork(id).then(function (response) {
+                $scope.getWorks();//refresh
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                                    '<div class="md-toast-content">' +
+                                      'Запись была успешно удалена.' +
+                                    '</div>' +
+                                '</md-toast>'
+                });
+            }, function (error) {
+                messageService.setError(error);
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    templateUrl: 'app/views/error-toast.html'
+                });
+            });
+        }
+
+        //deletes military by id
+        var _deleteMilitary = function (id) {
+            $scope.promise = employeesService.deleteMilitary(id).then(function (response) {
+                $scope.getMilitary();//refresh
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                                    '<div class="md-toast-content">' +
+                                      'Запись была успешно удалена.' +
+                                    '</div>' +
+                                '</md-toast>'
+                });
+            }, function (error) {
+                messageService.setError(error);
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    templateUrl: 'app/views/error-toast.html'
+                });
+            });
+        }
+
+        //deletes mes achievemnt by id
+        var _deleteMesAchievement = function (id) {
+            $scope.promise = employeesService.deleteMesAchievement(id).then(function (response) {
+                $scope.getMesAchievements();//refresh
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                                    '<div class="md-toast-content">' +
+                                      'Запись была успешно удалена.' +
+                                    '</div>' +
+                                '</md-toast>'
+                });
+            }, function (error) {
+                messageService.setError(error);
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    templateUrl: 'app/views/error-toast.html'
+                });
+            });
+        }
+
+        //confirmation deleting
+        $scope.confirmDeleting = function(ev, id, type) {//type: W - works; M - military; A - achievements
+
+            var confirm = $mdDialog.confirm()
+                    .title('Удаление')
+                    .textContent('Вы уверены, что хотите удалить запись? \nВосстановить утерянную информацию будет невозможно!')
+                    .ariaLabel('Deleting')
+                    .targetEvent(ev)
+                    .ok('Удалить')
+                    .cancel('Отмена');
+            $mdDialog.show(confirm).then(function () {
+                //delete the item
+                switch (type) {
+                    case "W":
+                        _deleteWork(id);
+                        break;
+                    case "M":
+                        _deleteMilitary(id);
+                        break;
+                    case "A":
+                        _deleteMesAchievement(id);
+                        break;
+                    default:
+                        break;
+                }
+            }, function () {
+                //cancel
+            });
+        }
+
         //save specified changes for the employee
         $scope.saveChanges = function () {
             //save the changes
-
             employeesService.saveChanges($scope.changeable).then(function (response) {
                 $state.go('employees');
                 $mdToast.show({

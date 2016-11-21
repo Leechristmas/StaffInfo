@@ -210,6 +210,14 @@ namespace Staffinfo.API.Controllers
             return mesAchievements.Select(i => new MesAchievementViewModel(i));
         }
 
+        [HttpDelete]
+        [Route("api/employees/mesachievements/{id:int}")]
+        public async Task DeleteMesAchievement(int id)
+        {
+            _repository.MesAchievementRepository.Delete(id);
+            await _repository.MesAchievementRepository.SaveAsync();
+        }
+
         [HttpGet]
         [Route("api/employees/military/{emplId:int}")]
         public async Task<IEnumerable<MilitaryServiceViewModel>> GetMilitary(int emplId)
@@ -218,12 +226,28 @@ namespace Staffinfo.API.Controllers
             return military.Select(i => new MilitaryServiceViewModel(i));
         }
 
+        [HttpDelete]
+        [Route("api/employees/military/{id:int}")]
+        public async Task DeleteMilitary(int id)
+        {
+            _repository.MilitaryServiceRepository.Delete(id);
+            await _repository.MilitaryServiceRepository.SaveAsync();
+        }
+
         [HttpGet]
         [Route("api/employees/works/{emplId:int}")]
         public async Task<IEnumerable<WorkTermViewModel>> GetWorks(int emplId)
         {
             IEnumerable<WorkTerm> works = await _repository.WorkTermRepository.WhereAsync(i => i.EmployeeId == emplId);
             return works.Select(i => new WorkTermViewModel(i));
+        }
+
+        [HttpDelete]
+        [Route("api/employees/works/{id:int}")]
+        public async Task DeleteWork(int id)
+        {
+            _repository.WorkTermRepository.Delete(id);
+            await _repository.WorkTermRepository.SaveAsync();
         }
 
         #endregion

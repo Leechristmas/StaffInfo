@@ -14,8 +14,24 @@ app.factory('employeesService', [
             });
         }
         
+        //deletes employee by id
         var _deleteEmployeeById = function(id) {
             return $http.delete(serviceBase + 'api/employees/' + id);
+        }
+
+        //deletes work by id
+        var _deleteWork = function(id) {
+            return $http.delete(serviceBase + 'api/employees/works/' + id);
+        }
+
+        //deletes military by id
+        var _deleteMilitary = function (id) {
+            return $http.delete(serviceBase + 'api/employees/military/' + id);
+        }
+
+        //deletes mes achievement by id
+        var _deleteMesAchievement = function (id) {
+            return $http.delete(serviceBase + 'api/employees/mesachievements/' + id);
         }
 
         //returns employee by id
@@ -25,7 +41,7 @@ app.factory('employeesService', [
             });
         }
 
-        //adds new employee TODO!
+        //adds new employee
         var _addNewEmployee = function (employee) {
             return $http.post(serviceBase + 'api/employees', employee, {});
         }
@@ -74,6 +90,9 @@ app.factory('employeesService', [
         var _now = new Date();
         var _maxDate = new Date(_now.getFullYear() - 18, _now.getMonth(), _now.getDate());
 
+        employeesServiceFactory.deleteMesAchievement = _deleteMesAchievement;
+        employeesServiceFactory.deleteMilitary = _deleteMilitary;
+        employeesServiceFactory.deleteWork = _deleteWork;
         employeesServiceFactory.getWorks = _getWorks;
         employeesServiceFactory.getMilitary = _getMilitary;
         employeesServiceFactory.getMesAchievements = _getMesAchievements;

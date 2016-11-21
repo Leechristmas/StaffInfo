@@ -6,6 +6,9 @@ namespace Staffinfo.API.Models
 {
     public class WorkTermViewModel
     {
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
+
         [DataMember(Name = "startDate")]
         public DateTime StartDate { get; set; }
 
@@ -34,6 +37,7 @@ namespace Staffinfo.API.Models
 
         public WorkTermViewModel(WorkTerm workTerm)
         {
+            Id = workTerm.Id;
             StartDate = workTerm.StartDate;
             FinishDate = workTerm.FinishDate;
             Description = workTerm.Description;

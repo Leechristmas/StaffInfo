@@ -6,6 +6,9 @@ namespace Staffinfo.API.Models
 {
     public class MilitaryServiceViewModel
     {
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
+
         [DataMember(Name = "startDate")]
         public DateTime StartDate { get; set; }
 
@@ -34,6 +37,7 @@ namespace Staffinfo.API.Models
 
         public MilitaryServiceViewModel(MilitaryService militaryService)
         {
+            Id = militaryService.Id;
             StartDate = militaryService.StartDate;
             FinishDate = militaryService.FinishDate;
             Description = militaryService.Description;

@@ -7,6 +7,9 @@ namespace Staffinfo.API.Models
     [DataContract]
     public class MesAchievementViewModel
     {
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
+
         [DataMember(Name = "startDate")]
         public DateTime StartDate { get; set; }
 
@@ -44,6 +47,7 @@ namespace Staffinfo.API.Models
 
         public MesAchievementViewModel(MesAchievement mesAchievement)
         {
+            Id = mesAchievement.Id;
             StartDate = mesAchievement.StartDate;
             FinishDate = mesAchievement.FinishDate;
             Description = mesAchievement.Description;
