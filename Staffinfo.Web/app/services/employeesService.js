@@ -86,10 +86,34 @@ app.factory('employeesService', [
             return $http.get(serviceBase + 'api/employees/works/' + _actualEmployee.id);
         }
 
+        //returns promise for getting ranks
+        var _getRanks = function() {
+            return $http.get(serviceBase + 'api/employees/ranks');
+        }
+
+        //returns promise for getting ranks
+        var _getPosts = function () {
+            return $http.get(serviceBase + 'api/employees/posts');
+        }
+        
+        //returns promise for getting locations
+        var _getLocations = function() {
+            return $http.get(serviceBase + 'api/employees/locations');
+        }
+
         //max birthDate
         var _now = new Date();
         var _maxDate = new Date(_now.getFullYear() - 18, _now.getMonth(), _now.getDate());
 
+        //returns promise for getting mes achievements
+        var _saveMesAchievement = function(item) {
+            return $http.post(serviceBase + 'api/employees/mesachievements', item, {});
+        }
+
+        employeesServiceFactory.saveMesAchievement = _saveMesAchievement;
+        employeesServiceFactory.getLocations = _getLocations;
+        employeesServiceFactory.getRanks = _getRanks;
+        employeesServiceFactory.getPosts = _getPosts;
         employeesServiceFactory.deleteMesAchievement = _deleteMesAchievement;
         employeesServiceFactory.deleteMilitary = _deleteMilitary;
         employeesServiceFactory.deleteWork = _deleteWork;

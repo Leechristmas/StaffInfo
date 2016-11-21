@@ -21,7 +21,7 @@ public static class NinjectConfig
 
     private static void RegisterServices(KernelBase kernel)
     {
-        kernel.Bind<StaffContext>().ToSelf().InSingletonScope();
+        kernel.Bind<StaffContext>().ToSelf().InThreadScope();
 
         //Unit repository
         kernel.Bind<IUnitRepository>().To<StaffUnitRepository>().InRequestScope();

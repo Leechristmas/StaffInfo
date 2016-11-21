@@ -30,7 +30,7 @@ namespace Staffinfo.API.Controllers
         [HttpGet]
         public async Task<IEnumerable<EmployeeViewModelMin>> GetActualEmployees(int offset, int limit)
         {
-            var all = await _repository.EmployeeRepository.WhereAsync(e => e.RetirementDate != null);
+            var all = await _repository.EmployeeRepository.WhereAsync(e => e.RetirementDate == null);
 
             System.Web.HttpContext.Current.Response.Headers.Add("X-Total-Count", all.Count().ToString());
 
@@ -162,9 +162,10 @@ namespace Staffinfo.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("api/employees/ranks")]
-        public async Task<IEnumerable<Rank>> GetRanks()
+        public async Task<IEnumerable<NamedEntity>> GetRanks()
         {
-            return await _repository.RankRepository.SelectAsync();
+            IEnumerable<Rank> list = await _repository.RankRepository.SelectAsync();
+            return list.OrderBy(r => r.RankWeight).Select(r => new NamedEntity {Name = r.RankName, Id = r.Id});
         }
 
         [HttpGet]
@@ -190,9 +191,10 @@ namespace Staffinfo.API.Controllers
 
         [HttpGet]
         [Route("api/employees/posts")]
-        public async Task<IEnumerable<Post>> GetPosts()
+        public async Task<IEnumerable<NamedEntity>> GetPosts()
         {
-            return await _repository.PostRepository.SelectAsync();
+            IEnumerable<Post> list =  await _repository.PostRepository.SelectAsync();
+            return list.OrderBy(p => p.PostWeight).Select(p => new NamedEntity {Id = p.Id, Name = p.PostName});
         }
 
         [HttpGet]
@@ -200,6 +202,24 @@ namespace Staffinfo.API.Controllers
         public async Task<Post> GetPost(int id)
         {
             return await _repository.PostRepository.SelectAsync(id);
+        }
+
+        [HttpPost]
+        [Route("api/employees/mesachievements")]
+        public async Task PostMesAchievement([FromBody]MesAchievement value)
+        {
+            MesAchievement mesAchievement = new MesAchievement
+            {
+                Id = 0,
+                StartDate = value.StartDate,
+                FinishDate = value.FinishDate,
+                LocationId = value.LocationId,
+                PostId = value.PostId,
+                RankId = value.RankId,
+                EmployeeId = value.EmployeeId
+            };
+            _repository.MesAchievementRepository.Create(mesAchievement);
+            await _repository.MesAchievementRepository.SaveAsync();
         }
 
         [HttpGet]
@@ -248,6 +268,15 @@ namespace Staffinfo.API.Controllers
         {
             _repository.WorkTermRepository.Delete(id);
             await _repository.WorkTermRepository.SaveAsync();
+        }
+
+        [HttpGet]
+        [Route("api/employees/locations")]
+        public async Task<IEnumerable<NamedEntity>> GetLocations()
+        {
+            IEnumerable<Location> locations = await _repository.LocationRepository.SelectAsync();
+            return locations.OrderBy(l => l.LocationName)
+                .Select(l => new NamedEntity {Id = l.Id, Name = l.LocationName});
         }
 
         #endregion

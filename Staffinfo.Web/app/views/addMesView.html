@@ -26,7 +26,7 @@
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Место</label>
-                        <md-select ng-model="mesAchItem.location" required>
+                        <md-select ng-model="mesAchItem.locationId" required>
                             <md-optgroup>
                                 <md-option ng-value="location.id" ng-repeat="location in locations">{{location.name}}</md-option>
                             </md-optgroup>
@@ -34,7 +34,7 @@
                     </md-input-container>
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Звание</label>
-                        <md-select ng-model="mesAchItem.rank" required>
+                        <md-select ng-model="mesAchItem.rankId" required>
                             <md-optgroup>
                                 <md-option ng-value="rank.id" ng-repeat="rank in ranks">{{rank.name}}</md-option>
                             </md-optgroup>
@@ -43,7 +43,7 @@
 
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Должность</label>
-                        <md-select ng-model="mesAchItem.post" required>
+                        <md-select ng-model="mesAchItem.postId" required>
                             <md-optgroup>
                                 <md-option ng-value="post.id" ng-repeat="post in posts">{{post.name}}</md-option>
                             </md-optgroup>

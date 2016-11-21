@@ -78,7 +78,7 @@ app.controller('employeesController', [
             }, function () {
                 console.log('adding view has been closed.');
             });
-            $scope.refreshEmployees();
+           //$scope.refreshEmployees();
         }
 
         //deletes the specified employee
@@ -125,7 +125,7 @@ app.controller('employeesController', [
         }
 
         $scope.refreshEmployees = function () {
-            $scope.employees = $scope.getEmployees();
+            $scope.promise = $scope.getEmployees();
         }
 
         $scope.employees = $scope.getEmployees();
@@ -173,6 +173,7 @@ app.controller('employeesController', [
 
         $scope.maxDate = employeesService.maxDate;
 
+        //shows the window for adding new mes achievement
         $scope.showAddMesView = function (ev) {
             $mdDialog.show({
                 controller: 'addEmployeeItemsController',
@@ -180,6 +181,11 @@ app.controller('employeesController', [
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose: true
+            }).then(function (answer) {
+                $scope.getMesAchievements();//refresh the list
+                console.log('new achievement has been added.');
+            }, function () {
+                console.log('adding view has been closed.');
             });
         };
 
@@ -190,7 +196,13 @@ app.controller('employeesController', [
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose: true
+            }).then(function (answer) {
+                $scope.refreshEmployees();
+                console.log('new achievement has been added.');
+            }, function () {
+                console.log('adding view has been closed.');
             });
+            //refresh the list
         };
 
         //shows confirmation for transferring employee
@@ -227,7 +239,7 @@ app.controller('employeesController', [
         };
 
         //deletes work by id
-        var _deleteWork = function(id) {
+        var _deleteWork = function (id) {
             $scope.promise = employeesService.deleteWork(id).then(function (response) {
                 $scope.getWorks();//refresh
                 $mdToast.show({
@@ -302,7 +314,7 @@ app.controller('employeesController', [
         }
 
         //confirmation deleting
-        $scope.confirmDeleting = function(ev, id, type) {//type: W - works; M - military; A - achievements
+        $scope.confirmDeleting = function (ev, id, type) {//type: W - works; M - military; A - achievements
 
             var confirm = $mdDialog.confirm()
                     .title('Удаление')
@@ -368,7 +380,6 @@ app.controller('employeesController', [
 
         //returns MES achievements for employee
         $scope.getMesAchievements = function () {
-
             $scope.promise = employeesService.getMesAchievements().then(function (response) {
                 $scope.mesAchievements = response.data;
             }, function (error) {
@@ -384,9 +395,9 @@ app.controller('employeesController', [
 
         //returns works for employee
         $scope.getWorks = function () {
-            $scope.promise = employeesService.getWorks().then(function(response) {
+            $scope.promise = employeesService.getWorks().then(function (response) {
                 $scope.works = response.data;
-            }, function(error) {
+            }, function (error) {
                 messageService.setError(error);
                 $mdToast.show({
                     hideDelay: 3000,
@@ -421,7 +432,7 @@ app.controller('employeesController', [
             return new Date(date);
         }
 
-    }]).controller('addEmployeeItemsController', ['$scope', '$mdDialog', 'employeesService', function ($scope, $mdDialog, employeesService) {
+    }]).controller('addEmployeeItemsController', ['$scope', '$mdDialog', 'employeesService', 'messageService', '$mdToast', function ($scope, $mdDialog, employeesService, messageService, $mdToast) {
         $scope.hide = function () {
             $mdDialog.hide();
         };
@@ -430,27 +441,72 @@ app.controller('employeesController', [
             $mdDialog.cancel();
         };
 
-        $scope.mesAchItem = {};
+        $scope.mesAchItem = { employeeId: employeesService.getActualEmployee().id};
 
-        $scope.locations = [
-            { id: 1, name: 'location_1' },
-            { id: 2, name: 'location_2' },
-            { id: 3, name: 'location_3' }
-        ];
+        //ranks init
+        employeesService.getRanks().then(function (response) {
+            $scope.ranks = response.data;
+        }, function (error) {
+            messageService.setError(error);
+            $mdToast.show({
+                hideDelay: 3000,
+                position: 'top right',
+                controller: 'toastController',
+                templateUrl: 'app/views/error-toast.html'
+            });
+        });
 
-        $scope.ranks = [
-            { id: 1, name: 'rank_1' },
-            { id: 2, name: 'rank_2' },
-            { id: 3, name: 'rank_3' }
-        ];
+        //posts init
+        employeesService.getPosts().then(function (response) {
+            $scope.posts = response.data;
+        }, function (error) {
+            messageService.setError(error);
+            $mdToast.show({
+                hideDelay: 3000,
+                position: 'top right',
+                controller: 'toastController',
+                templateUrl: 'app/views/error-toast.html'
+            });
+        });
 
-        $scope.posts = [
-            { id: 1, name: 'post_1' },
-            { id: 2, name: 'post_2' },
-            { id: 3, name: 'post_3' }
-        ];
+        //locations init
+        employeesService.getLocations().then(function (response) {
+            $scope.locations = response.data;
+        }, function (error) {
+            messageService.setError(error);
+            $mdToast.show({
+                hideDelay: 3000,
+                position: 'top right',
+                controller: 'toastController',
+                templateUrl: 'app/views/error-toast.html'
+            });
+        });
 
-    }]).controller('addEmployeeController', ['$scope', '$mdDialog', 'employeesService', '$mdToast', function ($scope, $mdDialog, employeesService, $mdToast) {
+        $scope.saveNewMesAchievement = function () {
+            $scope.promise = employeesService.saveMesAchievement($scope.mesAchItem).then(function (response) {
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                                    '<div class="md-toast-content">' +
+                                      'Запись успешно добавлена.' +
+                                    '</div>' +
+                                '</md-toast>'
+                });
+                $mdDialog.hide('save'); //throw the 'answer' to the main controller to refresh or do not the list
+            }, function (error) {
+                $mdDialog.hide('cancel');
+                messageService.setError(error);
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    templateUrl: 'app/views/error-toast.html'
+                });
+            });
+        }
+    }]).controller('addEmployeeController', ['$scope', '$mdDialog', 'employeesService', 'messageService', '$mdToast', function ($scope, $mdDialog, employeesService, messageService, $mdToast) {
 
         $scope.hide = function () {
             $mdDialog.hide();
@@ -486,7 +542,7 @@ app.controller('employeesController', [
 
         $scope.saveNewEmployee = function () {
             //ToDo: 
-            employeesService.addNewEmployee($scope.newEmployee).then(function (response) {
+            $scope.promise = employeesService.addNewEmployee($scope.newEmployee).then(function (response) {
                 $mdToast.show({
                     hideDelay: 3000,
                     position: 'top right',
@@ -500,7 +556,6 @@ app.controller('employeesController', [
                 $mdDialog.hide('save'); //throw the 'answer' to the main employee controller to refresh or do not the employee list
             }, function (error) {
                 $mdDialog.hide('cancel');
-            }, function (data) {
                 messageService.setError(data);
                 $mdToast.show({
                     hideDelay: 3000,
