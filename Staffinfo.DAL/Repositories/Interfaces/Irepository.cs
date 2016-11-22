@@ -46,7 +46,7 @@ namespace Staffinfo.DAL.Repositories.Interfaces
         /// Removes the item from database
         /// </summary>
         /// <param name="id">id of the item to remove</param>
-        void Delete(int id);
+        Task Delete(int id);
 
         /// <summary>
         /// Saves all changes

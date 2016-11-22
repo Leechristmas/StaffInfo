@@ -150,7 +150,7 @@ namespace Staffinfo.API.Controllers
         [Route("api/employees/{id:int}")]
         public async Task Delete(int id)
         {
-            _repository.EmployeeRepository.Delete(id);
+            await _repository.EmployeeRepository.Delete(id);
             await _repository.EmployeeRepository.SaveAsync();
         }
 
@@ -234,7 +234,7 @@ namespace Staffinfo.API.Controllers
         [Route("api/employees/mesachievements/{id:int}")]
         public async Task DeleteMesAchievement(int id)
         {
-            _repository.MesAchievementRepository.Delete(id);
+            await _repository.MesAchievementRepository.Delete(id);
             await _repository.MesAchievementRepository.SaveAsync();
         }
 
@@ -268,7 +268,7 @@ namespace Staffinfo.API.Controllers
         [Route("api/employees/military/{id:int}")]
         public async Task DeleteMilitary(int id)
         {
-            _repository.MilitaryServiceRepository.Delete(id);
+            await _repository.MilitaryServiceRepository.Delete(id);
             await _repository.MilitaryServiceRepository.SaveAsync();
         }
 
@@ -284,7 +284,7 @@ namespace Staffinfo.API.Controllers
         [Route("api/employees/works/{id:int}")]
         public async Task DeleteWork(int id)
         {
-            _repository.WorkTermRepository.Delete(id);
+            await _repository.WorkTermRepository.Delete(id);
             await _repository.WorkTermRepository.SaveAsync();
         }
 

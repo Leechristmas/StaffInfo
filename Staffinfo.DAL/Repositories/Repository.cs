@@ -60,9 +60,9 @@ namespace Staffinfo.DAL.Repositories
             StaffContext.Entry(item).State = EntityState.Modified;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            T item = Table.Find(id);
+            T item = await Table.FindAsync(id);
             if (item != null)
             {
                 Table.Remove(item);

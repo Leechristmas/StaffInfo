@@ -80,6 +80,7 @@
     <Content Include="app\views\addEmployeeView.html" />
     <Content Include="app\views\addMesView.html" />
     <Content Include="app\views\addMilitaryView.html" />
+    <Content Include="app\views\addWorkView.html" />
     <Content Include="app\views\dashboard.html" />
     <Content Include="app\views\employees.html" />
     <Content Include="app\views\employeeView.html" />
