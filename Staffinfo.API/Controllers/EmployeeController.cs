@@ -238,6 +238,24 @@ namespace Staffinfo.API.Controllers
             await _repository.MesAchievementRepository.SaveAsync();
         }
 
+        [HttpPost]
+        [Route("api/employees/military")]
+        public async Task PostMilitary([FromBody] MilitaryService value)
+        {
+            MilitaryService militaryService = new MilitaryService
+            {
+                Id = 0,
+                StartDate = value.StartDate,
+                FinishDate = value.FinishDate,
+                EmployeeId = value.EmployeeId,
+                Description = value.Description,
+                LocationId = value.LocationId,
+                Rank = value.Rank
+            };
+            _repository.MilitaryServiceRepository.Create(militaryService);
+            await _repository.MilitaryServiceRepository.SaveAsync();
+        }
+
         [HttpGet]
         [Route("api/employees/military/{emplId:int}")]
         public async Task<IEnumerable<MilitaryServiceViewModel>> GetMilitary(int emplId)
@@ -267,6 +285,23 @@ namespace Staffinfo.API.Controllers
         public async Task DeleteWork(int id)
         {
             _repository.WorkTermRepository.Delete(id);
+            await _repository.WorkTermRepository.SaveAsync();
+        }
+
+        [Route("api/employees/works")]
+        public async Task PostWork([FromBody] WorkTerm value)
+        {
+            WorkTerm workTerm = new WorkTerm
+            {
+                Id = 0,
+                EmployeeId = value.EmployeeId,
+                Description = value.Description,
+                LocationId = value.LocationId,
+                StartDate = value.StartDate,
+                FinishDate = value.FinishDate,
+                Post = value.Post
+            };
+            _repository.WorkTermRepository.Create(workTerm);
             await _repository.WorkTermRepository.SaveAsync();
         }
 

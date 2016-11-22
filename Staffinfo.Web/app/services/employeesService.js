@@ -105,11 +105,23 @@ app.factory('employeesService', [
         var _now = new Date();
         var _maxDate = new Date(_now.getFullYear() - 18, _now.getMonth(), _now.getDate());
 
-        //returns promise for getting mes achievements
+        //returns promise for adding mes achievements
         var _saveMesAchievement = function(item) {
             return $http.post(serviceBase + 'api/employees/mesachievements', item, {});
         }
 
+        //returns promise for adding military
+        var _saveMilitary = function(item) {
+            return $http.post(serviceBase + 'api/employees/military', item, {});
+        }
+
+        //returns promise for adding work
+        var _saveWork = function(item) {
+            return $http.post(serviceBase + 'api/employees/works', item, {});
+        }
+
+        employeesServiceFactory.saveWork = _saveWork;
+        employeesServiceFactory.saveMilitary = _saveMilitary;
         employeesServiceFactory.saveMesAchievement = _saveMesAchievement;
         employeesServiceFactory.getLocations = _getLocations;
         employeesServiceFactory.getRanks = _getRanks;

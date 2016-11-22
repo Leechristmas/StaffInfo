@@ -173,10 +173,10 @@ CREATE TABLE dbo.tbl_WorkTerm(
   ID INT IDENTITY(1,1) PRIMARY KEY,
   EmployeeID INT NOT NULL,
   LocationID INT NOT NULL,
-  Post NVARCHAR(120) NOT NULL,
+  Post NVARCHAR(30) NOT NULL,
   StartDate DATETIME NOT NULL,
   FinishDate DATETIME NOT NULL,
-  Description NVARCHAR(500)
+  Description NVARCHAR(200)
 );
 
 ALTER TABLE dbo.tbl_WorkTerm
@@ -193,10 +193,10 @@ CREATE TABLE dbo.tbl_MilitaryService(
   ID INT IDENTITY(1,1) PRIMARY KEY,
   EmployeeID INT NOT NULL,
   LocationID INT NOT NULL,
-  Rank NVARCHAR(120) NOT NULL,
+  Rank NVARCHAR(30) NOT NULL,
   StartDate DATETIME NOT NULL,
   FinishDate DATETIME NOT NULL,
-  Description NVARCHAR(500)
+  Description NVARCHAR(200)
 );
 
 ALTER TABLE dbo.tbl_MilitaryService
