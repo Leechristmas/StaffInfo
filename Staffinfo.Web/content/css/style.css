@@ -84,3 +84,9 @@ footer {
     height: 45%;
     width: 45%;
 }
+
+
+table.md-table td.td-center.md-cell, 
+table.md-table th.td-center.md-column{
+    text-align: center;
+}

@@ -13,11 +13,11 @@ using Staffinfo.DAL.Repositories.Interfaces;
 namespace Staffinfo.API.Controllers
 {
     [Route("api/employees")]
-    public class EmployeeController : ApiController
+    public class EmployeesController : ApiController
     {
         private readonly IUnitRepository _repository;
 
-        public EmployeeController(IUnitRepository repository)
+        public EmployeesController(IUnitRepository repository)
         {
             _repository = repository;
         }
@@ -30,7 +30,7 @@ namespace Staffinfo.API.Controllers
         [HttpGet]
         public async Task<IEnumerable<EmployeeViewModelMin>> GetActualEmployees(int offset, int limit)
         {
-            var all = await _repository.EmployeeRepository.WhereAsync(e => e.RetirementDate == null);
+            IEnumerable<Employee> all = await _repository.EmployeeRepository.WhereAsync(e => e.RetirementDate == null);
 
             System.Web.HttpContext.Current.Response.Headers.Add("X-Total-Count", all.Count().ToString());
 

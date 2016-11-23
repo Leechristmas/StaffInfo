@@ -1,5 +1,6 @@
 ﻿<div class="container">
-    <h2>{{employee.employeeLastname}} {{employee.employeeFirstname}} {{employee.employeeMiddlename}}</h2>
+<h2>{{employee.employeeLastname}} {{employee.employeeFirstname}} {{employee.employeeMiddlename}}</h2>
+<h2 ng-show="isPensioner()">(Пенсионер)</h2>
 
     <md-content>
         <form name="employeeForm">
@@ -36,6 +37,11 @@
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label>Дата Рождения</label>
                                     <md-datepicker ng-model="changeable.birthDate" md-placeholder="Укажите Дату" required md-max-date="maxDate"></md-datepicker>
+                                </md-input-container>
+
+                                <md-input-container class="md-block" flex-gt-sm ng-show="isPensioner()">
+                                    <label>Дата Отставки</label>
+                                    <md-datepicker ng-model="changeable.retirementDate" md-placeholder="Укажите Дату" required md-max-date="maxDate"></md-datepicker>
                                 </md-input-container>
                             </div>
                         </md-content>
@@ -125,20 +131,20 @@
                                 <table md-table md-progress="promise">
                                     <thead md-head>
                                         <tr md-row>
-                                            <th md-column>Начало периода</th>
-                                            <th md-column>Конец периода</th>
                                             <th md-column>Место</th>
                                             <th md-column>Должность</th>
                                             <th md-column>Звание</th>
+                                            <th md-column class="td-center">Начало периода</th>
+                                            <th md-column class="td-center">Конец периода</th>
                                         </tr>
                                     </thead>
                                     <tbody md-body>
                                         <tr md-row md-select-id="id" ng-repeat="item in mesAchievements | orderBy: 'startDate'">
-                                            <td md-cell mdDesc="true">{{getDate(item.startDate).toISOString().slice(0, 10)}}</td>
-                                            <td md-cell>{{getDate(item.finishDate).toISOString().slice(0, 10)}}</td>
                                             <td md-cell>{{item.location}}</td>
                                             <td md-cell>{{item.post}}</td>
                                             <td md-cell>{{item.rank}}</td>
+                                            <td md-cell mdDesc="true" class="td-center">{{getDate(item.startDate).toISOString().slice(0, 10)}}</td>
+                                            <td md-cell class="td-center">{{getDate(item.finishDate).toISOString().slice(0, 10)}}</td>
                                             <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'A')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить всю информацию о сотруднике</md-tooltip></md-button></td>
                                         </tr>
                                     </tbody>
@@ -170,18 +176,18 @@
                                 <table md-table md-progress="promise">
                                     <thead md-head>
                                         <tr md-row>
-                                            <th md-column>Начало периода</th>
-                                            <th md-column>Конец периода</th>
                                             <th md-column>Место</th>
                                             <th md-column>Звание</th>
+                                            <th md-column class="td-center">Начало периода</th>
+                                            <th md-column class="td-center">Конец периода</th>
                                         </tr>
                                     </thead>
                                     <tbody md-body>
                                         <tr md-row md-select-id="id" ng-repeat="item in military | orderBy: 'startDate'">
-                                            <td md-cell mdDesc="true">{{getDate(item.startDate).toISOString().slice(0, 10)}}</td>
-                                            <td md-cell>{{getDate(item.finishDate).toISOString().slice(0, 10)}}</td>
                                             <td md-cell>{{item.location}}</td>
                                             <td md-cell>{{item.rank}}</td>
+                                            <td md-cell mdDesc="true" class="td-center">{{getDate(item.startDate).toISOString().slice(0, 10)}}</td>
+                                            <td md-cell class="td-center">{{getDate(item.finishDate).toISOString().slice(0, 10)}}</td>
                                             <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'M')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить всю информацию о сотруднике</md-tooltip></md-button></td>
                                         </tr>
                                     </tbody>
@@ -213,18 +219,18 @@
                                 <table md-table md-progress="promise">
                                     <thead md-head>
                                         <tr md-row>
-                                            <th md-column>Начало периода</th>
-                                            <th md-column>Конец периода</th>
                                             <th md-column>Место</th>
                                             <th md-column>Звание</th>
+                                            <th md-column class="td-center">Начало периода</th>
+                                            <th md-column class="td-center">Конец периода</th>
                                         </tr>
                                     </thead>
                                     <tbody md-body>
                                         <tr md-row md-select-id="id" ng-repeat="item in works | orderBy: 'startDate'">
-                                            <td md-cell mdDesc="true">{{getDate(item.startDate).toISOString().slice(0, 10)}}</td>
-                                            <td md-cell>{{getDate(item.finishDate).toISOString().slice(0, 10)}}</td>
                                             <td md-cell>{{item.location}}</td>
                                             <td md-cell>{{item.post}}</td>
+                                            <td md-cell mdDesc="true" class="td-center">{{getDate(item.startDate).toISOString().slice(0, 10)}}</td>
+                                            <td md-cell class="td-center">{{getDate(item.finishDate).toISOString().slice(0, 10)}}</td>
                                             <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'W')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить всю информацию о сотруднике</md-tooltip></md-button></td>
                                         </tr>
                                     </tbody>
@@ -260,7 +266,7 @@
             <md-icon md-svg-icon="img/icons/ic_clear_24px.svg"></md-icon>
             Отмена
         </md-button>
-        <md-button ng-href="#/employees" class="md-primary md-raised pull-right">
+        <md-button ng-href="{{isPensioner() ? '#/retirees': '#/employees'}}" class="md-primary md-raised pull-right">
             <md-icon md-svg-icon="img/icons/ic_arrow_back_24px.svg"></md-icon>
             Назад
         </md-button>

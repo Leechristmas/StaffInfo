@@ -9,11 +9,14 @@ app.factory('employeesService', [
 
         //returns actual employees with pagination 
         var _getEmployees = function (query) {
-            return $http.get(serviceBase + 'api/employees?offset=' + (query.page-1)*query.limit + '&limit=' + query.limit).then(function (response) {
-                return response;
-            });
+            return $http.get(serviceBase + 'api/employees?offset=' + (query.page-1)*query.limit + '&limit=' + query.limit);
         }
-        
+
+        //returns promise for getting retirees
+        var _getRetirees = function (query) {
+            return $http.get(serviceBase + 'api/retirees?offset=' + (query.page - 1) * query.limit + '&limit=' + query.limit);
+        }
+
         //deletes employee by id
         var _deleteEmployeeById = function(id) {
             return $http.delete(serviceBase + 'api/employees/' + id);
@@ -120,6 +123,7 @@ app.factory('employeesService', [
             return $http.post(serviceBase + 'api/employees/works', item, {});
         }
 
+        employeesServiceFactory.getRetirees = _getRetirees;
         employeesServiceFactory.saveWork = _saveWork;
         employeesServiceFactory.saveMilitary = _saveMilitary;
         employeesServiceFactory.saveMesAchievement = _saveMesAchievement;

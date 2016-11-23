@@ -16,7 +16,7 @@ app.controller('employeesController', [
             filter: ''
         };
 
-        //returns employees with pagination
+        //gets employees with pagination
         $scope.getEmployees = function () {
             $scope.promise = employeesService.getEmployees($scope.query).then(function (response) {
                 $scope.employees = response.data;
@@ -41,7 +41,7 @@ app.controller('employeesController', [
         $scope.showDetails = function (ev, id) {
             $scope.getEmployeeById(id).then(function (response) {
 
-                //TODO: set JSON parser for data
+                //TODO: set JSON parser for data - date is parsed not correct
                 var employee = response.data;
                 employee.birthDate = new Date(employee.birthDate);
 
@@ -78,7 +78,7 @@ app.controller('employeesController', [
             }, function () {
                 console.log('adding view has been closed.');
             });
-           //$scope.refreshEmployees();
+            //$scope.refreshEmployees();
         }
 
         //deletes the specified employee
@@ -182,7 +182,7 @@ app.controller('employeesController', [
                 targetEvent: ev,
                 clickOutsideToClose: true
             }).then(function (answer) {
-                $scope.getMesAchievements();//refresh the list
+                $scope.getMesAchievements(); //refresh the list
                 console.log('new achievement has been added.');
             }, function () {
                 console.log('adding view has been closed.');
@@ -197,7 +197,7 @@ app.controller('employeesController', [
                 targetEvent: ev,
                 clickOutsideToClose: true
             }).then(function (answer) {
-                $scope.getMilitary();//refresh the list
+                $scope.getMilitary(); //refresh the list
                 console.log('new military has been added.');
             }, function () {
                 console.log('adding view has been closed.');
@@ -212,7 +212,7 @@ app.controller('employeesController', [
                 targetEvent: ev,
                 clickOutsideToClose: true
             }).then(function (answer) {
-                $scope.getWorks();//refresh the list
+                $scope.getWorks(); //refresh the list
                 console.log('new work has been added.');
             }, function () {
                 console.log('adding view has been closed.');
@@ -235,8 +235,7 @@ app.controller('employeesController', [
                 }, function () {
                     //cancel
                 });
-            }
-            else if (type === 'F') {
+            } else if (type === 'F') {
                 confirm = $mdDialog.confirm()
                     .title('Перевод в "Уволенные"')
                     .textContent('Вы уверены, что хотите перенести информацию о сотруднике в базу данных "Уволенные"? \nВосстановить утерянную информацию будет невозможно!')
@@ -255,16 +254,16 @@ app.controller('employeesController', [
         //deletes work by id
         var _deleteWork = function (id) {
             $scope.promise = employeesService.deleteWork(id).then(function (response) {
-                $scope.getWorks();//refresh
+                $scope.getWorks(); //refresh
                 $mdToast.show({
                     hideDelay: 3000,
                     position: 'top right',
                     controller: 'toastController',
                     template: '<md-toast class="md-toast-success">' +
-                                    '<div class="md-toast-content">' +
-                                      'Запись была успешно удалена.' +
-                                    '</div>' +
-                                '</md-toast>'
+                        '<div class="md-toast-content">' +
+                        'Запись была успешно удалена.' +
+                        '</div>' +
+                        '</md-toast>'
                 });
             }, function (error) {
                 messageService.setError(error);
@@ -280,16 +279,16 @@ app.controller('employeesController', [
         //deletes military by id
         var _deleteMilitary = function (id) {
             $scope.promise = employeesService.deleteMilitary(id).then(function (response) {
-                $scope.getMilitary();//refresh
+                $scope.getMilitary(); //refresh
                 $mdToast.show({
                     hideDelay: 3000,
                     position: 'top right',
                     controller: 'toastController',
                     template: '<md-toast class="md-toast-success">' +
-                                    '<div class="md-toast-content">' +
-                                      'Запись была успешно удалена.' +
-                                    '</div>' +
-                                '</md-toast>'
+                        '<div class="md-toast-content">' +
+                        'Запись была успешно удалена.' +
+                        '</div>' +
+                        '</md-toast>'
                 });
             }, function (error) {
                 messageService.setError(error);
@@ -305,16 +304,16 @@ app.controller('employeesController', [
         //deletes mes achievemnt by id
         var _deleteMesAchievement = function (id) {
             $scope.promise = employeesService.deleteMesAchievement(id).then(function (response) {
-                $scope.getMesAchievements();//refresh
+                $scope.getMesAchievements(); //refresh
                 $mdToast.show({
                     hideDelay: 3000,
                     position: 'top right',
                     controller: 'toastController',
                     template: '<md-toast class="md-toast-success">' +
-                                    '<div class="md-toast-content">' +
-                                      'Запись была успешно удалена.' +
-                                    '</div>' +
-                                '</md-toast>'
+                        '<div class="md-toast-content">' +
+                        'Запись была успешно удалена.' +
+                        '</div>' +
+                        '</md-toast>'
                 });
             }, function (error) {
                 messageService.setError(error);
@@ -328,15 +327,15 @@ app.controller('employeesController', [
         }
 
         //confirmation deleting
-        $scope.confirmDeleting = function (ev, id, type) {//type: W - works; M - military; A - achievements
+        $scope.confirmDeleting = function (ev, id, type) { //type: W - works; M - military; A - achievements
 
             var confirm = $mdDialog.confirm()
-                    .title('Удаление')
-                    .textContent('Вы уверены, что хотите удалить запись? \nВосстановить утерянную информацию будет невозможно!')
-                    .ariaLabel('Deleting')
-                    .targetEvent(ev)
-                    .ok('Удалить')
-                    .cancel('Отмена');
+                .title('Удаление')
+                .textContent('Вы уверены, что хотите удалить запись? \nВосстановить утерянную информацию будет невозможно!')
+                .ariaLabel('Deleting')
+                .targetEvent(ev)
+                .ok('Удалить')
+                .cancel('Отмена');
             $mdDialog.show(confirm).then(function () {
                 //delete the item
                 switch (type) {
@@ -367,10 +366,10 @@ app.controller('employeesController', [
                     position: 'top right',
                     controller: 'toastController',
                     template: '<md-toast class="md-toast-success">' +
-                                    '<div class="md-toast-content text-center">' +
-                                      'Изменения приняты.' +
-                                    '</div>' +
-                                '</md-toast>'
+                        '<div class="md-toast-content text-center">' +
+                        'Изменения приняты.' +
+                        '</div>' +
+                        '</md-toast>'
                 });
             }, function (error) {
                 messageService.setError(error);
@@ -386,6 +385,11 @@ app.controller('employeesController', [
         //reset all changes
         $scope.resetChanges = function () {
             $scope.changeable = employeesService.getClone($scope.employee);
+        }
+
+        $scope.isPensioner = function () {
+            if ($scope.employee.retirementDate) return true;
+            return false;
         }
 
         $scope.mesAchievements = [];
