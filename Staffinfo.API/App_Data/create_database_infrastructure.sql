@@ -181,7 +181,7 @@ CREATE TABLE dbo.tbl_WorkTerm(
 
 ALTER TABLE dbo.tbl_WorkTerm
   ADD CONSTRAINT fk_WorkTerm_Employee
-        FOREIGN KEY (EmployeeID) REFERENCES dbo.tbl_Employee,
+        FOREIGN KEY (EmployeeID) REFERENCES dbo.tbl_Employee ON DELETE CASCADE,
       CONSTRAINT fk_WorkTerm_Location
         FOREIGN KEY (LocationID) REFERENCES dbo.tbl_Location,
       CONSTRAINT unq_WorkTerm

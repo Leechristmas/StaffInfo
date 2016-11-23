@@ -62,6 +62,49 @@
             return new Date(date);
         }
 
+        //deletes the specified employee
+        var _deleteEmployee = function (id) {
+            //TODO: deleting
+            $scope.promise = employeesService.deleteEmployeeById(id).then(function (response) {
+                $scope.getRetirees();//refresh
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                                    '<div class="md-toast-content">' +
+                                      'Информация о пенсионере была удалена.' +
+                                    '</div>' +
+                                '</md-toast>'
+                });
+            }, function (error) {
+                messageService.setError(error);
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    templateUrl: 'app/views/error-toast.html'
+                });
+            });
+        }
+
+        //shows confirmation of employee deletion 
+        $scope.confirmDeleting = function (ev, id) {
+            var confirm = $mdDialog.confirm()
+                    .title('Удаление')
+                    .textContent('Вы уверены, что хотите удалить информацию об указанном пенсионере? \nВосстановить утерянную информацию будет невозможно!')
+                    .ariaLabel('Deleting')
+                    .targetEvent(ev)
+                    .ok('Удалить')
+                    .cancel('Отмена');
+            $mdDialog.show(confirm).then(function () {
+                //delete the employee
+                _deleteEmployee(id);
+            }, function () {
+                //cancel
+            });
+        }
+
         $scope.retirees = $scope.getRetirees();
     }
 ]);
