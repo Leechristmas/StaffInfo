@@ -20,7 +20,7 @@
     <md-card style="margin: 0; margin-bottom: 10px">
         <md-input-container style="margin:15px;">
             <label>Поиск</label>
-            <input type="text" ng-model="query.filter">
+            <input type="text" ng-model="query.filter" ng-model-options="{debounce: 1000 }" ng-change="getEmployees()">
         </md-input-container>
     </md-card>
 

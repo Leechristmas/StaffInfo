@@ -16,6 +16,8 @@ app.controller('employeesController', [
             filter: ''
         };
 
+
+
         //gets employees with pagination
         $scope.getEmployees = function () {
             $scope.promise = employeesService.getEmployees($scope.query).then(function (response) {

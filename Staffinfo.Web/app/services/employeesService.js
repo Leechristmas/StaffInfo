@@ -9,7 +9,7 @@ app.factory('employeesService', [
 
         //returns actual employees with pagination 
         var _getEmployees = function (query) {
-            return $http.get(serviceBase + 'api/employees?offset=' + (query.page-1)*query.limit + '&limit=' + query.limit);
+            return $http.get(serviceBase + 'api/employees?offset=' + (query.page-1)*query.limit + '&limit=' + query.limit + '&query=' + (query.filter ? query.filter : ''));
         }
 
         //returns promise for getting retirees

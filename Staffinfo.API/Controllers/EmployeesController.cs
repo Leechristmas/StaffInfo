@@ -28,9 +28,16 @@ namespace Staffinfo.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<EmployeeViewModelMin>> GetActualEmployees(int offset, int limit)
+        public async Task<IEnumerable<EmployeeViewModelMin>> GetActualEmployees(int offset, int limit, string query)
         {
-            IEnumerable<Employee> all = await _repository.EmployeeRepository.WhereAsync(e => e.RetirementDate == null);
+            IEnumerable<Employee> all;
+            if (String.IsNullOrEmpty(query))
+                all = await _repository.EmployeeRepository.WhereAsync(e => e.RetirementDate == null);
+            else
+                all =
+                    await
+                        _repository.EmployeeRepository.WhereAsync(
+                            e => e.RetirementDate == null || e.EmployeeLastname.Contains(query));
 
             System.Web.HttpContext.Current.Response.Headers.Add("X-Total-Count", all.Count().ToString());
 
