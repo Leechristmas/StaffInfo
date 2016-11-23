@@ -247,7 +247,7 @@
             <md-content class="md-padding">
                 <h1 class="md-display-1">Действия</h1>
                 <div layout-gt-sm="row">
-                    <md-button class="md-primary md-rised" ng-click="askForTransfer('P', $event)">Перевести в "Пенсионеры"</md-button>
+                    <md-button class="md-primary md-rised" ng-click="askForTransfer('P', $event)" ng-if="!isPensioner()">Перевести в "Пенсионеры"</md-button>
                     <md-button class="md-primary md-rised" ng-click="askForTransfer('F', $event)">Перевести в "Уволенные"</md-button>
                 </div>
             </md-content>
