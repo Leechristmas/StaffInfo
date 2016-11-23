@@ -630,7 +630,7 @@ app.controller('employeesController', [
                 $mdDialog.hide('save'); //throw the 'answer' to the main employee controller to refresh or do not the employee list
             }, function (error) {
                 $mdDialog.hide('cancel');
-                messageService.setError(data);
+                messageService.setError(error);
                 $mdToast.show({
                     hideDelay: 3000,
                     position: 'top right',
