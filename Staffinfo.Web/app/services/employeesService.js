@@ -14,7 +14,7 @@ app.factory('employeesService', [
 
         //returns promise for getting retirees
         var _getRetirees = function (query) {
-            return $http.get(serviceBase + 'api/retirees?offset=' + (query.page - 1) * query.limit + '&limit=' + query.limit);
+            return $http.get(serviceBase + 'api/retirees?offset=' + (query.page - 1) * query.limit + '&limit=' + query.limit + '&query=' + (query.filter ? query.filter : ''));
         }
 
         //deletes employee by id
@@ -123,6 +123,12 @@ app.factory('employeesService', [
             return $http.post(serviceBase + 'api/employees/works', item, {});
         }
 
+        //returns promise for transferring the employee to retired
+        var _transferToRetirees = function(employee) {
+            return $http.post(serviceBase + 'api/employees/retiredtransfer', employee, {});
+        }
+
+        employeesServiceFactory.transferToRetirees = _transferToRetirees;
         employeesServiceFactory.getRetirees = _getRetirees;
         employeesServiceFactory.saveWork = _saveWork;
         employeesServiceFactory.saveMilitary = _saveMilitary;

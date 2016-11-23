@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -19,9 +20,16 @@ namespace Staffinfo.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<RetiredMinViewModel>> GetRetirees(int offset, int limit)
+        public async Task<IEnumerable<RetiredMinViewModel>> GetRetirees(int offset, int limit, string query)
         {
-            IEnumerable<Employee> all = await _repository.EmployeeRepository.WhereAsync(e => e.RetirementDate != null);
+            IEnumerable<Employee> all;
+            if (String.IsNullOrEmpty(query))
+                all = await _repository.EmployeeRepository.WhereAsync(e => e.RetirementDate != null);
+            else
+                all =
+                    await
+                        _repository.EmployeeRepository.WhereAsync(
+                            e => e.RetirementDate != null && e.EmployeeLastname.Contains(query));
 
             System.Web.HttpContext.Current.Response.Headers.Add("X-Total-Count", all.Count().ToString());
 

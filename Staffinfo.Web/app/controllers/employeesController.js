@@ -20,6 +20,7 @@ app.controller('employeesController', [
 
         //gets employees with pagination
         $scope.getEmployees = function () {
+            //if ($scope.promise) $scope.promise.resolve();
             $scope.promise = employeesService.getEmployees($scope.query).then(function (response) {
                 $scope.employees = response.data;
                 $scope.total = response.headers('X-Total-Count');
@@ -225,16 +226,16 @@ app.controller('employeesController', [
         $scope.askForTransfer = function (type, ev) {
             var confirm = {};
             if (type === 'P') {
-                confirm = $mdDialog.confirm()
-                    .title('Перевод в "Пенсионеры"')
-                    .textContent('Вы уверены, что хотите перенести информацию о сотруднике в базу данных "Пенсионеры"? \nВосстановить утерянную информацию будет невозможно!')
-                    .ariaLabel('Transfer')
-                    .targetEvent(ev)
-                    .ok('Перевести')
-                    .cancel('Отмена');
-                $mdDialog.show(confirm).then(function () {
-                    //transfer to pensioners
-                }, function () {
+                confirm = {
+                    controller: 'transferController',
+                    templateUrl: 'app/views/retiredTransferView.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true
+                };
+                $mdDialog.show(confirm).then(function(response) {
+                    //success
+                }, function(error) {
                     //cancel
                 });
             } else if (type === 'F') {

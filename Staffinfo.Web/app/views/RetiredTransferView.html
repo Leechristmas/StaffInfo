@@ -1,0 +1,33 @@
+﻿<md-dialog aria-label="Перевод">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Перевод в базу "Пенсионеры"</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content style="max-width: 800px; max-height: 810px;">
+        <form name="transferForm">
+            <md-content class="md-padding">
+                <div layout-gt-sm="row">
+                    Сотрудник будет переквалифирован информация о нем будет перенесена в базу "Пенсионеры".
+                    Пожалуйста, укажите дату выхода в отставку:
+                </div>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Дата Выхода В Отставку</label>
+                        <md-datepicker ng-model="employee.retirementDate" required></md-datepicker>
+                    </md-input-container>
+                </div>
+            </md-content>
+        </form>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" class="dialog-footer">
+        <md-button ng-click="transferToRetirees()" class="md-primary md-raised" ng-disabled="transferForm.$invalid">
+            Сохранить
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

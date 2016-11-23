@@ -107,4 +107,44 @@
 
         $scope.retirees = $scope.getRetirees();
     }
-]);
+])
+.controller('transferController', ['$scope', 'employeesService', 'messageService', '$mdDialog', '$mdToast', '$state', function($scope, employeesService, messageService, $mdDialog, $mdToast, $state) {
+    $scope.hide = function () {
+        $mdDialog.hide();
+    };
+
+    $scope.cancel = function () {
+        $mdDialog.cancel();
+    };
+
+    $scope.answer = function (answer) {
+        $mdDialog.hide(answer);
+    };
+
+    $scope.employee = employeesService.getClone(employeesService.getActualEmployee());
+
+    $scope.transferToRetirees = function() {
+        employeesService.transferToRetirees($scope.employee).then(function (response) {//transfer to pensioners
+            $mdToast.show({
+                hideDelay: 3000,
+                position: 'top right',
+                controller: 'toastController',
+                template: '<md-toast class="md-toast-success">' +
+                                '<div class="md-toast-content">' +
+                                  'Операция проведена успешно.' +
+                                '</div>' +
+                            '</md-toast>'
+            });
+        }, function (error) {
+            messageService.setError(error);
+            $mdToast.show({
+                hideDelay: 3000,
+                position: 'top right',
+                controller: 'toastController',
+                templateUrl: 'app/views/error-toast.html'
+            });
+        });
+        $scope.hide();
+        $state.go('retirees');
+    }
+}]);
