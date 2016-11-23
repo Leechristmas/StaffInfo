@@ -13,7 +13,7 @@ app.controller('employeesController', [
                 page: 'Текущая',
                 rowsPerPage: 'Кол-во на странице'
             },
-            filter: ''
+            filter: ''  //it would be better to refresh the list when filter has 3 chars at least.
         };
 
 
