@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -8,6 +10,7 @@ using System.Web.Http;
 using Autofac.Core.Lifetime;
 using Staffinfo.API.Models;
 using Staffinfo.DAL.Models;
+using Staffinfo.DAL.Repositories;
 using Staffinfo.DAL.Repositories.Interfaces;
 
 namespace Staffinfo.API.Controllers
@@ -176,6 +179,19 @@ namespace Staffinfo.API.Controllers
 
                 _repository.EmployeeRepository.Update(original);
                 await _repository.EmployeeRepository.SaveAsync();
+            }
+        }
+
+        [HttpPost]
+        [Route("api/employees/dismissedtransfer")]
+        public async Task TransferToDismissed([FromBody]Dismissal dismissal)
+        {
+            if(!dismissal.IsCorrect) throw new Exception("Parameter is null");
+
+            Employee original = await _repository.EmployeeRepository.SelectAsync(dismissal.EmployeeId.Value);
+            if (original != null)
+            {
+                await _repository.EmployeeRepository.TransferToDismissed(dismissal.EmployeeId.Value, dismissal.DismissalDate.Value, dismissal.Clause, dismissal.ClauseDescription);
             }
         }
 

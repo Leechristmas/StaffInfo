@@ -220,6 +220,7 @@
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\RetireesController.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
+    <Compile Include="Models\Dismissal.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\EmployeeViewModelMin.cs" />
     <Compile Include="Models\MesAchievementViewModel.cs" />

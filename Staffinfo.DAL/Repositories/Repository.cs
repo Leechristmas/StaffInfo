@@ -20,15 +20,19 @@ namespace Staffinfo.DAL.Repositories
         [Inject]
         public StaffContext StaffContext { get; set; }
 
+        public Database Database { get; set; }
+
         public Repository()
         {
             Table = StaffContext.Set<T>();
+            Database = StaffContext.Database;
         }
 
         public Repository(StaffContext context)
         {
             StaffContext = context;
             Table = StaffContext.Set<T>();
+            Database = StaffContext.Database;
         }
 
         public DbSet<T> Table { get; set; }

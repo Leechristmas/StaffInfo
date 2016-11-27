@@ -233,7 +233,8 @@ app.controller('employeesController', [
                     targetEvent: ev,
                     clickOutsideToClose: true
                 };
-                $mdDialog.show(confirm).then(function(response) {
+                $mdDialog.show(confirm).then(function (response) {
+                    console.log('')
                     //success
                 }, function(error) {
                     //cancel
@@ -248,6 +249,9 @@ app.controller('employeesController', [
                     .cancel('Отмена');
                 $mdDialog.show(confirm).then(function () {
                     //transfer to fired
+                    $scope.promise = employeesService.trasnferToDismissed($scope.employee.id, new Date(2016, 3, 3), "123", "Oops").then(function(response) {
+                        console.log('success');
+                    });
                 }, function () {
                     //cancel
                 });

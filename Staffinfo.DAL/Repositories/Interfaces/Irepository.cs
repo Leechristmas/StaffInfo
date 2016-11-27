@@ -10,6 +10,8 @@ namespace Staffinfo.DAL.Repositories.Interfaces
     {
         DbSet<T> Table { get; set; }
 
+        Database Database { get; set; }
+
         /// <summary>
         /// Returns all items
         /// </summary>
@@ -47,7 +49,7 @@ namespace Staffinfo.DAL.Repositories.Interfaces
         /// </summary>
         /// <param name="id">id of the item to remove</param>
         Task Delete(int id);
-
+        
         /// <summary>
         /// Saves all changes
         /// </summary>

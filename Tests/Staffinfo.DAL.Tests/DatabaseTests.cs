@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Staffinfo.DAL.Context;
@@ -69,6 +70,17 @@ namespace Staffinfo.DAL.Tests
             _staffUnitRepository.EmployeeRepository.Delete(2);
             Task.WaitAll(_staffUnitRepository.EmployeeRepository.SaveAsync());
             var t2 = _staffUnitRepository.EmployeeRepository.SelectAsync().Result;
+        }
+
+        [TestMethod]
+        public async Task TransferToDismissed()
+        {
+            await _staffUnitRepository.EmployeeRepository.Database.ExecuteSqlCommandAsync(
+                "dbo.pr_TransferEmployeeToDismissed @employeeId, @dismissalDate, @clause, @clauseDescription",
+                new SqlParameter("@employeeId", 2),
+                new SqlParameter("@dismissalDate", DateTime.Now),
+                new SqlParameter("@clause", "333"),
+                new SqlParameter("@clauseDescription", "azaza"));
         }
 
         [TestMethod]
