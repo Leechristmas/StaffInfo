@@ -139,8 +139,8 @@ app.factory('employeesService', [
         }
 
         //returns promise for transferring the employee to retired
-        var _transferToDismissed = function(employeeId, dismissalDate, clause, clauseDescription) {
-            return $http.post(serviceBase + 'api/employees/dismissedtransfer', { employeeId: employeeId, dismissalDate: dismissalDate, clause: clause, clauseDescription: clauseDescription }, {});
+        var _transferToDismissed = function(dismissal) {
+            return $http.post(serviceBase + 'api/employees/dismissedtransfer', dismissal, {});
         }
 
         employeesServiceFactory.deleteDismissedById = _deleteDismissedById;

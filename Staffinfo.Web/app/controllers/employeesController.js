@@ -234,25 +234,21 @@ app.controller('employeesController', [
                     clickOutsideToClose: true
                 };
                 $mdDialog.show(confirm).then(function (response) {
-                    console.log('')
+                    console.log('');
                     //success
                 }, function(error) {
                     //cancel
                 });
             } else if (type === 'F') {
-                confirm = $mdDialog.confirm()
-                    .title('Перевод в "Уволенные"')
-                    .textContent('Вы уверены, что хотите перенести информацию о сотруднике в базу данных "Уволенные"? \nВосстановить утерянную информацию будет невозможно!')
-                    .ariaLabel('Transfer')
-                    .targetEvent(ev)
-                    .ok('Перевести')
-                    .cancel('Отмена');
+                confirm = {
+                    controller: 'transferController',
+                    templateUrl: 'app/views/dismissalView.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true
+                }
                 $mdDialog.show(confirm).then(function () {
                     //transfer to fired
-                    $scope.promise = employeesService.trasnferToDismissed($scope.employee.id, new Date(2016, 3, 3), "123", "Oops").then(function (response) {
-                        $state.go('employees'); 
-                        console.log('success');
-                    });
                 }, function () {
                     //cancel
                 });

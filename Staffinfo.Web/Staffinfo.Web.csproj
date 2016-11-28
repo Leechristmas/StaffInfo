@@ -84,6 +84,7 @@
     <Content Include="app\views\addMilitaryView.html" />
     <Content Include="app\views\addWorkView.html" />
     <Content Include="app\views\dashboard.html" />
+    <Content Include="app\views\dismissalView.html" />
     <Content Include="app\views\dismissed.html" />
     <Content Include="app\views\employees.html" />
     <Content Include="app\views\employeeView.html" />

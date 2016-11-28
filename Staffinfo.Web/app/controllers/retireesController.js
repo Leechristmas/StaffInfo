@@ -1,5 +1,5 @@
 ﻿app.controller('retireesController', [
-    '$scope', 'employeesService', '$mdToast', 'messageService', '$mdDialog', '$state', function($scope, employeesService, $mdToast, messageService, $mdDialog, $state) {
+    '$scope', 'employeesService', '$mdToast', 'messageService', '$mdDialog', '$state', function ($scope, employeesService, $mdToast, messageService, $mdDialog, $state) {
         //options for queries to API and pagination
         $scope.query = {
             order: 'employeeLastname',
@@ -12,10 +12,10 @@
             },
             filter: ''
         };
-        
+
         //gets retirees with pagination 
-        $scope.getRetirees = function() {
-            $scope.promise = employeesService.getRetirees($scope.query).then(function(response) {
+        $scope.getRetirees = function () {
+            $scope.promise = employeesService.getRetirees($scope.query).then(function (response) {
                 $scope.retirees = response.data;
                 $scope.total = response.headers('X-Total-Count');
             }, function (data) {
@@ -108,7 +108,7 @@
         $scope.retirees = $scope.getRetirees();
     }
 ])
-.controller('transferController', ['$scope', 'employeesService', 'messageService', '$mdDialog', '$mdToast', '$state', function($scope, employeesService, messageService, $mdDialog, $mdToast, $state) {
+.controller('transferController', ['$scope', 'employeesService', 'messageService', '$mdDialog', '$mdToast', '$state', function ($scope, employeesService, messageService, $mdDialog, $mdToast, $state) {
     $scope.hide = function () {
         $mdDialog.hide();
     };
@@ -122,9 +122,11 @@
     };
 
     $scope.employee = employeesService.getClone(employeesService.getActualEmployee());
+    $scope.dismissal = {};
 
-    $scope.transferToRetirees = function() {
-        employeesService.transferToRetirees($scope.employee).then(function (response) {//transfer to pensioners
+    $scope.transferToDismissed = function () {
+        $scope.dismissal.employeeId = $scope.employee.id;
+        $scope.promise = employeesService.trasnferToDismissed($scope.dismissal).then(function (response) {
             $mdToast.show({
                 hideDelay: 3000,
                 position: 'top right',
@@ -145,6 +147,31 @@
             });
         });
         $scope.hide();
-        $state.go('retirees');
+        $state.go('employees');
+    }
+
+    $scope.transferToRetirees = function () {
+        $scope.promise = employeesService.transferToRetirees($scope.employee).then(function (response) {//transfer to pensioners
+            $mdToast.show({
+                hideDelay: 3000,
+                position: 'top right',
+                controller: 'toastController',
+                template: '<md-toast class="md-toast-success">' +
+                                '<div class="md-toast-content">' +
+                                  'Операция проведена успешно.' +
+                                '</div>' +
+                            '</md-toast>'
+            });
+        }, function (error) {
+            messageService.setError(error);
+            $mdToast.show({
+                hideDelay: 3000,
+                position: 'top right',
+                controller: 'toastController',
+                templateUrl: 'app/views/error-toast.html'
+            });
+        });
+        $scope.hide();
+        $state.go('employees');
     }
 }]);
