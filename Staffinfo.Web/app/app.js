@@ -35,6 +35,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             controller: 'retireesController',
             templateUrl: 'app/views/retirees.html',
             noLogin: false
+        }).state('dismissed',{
+            url: '/dismissed',
+            controller: 'dismissedController',
+            templateUrl: 'app/views/dismissed.html',
+            noLogin: false
         }).state('details', {
             url: "/employees/details",
             controller: 'detailsController',

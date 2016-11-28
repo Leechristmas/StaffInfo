@@ -24,11 +24,11 @@ ALTER TABLE dbo.tbl_MilitaryService
       CONSTRAINT unq_MilitaryService;
 GO
 
---ALTER TABLE dbo.tbl_Employee
---  DROP CONSTRAINT fk_Employee_Passport,
---       CONSTRAINT fk_Employee_Address;
---
---GO
+ALTER TABLE dbo.tbl_Employee
+  DROP CONSTRAINT fk_Employee_Passport,
+       CONSTRAINT fk_Employee_Address;
+
+GO
 
 DROP TABLE dbo.tbl_MESAchievement;
 DROP TABLE dbo.tbl_WorkTerm;

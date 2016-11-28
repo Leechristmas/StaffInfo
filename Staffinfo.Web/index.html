@@ -31,23 +31,20 @@
                         <md-menu-content width="4">
                             <md-menu-item>
                                 <md-button href="#/employees" ng-click="menuClick()">
-                                    <div layout="row">
-                                        <p flex>Действующие</p>
-                                    </div>
+                                    <md-icon md-svg-src="img/icons/ic_group_24px.svg" aria-label="Close dialog"></md-icon>
+                                    <p flex>Действующие</p>
                                 </md-button>
                             </md-menu-item>
                             <md-menu-item>
                                 <md-button href="#/retirees" ng-click="menuClick()">
-                                    <div layout="row">
-                                        <p flex>Пенсионеры</p>
-                                    </div>
+                                    <md-icon md-svg-src="img/icons/ic_group_24px.svg" aria-label="Close dialog"></md-icon>
+                                    <p flex>Пенсионеры</p>
                                 </md-button>
                             </md-menu-item>
                             <md-menu-item>
-                                <md-button href="#" ng-click="menuClick()">
-                                    <div layout="row">
-                                        <p flex>Уволенные</p>
-                                    </div>
+                                <md-button href="#/dismissed" ng-click="menuClick()">
+                                    <md-icon md-svg-src="img/icons/ic_group_24px.svg" aria-label="Close dialog"></md-icon>
+                                    <p flex>Уволенные</p>
                                 </md-button>
                             </md-menu-item>
                         </md-menu-content>
@@ -112,5 +109,6 @@
     <script src="app/controllers/dashboardController.js"></script>
     <script src="app/controllers/employeesController.js"></script>
     <script src="app/controllers/retireesController.js"></script>
+    <script src="app/controllers/dismissedController.js"></script>
 </body>
 </html>

@@ -10,6 +10,7 @@ namespace Staffinfo.DAL.Repositories.Interfaces
     {
         IRepository<Address> AddressRepository { get; }
         IRepository<Employee> EmployeeRepository { get; }
+        IRepository<Dismissed> DismissedRepository { get; } 
         IRepository<Location> LocationRepository { get; }
         IRepository<MesAchievement> MesAchievementRepository { get; }
         IRepository<MilitaryService> MilitaryServiceRepository { get; }

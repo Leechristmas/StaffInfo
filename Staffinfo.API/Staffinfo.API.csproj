@@ -217,6 +217,7 @@
     <Compile Include="AuthContext.cs" />
     <Compile Include="AuthRepository.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DismissedController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\RetireesController.cs" />
     <Compile Include="Models\BaseViewModel.cs" />

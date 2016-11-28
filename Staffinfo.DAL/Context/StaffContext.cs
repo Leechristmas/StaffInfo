@@ -22,7 +22,6 @@ namespace Staffinfo.DAL.Context
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<Post> Posts { get; set; } 
         public virtual DbSet<Employee> Employees { get; set; }
-        //public virtual DbSet<EmployeeMin> EmployeesMin { get; set; }
         public virtual DbSet<Location> Locations { get; set; } 
         public virtual DbSet<MesAchievement> MesAchievements { get; set; } 
         public virtual DbSet<MilitaryService> MilitaryServices { get; set; } 
@@ -30,6 +29,7 @@ namespace Staffinfo.DAL.Context
         public virtual DbSet<Rank> Ranks { get; set; } 
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<WorkTerm> WorkTerms { get; set; } 
+        public virtual DbSet<Dismissed> Dismissed { get; set; } 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -43,8 +43,8 @@ namespace Staffinfo.DAL.Context
                 .Add(new PostMap())
                 .Add(new RankMap())
                 .Add(new ServiceMap())
-                .Add(new WorkTermMap());
-            //.Add(new EmployeeMinMap());
+                .Add(new WorkTermMap())
+                .Add(new DismissedMap());
         }
     }
 }

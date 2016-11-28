@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\controllers\dashboardController.js" />
+    <Content Include="app\controllers\dismissedController.js" />
     <Content Include="app\controllers\employeesController.js" />
     <Content Include="app\controllers\homeController.js" />
     <Content Include="app\controllers\indexController.js" />
@@ -83,6 +84,7 @@
     <Content Include="app\views\addMilitaryView.html" />
     <Content Include="app\views\addWorkView.html" />
     <Content Include="app\views\dashboard.html" />
+    <Content Include="app\views\dismissed.html" />
     <Content Include="app\views\employees.html" />
     <Content Include="app\views\employeeView.html" />
     <Content Include="app\views\error-toast.html" />

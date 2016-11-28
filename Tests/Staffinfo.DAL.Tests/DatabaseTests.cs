@@ -26,7 +26,8 @@ namespace Staffinfo.DAL.Tests
             new Repository<Post>(new StaffContext()),
             new Repository<Rank>(new StaffContext()),
             new Repository<Service>(new StaffContext()), 
-            new Repository<WorkTerm>(new StaffContext()));
+            new Repository<WorkTerm>(new StaffContext()),
+            new Repository<Dismissed>(new StaffContext()));
 
         //[TestMethod]
         //public void Select_GetAllAddresses()

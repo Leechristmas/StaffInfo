@@ -249,7 +249,8 @@ app.controller('employeesController', [
                     .cancel('Отмена');
                 $mdDialog.show(confirm).then(function () {
                     //transfer to fired
-                    $scope.promise = employeesService.trasnferToDismissed($scope.employee.id, new Date(2016, 3, 3), "123", "Oops").then(function(response) {
+                    $scope.promise = employeesService.trasnferToDismissed($scope.employee.id, new Date(2016, 3, 3), "123", "Oops").then(function (response) {
+                        $state.go('employees'); 
                         console.log('success');
                     });
                 }, function () {

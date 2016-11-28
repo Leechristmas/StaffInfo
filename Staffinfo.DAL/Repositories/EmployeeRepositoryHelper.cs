@@ -22,10 +22,10 @@ namespace Staffinfo.DAL.Repositories
         {
             await employeeRepository.Database.ExecuteSqlCommandAsync(
                "dbo.pr_TransferEmployeeToDismissed @employeeId, @dismissalDate, @clause, @clauseDescription",
-               new SqlParameter("@employeeId", 2),
-               new SqlParameter("@dismissalDate", DateTime.Now),
-               new SqlParameter("@clause", "333"),
-               new SqlParameter("@clauseDescription", "azaza"));
+               new SqlParameter("@employeeId", employeeId),
+               new SqlParameter("@dismissalDate", dismissalDate),
+               new SqlParameter("@clause", clause),
+               new SqlParameter("@clauseDescription", clauseDescription));
         }
     }
 }
