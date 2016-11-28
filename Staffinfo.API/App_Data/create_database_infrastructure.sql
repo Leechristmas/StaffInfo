@@ -49,6 +49,10 @@ DROP FUNCTION dbo.fn_GetActualPostID;
 
 GO
 
+DROP PROCEDURE dbo.pr_TransferEmployeeToDismissed;
+
+GO
+
 -----------------------------
 --TABLES---------------------
 -----------------------------
@@ -125,11 +129,11 @@ CREATE TABLE dbo.tbl_Employee(
   --TODO
 );
 
-ALTER TABLE dbo.tbl_Employee
-  ADD CONSTRAINT fk_Employee_Address
-      FOREIGN KEY (AddressID) REFERENCES tbl_Address,
-      CONSTRAINT fk_Employee_Passport
-      FOREIGN KEY (PassportID) REFERENCES tbl_Passport;
+--ALTER TABLE dbo.tbl_Employee
+--  ADD CONSTRAINT fk_Employee_Address
+--      FOREIGN KEY (AddressID) REFERENCES tbl_Address,
+--      CONSTRAINT fk_Employee_Passport
+--      FOREIGN KEY (PassportID) REFERENCES tbl_Passport;
 GO
 
 --dismissed employees
@@ -181,7 +185,7 @@ CREATE TABLE dbo.tbl_WorkTerm(
 
 ALTER TABLE dbo.tbl_WorkTerm
   ADD CONSTRAINT fk_WorkTerm_Employee
-        FOREIGN KEY (EmployeeID) REFERENCES dbo.tbl_Employee,
+        FOREIGN KEY (EmployeeID) REFERENCES dbo.tbl_Employee ON DELETE CASCADE,
       CONSTRAINT fk_WorkTerm_Location
         FOREIGN KEY (LocationID) REFERENCES dbo.tbl_Location,
       CONSTRAINT unq_WorkTerm
@@ -201,7 +205,7 @@ CREATE TABLE dbo.tbl_MilitaryService(
 
 ALTER TABLE dbo.tbl_MilitaryService
   ADD CONSTRAINT fk_MilitaryService_Employee
-        FOREIGN KEY (EmployeeID) REFERENCES dbo.tbl_Employee,
+        FOREIGN KEY (EmployeeID) REFERENCES dbo.tbl_Employee ON DELETE CASCADE,
       CONSTRAINT fk_MilitaryService_Location
         FOREIGN KEY (LocationID) REFERENCES dbo.tbl_Location,
       CONSTRAINT unq_MilitaryService
@@ -212,8 +216,37 @@ GO
 ------------------------------
 --PROCEDURES
 ------------------------------
+CREATE PROCEDURE dbo.pr_TransferEmployeeToDismissed 
+  @EmployeeId INT,
+  @DismissalDate DATETIME,
+  @Clause NVARCHAR(10),
+  @ClauseDescription NVARCHAR(150)
+AS
+  BEGIN
+    IF @DismissalDate IS NULL
+      BEGIN
+        RAISERROR ('@DismissalDate is null!', 16, 2);
+        RETURN;
+      END
+
+    IF(NOT EXISTS(SELECT * FROM dbo.tbl_Employee te WHERE te.ID = @EmployeeId))
+      BEGIN
+        RAISERROR ('Employee does not exist!', 16, 2);
+        RETURN;
+      END
+
+    INSERT INTO dbo.tbl_Dismissed (DismissedLastname, DismissedFirstname, DismissedMiddlename, BirthDate, DismissalDate, Clause, ClauseDescription)
+      SELECT te.EmployeeLastname, te.EmployeeFirstname, te.EmployeeMiddlename, te.BirthDate, @DismissalDate, @Clause, @ClauseDescription 
+    FROM dbo.tbl_Employee te
+    WHERE te.ID = @EmployeeId;
+
+    DELETE FROM dbo.tbl_Employee WHERE ID = @EmployeeId;
+    
+  END
+  
 
 
+GO
 ------------------------------
 --FUNCTIONS
 ------------------------------
@@ -253,18 +286,6 @@ GO
 ------------------------------
 --TRIGGERS
 ------------------------------
---Inserting into Employee table
---CREATE TRIGGER EmployeeInsertTrigger on tbl_Employee
---  INSTEAD OF INSERT
---AS
---BEGIN
---  INSERT INTO tbl_Employee (EmployeeFirstname, EmployeeLastname, EmployeeMiddlename, BirthDate, PassportID, AddressID, ActualRankID, ActualPostID, RetirementDate)
---    SELECT EmployeeFirstname, EmployeeLastname, EmployeeMiddlename, BirthDate, PassportID, AddressID, dbo.fn_GetActualRankID(ID), dbo.fn_GetActualPostID(ID), NULL
---    FROM inserted
---END;
-
---GO
-
 --Updating the actual rank and post for employees
 CREATE TRIGGER MESAchievemntInsertTrigger ON tbl_MESAchievement
   AFTER INSERT, DELETE, UPDATE
@@ -283,11 +304,9 @@ GO
 CREATE TRIGGER EmployeeDeleteTrigger ON tbl_Employee
   AFTER DELETE
 AS
-  BEGIN
+  BEGIN    
   	DELETE ta FROM tbl_Address ta, DELETED d WHERE ta.ID = d.AddressID;
     DELETE tp FROM tbl_Passport tp , DELETED d WHERE tp.ID = d.PassportID;
-    --DELETE FROM dbo.tbl_MESAchievement WHERE EmployeeID IN (SELECT Id FROM DELETED);
-    DELETE FROM dbo.tbl_Employee WHERE ID IN (SELECT ID FROM DELETED);
     --TODO
   END
 
@@ -302,15 +321,3 @@ END
 
 GO
 
---CREATE TRIGGER CheckLastAchieveTrigger ON dbo.tbl_MESAchievement
---  FOR INSERT
---AS
---  BEGIN
---  	IF EXISTS(SELECT * FROM INSERTED i WHERE i.FinishDate IS NOT NULL) AND EXISTS(SELECT * FROM dbo.tbl_MESAchievement tm WHERE tm.FinishDate IS NULL) 
---    BEGIN  
---    	  ROLLBACK TRAN;
---        RAISERROR('ERROR: Actual assignment is not already closed!', 16, 2);
---        RETURN; 
---    END
---    
---  END

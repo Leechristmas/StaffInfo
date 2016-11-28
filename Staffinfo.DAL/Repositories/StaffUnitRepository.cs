@@ -23,7 +23,8 @@ namespace Staffinfo.DAL.Repositories
             IRepository<Post> postRepository, 
             IRepository<Rank> rankRepository, 
             IRepository<Service> serviceRepository, 
-            IRepository<WorkTerm> workTermRepository)
+            IRepository<WorkTerm> workTermRepository,
+            IRepository<Dismissed> dismissedRepository )
         {
             AddressRepository = addressRepository;
             EmployeeRepository = employeeRepository;
@@ -35,9 +36,12 @@ namespace Staffinfo.DAL.Repositories
             RankRepository = rankRepository;
             ServiceRepository = serviceRepository;
             WorkTermRepository = workTermRepository;
+            DismissedRepository = dismissedRepository;
         }
 
         public IRepository<Address> AddressRepository { get; }
+
+        public IRepository<Dismissed> DismissedRepository { get; } 
 
         public IRepository<Employee> EmployeeRepository { get; }
 

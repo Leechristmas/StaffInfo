@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -8,16 +10,17 @@ using System.Web.Http;
 using Autofac.Core.Lifetime;
 using Staffinfo.API.Models;
 using Staffinfo.DAL.Models;
+using Staffinfo.DAL.Repositories;
 using Staffinfo.DAL.Repositories.Interfaces;
 
 namespace Staffinfo.API.Controllers
 {
     [Route("api/employees")]
-    public class EmployeeController : ApiController
+    public class EmployeesController : ApiController
     {
         private readonly IUnitRepository _repository;
 
-        public EmployeeController(IUnitRepository repository)
+        public EmployeesController(IUnitRepository repository)
         {
             _repository = repository;
         }
@@ -28,13 +31,20 @@ namespace Staffinfo.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<EmployeeViewModelMin>> GetActualEmployees(int offset, int limit)
+        public async Task<IEnumerable<EmployeeViewModelMin>> GetActualEmployees(int offset, int limit, string query)
         {
-            var all = await _repository.EmployeeRepository.WhereAsync(e => e.RetirementDate == null);
+            IEnumerable<Employee> all;
+            if (String.IsNullOrEmpty(query))
+                all = await _repository.EmployeeRepository.WhereAsync(e => e.RetirementDate == null);
+            else
+                all =
+                    await
+                        _repository.EmployeeRepository.WhereAsync(
+                            e => e.RetirementDate == null && e.EmployeeLastname.Contains(query));
 
             System.Web.HttpContext.Current.Response.Headers.Add("X-Total-Count", all.Count().ToString());
 
-            return all.Skip(offset).Take(limit).Select(e => new EmployeeViewModelMin
+            var queryResult =  all.Skip(offset).Take(limit).Select(e => new EmployeeViewModelMin
             {
                 Id = e.Id,
                 EmployeeLastname = e.EmployeeLastname,
@@ -46,7 +56,8 @@ namespace Staffinfo.API.Controllers
                 ActualRankId = e.ActualRankId,
                 BirthDate = e.BirthDate,
                 Description = e.Description
-            });
+            }).ToList();
+            return queryResult;
         }
 
         // GET: api/Employees/5
@@ -115,9 +126,10 @@ namespace Staffinfo.API.Controllers
                     address.DetailedAddress = value.DetailedAddress;
                     address.Area = value.Area;
                     address.ZipCode = value.ZipCode;
+
+                    _repository.AddressRepository.Update(address);
+                    await _repository.AddressRepository.SaveAsync();
                 }
-                _repository.AddressRepository.Update(address);
-                await _repository.AddressRepository.SaveAsync();
             }
 
             if (value.PassportId != null)
@@ -127,9 +139,10 @@ namespace Staffinfo.API.Controllers
                 {
                     passport.PassportNumber = value.PassportNumber;
                     passport.PassportOrganization = value.PassportOrganization;
+
+                    _repository.PassportRepository.Update(passport);
+                    await _repository.PassportRepository.SaveAsync();
                 }
-                _repository.PassportRepository.Update(passport);
-                await _repository.PassportRepository.SaveAsync();
             }
 
             Employee original = await _repository.EmployeeRepository.SelectAsync(id);
@@ -140,9 +153,10 @@ namespace Staffinfo.API.Controllers
                 original.EmployeeMiddlename = value.EmployeeMiddlename;
                 original.BirthDate = value.BirthDate;
                 original.Description = value.Description;
+
+                _repository.EmployeeRepository.Update(original);
+                await _repository.EmployeeRepository.SaveAsync();
             }
-            _repository.EmployeeRepository.Update(original);
-            await _repository.EmployeeRepository.SaveAsync();
         }
 
         // DELETE: api/Employee/5
@@ -152,6 +166,33 @@ namespace Staffinfo.API.Controllers
         {
             await _repository.EmployeeRepository.Delete(id);
             await _repository.EmployeeRepository.SaveAsync();
+        }
+
+        [HttpPost]
+        [Route("api/employees/retiredtransfer")]
+        public async Task TransferToRetired([FromBody]Employee employee)
+        {
+            Employee original = await _repository.EmployeeRepository.SelectAsync(employee.Id);
+            if (original != null && employee?.RetirementDate != null)
+            {
+                original.RetirementDate = employee.RetirementDate;
+
+                _repository.EmployeeRepository.Update(original);
+                await _repository.EmployeeRepository.SaveAsync();
+            }
+        }
+
+        [HttpPost]
+        [Route("api/employees/dismissedtransfer")]
+        public async Task TransferToDismissed([FromBody]Dismissal dismissal)
+        {
+            if(!dismissal.IsCorrect) throw new Exception("Parameter is null");
+
+            Employee original = await _repository.EmployeeRepository.SelectAsync(dismissal.EmployeeId.Value);
+            if (original != null)
+            {
+                await _repository.EmployeeRepository.TransferToDismissed(dismissal.EmployeeId.Value, dismissal.DismissalDate.Value, dismissal.Clause, dismissal.ClauseDescription);
+            }
         }
 
         #region Reference Books

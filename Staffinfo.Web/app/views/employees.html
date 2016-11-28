@@ -20,7 +20,7 @@
     <md-card style="margin: 0; margin-bottom: 10px">
         <md-input-container style="margin:15px;">
             <label>Поиск</label>
-            <input type="text" ng-model="query.filter">
+            <input type="text" ng-model="query.filter" ng-model-options="{debounce: 1000 }" ng-change="getEmployees()">
         </md-input-container>
     </md-card>
 
@@ -34,7 +34,7 @@
                         <th md-column>Отчество</th>
                         <th md-column>Должность</th>
                         <th md-column>Звание</th>
-                        <th md-column>Дата Рождения</th>
+                        <th md-column class="td-center">Дата Рождения</th>
                     </tr>
                 </thead>
                 <tbody md-body>
@@ -44,7 +44,7 @@
                         <td md-cell>{{empl.employeeMiddlename}}</td>
                         <td md-cell>{{empl.actualPost}}</td>
                         <td md-cell>{{empl.actualRank}}</td>
-                        <td md-cell>{{getDate(empl.birthDate).toISOString().slice(0, 10)}}</td>
+                        <td md-cell class="td-center">{{getDate(empl.birthDate).toISOString().slice(0, 10)}}</td>
                         <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, empl.id)" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить всю информацию о сотруднике</md-tooltip></md-button></td>
                     </tr>
                 </tbody>

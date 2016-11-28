@@ -36,6 +36,7 @@ public static class NinjectConfig
         kernel.Bind<IRepository<Rank>>().To<Repository<Rank>>().InRequestScope();
         kernel.Bind<IRepository<Service>>().To<Repository<Service>>().InRequestScope();
         kernel.Bind<IRepository<WorkTerm>>().To<Repository<WorkTerm>>().InRequestScope();
+        kernel.Bind<IRepository<Dismissed>>().To<Repository<Dismissed>>().InRequestScope();
 
     }
 }

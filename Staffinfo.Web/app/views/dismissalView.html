@@ -1,0 +1,43 @@
+﻿<md-dialog aria-label="Увольнение">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Увольнение</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="max-width: 800px; max-height: 810px; min-width: 600px;">
+            <form>
+                <md-content class="md-padding">
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Дата увольнения</label>
+                            <md-datepicker ng-model="dismissal.dismissalDate" required></md-datepicker>
+                        </md-input-container>
+
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Статья</label>
+                            <input ng-model="dismissal.clause" required md-maxlength="10" />
+                        </md-input-container>
+                    </div>
+
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" style="width: 100%;">
+                            <label>Заметка</label>
+                            <textarea ng-model="dismissal.clauseDescription" columns="1" md-maxlength="150" rows="3"></textarea>
+                        </md-input-container>
+                    </div>
+                </md-content>
+            </form>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row" class="dialog-footer">
+            <md-button ng-click="transferToDismissed()" class="md-primary md-raised">
+                Сохранить
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

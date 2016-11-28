@@ -9,14 +9,27 @@ app.factory('employeesService', [
 
         //returns actual employees with pagination 
         var _getEmployees = function (query) {
-            return $http.get(serviceBase + 'api/employees?offset=' + (query.page-1)*query.limit + '&limit=' + query.limit).then(function (response) {
-                return response;
-            });
+            return $http.get(serviceBase + 'api/employees?offset=' + (query.page-1)*query.limit + '&limit=' + query.limit + '&query=' + (query.filter ? query.filter : ''));
         }
-        
+
+        //returns promise for getting retirees
+        var _getRetirees = function (query) {
+            return $http.get(serviceBase + 'api/retirees?offset=' + (query.page - 1) * query.limit + '&limit=' + query.limit + '&query=' + (query.filter ? query.filter : ''));
+        }
+
+        //returns promise for getting dismissed
+        var _getDismissed = function(query) {
+            return $http.get(serviceBase + 'api/dismissed?offset=' + (query.page - 1) * query.limit + '&limit=' + query.limit + '&query=' + (query.filter ? query.filter : ''));
+        }
+
         //deletes employee by id
         var _deleteEmployeeById = function(id) {
             return $http.delete(serviceBase + 'api/employees/' + id);
+        }
+
+        //deletes dismissed by id
+        var _deleteDismissedById = function (id) {
+            return $http.delete(serviceBase + 'api/dismissed/' + id);
         }
 
         //deletes work by id
@@ -120,6 +133,21 @@ app.factory('employeesService', [
             return $http.post(serviceBase + 'api/employees/works', item, {});
         }
 
+        //returns promise for transferring the employee to retired
+        var _transferToRetirees = function(employee) {
+            return $http.post(serviceBase + 'api/employees/retiredtransfer', employee, {});
+        }
+
+        //returns promise for transferring the employee to retired
+        var _transferToDismissed = function(dismissal) {
+            return $http.post(serviceBase + 'api/employees/dismissedtransfer', dismissal, {});
+        }
+
+        employeesServiceFactory.deleteDismissedById = _deleteDismissedById;
+        employeesServiceFactory.getDismissed = _getDismissed;
+        employeesServiceFactory.trasnferToDismissed = _transferToDismissed;
+        employeesServiceFactory.transferToRetirees = _transferToRetirees;
+        employeesServiceFactory.getRetirees = _getRetirees;
         employeesServiceFactory.saveWork = _saveWork;
         employeesServiceFactory.saveMilitary = _saveMilitary;
         employeesServiceFactory.saveMesAchievement = _saveMesAchievement;

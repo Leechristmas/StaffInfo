@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using Staffinfo.DAL.Models;
 
 namespace Staffinfo.API.Models
@@ -35,7 +36,10 @@ namespace Staffinfo.API.Models
 
         [DataMember(Name = "secondPhoneNumber")]
         public string SecondPhoneNumber { get; set; }
-        
+
+        [DataMember(Name = "retirementDate")]
+        public DateTime? RetirementDate { get; set; }
+
         public EmployeeViewModel()
         { }
 
@@ -51,6 +55,7 @@ namespace Staffinfo.API.Models
             PassportOrganization = employee.Passport.PassportOrganization;
             FirstPhoneNumber = employee.FirstPhoneNumber;
             SecondPhoneNumber = employee.SecondPhoneNumber;
+            RetirementDate = employee.RetirementDate;
         }
     }
 }
