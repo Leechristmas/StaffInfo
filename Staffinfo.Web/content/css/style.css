@@ -90,3 +90,9 @@ table.md-table td.td-center.md-cell,
 table.md-table th.td-center.md-column{
     text-align: center;
 }
+
+
+#photo-id {
+    width: 185px;
+    height: 185px;
+}

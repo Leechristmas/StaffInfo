@@ -112,6 +112,7 @@
     <Content Include="favicon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="img\default-avatar.png" />
     <Content Include="img\icons\ic_add_24px.svg" />
     <Content Include="img\icons\ic_arrow_back_24px.svg" />
     <Content Include="img\icons\ic_assignment_24px.svg" />
