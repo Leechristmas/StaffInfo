@@ -106,7 +106,8 @@ namespace Staffinfo.API.Controllers
                 BirthDate = value.BirthDate,
                 PassportId = passport.Id,
                 AddressId = address.Id,
-                Description = value.Description
+                Description = value.Description,
+                EmployeePhoto = value.EmployeePhoto
             };
             _repository.EmployeeRepository.Create(newEmpl);
             await _repository.EmployeeRepository.SaveAsync();
@@ -153,6 +154,7 @@ namespace Staffinfo.API.Controllers
                 original.EmployeeMiddlename = value.EmployeeMiddlename;
                 original.BirthDate = value.BirthDate;
                 original.Description = value.Description;
+                original.EmployeePhoto = value.EmployeePhoto;
 
                 _repository.EmployeeRepository.Update(original);
                 await _repository.EmployeeRepository.SaveAsync();

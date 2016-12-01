@@ -66,7 +66,7 @@ app.controller('employeesController', [
         $scope.getDate = function (date) {
             return new Date(date);
         }
-
+        
         //shows the window with form for adding new employee
         $scope.showAddingView = function (ev) {
             $mdDialog.show({
@@ -385,6 +385,39 @@ app.controller('employeesController', [
                 });
             });
         }
+
+        $scope.uploadFile = function (input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+
+                    //Sets the Old Image to new New Image
+                    document.getElementById('photo-id').setAttribute('src', e.target.result);
+
+                    //Create a canvas and draw image on Client Side to get the byte[] equivalent
+                    var canvas = document.createElement("canvas");
+                    var imageElement = document.createElement("img");
+
+                    imageElement.setAttribute('src', e.target.result);
+                    canvas.width = imageElement.width;
+                    canvas.height = imageElement.height;
+                    var context = canvas.getContext("2d");
+                    context.drawImage(imageElement, 0, 0);
+                    var base64Image = canvas.toDataURL("image/jpeg");
+
+                    //Removes the Data Type Prefix 
+                    //And set the view model to the new value
+                    $scope.changeable.employeePhoto = base64Image.replace(/data:image\/jpeg;base64,/g, '');
+                }
+
+                //Renders Image on Page
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $scope.upload = function () {
+            angular.element(document.getElementById('photo-id')).click();
+        };
 
         //reset all changes
         $scope.resetChanges = function () {

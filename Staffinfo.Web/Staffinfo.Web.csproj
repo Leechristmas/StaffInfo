@@ -112,6 +112,7 @@
     <Content Include="favicon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="img\default-avatar.jpg" />
     <Content Include="img\default-avatar.png" />
     <Content Include="img\icons\ic_add_24px.svg" />
     <Content Include="img\icons\ic_arrow_back_24px.svg" />
@@ -124,6 +125,7 @@
     <Content Include="img\icons\ic_delete_forever_24px.svg" />
     <Content Include="img\icons\ic_description_24px.svg" />
     <Content Include="img\icons\ic_group_24px.svg" />
+    <Content Include="img\icons\ic_insert_photo_24px.svg" />
     <Content Include="img\icons\ic_person_add_24px.svg" />
     <Content Include="img\icons\ic_refresh_24px.svg" />
     <Content Include="img\icons\ic_save_24px.svg" />
