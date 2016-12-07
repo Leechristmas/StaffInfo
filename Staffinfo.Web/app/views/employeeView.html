@@ -2,7 +2,7 @@
 <div class="row" style="margin-top: 15px;">
     <div class="col-md-3">
         <img ng-src="{{changeable.employeePhoto != undefined ? 'data:image/jpeg;base64,'+changeable.employeePhoto : '/img/default-avatar.jpg'}}" id="photo-id" class="img-thumbnail"/>
-        <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this)" id="photo-upload" style="display:none;"/>
+        <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this)" id="photo-upload" style="display:none;" accept="image/*"/>
         <label for="photo-upload" class="md-button">
             <md-icon md-svg-icon="img/icons/ic_insert_photo_24px.svg"></md-icon>Укажите Фото
         </label>

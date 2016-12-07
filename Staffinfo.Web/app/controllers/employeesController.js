@@ -364,7 +364,11 @@ app.controller('employeesController', [
         $scope.saveChanges = function () {
             //save the changes
             employeesService.saveChanges($scope.changeable).then(function (response) {
-                $state.go('employees');
+                if ($scope.isPensioner())
+                    $state.go('retirees');
+                else
+                    $state.go('employees');
+
                 $mdToast.show({
                     hideDelay: 3000,
                     position: 'top right',
