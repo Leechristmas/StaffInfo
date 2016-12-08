@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 using Staffinfo.DAL.Models;
 using Staffinfo.DAL.Repositories.Interfaces;
@@ -58,6 +61,25 @@ namespace Staffinfo.DAL.Repositories
             return await days.FirstOrDefaultAsync();
         }
 
-
+        /// <summary>
+        /// Returns dictionary (service name - count employees of this service)
+        /// </summary>
+        /// <param name="employeeRepository"></param>
+        /// <param name="serviceId">id of the service</param>
+        /// <returns></returns>
+        public static async Task<Dictionary<string, int>> GetServicesStructure(
+            this IRepository<Employee> employeeRepository)
+        {
+            return
+                await
+                    employeeRepository.Database.SqlQuery<ServiceStructQueryResult>("dbo.pr_GetServicesStructure NULL").ToDictionaryAsync(a => a.ServiceName, b => b.PerCount);
+        }
     }
+
+    internal class ServiceStructQueryResult
+    {
+        public string ServiceName { get; set; }
+        public int PerCount { get; set; }
+    }
+    
 }

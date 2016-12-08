@@ -87,7 +87,8 @@ namespace Staffinfo.DAL.Tests
         [TestMethod]
         public void Get_Expirience()
         {
-            var days = _staffUnitRepository.EmployeeRepository.GetExpirience(1, EmployeeRepositoryHelper.Expirience.Common).Result;
+            //var days = _staffUnitRepository.EmployeeRepository.GetExpirience(1, EmployeeRepositoryHelper.Expirience.Common).Result;
+            var tt = _staffUnitRepository.EmployeeRepository.GetServicesStructure().Result;
         }
 
 

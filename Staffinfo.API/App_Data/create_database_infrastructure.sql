@@ -51,6 +51,7 @@ DROP FUNCTION dbo.fn_GetExpirienceByEmployeeID;
 GO
 
 DROP PROCEDURE dbo.pr_TransferEmployeeToDismissed;
+DROP PROCEDURE dbo.pr_GetServicesStructure;
 
 GO
 
@@ -258,6 +259,39 @@ END
 
 GO
 
+CREATE PROCEDURE dbo.pr_GetServicesStructure @ServiceId INT
+AS
+BEGIN
+  IF @ServiceId IS NOT NULL
+  BEGIN
+    SELECT DISTINCT
+      ts.ServiceName
+     ,COUNT(*) AS PerCount
+    FROM tbl_Service ts
+        ,tbl_MESAchievement tm
+        ,tbl_Post tp
+    WHERE tm.PostID = tp.ID
+    AND tp.ServiceID = ts.ID
+    AND tp.ServiceID = @ServiceId
+    GROUP BY ts.ServiceName
+  END
+  ELSE
+  BEGIN
+    SELECT DISTINCT
+      ts.ServiceName
+     ,COUNT(*) AS PerCount
+    FROM tbl_Service ts
+        ,tbl_MESAchievement tm
+        ,tbl_Post tp
+    WHERE tm.PostID = tp.ID
+    AND tp.ServiceID = ts.ID
+    GROUP BY ts.ServiceName
+  END
+
+END
+
+GO
+
 ------------------------------
 --FUNCTIONS
 ------------------------------
@@ -311,19 +345,23 @@ AS
 BEGIN
   DECLARE @TotalDays INT = 0;
 
-  IF(@Type = 1 OR @Type = 0)
-    BEGIN
-    	SELECT @TotalDays = @TotalDays + DATEDIFF(DAY, tm.StartDate, tm.FinishDate)
-        FROM tbl_MESAchievement tm
-      WHERE tm.EmployeeID = @EmployeeID;
-    END
-  
-  IF(@Type = 2 OR @Type = 0)
-    BEGIN
-    	SELECT @TotalDays = @TotalDays + DATEDIFF(DAY, tms.StartDate, tms.FinishDate)
-        FROM tbl_MilitaryService tms
-      WHERE tms.EmployeeID = @EmployeeID;
-    END
+  IF (@Type = 1
+    OR @Type = 0)
+  BEGIN
+    SELECT
+      @TotalDays = @TotalDays + DATEDIFF(DAY, tm.StartDate, tm.FinishDate)
+    FROM tbl_MESAchievement tm
+    WHERE tm.EmployeeID = @EmployeeID;
+  END
+
+  IF (@Type = 2
+    OR @Type = 0)
+  BEGIN
+    SELECT
+      @TotalDays = @TotalDays + DATEDIFF(DAY, tms.StartDate, tms.FinishDate)
+    FROM tbl_MilitaryService tms
+    WHERE tms.EmployeeID = @EmployeeID;
+  END
 
   RETURN @TotalDays;
 END
@@ -378,8 +416,8 @@ AFTER INSERT, DELETE, UPDATE
 AS
 BEGIN
   UPDATE dbo.tbl_Employee
-  SET ActualRankID = dbo.fn_GetActualRankID(ID),
-      ActualPostID = dbo.fn_GetActualPostID(ID)
+  SET ActualRankID = dbo.fn_GetActualRankID(ID)
+     ,ActualPostID = dbo.fn_GetActualPostID(ID)
 END
 
 GO

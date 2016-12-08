@@ -215,8 +215,14 @@ namespace Staffinfo.API.Controllers
             };
 
             return seniority;//
-        } 
+        }
 
+        [Route("api/employees/servicesstruct")]
+        [HttpGet]
+        public async Task<Dictionary<string, int>> GetServicesStruct()
+        {
+            return await _repository.EmployeeRepository.GetServicesStructure();
+        }
 
         #region Reference Books
 

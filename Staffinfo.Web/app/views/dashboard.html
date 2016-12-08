@@ -8,24 +8,23 @@
             <h2>Общая кадровая структура</h2>
         </div>
         <md-tabs style="min-height: 700px;">
-            <md-tab label="Службы">
+            <md-tab label="Службы" md-on-select="reloadPie()">
                 <md-content>
-                    <div>
+                    <div id="service-chart-container">
                         <h3>Службы</h3>
+                        <md-button class="md-primary" ng-click="reloadPie()">Test</md-button>
                         <div>
-                            <canvas id="serviceChart" class="chart chart-pie"
-                                    chart-data="serviceChart.data" chart-labels="serviceChart.labels" chart-options="serviceChart.options" height="30" width="100"></canvas>
+                            <canvas id="serviceChart" height="30" width="100"></canvas>
                         </div>
                     </div>
                 </md-content>
             </md-tab>
-            <md-tab label="Выслуга лет">
+            <md-tab label="Выслуга лет" md-on-select="reloadBar()">
                 <md-content>
-                    <div>
+                    <div id="seniority-chart-container">
                         <h3>Выслуга лет</h3>
                         <div>
-                            <canvas id="expChart" class="chart chart-bar"
-                                    chart-data="expChart.data" chart-labels="expChart.labels" chart-options="expChart.options"  height="30" width="100"></canvas>
+                            <canvas id="seniorityChart" height="30" width="100"></canvas>
                         </div>
                     </div>
                 </md-content>
