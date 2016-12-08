@@ -85,6 +85,13 @@ namespace Staffinfo.DAL.Tests
         }
 
         [TestMethod]
+        public void Get_Expirience()
+        {
+            var days = _staffUnitRepository.EmployeeRepository.GetExpirience(1, EmployeeRepositoryHelper.Expirience.Common).Result;
+        }
+
+
+        [TestMethod]
         public void Add_Employee()
         {
             EmployeeViewModel e = new EmployeeViewModel

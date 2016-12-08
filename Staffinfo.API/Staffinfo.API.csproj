@@ -228,6 +228,7 @@
     <Compile Include="Models\MilitaryServiceViewModel.cs" />
     <Compile Include="Models\NamedEntity.cs" />
     <Compile Include="Models\RetiredMinViewModel.cs" />
+    <Compile Include="Models\Seniority.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\WorkTermViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

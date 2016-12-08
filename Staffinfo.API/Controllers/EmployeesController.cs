@@ -197,6 +197,27 @@ namespace Staffinfo.API.Controllers
             }
         }
 
+        [Route("api/employees/seniority/{employeeId:int}")]
+        [HttpGet]
+        public async Task<Seniority> GetSeniority(int employeeId)
+        {
+            int mes = await _repository.EmployeeRepository.GetExpirience(employeeId,
+                EmployeeRepositoryHelper.Expirience.MESAchievements);
+            int military = await _repository.EmployeeRepository.GetExpirience(employeeId,
+                EmployeeRepositoryHelper.Expirience.Military);
+
+            Seniority seniority = new Seniority
+            {
+                EmployeeId = employeeId,
+                MESSeniorityDays = mes,
+                MilitarySeniorityDays = military,
+                WorkSeniorityDays = 0
+            };
+
+            return seniority;//
+        } 
+
+
         #region Reference Books
 
         /// <summary>

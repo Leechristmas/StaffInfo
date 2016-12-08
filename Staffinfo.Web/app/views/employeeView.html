@@ -250,6 +250,30 @@
         </md-content>
     </md-tab-body>
 </md-tab>
+<md-tab md-on-select="getSeniority()">
+    <md-tab-label>
+        <md-icon md-svg-icon="img/icons/ic_stars_24px.svg"></md-icon> Выслуга
+    </md-tab-label>
+    <md-tab-body>
+        <md-content>
+            <h1 class="md-display-1">Выслуга Сотрудника</h1>
+
+            <div>
+                <h3>В МЧС:</h3> <h2>{{seniority.mesSeniorityDays}} дней</h2>
+            </div>
+
+            <div>
+                <h3>В Других Силовых структурах:</h3> <h2>{{seniority.militarySeniorityDays}} дней</h2>
+            </div>
+
+            <div>
+                <h3>На гражданских должностях:</h3> <h2>{{seniority.workSeniorityDays}} дней</h2>
+            </div>
+
+            <!--<md-input ng-model="seniority.mesSeniorityDays"></md-input>-->
+        </md-content>
+    </md-tab-body>
+</md-tab>
 <md-tab ng-if="!isPensioner()">
     <md-tab-label>
         <md-icon md-svg-icon="img/icons/ic_call_to_action_24px.svg"></md-icon> Дополнительно

@@ -1,4 +1,6 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 using Staffinfo.DAL.Mapping;
 using Staffinfo.DAL.Models;
 
@@ -46,5 +48,13 @@ namespace Staffinfo.DAL.Context
                 .Add(new WorkTermMap())
                 .Add(new DismissedMap());
         }
+
+        public virtual ObjectResult<int> GetExpirience(int employeeId)
+        {
+            var param = new ObjectParameter("EmployeeId", employeeId);
+
+            return ((IObjectContextAdapter) this).ObjectContext.ExecuteFunction<int>("fn_GetMESExpirienceByEmployeeID",
+                param);
+        } 
     }
 }

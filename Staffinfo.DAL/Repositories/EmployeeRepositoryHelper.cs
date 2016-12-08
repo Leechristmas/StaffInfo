@@ -9,6 +9,17 @@ namespace Staffinfo.DAL.Repositories
     public static class EmployeeRepositoryHelper
     {
         /// <summary>
+        /// Expirience type
+        /// </summary>
+        public enum Expirience
+        {
+            Common = 0,
+            MESAchievements,
+            Military,
+            Work
+        }
+
+        /// <summary>
         /// Transfers the employee to dismissed
         /// </summary>
         /// <param name="employeeRepository"></param>
@@ -27,5 +38,26 @@ namespace Staffinfo.DAL.Repositories
                new SqlParameter("@clause", clause),
                new SqlParameter("@clauseDescription", clauseDescription));
         }
+
+        /// <summary>
+        /// Returns expirience (days) for the specified employee
+        /// </summary>
+        /// <param name="employeeRepository"></param>
+        /// <param name="employeeId">ID of the employee</param>
+        /// <param name="expirienceType">type of expirience</param>
+        /// <returns></returns>
+        public static async Task<int> GetExpirience(this IRepository<Employee> employeeRepository, int employeeId,
+            Expirience expirienceType)
+        {
+            var days =
+                    employeeRepository.Database.SqlQuery<int>(
+                        "select dbo.fn_GetExpirienceByEmployeeID(@employeeId, @type);",
+                        new SqlParameter("@employeeId", employeeId),
+                        new SqlParameter("@type", (int)expirienceType));
+
+            return await days.FirstOrDefaultAsync();
+        }
+
+
     }
 }

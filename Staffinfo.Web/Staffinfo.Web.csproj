@@ -130,6 +130,7 @@
     <Content Include="img\icons\ic_refresh_24px.svg" />
     <Content Include="img\icons\ic_save_24px.svg" />
     <Content Include="img\icons\ic_search_24px.svg" />
+    <Content Include="img\icons\ic_stars_24px.svg" />
     <Content Include="img\icons\ic_tab_24px.svg" />
     <Content Include="packages.config" />
     <Content Include="scripts\angular-animate\angular-animate.js" />

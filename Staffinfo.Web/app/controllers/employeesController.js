@@ -483,8 +483,23 @@ app.controller('employeesController', [
         }
 
         $scope.employee = employeesService.getActualEmployee();
-
         $scope.changeable = employeesService.getClone($scope.employee);
+
+        $scope.getSeniority = function () {
+            $scope.promise = employeesService.getSeniorityById($scope.employee.id).then(function(response) {
+                console.log(response.data);
+                $scope.seniority = response.data;
+            }, function(error) {
+                messageService.setError(error);
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    templateUrl: 'app/views/error-toast.html'
+                });
+            });
+        }
+
 
         //returns date from string
         $scope.getDate = function (date) {

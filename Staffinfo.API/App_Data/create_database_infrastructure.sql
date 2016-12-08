@@ -46,8 +46,7 @@ GO
 
 DROP FUNCTION dbo.fn_GetActualRankID;
 DROP FUNCTION dbo.fn_GetActualPostID;
-DROP FUNCTION dbo.fn_GetMESExpirienceByEmployeeID;
-DROP FUNCTION dbo.fn_GetMilitaryExpirienceByEmployeeID;
+DROP FUNCTION dbo.fn_GetExpirienceByEmployeeID;
 
 GO
 
@@ -258,6 +257,7 @@ BEGIN
 END
 
 GO
+
 ------------------------------
 --FUNCTIONS
 ------------------------------
@@ -303,37 +303,32 @@ END
 
 GO
 
-CREATE FUNCTION dbo.fn_GetMESExpirienceByEmployeeID (@EmployeeID INT)
+--Type: 
+--1-MES; 2-Military; 0-Common
+CREATE FUNCTION dbo.fn_GetExpirienceByEmployeeID (@EmployeeID INT, @Type INT)
 RETURNS INT
 AS
 BEGIN
   DECLARE @TotalDays INT = 0;
 
-  SELECT
-    @TotalDays = @TotalDays + DATEDIFF(DAY, tm.StartDate, tm.FinishDate)
-  FROM tbl_MESAchievement tm
-  WHERE tm.EmployeeID = @EmployeeID;
+  IF(@Type = 1 OR @Type = 0)
+    BEGIN
+    	SELECT @TotalDays = @TotalDays + DATEDIFF(DAY, tm.StartDate, tm.FinishDate)
+        FROM tbl_MESAchievement tm
+      WHERE tm.EmployeeID = @EmployeeID;
+    END
+  
+  IF(@Type = 2 OR @Type = 0)
+    BEGIN
+    	SELECT @TotalDays = @TotalDays + DATEDIFF(DAY, tms.StartDate, tms.FinishDate)
+        FROM tbl_MilitaryService tms
+      WHERE tms.EmployeeID = @EmployeeID;
+    END
 
   RETURN @TotalDays;
 END
 
 GO
-
-CREATE FUNCTION dbo.fn_GetMilitaryExpirienceByEmployeeID (@EmployeeID INT)
-RETURNS INT
-AS
-BEGIN
-  DECLARE @TotalDays INT = 0;
-
-  SELECT
-    @TotalDays = @TotalDays + DATEDIFF(DAY, tms.StartDate, tms.FinishDate)
-  FROM tbl_MilitaryService tms
-  WHERE tms.EmployeeID = @EmployeeID;
-
-  RETURN @TotalDays;
-END
-
-GO;
 ------------------------------
 --TRIGGERS
 ------------------------------

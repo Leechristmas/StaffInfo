@@ -143,6 +143,12 @@ app.factory('employeesService', [
             return $http.post(serviceBase + 'api/employees/dismissedtransfer', dismissal, {});
         }
 
+        //returns promise for getting seniorityby employee id
+        var _getSeniorityById = function(employeeId) {
+            return $http.get(serviceBase + 'api/employees/seniority/' + employeeId);
+        }
+
+        employeesServiceFactory.getSeniorityById = _getSeniorityById;
         employeesServiceFactory.deleteDismissedById = _deleteDismissedById;
         employeesServiceFactory.getDismissed = _getDismissed;
         employeesServiceFactory.trasnferToDismissed = _transferToDismissed;
