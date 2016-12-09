@@ -46,12 +46,13 @@ GO
 
 DROP FUNCTION dbo.fn_GetActualRankID;
 DROP FUNCTION dbo.fn_GetActualPostID;
-DROP FUNCTION dbo.fn_GetExpirienceByEmployeeID;
+DROP FUNCTION dbo.fn_GetSeniorityByEmployeeID;
 
 GO
 
 DROP PROCEDURE dbo.pr_TransferEmployeeToDismissed;
 DROP PROCEDURE dbo.pr_GetServicesStructure;
+DROP PROCEDURE dbo.pr_GetSeniorityStatistic_NOT_USED;
 
 GO
 
@@ -265,8 +266,8 @@ BEGIN
   IF @ServiceId IS NOT NULL
   BEGIN
     SELECT DISTINCT
-      ts.ServiceName
-     ,COUNT(*) AS PerCount
+      ts.ServiceName AS Name
+     ,COUNT(*) AS Count
     FROM tbl_Service ts
         ,tbl_MESAchievement tm
         ,tbl_Post tp
@@ -278,8 +279,8 @@ BEGIN
   ELSE
   BEGIN
     SELECT DISTINCT
-      ts.ServiceName
-     ,COUNT(*) AS PerCount
+      ts.ServiceName AS Name
+     ,COUNT(*) AS Count
     FROM tbl_Service ts
         ,tbl_MESAchievement tm
         ,tbl_Post tp
@@ -291,6 +292,46 @@ BEGIN
 END
 
 GO
+
+CREATE PROCEDURE dbo.pr_GetSeniorityStatistic_NOT_USED @Scale INT, @Min INT, @Max INT
+AS
+BEGIN
+  DECLARE @data TABLE (
+    Name VARCHAR(20)
+   ,Count INT
+  );
+  CREATE TABLE #seniority (
+    Seniority INT
+  );
+
+  INSERT INTO #seniority (Seniority)
+      SELECT
+        dbo.fn_GetSeniorityByEmployeeID(te.ID, 0)
+      FROM tbl_Employee te;
+
+
+  DECLARE @step INT = 0;
+
+  WHILE (@step / 365) <= @Max
+  BEGIN
+  INSERT INTO @data
+      SELECT
+        'от ' + CAST((@step / 365) AS VARCHAR(3)) + ' до ' + CAST(((@step / 365) + @Scale) AS VARCHAR(3))
+       ,COUNT(*)
+      FROM #seniority s
+      WHERE s.Seniority >= @step
+      AND s.Seniority < @step + @Scale * 365;
+  SET @step = @step + @Scale * 365
+  END
+
+  SELECT
+    *
+  FROM @data;
+
+END
+
+GO
+
 
 ------------------------------
 --FUNCTIONS
@@ -339,7 +380,7 @@ GO
 
 --Type: 
 --1-MES; 2-Military; 0-Common
-CREATE FUNCTION dbo.fn_GetExpirienceByEmployeeID (@EmployeeID INT, @Type INT)
+CREATE FUNCTION dbo.fn_GetSeniorityByEmployeeID (@EmployeeID INT, @Type INT)
 RETURNS INT
 AS
 BEGIN
@@ -349,7 +390,7 @@ BEGIN
     OR @Type = 0)
   BEGIN
     SELECT
-      @TotalDays = @TotalDays + DATEDIFF(DAY, tm.StartDate, tm.FinishDate)
+      @TotalDays = @TotalDays + DATEDIFF(DAY, tm.StartDate, CASE WHEN tm.FinishDate IS NULL THEN GETDATE() ELSE tm.FinishDate END)
     FROM tbl_MESAchievement tm
     WHERE tm.EmployeeID = @EmployeeID;
   END
@@ -358,7 +399,7 @@ BEGIN
     OR @Type = 0)
   BEGIN
     SELECT
-      @TotalDays = @TotalDays + DATEDIFF(DAY, tms.StartDate, tms.FinishDate)
+      @TotalDays = @TotalDays + DATEDIFF(DAY, tms.StartDate, CASE WHEN tms.FinishDate IS NULL THEN GETDATE() ELSE tms.FinishDate END)
     FROM tbl_MilitaryService tms
     WHERE tms.EmployeeID = @EmployeeID;
   END

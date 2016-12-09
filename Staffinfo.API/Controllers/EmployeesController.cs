@@ -16,6 +16,7 @@ using Staffinfo.DAL.Repositories.Interfaces;
 namespace Staffinfo.API.Controllers
 {
     [Route("api/employees")]
+    [Authorize]
     public class EmployeesController : ApiController
     {
         private readonly IUnitRepository _repository;
@@ -215,6 +216,31 @@ namespace Staffinfo.API.Controllers
             };
 
             return seniority;//
+        }
+
+        /// <summary>
+        /// Returns seniority statisctic by years
+        /// </summary>
+        /// <param name="scale">one term in a chart</param>
+        /// <param name="min">min value of seniority</param>
+        /// <param name="max">max value of seniority</param>
+        /// <returns></returns>
+        [Route("api/employees/seniority/statistic")]
+        [HttpGet]
+        public async Task<Dictionary<string, int>> GetSeniorityStatistic(int scale = 5, int min = 0, int max = 30)
+        {
+            //Dictionary<string, int> statistic = new Dictionary<string, int>();
+
+            //statistic.Add("от 0 до 5 лет", 3);
+            //statistic.Add("от 5 до 10 лет", 5);
+            //statistic.Add("от 10 до 15 лет", 1);
+            //statistic.Add("от 15 до 20 лет", 7);
+            //statistic.Add("от 20 до 25 лет", 2);
+            //statistic.Add("от 25 до 30 лет", 2);
+
+            //return statistic;//cap
+
+            return await _repository.EmployeeRepository.GetSeniorityStatistic(scale, min, max);
         }
 
         [Route("api/employees/servicesstruct")]

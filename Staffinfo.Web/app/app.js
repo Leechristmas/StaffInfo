@@ -29,7 +29,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             url: "/employees",
             controller: "employeesController",
             templateUrl: "app/views/employees.html",
-            noLogin: false
+            noLogin: true
         }).state('retirees', {
             url: '/retirees',
             controller: 'retireesController',
@@ -77,6 +77,7 @@ app.run(['$rootScope', '$state', '$stateParams', 'authService', function ($rootS
       function (event, toState, toParams, fromState, fromParams) {
           if (!toState.noLogin && !authService.isAuthenticated()) {
               event.preventDefault();
+              authService.authentication.isAuth = false;//test- it is maybe not working
               $rootScope.$state.go('login');
           }
       }

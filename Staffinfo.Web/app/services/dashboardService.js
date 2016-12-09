@@ -5,22 +5,16 @@ app.factory('dashboardService', ['$http', 'ngAuthSettings','authService', functi
 
     var dashboardServiceFactory = {};
 
-    //var _getEmployees = function () {
-    //    var t = authService.isAuthenticated();
-    //    console.log(t);
-    //    return $http.get(serviceBase + 'api/employees').then(function(results) {
-    //        return results;
-    //    });
-    //}
-
-    //dashboardServiceFactory.getEmployees = _getEmployees;
-
+    var _getSeniorityStatisctic = function(options) {
+        return $http.get(serviceBase + 'api/employees/seniority/statistic');
+    }
 
     //returns promise for getting services struct
     var _getServicesStruct = function () {
         return $http.get(serviceBase + 'api/employees/servicesstruct');
     }
 
+    dashboardServiceFactory.getSeniorityStatistic = _getSeniorityStatisctic;
     dashboardServiceFactory.getServicesStruct = _getServicesStruct;
 
     return dashboardServiceFactory;

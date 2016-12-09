@@ -72,14 +72,45 @@ namespace Staffinfo.DAL.Repositories
         {
             return
                 await
-                    employeeRepository.Database.SqlQuery<ServiceStructQueryResult>("dbo.pr_GetServicesStructure NULL").ToDictionaryAsync(a => a.ServiceName, b => b.PerCount);
+                    employeeRepository.Database.SqlQuery<ServiceStructQueryResult>("dbo.pr_GetServicesStructure NULL").ToDictionaryAsync(a => a.Name, b => b.Count);
         }
+
+        public static async Task<Dictionary<string, int>> GetSeniorityStatistic(this IRepository<Employee> employeeRepository, int scale, int min, int max)
+        {
+            var list =
+                await
+                    employeeRepository.Database.SqlQuery<int>(
+                        "SELECT dbo.fn_GetSeniorityByEmployeeID(te.ID, 1) FROM tbl_Employee te;").ToListAsync();
+
+            Dictionary<string, int> statistic = new Dictionary<string, int>();
+
+            int[] sorted = new int[list.Count];
+
+            //TODO: days count
+            foreach (var sen in list)
+            {
+                int position = (sen / 365) / scale;
+                sorted[position] += 1;
+            }
+
+            var pos = 0;
+
+            for (int i = min; i <= max; i += scale)
+            {
+                statistic.Add((i + scale) <= max ? $"от {i} до {i + scale}" : $"от {i} до {max}", sorted[pos]);
+                pos++;
+            }
+
+            return statistic;
+        }
+
+
     }
 
     internal class ServiceStructQueryResult
     {
-        public string ServiceName { get; set; }
-        public int PerCount { get; set; }
+        public string Name { get; set; }
+        public int Count { get; set; }
     }
     
 }

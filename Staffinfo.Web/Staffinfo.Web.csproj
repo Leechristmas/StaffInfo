@@ -179,6 +179,7 @@
     <Content Include="scripts\angular-touch.min.js" />
     <Content Include="scripts\angular\angular.js" />
     <Content Include="scripts\angular\angular.min.js" />
+    <Content Include="scripts\chart-additional.js" />
     <Content Include="scripts\Chart.js" />
     <Content Include="scripts\Chart.min.js" />
     <Content Include="scripts\i18n\angular-locale_aa-dj.js" />
