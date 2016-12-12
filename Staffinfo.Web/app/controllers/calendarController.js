@@ -19,10 +19,6 @@ app.controller('calendarController', [
             return today.getTime() === currentCalendarDate.getTime();
         };
 
-        $scope.loadEvents = function () {
-            $scope.eventSource = createRandomEvents();
-        };
-
         $scope.onEventSelected = function (event) {
             $scope.event = event;
         };
@@ -31,7 +27,7 @@ app.controller('calendarController', [
             console.log('Selected time: ' + selectedTime);
         };
 
-        function createRandomEvents() {
+        var createRandomEvents = function () {
             var events = [];
             for (var i = 0; i < 50; i += 1) {
                 var date = new Date();
@@ -67,5 +63,11 @@ app.controller('calendarController', [
             }
             return events;
         }
+
+        $scope.loadEvents = function () {
+            $scope.eventSource = createRandomEvents();
+        };
+
+        $scope.loadEvents();
     }
 ]);
