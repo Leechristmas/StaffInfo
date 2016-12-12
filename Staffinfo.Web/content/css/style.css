@@ -96,3 +96,14 @@ table.md-table th.td-center.md-column{
     width: 185px;
     height: 185px;
 }
+
+/*calendar*/
+.monthview-selected {
+    background-color: rgb(33, 150, 243);
+    color: white;
+}
+
+.well {
+    background-color: white;
+    height: 100%;
+}

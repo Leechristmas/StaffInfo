@@ -66,6 +66,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\controllers\calendarController.js" />
     <Content Include="app\controllers\dashboardController.js" />
     <Content Include="app\controllers\dismissedController.js" />
     <Content Include="app\controllers\employeesController.js" />
@@ -94,6 +95,8 @@
     <Content Include="app\views\retiredTransferView.html" />
     <Content Include="app\views\retirees.html" />
     <Content Include="app\views\signup.html" />
+    <Content Include="content\css\calendar.css" />
+    <Content Include="content\css\calendar.min.css" />
     <Content Include="content\css\angular-material.css" />
     <Content Include="content\css\angular-material.layout-attributes.css" />
     <Content Include="content\css\angular-material.layout-attributes.min.css" />
@@ -179,6 +182,8 @@
     <Content Include="scripts\angular-touch.min.js" />
     <Content Include="scripts\angular\angular.js" />
     <Content Include="scripts\angular\angular.min.js" />
+    <Content Include="scripts\calendar-tpls.js" />
+    <Content Include="scripts\calendar-tpls.min.js" />
     <Content Include="scripts\chart-additional.js" />
     <Content Include="scripts\Chart.js" />
     <Content Include="scripts\Chart.min.js" />
