@@ -7,6 +7,7 @@
     <link href="content/css/loading-bar.min.css" rel="stylesheet" />
     <link href="content/css/angular-material.min.css" rel="stylesheet" />
     <link href="content/css/md-data-table.css" rel="stylesheet" />
+    <link href="content/css/calendar.css" rel="stylesheet" />
     <link href="content/css/style.css" rel="stylesheet" />
     <link href="content/css/site.css" rel="stylesheet" />
 
@@ -64,11 +65,11 @@
         </md-toolbar>
     </div>
 
-<div flex layout="row">
-    <md-content ui-view="" class="content">
+    <div flex layout="row">
+        <md-content ui-view="" class="content">
 
-    </md-content>
-</div>
+        </md-content>
+    </div>
 
     <!--<div class="container" ui-view="">
 
@@ -83,6 +84,8 @@
     <script src="scripts/loading-bar.js"></script>
     <script src="scripts/Chart.min.js"></script>
     <script src="scripts/angular-chart.js"></script>
+    <!-- Custom -->
+    <script src="scripts/chart-additional.js"></script>
     <!-- Angular Material requires Angular.js Libraries -->
     <script src="scripts/angular-animate/angular-animate.js"></script>
     <script src="scripts/angular-aria/angular-aria.js"></script>
@@ -110,5 +113,8 @@
     <script src="app/controllers/employeesController.js"></script>
     <script src="app/controllers/retireesController.js"></script>
     <script src="app/controllers/dismissedController.js"></script>
+    <!-- calendar -->
+    <script src="scripts/calendar-tpls.js"></script>
+    <script src="app/controllers/calendarController.js"></script>
 </body>
 </html>

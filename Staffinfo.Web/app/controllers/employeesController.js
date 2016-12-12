@@ -175,7 +175,7 @@ app.controller('employeesController', [
         };
 
         $scope.maxDate = employeesService.maxDate;
-
+        
         //shows the window for adding new mes achievement
         $scope.showAddMesView = function (ev) {
             $mdDialog.show({
@@ -236,7 +236,7 @@ app.controller('employeesController', [
                 $mdDialog.show(confirm).then(function (response) {
                     console.log('');
                     //success
-                }, function(error) {
+                }, function (error) {
                     //cancel
                 });
             } else if (type === 'F') {
@@ -364,7 +364,11 @@ app.controller('employeesController', [
         $scope.saveChanges = function () {
             //save the changes
             employeesService.saveChanges($scope.changeable).then(function (response) {
-                $state.go('employees');
+                if ($scope.isPensioner())
+                    $state.go('retirees');
+                else
+                    $state.go('employees');
+
                 $mdToast.show({
                     hideDelay: 3000,
                     position: 'top right',
@@ -385,6 +389,39 @@ app.controller('employeesController', [
                 });
             });
         }
+
+        $scope.uploadFile = function (input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+
+                    //Sets the Old Image to new New Image
+                    document.getElementById('photo-id').setAttribute('src', e.target.result);
+
+                    //Create a canvas and draw image on Client Side to get the byte[] equivalent
+                    var canvas = document.createElement("canvas");
+                    var imageElement = document.createElement("img");
+
+                    imageElement.setAttribute('src', e.target.result);
+                    canvas.width = imageElement.width;
+                    canvas.height = imageElement.height;
+                    var context = canvas.getContext("2d");
+                    context.drawImage(imageElement, 0, 0);
+                    var base64Image = canvas.toDataURL("image/jpeg");
+
+                    //Removes the Data Type Prefix 
+                    //And set the view model to the new value
+                    $scope.changeable.employeePhoto = base64Image.replace(/data:image\/jpeg;base64,/g, '');
+                }
+
+                //Renders Image on Page
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $scope.upload = function () {
+            angular.element(document.getElementById('photo-id')).click();
+        };
 
         //reset all changes
         $scope.resetChanges = function () {
@@ -446,8 +483,23 @@ app.controller('employeesController', [
         }
 
         $scope.employee = employeesService.getActualEmployee();
-
         $scope.changeable = employeesService.getClone($scope.employee);
+
+        $scope.getSeniority = function () {
+            $scope.promise = employeesService.getSeniorityById($scope.employee.id).then(function (response) {
+                console.log(response.data);
+                $scope.seniority = response.data;
+            }, function (error) {
+                messageService.setError(error);
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    templateUrl: 'app/views/error-toast.html'
+                });
+            });
+        }
+
 
         //returns date from string
         $scope.getDate = function (date) {
@@ -467,6 +519,22 @@ app.controller('employeesController', [
         $scope.military = { employeeId: employeesService.getActualEmployee().id };
         $scope.work = { employeeId: employeesService.getActualEmployee().id };
 
+
+        $scope.setPosts = function (serviceId) {
+            //posts init
+            employeesService.getPosts(serviceId).then(function (response) {
+                $scope.posts = response.data;
+            }, function (error) {
+                messageService.setError(error);
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    templateUrl: 'app/views/error-toast.html'
+                });
+            });
+        }
+
         //ranks init
         employeesService.getRanks().then(function (response) {
             $scope.ranks = response.data;
@@ -480,9 +548,9 @@ app.controller('employeesController', [
             });
         });
 
-        //posts init
-        employeesService.getPosts().then(function (response) {
-            $scope.posts = response.data;
+        //locations init
+        employeesService.getLocations().then(function (response) {
+            $scope.locations = response.data;
         }, function (error) {
             messageService.setError(error);
             $mdToast.show({
@@ -493,9 +561,9 @@ app.controller('employeesController', [
             });
         });
 
-        //locations init
-        employeesService.getLocations().then(function (response) {
-            $scope.locations = response.data;
+        //services
+        employeesService.getServices().then(function (response) {
+            $scope.services = response.data;
         }, function (error) {
             messageService.setError(error);
             $mdToast.show({

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Staffinfo.DAL.Context;
@@ -83,6 +85,20 @@ namespace Staffinfo.DAL.Tests
                 new SqlParameter("@clause", "333"),
                 new SqlParameter("@clauseDescription", "azaza"));
         }
+
+        [TestMethod]
+        public void Get_Expirience()
+        {
+            //var days = _staffUnitRepository.EmployeeRepository.GetExpirience(1, EmployeeRepositoryHelper.Expirience.Common).Result;
+            var tt = _staffUnitRepository.EmployeeRepository.GetServicesStructure().Result;
+        }
+
+        [TestMethod]
+        public async Task Get_Seniority_Statistic()
+        {
+            var tt = await _staffUnitRepository.EmployeeRepository.GetSeniorityStatistic(5, 0, 32, EmployeeRepositoryHelper.Seniority.Total);
+        }
+
 
         [TestMethod]
         public void Add_Employee()

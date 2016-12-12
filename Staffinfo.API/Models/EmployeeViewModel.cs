@@ -40,6 +40,9 @@ namespace Staffinfo.API.Models
         [DataMember(Name = "retirementDate")]
         public DateTime? RetirementDate { get; set; }
 
+        [DataMember(Name = "employeePhoto")]
+        public byte[] EmployeePhoto { get; set; }
+
         public EmployeeViewModel()
         { }
 
@@ -56,6 +59,7 @@ namespace Staffinfo.API.Models
             FirstPhoneNumber = employee.FirstPhoneNumber;
             SecondPhoneNumber = employee.SecondPhoneNumber;
             RetirementDate = employee.RetirementDate;
+            EmployeePhoto = employee.EmployeePhoto;
         }
     }
 }

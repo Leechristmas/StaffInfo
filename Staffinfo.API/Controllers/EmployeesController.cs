@@ -16,6 +16,7 @@ using Staffinfo.DAL.Repositories.Interfaces;
 namespace Staffinfo.API.Controllers
 {
     [Route("api/employees")]
+    [Authorize]
     public class EmployeesController : ApiController
     {
         private readonly IUnitRepository _repository;
@@ -106,7 +107,8 @@ namespace Staffinfo.API.Controllers
                 BirthDate = value.BirthDate,
                 PassportId = passport.Id,
                 AddressId = address.Id,
-                Description = value.Description
+                Description = value.Description,
+                EmployeePhoto = value.EmployeePhoto
             };
             _repository.EmployeeRepository.Create(newEmpl);
             await _repository.EmployeeRepository.SaveAsync();
@@ -153,6 +155,7 @@ namespace Staffinfo.API.Controllers
                 original.EmployeeMiddlename = value.EmployeeMiddlename;
                 original.BirthDate = value.BirthDate;
                 original.Description = value.Description;
+                original.EmployeePhoto = value.EmployeePhoto;
 
                 _repository.EmployeeRepository.Update(original);
                 await _repository.EmployeeRepository.SaveAsync();
@@ -193,6 +196,61 @@ namespace Staffinfo.API.Controllers
             {
                 await _repository.EmployeeRepository.TransferToDismissed(dismissal.EmployeeId.Value, dismissal.DismissalDate.Value, dismissal.Clause, dismissal.ClauseDescription);
             }
+        }
+
+        [Route("api/employees/seniority/{employeeId:int}")]
+        [HttpGet]
+        public async Task<Seniority> GetSeniority(int employeeId)
+        {
+            int mes = await _repository.EmployeeRepository.GetExpirience(employeeId,
+                EmployeeRepositoryHelper.Expirience.MESAchievements);
+            int military = await _repository.EmployeeRepository.GetExpirience(employeeId,
+                EmployeeRepositoryHelper.Expirience.Military);
+
+            Seniority seniority = new Seniority
+            {
+                EmployeeId = employeeId,
+                MESSeniorityDays = mes,
+                MilitarySeniorityDays = military,
+                WorkSeniorityDays = 0
+            };
+
+            return seniority;//
+        }
+
+        /// <summary>
+        /// Returns total seniority statisctic by years
+        /// </summary>
+        /// <param name="scale">one term in a chart</param>
+        /// <param name="min">min value of seniority</param>
+        /// <param name="max">max value of seniority</param>
+        /// <returns></returns>
+        [Route("api/employees/seniority/statistic/total")]
+        [HttpGet]
+        public async Task<Dictionary<string, int>> GetTotalSeniorityStatistic(int scale = 5, int min = 0, int max = 30)
+        {
+            return await _repository.EmployeeRepository.GetSeniorityStatistic(scale, min, max, EmployeeRepositoryHelper.Seniority.Total);
+        }
+
+        /// <summary>
+        /// Returns seniority statisctic by years for actual employees
+        /// </summary>
+        /// <param name="scale">one term in a chart</param>
+        /// <param name="min">min value of seniority</param>
+        /// <param name="max">max value of seniority</param>
+        /// <returns></returns>
+        [Route("api/employees/seniority/statistic/actual")]
+        [HttpGet]
+        public async Task<Dictionary<string, int>> GetActualSeniorityStatistic(int scale = 5, int min = 0, int max = 30)
+        {
+            return await _repository.EmployeeRepository.GetSeniorityStatistic(scale, min, max, EmployeeRepositoryHelper.Seniority.Actual);
+        }
+
+        [Route("api/employees/servicesstruct")]
+        [HttpGet]
+        public async Task<Dictionary<string, int>> GetServicesStruct()
+        {
+            return await _repository.EmployeeRepository.GetServicesStructure();
         }
 
         #region Reference Books
@@ -236,6 +294,14 @@ namespace Staffinfo.API.Controllers
         {
             IEnumerable<Post> list =  await _repository.PostRepository.SelectAsync();
             return list.OrderBy(p => p.PostWeight).Select(p => new NamedEntity {Id = p.Id, Name = p.PostName});
+        }
+
+        [HttpGet]
+        [Route("api/employees/postsforservice/{serviceId:int}")]
+        public async Task<IEnumerable<NamedEntity>> GetPostsByServiceId(int serviceId)
+        {
+            IEnumerable<Post> list = await _repository.PostRepository.WhereAsync(p => p.ServiceId == serviceId);
+            return list.OrderBy(p => p.PostWeight).Select(p => new NamedEntity { Id = p.Id, Name = p.PostName });
         }
 
         [HttpGet]

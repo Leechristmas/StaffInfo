@@ -104,9 +104,17 @@ app.factory('employeesService', [
             return $http.get(serviceBase + 'api/employees/ranks');
         }
 
+        //returns promise for getting services
+        var _getServices = function() {
+            return $http.get(serviceBase + 'api/employees/services');
+        }
+
         //returns promise for getting ranks
-        var _getPosts = function () {
-            return $http.get(serviceBase + 'api/employees/posts');
+        var _getPosts = function (serviceId) {
+            if (serviceId)
+                return $http.get(serviceBase + 'api/employees/postsforservice/' + serviceId);
+            else
+                return $http.get(serviceBase + 'api/employees/posts');
         }
         
         //returns promise for getting locations
@@ -143,6 +151,13 @@ app.factory('employeesService', [
             return $http.post(serviceBase + 'api/employees/dismissedtransfer', dismissal, {});
         }
 
+        //returns promise for getting seniorityby employee id
+        var _getSeniorityById = function(employeeId) {
+            return $http.get(serviceBase + 'api/employees/seniority/' + employeeId);
+        }
+
+        employeesServiceFactory.getServices = _getServices;
+        employeesServiceFactory.getSeniorityById = _getSeniorityById;
         employeesServiceFactory.deleteDismissedById = _deleteDismissedById;
         employeesServiceFactory.getDismissed = _getDismissed;
         employeesServiceFactory.trasnferToDismissed = _transferToDismissed;
