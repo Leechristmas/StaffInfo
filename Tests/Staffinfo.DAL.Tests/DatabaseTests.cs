@@ -96,7 +96,7 @@ namespace Staffinfo.DAL.Tests
         [TestMethod]
         public async Task Get_Seniority_Statistic()
         {
-            var tt = await _staffUnitRepository.EmployeeRepository.GetSeniorityStatistic(5, 0, 32);
+            var tt = await _staffUnitRepository.EmployeeRepository.GetSeniorityStatistic(5, 0, 32, EmployeeRepositoryHelper.Seniority.Total);
         }
 
 

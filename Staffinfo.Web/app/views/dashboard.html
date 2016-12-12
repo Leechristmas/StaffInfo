@@ -28,8 +28,13 @@
                         <h3>Выслуга лет</h3>
                         <div>
                             <canvas id="seniorityChart" height="30" width="100"></canvas>
+                            <div flex-gt-sm="50">
+                            </div>
                         </div>
                     </div>
+                    <md-checkbox ng-model="includeRetirees" aria-label="Retirees" ng-disabled="false" ng-click="toggleRetirees(includeRetirees)" style="margin-left: 10px;">
+                        Пенсионеры
+                    </md-checkbox>
                 </md-content>
             </md-tab>
         </md-tabs>

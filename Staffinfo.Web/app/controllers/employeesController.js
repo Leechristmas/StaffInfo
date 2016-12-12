@@ -66,7 +66,7 @@ app.controller('employeesController', [
         $scope.getDate = function (date) {
             return new Date(date);
         }
-        
+
         //shows the window with form for adding new employee
         $scope.showAddingView = function (ev) {
             $mdDialog.show({
@@ -175,7 +175,7 @@ app.controller('employeesController', [
         };
 
         $scope.maxDate = employeesService.maxDate;
-
+        
         //shows the window for adding new mes achievement
         $scope.showAddMesView = function (ev) {
             $mdDialog.show({
@@ -236,7 +236,7 @@ app.controller('employeesController', [
                 $mdDialog.show(confirm).then(function (response) {
                     console.log('');
                     //success
-                }, function(error) {
+                }, function (error) {
                     //cancel
                 });
             } else if (type === 'F') {
@@ -486,10 +486,10 @@ app.controller('employeesController', [
         $scope.changeable = employeesService.getClone($scope.employee);
 
         $scope.getSeniority = function () {
-            $scope.promise = employeesService.getSeniorityById($scope.employee.id).then(function(response) {
+            $scope.promise = employeesService.getSeniorityById($scope.employee.id).then(function (response) {
                 console.log(response.data);
                 $scope.seniority = response.data;
-            }, function(error) {
+            }, function (error) {
                 messageService.setError(error);
                 $mdToast.show({
                     hideDelay: 3000,
@@ -519,6 +519,22 @@ app.controller('employeesController', [
         $scope.military = { employeeId: employeesService.getActualEmployee().id };
         $scope.work = { employeeId: employeesService.getActualEmployee().id };
 
+
+        $scope.setPosts = function (serviceId) {
+            //posts init
+            employeesService.getPosts(serviceId).then(function (response) {
+                $scope.posts = response.data;
+            }, function (error) {
+                messageService.setError(error);
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    templateUrl: 'app/views/error-toast.html'
+                });
+            });
+        }
+
         //ranks init
         employeesService.getRanks().then(function (response) {
             $scope.ranks = response.data;
@@ -532,9 +548,9 @@ app.controller('employeesController', [
             });
         });
 
-        //posts init
-        employeesService.getPosts().then(function (response) {
-            $scope.posts = response.data;
+        //locations init
+        employeesService.getLocations().then(function (response) {
+            $scope.locations = response.data;
         }, function (error) {
             messageService.setError(error);
             $mdToast.show({
@@ -545,9 +561,9 @@ app.controller('employeesController', [
             });
         });
 
-        //locations init
-        employeesService.getLocations().then(function (response) {
-            $scope.locations = response.data;
+        //services
+        employeesService.getServices().then(function (response) {
+            $scope.services = response.data;
         }, function (error) {
             messageService.setError(error);
             $mdToast.show({

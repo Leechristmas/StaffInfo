@@ -23,6 +23,15 @@ namespace Staffinfo.DAL.Repositories
         }
 
         /// <summary>
+        /// Seniority type
+        /// </summary>
+        public enum Seniority
+        {
+            Total = 0,
+            Actual
+        }
+
+        /// <summary>
         /// Transfers the employee to dismissed
         /// </summary>
         /// <param name="employeeRepository"></param>
@@ -54,7 +63,7 @@ namespace Staffinfo.DAL.Repositories
         {
             var days =
                     employeeRepository.Database.SqlQuery<int>(
-                        "select dbo.fn_GetExpirienceByEmployeeID(@employeeId, @type);",
+                        "select dbo.fn_GetSeniorityByEmployeeID(@employeeId, @type);",
                         new SqlParameter("@employeeId", employeeId),
                         new SqlParameter("@type", (int)expirienceType));
 
@@ -75,16 +84,31 @@ namespace Staffinfo.DAL.Repositories
                     employeeRepository.Database.SqlQuery<ServiceStructQueryResult>("dbo.pr_GetServicesStructure NULL").ToDictionaryAsync(a => a.Name, b => b.Count);
         }
 
-        public static async Task<Dictionary<string, int>> GetSeniorityStatistic(this IRepository<Employee> employeeRepository, int scale, int min, int max)
+        public static async Task<Dictionary<string, int>> GetSeniorityStatistic(this IRepository<Employee> employeeRepository, int scale, int min, int max, Seniority seniority)
         {
-            var list =
-                await
-                    employeeRepository.Database.SqlQuery<int>(
-                        "SELECT dbo.fn_GetSeniorityByEmployeeID(te.ID, 1) FROM tbl_Employee te;").ToListAsync();
+            List<int> list = null;
+
+            switch (seniority)
+            {
+                case Seniority.Total:
+                    list =
+                    await
+                        employeeRepository.Database.SqlQuery<int>(
+                            "SELECT dbo.fn_GetSeniorityByEmployeeID(te.ID, 1) FROM tbl_Employee te;").ToListAsync();
+                    break;
+                case Seniority.Actual:
+                    list =
+                    await
+                        employeeRepository.Database.SqlQuery<int>(
+                            "SELECT dbo.fn_GetSeniorityByEmployeeID(te.ID, 1) FROM tbl_Employee te where te.RetirementDate is null;").ToListAsync();
+                    break;
+                default:
+                    throw new Exception("Incorrect seniority type!");
+            }
 
             Dictionary<string, int> statistic = new Dictionary<string, int>();
 
-            int[] sorted = new int[list.Count];
+            int[] sorted = new int[max % scale == 0 ? max / scale : max / scale + 1];
 
             //TODO: days count
             foreach (var sen in list)
@@ -95,9 +119,9 @@ namespace Staffinfo.DAL.Repositories
 
             var pos = 0;
 
-            for (int i = min; i <= max; i += scale)
+            for (int i = min; i < max; i += scale)
             {
-                statistic.Add((i + scale) <= max ? $"от {i} до {i + scale}" : $"от {i} до {max}", sorted[pos]);
+                statistic.Add((i + scale) <= max ? $"от {i} до {i + scale} лет" : $"от {i} до {max} лет", sorted[pos]);
                 pos++;
             }
 
@@ -112,5 +136,5 @@ namespace Staffinfo.DAL.Repositories
         public string Name { get; set; }
         public int Count { get; set; }
     }
-    
+
 }

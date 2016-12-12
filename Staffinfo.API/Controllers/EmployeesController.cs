@@ -219,28 +219,31 @@ namespace Staffinfo.API.Controllers
         }
 
         /// <summary>
-        /// Returns seniority statisctic by years
+        /// Returns total seniority statisctic by years
         /// </summary>
         /// <param name="scale">one term in a chart</param>
         /// <param name="min">min value of seniority</param>
         /// <param name="max">max value of seniority</param>
         /// <returns></returns>
-        [Route("api/employees/seniority/statistic")]
+        [Route("api/employees/seniority/statistic/total")]
         [HttpGet]
-        public async Task<Dictionary<string, int>> GetSeniorityStatistic(int scale = 5, int min = 0, int max = 30)
+        public async Task<Dictionary<string, int>> GetTotalSeniorityStatistic(int scale = 5, int min = 0, int max = 30)
         {
-            //Dictionary<string, int> statistic = new Dictionary<string, int>();
+            return await _repository.EmployeeRepository.GetSeniorityStatistic(scale, min, max, EmployeeRepositoryHelper.Seniority.Total);
+        }
 
-            //statistic.Add("от 0 до 5 лет", 3);
-            //statistic.Add("от 5 до 10 лет", 5);
-            //statistic.Add("от 10 до 15 лет", 1);
-            //statistic.Add("от 15 до 20 лет", 7);
-            //statistic.Add("от 20 до 25 лет", 2);
-            //statistic.Add("от 25 до 30 лет", 2);
-
-            //return statistic;//cap
-
-            return await _repository.EmployeeRepository.GetSeniorityStatistic(scale, min, max);
+        /// <summary>
+        /// Returns seniority statisctic by years for actual employees
+        /// </summary>
+        /// <param name="scale">one term in a chart</param>
+        /// <param name="min">min value of seniority</param>
+        /// <param name="max">max value of seniority</param>
+        /// <returns></returns>
+        [Route("api/employees/seniority/statistic/actual")]
+        [HttpGet]
+        public async Task<Dictionary<string, int>> GetActualSeniorityStatistic(int scale = 5, int min = 0, int max = 30)
+        {
+            return await _repository.EmployeeRepository.GetSeniorityStatistic(scale, min, max, EmployeeRepositoryHelper.Seniority.Actual);
         }
 
         [Route("api/employees/servicesstruct")]
@@ -291,6 +294,14 @@ namespace Staffinfo.API.Controllers
         {
             IEnumerable<Post> list =  await _repository.PostRepository.SelectAsync();
             return list.OrderBy(p => p.PostWeight).Select(p => new NamedEntity {Id = p.Id, Name = p.PostName});
+        }
+
+        [HttpGet]
+        [Route("api/employees/postsforservice/{serviceId:int}")]
+        public async Task<IEnumerable<NamedEntity>> GetPostsByServiceId(int serviceId)
+        {
+            IEnumerable<Post> list = await _repository.PostRepository.WhereAsync(p => p.ServiceId == serviceId);
+            return list.OrderBy(p => p.PostWeight).Select(p => new NamedEntity { Id = p.Id, Name = p.PostName });
         }
 
         [HttpGet]

@@ -5,8 +5,12 @@ app.factory('dashboardService', ['$http', 'ngAuthSettings','authService', functi
 
     var dashboardServiceFactory = {};
 
-    var _getSeniorityStatisctic = function(options) {
-        return $http.get(serviceBase + 'api/employees/seniority/statistic');
+    var _getTotalSeniorityStatisctic = function(options) {
+        return $http.get(serviceBase + 'api/employees/seniority/statistic/total');
+    }
+
+    var _getActualSeniorityStatistic = function(options) {
+        return $http.get(serviceBase + 'api/employees/seniority/statistic/actual');
     }
 
     //returns promise for getting services struct
@@ -14,7 +18,8 @@ app.factory('dashboardService', ['$http', 'ngAuthSettings','authService', functi
         return $http.get(serviceBase + 'api/employees/servicesstruct');
     }
 
-    dashboardServiceFactory.getSeniorityStatistic = _getSeniorityStatisctic;
+    dashboardServiceFactory.getActualSeniorityStatistic = _getActualSeniorityStatistic;
+    dashboardServiceFactory.getTotalSeniorityStatistic = _getTotalSeniorityStatisctic;
     dashboardServiceFactory.getServicesStruct = _getServicesStruct;
 
     return dashboardServiceFactory;
