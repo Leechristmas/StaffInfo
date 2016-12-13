@@ -25,8 +25,20 @@ app.controller('calendarController', [
         };
 
         //when event has been dbl clicked
-        $scope.onDblClicked = function(event) {
-            console.log(event);
+        $scope.onDblClicked = function (event) {
+            $scope.eventSource.push({
+                title: 'TEST - 1',
+                startTime: new Date($scope.currentDate),
+                endTime: new Date($scope.currentDate),
+                allDay: true,
+                details: 'test details'
+            });
+            $scope.updateCalendar();
+        }
+
+        //updates the calendar
+        $scope.updateCalendar = function () {
+            $scope.$broadcast('eventSourceChanged', $scope.eventSource);
         }
 
         $scope.onTimeSelected = function (selectedTime) {
