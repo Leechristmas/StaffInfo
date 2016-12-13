@@ -18,6 +18,12 @@ app.factory('dashboardService', ['$http', 'ngAuthSettings','authService', functi
         return $http.get(serviceBase + 'api/employees/servicesstruct');
     }
 
+    var _getNotifications = function(options) {
+        return $http.get(serviceBase + 'api/dashboard/notifications?includeCustomNotifications=' + options.includeCustomNotifications +
+            '&includeSertification=' + options.includeSertification + '&includeBirthDates=' + options.includeBirthDates);
+    }
+
+    dashboardServiceFactory.getNotifications = _getNotifications;
     dashboardServiceFactory.getActualSeniorityStatistic = _getActualSeniorityStatistic;
     dashboardServiceFactory.getTotalSeniorityStatistic = _getTotalSeniorityStatisctic;
     dashboardServiceFactory.getServicesStruct = _getServicesStruct;

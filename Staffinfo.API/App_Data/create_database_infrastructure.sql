@@ -41,6 +41,7 @@ DROP TABLE dbo.tbl_Rank;
 DROP TABLE dbo.tbl_Post;
 DROP TABLE dbo.tbl_Service;
 DROP TABLE dbo.tbl_MilitaryService;
+DROP TABLE dbo.tbl_Notifications;
 
 GO
 
@@ -53,6 +54,9 @@ GO
 DROP PROCEDURE dbo.pr_TransferEmployeeToDismissed;
 DROP PROCEDURE dbo.pr_GetServicesStructure;
 DROP PROCEDURE dbo.pr_GetSeniorityStatistic_NOT_USED;
+DROP PROCEDURE dbo.pr_GetNotifications;
+DROP PROCEDURE dbo.pr_DeleteNotification;
+DROP PROCEDURE dbo.pr_AddNotification;
 
 GO
 
@@ -216,6 +220,15 @@ UNIQUE (EmployeeID, StartDate);
 
 GO
 
+CREATE TABLE dbo.tbl_Notifications (
+  ID INT IDENTITY (1, 1) PRIMARY KEY
+ ,Author VARCHAR(100)
+ ,Title VARCHAR(20) NOT NULL
+ ,Details VARCHAR(200)
+ ,DueDate DATETIME NOT NULL
+);
+
+GO
 ------------------------------
 --PROCEDURES
 ------------------------------
@@ -332,7 +345,78 @@ END
 
 GO
 
+CREATE PROCEDURE dbo.pr_GetNotifications @IncludeCustomNotifications BIT = 0,
+@IncludeSertification BIT = 0,  --when corresponding table will be added
+@IncludeBirthDates BIT = 0
+AS
+BEGIN
+  CREATE TABLE #query (
+    ID INT
+   ,Author VARCHAR(100)
+   ,Title VARCHAR(20) NOT NULL
+   ,Details VARCHAR(200)
+   ,DueDate DATETIME NOT NULL
+  );
 
+  IF @IncludeCustomNotifications = 1
+  BEGIN
+    INSERT INTO #query (ID, Author, Title, Details, DueDate)
+        SELECT
+          tn.ID
+         ,tn.Author
+         ,tn.Title
+         ,tn.Details
+         ,tn.DueDate
+        FROM dbo.tbl_Notifications tn
+  END
+
+  IF @IncludeBirthDates = 1
+  BEGIN
+    INSERT INTO #query (Id, Author, Title, Details, DueDate)
+        SELECT
+          -1
+         ,NULL
+         ,'День Рождения'
+         ,'День рождения сотрудника ' + te.EmployeeLastname + ' ' + te.EmployeeFirstname + ' ' + te.EmployeeMiddlename + ' (' + CONVERT(VARCHAR, te.BirthDate, 104) + ')'
+         ,DATEADD(yy, DATEDIFF(yy,te.BirthDate,getdate()), te.BirthDate)
+        FROM dbo.tbl_Employee te
+        WHERE te.RetirementDate IS NULL;
+  END
+
+  SELECT
+    *
+  FROM #query q;
+
+END;
+
+GO
+
+CREATE PROCEDURE dbo.pr_DeleteNotification @NotificationId INT
+AS
+BEGIN
+  IF EXISTS (SELECT
+        *
+      FROM dbo.tbl_Notifications n
+      WHERE n.ID = @NotificationId)
+    DELETE FROM dbo.tbl_Notifications
+    WHERE ID = @NotificationId;
+  ELSE
+    RAISERROR ('Notification with specified id does not exist is null!', 16, 2);
+END
+
+GO
+
+CREATE PROCEDURE dbo.pr_AddNotification @Author VARCHAR(100),
+@Title VARCHAR(20),
+@Details VARCHAR(200),
+@DueDate DATETIME
+AS
+BEGIN
+  INSERT INTO tbl_Notifications (Author, Title, Details, DueDate)
+    VALUES (@Author, @Title, @Details, @DueDate);
+END
+
+GO
 ------------------------------
 --FUNCTIONS
 ------------------------------
@@ -390,7 +474,10 @@ BEGIN
     OR @Type = 0)
   BEGIN
     SELECT
-      @TotalDays = @TotalDays + DATEDIFF(DAY, tm.StartDate, CASE WHEN tm.FinishDate IS NULL THEN GETDATE() ELSE tm.FinishDate END)
+      @TotalDays = @TotalDays + DATEDIFF(DAY, tm.StartDate, CASE
+        WHEN tm.FinishDate IS NULL THEN GETDATE()
+        ELSE tm.FinishDate
+      END)
     FROM tbl_MESAchievement tm
     WHERE tm.EmployeeID = @EmployeeID;
   END
@@ -399,7 +486,10 @@ BEGIN
     OR @Type = 0)
   BEGIN
     SELECT
-      @TotalDays = @TotalDays + DATEDIFF(DAY, tms.StartDate, CASE WHEN tms.FinishDate IS NULL THEN GETDATE() ELSE tms.FinishDate END)
+      @TotalDays = @TotalDays + DATEDIFF(DAY, tms.StartDate, CASE
+        WHEN tms.FinishDate IS NULL THEN GETDATE()
+        ELSE tms.FinishDate
+      END)
     FROM tbl_MilitaryService tms
     WHERE tms.EmployeeID = @EmployeeID;
   END

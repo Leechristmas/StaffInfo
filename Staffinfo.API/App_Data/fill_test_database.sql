@@ -122,7 +122,7 @@ INSERT INTO dbo.tbl_Employee(EmployeeFirstname, EmployeeLastname, EmployeeMiddle
 	('Павел', 'Рыбаконь', 'Николаевич', '1989-04-03', 10, 10, NULL, NULL),
 	('Дмитрий', 'Андропов', 'Алексеевич', '1991-04-08', 11, 11, NULL, NULL),
 	('Иван', 'Чтецов', 'Николаевич', '1987-05-01', 12, 12, NULL, NULL),
-	('Алексей', 'Шевчцов', 'Николаевич', '1980-12-06', 13, 13, NULL, NULL),
+	('Алексей', 'Шевцов', 'Николаевич', '1980-12-06', 13, 13, NULL, NULL),
 	('Ян', 'Клопов', 'Иванович', '1979-09-03', 14, 14, NULL, NULL);
 
 GO
@@ -144,3 +144,8 @@ INSERT INTO dbo.tbl_MESAchievement (EmployeeID, LocationID, StartDate, FinishDat
 	(4, 4, '2000-04-05', '2007-05-06', 17, 4, 'xz');
 
 GO
+
+INSERT INTO dbo.tbl_Notifications (Author, Title, Details, DueDate)
+  VALUES ('qwerty', 'напоминание 1', 'просто тестовое напоминание', '2016-12-12'),
+      ('qwerty', 'напоминание 2', 'просто тестовое напоминание', '2016-12-11'),
+      ('qwerty', 'напоминание 2', 'просто тестовое напоминание', '2016-11-12');

@@ -77,6 +77,7 @@
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\MesAchievement.cs" />
     <Compile Include="Models\MilitaryService.cs" />
+    <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Passport.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\Rank.cs" />

@@ -1,7 +1,9 @@
 ﻿'use strict';
 
 app.controller('calendarController', [
-    '$scope', function ($scope) {
+    '$scope', 'dashboardService', function ($scope, dashboardService) {
+        $scope.eventSource = [];
+
         $scope.changeMode = function (mode) {
             $scope.mode = mode;
         };
@@ -86,7 +88,23 @@ app.controller('calendarController', [
         }
 
         $scope.loadEvents = function () {
-            $scope.eventSource = createRandomEvents();
+            //$scope.eventSource = createRandomEvents();
+            $scope.promise = dashboardService.getNotifications({
+                includeCustomNotifications: true,
+                includeSertification: true,
+                includeBirthDates: true
+            }). then(function(response) {
+                var events = response.data;
+                events.forEach(function (item) {
+                    item.allDay = true;
+                    item.dueDate = new Date(item.dueDate);
+                    item.startTime = new Date(item.dueDate.getFullYear(), item.dueDate.getMonth(), item.dueDate.getDate(), 3);
+                    item.endTime = new Date(item.dueDate.getFullYear(), item.dueDate.getMonth(), item.dueDate.getDate(), 4);
+                });
+                var t = createRandomEvents();
+                $scope.eventSource = events;
+                $scope.updateCalendar();
+            });
         };
 
         $scope.loadEvents();

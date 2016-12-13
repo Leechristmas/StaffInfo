@@ -99,6 +99,24 @@ namespace Staffinfo.DAL.Tests
             var tt = await _staffUnitRepository.EmployeeRepository.GetSeniorityStatistic(5, 0, 32, EmployeeRepositoryHelper.Seniority.Total);
         }
 
+        [TestMethod]
+        public async Task Get_Notifications()
+        {
+            var tt = await _staffUnitRepository.EmployeeRepository.GetNotifications(true, true, true);
+        }
+
+        [TestMethod]
+        public async Task Manipulate_Notification()
+        {
+            //await _staffUnitRepository.EmployeeRepository.AddNotification(new Notification()
+            //{
+            //    Author = "aaa",
+            //    Title = "bbb",
+            //    Details = "ccc",
+            //    DueDate = new DateTime(2016, 12, 13)
+            //});
+            await _staffUnitRepository.EmployeeRepository.DeleteNotification(6);
+        }
 
         [TestMethod]
         public void Add_Employee()

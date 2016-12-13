@@ -74,7 +74,6 @@ namespace Staffinfo.DAL.Repositories
         /// Returns dictionary (service name - count employees of this service)
         /// </summary>
         /// <param name="employeeRepository"></param>
-        /// <param name="serviceId">id of the service</param>
         /// <returns></returns>
         public static async Task<Dictionary<string, int>> GetServicesStructure(
             this IRepository<Employee> employeeRepository)
@@ -84,6 +83,51 @@ namespace Staffinfo.DAL.Repositories
                     employeeRepository.Database.SqlQuery<ServiceStructQueryResult>("dbo.pr_GetServicesStructure NULL").ToDictionaryAsync(a => a.Name, b => b.Count);
         }
 
+        /// <summary>
+        /// Returns notifications
+        /// </summary>
+        /// <param name="employeeRepository"></param>
+        /// <param name="includeCustomNotifications">if include notifications created by user</param>
+        /// <param name="includeSertification">if include sertification</param>
+        /// <param name="includeBirthDates">if include birth dates</param>
+        /// <returns></returns>
+        public static async Task<List<Notification>> GetNotifications(this IRepository<Employee> employeeRepository, bool includeCustomNotifications = false, bool includeSertification = false, bool includeBirthDates = false)
+        {
+            return
+                await
+                    employeeRepository.Database.SqlQuery<Notification>(
+                        "dbo.pr_GetNotifications @includeCustomNotifications, @includeSertification, @includeBirthDates;",
+                        new SqlParameter("@includeCustomNotifications", includeCustomNotifications),
+                        new SqlParameter("@includeSertification", includeSertification),
+                        new SqlParameter("@includeBirthDates", includeBirthDates))
+                        .ToListAsync();
+        }
+
+        public static async Task AddNotification(this IRepository<Employee> employeeRepository, Notification notification)
+        {
+            await employeeRepository.Database.ExecuteSqlCommandAsync(
+                "dbo.pr_AddNotification @Author, @Title, @Details, @DueDate;",
+                new SqlParameter("@Author", notification.Author),
+                new SqlParameter("@Title", notification.Title),
+                new SqlParameter("@Details", notification.Details),
+                new SqlParameter("@DueDate", notification.DueDate));
+        }
+
+        public static async Task DeleteNotification(this IRepository<Employee> employeeRepository, int notificationId)
+        {
+            await employeeRepository.Database.ExecuteSqlCommandAsync("dbo.pr_DeleteNotification @notificationId",
+                new SqlParameter("@notificationId", notificationId));
+        }
+
+        /// <summary>
+        /// Returns seniority statistic
+        /// </summary>
+        /// <param name="employeeRepository"></param>
+        /// <param name="scale">step</param>
+        /// <param name="min">min value</param>
+        /// <param name="max">max value</param>
+        /// <param name="seniority">seniority type</param>
+        /// <returns></returns>
         public static async Task<Dictionary<string, int>> GetSeniorityStatistic(this IRepository<Employee> employeeRepository, int scale, int min, int max, Seniority seniority)
         {
             List<int> list = null;
