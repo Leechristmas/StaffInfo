@@ -76,7 +76,7 @@ app.controller('dashboardController', [
         //redraws the pie chart (services)
         $scope.reloadPie = function () {
             //clear the canvas
-            document.getElementById("service-chart-container").innerHTML = "<canvas id='serviceChart' height='30' width='100'></canvas>";
+            document.getElementById("service-chart-container").innerHTML = "<canvas class=\"unselectable\" id='serviceChart' height='30' width='100'></canvas>";
             //get canvas
             var ctx = document.getElementById("serviceChart").getContext("2d");
 
@@ -125,7 +125,7 @@ app.controller('dashboardController', [
         //redraws the bar chart (seniority)
         $scope.reloadBar = function () {
             //clear the canvas
-            document.getElementById("seniority-chart-container").innerHTML = "<canvas id='seniorityChart' height='30' width='100'></canvas>";
+            document.getElementById("seniority-chart-container").innerHTML = "<canvas class=\"unselectable\" id='seniorityChart' height='30' width='100'></canvas>";
             //get canvas
             var ctx = document.getElementById("seniorityChart").getContext("2d");
             

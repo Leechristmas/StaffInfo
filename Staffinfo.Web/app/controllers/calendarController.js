@@ -19,9 +19,15 @@ app.controller('calendarController', [
             return today.getTime() === currentCalendarDate.getTime();
         };
 
+        //when event has been selected
         $scope.onEventSelected = function (event) {
             $scope.event = event;
         };
+
+        //when event has been dbl clicked
+        $scope.onDblClicked = function(event) {
+            console.log(event);
+        }
 
         $scope.onTimeSelected = function (selectedTime) {
             console.log('Selected time: ' + selectedTime);
@@ -36,6 +42,7 @@ app.controller('calendarController', [
                 var endDay = Math.floor(Math.random() * 2) + startDay;
                 var startTime;
                 var endTime;
+                var details = 'GHVHADHJADHVASHJDVGJASHDHGASVDGVAGHSDVGHAVSDHAGD';
                 if (eventType === 0) {
                     startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
                     if (endDay === startDay) {
@@ -46,7 +53,8 @@ app.controller('calendarController', [
                         title: 'All Day - ' + i,
                         startTime: startTime,
                         endTime: endTime,
-                        allDay: true
+                        allDay: true,
+                        details: details
                     });
                 } else {
                     var startMinute = Math.floor(Math.random() * 24 * 60);
@@ -57,7 +65,8 @@ app.controller('calendarController', [
                         title: 'Event - ' + i,
                         startTime: startTime,
                         endTime: endTime,
-                        allDay: false
+                        allDay: false,
+                        details: details
                     });
                 }
             }

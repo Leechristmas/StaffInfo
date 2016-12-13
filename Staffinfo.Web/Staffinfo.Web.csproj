@@ -129,6 +129,8 @@
     <Content Include="img\icons\ic_description_24px.svg" />
     <Content Include="img\icons\ic_group_24px.svg" />
     <Content Include="img\icons\ic_insert_photo_24px.svg" />
+    <Content Include="img\icons\ic_keyboard_arrow_left_24px.svg" />
+    <Content Include="img\icons\ic_keyboard_arrow_right_24px.svg" />
     <Content Include="img\icons\ic_person_add_24px.svg" />
     <Content Include="img\icons\ic_refresh_24px.svg" />
     <Content Include="img\icons\ic_save_24px.svg" />
