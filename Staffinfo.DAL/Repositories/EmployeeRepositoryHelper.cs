@@ -103,14 +103,14 @@ namespace Staffinfo.DAL.Repositories
                         .ToListAsync();
         }
 
-        public static async Task AddNotification(this IRepository<Employee> employeeRepository, Notification notification)
+        public static async Task<Notification> AddNotification(this IRepository<Employee> employeeRepository, Notification notification)
         {
-            await employeeRepository.Database.ExecuteSqlCommandAsync(
-                "dbo.pr_AddNotification @Author, @Title, @Details, @DueDate;",
-                new SqlParameter("@Author", notification.Author),
-                new SqlParameter("@Title", notification.Title),
-                new SqlParameter("@Details", notification.Details),
-                new SqlParameter("@DueDate", notification.DueDate));
+            return await employeeRepository.Database.SqlQuery<Notification>(
+                 "dbo.pr_AddNotification @Author, @Title, @Details, @DueDate;",
+                 new SqlParameter("@Author", notification.Author),
+                 new SqlParameter("@Title", notification.Title),
+                 new SqlParameter("@Details", notification.Details),
+                 new SqlParameter("@DueDate", notification.DueDate)).FirstOrDefaultAsync();
         }
 
         public static async Task DeleteNotification(this IRepository<Employee> employeeRepository, int notificationId)

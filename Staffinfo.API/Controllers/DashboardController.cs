@@ -29,5 +29,18 @@ namespace Staffinfo.API.Controllers
                         includeBirthDates);
         }
 
+        [HttpPost]
+        [Route("api/dashboard/notifications")]
+        public async Task<Notification> SaveNotification([FromBody] Notification notification)
+        {
+            return await _repository.EmployeeRepository.AddNotification(notification);
+        }
+
+        [HttpDelete]
+        [Route("api/dashboard/notifications")]
+        public async Task DeleteNotifications(int notificationId)
+        {
+            await _repository.EmployeeRepository.DeleteNotification(notificationId);
+        }
     }
 }

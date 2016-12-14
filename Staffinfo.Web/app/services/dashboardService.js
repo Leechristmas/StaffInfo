@@ -23,6 +23,12 @@ app.factory('dashboardService', ['$http', 'ngAuthSettings','authService', functi
             '&includeSertification=' + options.includeSertification + '&includeBirthDates=' + options.includeBirthDates);
     }
 
+    var _saveNotification = function (notification) {
+        notification.author = 'test';
+        return $http.post(serviceBase + 'api/dashboard/notifications', notification, {});
+    }
+
+    dashboardServiceFactory.saveNotification = _saveNotification;
     dashboardServiceFactory.getNotifications = _getNotifications;
     dashboardServiceFactory.getActualSeniorityStatistic = _getActualSeniorityStatistic;
     dashboardServiceFactory.getTotalSeniorityStatistic = _getTotalSeniorityStatisctic;

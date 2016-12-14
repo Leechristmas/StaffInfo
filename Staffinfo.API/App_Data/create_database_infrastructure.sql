@@ -414,6 +414,7 @@ AS
 BEGIN
   INSERT INTO tbl_Notifications (Author, Title, Details, DueDate)
     VALUES (@Author, @Title, @Details, @DueDate);
+  SELECT * FROM tbl_Notifications tn WHERE tn.ID = (SELECT MAX(ID) FROM tbl_Notifications tn1)
 END
 
 GO

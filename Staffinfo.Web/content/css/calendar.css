@@ -24,6 +24,10 @@
 
 .event-title {
     width: 110px;
+    white-space: nowrap; /* Отменяем перенос текста */
+    overflow: hidden; /* Обрезаем содержимое */
+    padding: 5px; /* Поля */
+    text-overflow: ellipsis;
 }
 
 .unselectable {

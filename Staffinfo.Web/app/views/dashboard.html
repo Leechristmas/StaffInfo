@@ -1,5 +1,5 @@
 ﻿<div flex layout="row">
-    <md-sidebar class="md-sidenav-left sidenav" data-ng-controller="calendarController" >
+    <md-sidebar class="md-sidenav-left sidenav" >
         <!--Calendar will be here.-->
         <!--<div class="alert alert-success" ng-show="event">
             Event selected:{{event.startTime|date:'MMM/dd,yyyy,HH:mm'}} - {{event.endTime|date:'MMM/dd,yyyy,HH:mm'}}, {{event.title}}
@@ -7,7 +7,7 @@
 
         <div class="btn-toolbar">
             <div class="btn-group">
-                <md-button class="md-fab md-primary md-fab-md" aria-label="Add record">
+                <md-button class="md-fab md-primary md-fab-md" aria-label="Add record" ng-click="showAddNotificationView($event)">
                     <md-icon md-svg-src="img/icons/ic_add_24px.svg"></md-icon>
                     <md-tooltip md-direction="bottom">
                         Добавить запись
@@ -42,7 +42,7 @@
         </div>
     </md-sidebar>
 
-    <md-content ui-view="" class="dashboard-content">
+    <md-content class="dashboard-content">
         <div>
             <h2>Общая кадровая структура</h2>
         </div>
