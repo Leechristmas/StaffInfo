@@ -59,7 +59,8 @@
 
         //returns date from string
         $scope.getDate = function (date) {
-            return new Date(date);
+            var t = new Date(date);
+            return new Date(t.getFullYear(), t.getMonth(), t.getDate(), 3);
         }
 
         //deletes the specified employee

@@ -44,7 +44,7 @@
                         <td md-cell>{{empl.employeeMiddlename}}</td>
                         <td md-cell>{{empl.actualPost}}</td>
                         <td md-cell>{{empl.actualRank}}</td>
-                        <td md-cell class="td-center">{{getDate(empl.birthDate).toISOString().slice(0, 10)}}</td>
+                        <td md-cell class="td-center">{{getDate(empl.birthDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                         <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, empl.id)" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить всю информацию о сотруднике</md-tooltip></md-button></td>
                     </tr>
                 </tbody>

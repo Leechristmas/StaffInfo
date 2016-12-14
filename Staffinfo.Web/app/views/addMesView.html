@@ -14,12 +14,12 @@
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Начало Периода</label>
-                        <md-datepicker ng-model="mesAchItem.startDate" md-placeholder="Укажите Дату" required md-max-date="mesAchItem.finishDate"></md-datepicker>
+                        <md-datepicker ng-model="mesAchItem.startDate" required md-max-date="mesAchItem.finishDate"></md-datepicker>
                     </md-input-container>
 
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Конец Периода</label>
-                        <md-datepicker ng-model="mesAchItem.finishDate" md-placeholder="Укажите Дату" required md-min-date="mesAchItem.startDate"></md-datepicker>
+                        <md-datepicker ng-model="mesAchItem.finishDate" md-min-date="mesAchItem.startDate"></md-datepicker>
                     </md-input-container>
                 </div>
 

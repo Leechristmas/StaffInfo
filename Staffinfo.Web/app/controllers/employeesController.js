@@ -64,7 +64,8 @@ app.controller('employeesController', [
 
         //returns date from string
         $scope.getDate = function (date) {
-            return new Date(date);
+            var t = new Date(date);
+            return new Date(t.getFullYear(), t.getMonth(), t.getDate(), 3);
         }
 
         //shows the window with form for adding new employee
@@ -174,7 +175,7 @@ app.controller('employeesController', [
         };
 
         $scope.maxDate = employeesService.maxDate;
-        
+
         //shows the window for adding new mes achievement
         $scope.showAddMesView = function (ev) {
             $mdDialog.show({
@@ -499,10 +500,13 @@ app.controller('employeesController', [
             });
         }
 
-
         //returns date from string
         $scope.getDate = function (date) {
-            return new Date(date);
+            if (date) {
+                var t = new Date(date);
+                return new Date(t.getFullYear(), t.getMonth(), t.getDate(), 3);
+            } else
+                return null;
         }
 
     }]).controller('addEmployeeItemsController', ['$scope', '$mdDialog', 'employeesService', 'messageService', '$mdToast', function ($scope, $mdDialog, employeesService, messageService, $mdToast) {

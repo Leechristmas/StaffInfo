@@ -55,6 +55,12 @@ app.config(function ($mdThemingProvider) {
         .primaryPalette('blue');
 });
 
+app.config(function ($mdDateLocaleProvider) {
+    $mdDateLocaleProvider.formatDate = function (date) {
+        return moment(date).format('DD.MM.YYYY');
+    }
+});
+
 app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptorService');
 });

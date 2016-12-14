@@ -154,8 +154,8 @@
                         <td md-cell>{{item.location}}</td>
                         <td md-cell>{{item.post}}</td>
                         <td md-cell>{{item.rank}}</td>
-                        <td md-cell mdDesc="true" class="td-center">{{getDate(item.startDate).toISOString().slice(0, 10)}}</td>
-                        <td md-cell class="td-center">{{getDate(item.finishDate).toISOString().slice(0, 10)}}</td>
+                        <td md-cell mdDesc="true" class="td-center">{{getDate(item.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
+                        <td md-cell class="td-center" style="padding-left: 25px;">{{getDate(item.finishDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                         <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'A')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
                     </tr>
                     </tbody>

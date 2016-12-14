@@ -161,7 +161,7 @@ CREATE TABLE dbo.tbl_MESAchievement (
  ,EmployeeID INT NOT NULL
  ,LocationID INT NOT NULL
  ,StartDate DATETIME NOT NULL
- ,FinishDate DATETIME
+ ,FinishDate DATETIME DEFAULT NULL
  ,PostID INT NOT NULL
  ,RankID INT NOT NULL
  ,Description NVARCHAR(200)
@@ -503,26 +503,26 @@ GO
 --TRIGGERS
 ------------------------------
 --Updating the actual rank and post for employees
-CREATE TRIGGER MESAchievemntInsertTrigger
-ON tbl_MESAchievement
-AFTER INSERT, DELETE, UPDATE
-AS
-BEGIN
-  UPDATE tbl_Employee
-  SET ActualRankID = dbo.fn_GetActualRankID(i.EmployeeID)
-     ,ActualPostID = dbo.fn_GetActualPostID(i.EmployeeID)
-  FROM (SELECT DISTINCT
-      EmployeeID
-    FROM INSERTED) i;
-
-  UPDATE tbl_Employee
-  SET ActualRankID = dbo.fn_GetActualRankID(d.EmployeeID)
-     ,ActualPostID = dbo.fn_GetActualPostID(d.EmployeeID)
-  FROM (SELECT DISTINCT
-      EmployeeID
-    FROM DELETED) d;
-
-END;
+--CREATE TRIGGER MESAchievemntInsertTrigger
+--ON tbl_MESAchievement
+--AFTER INSERT, DELETE, UPDATE
+--AS
+--BEGIN
+--  UPDATE tbl_Employee
+--  SET ActualRankID = dbo.fn_GetActualRankID(i.EmployeeID)
+--     ,ActualPostID = dbo.fn_GetActualPostID(i.EmployeeID)
+--  FROM (SELECT DISTINCT
+--      EmployeeID
+--    FROM INSERTED) i;
+--
+--  UPDATE tbl_Employee
+--  SET ActualRankID = dbo.fn_GetActualRankID(d.EmployeeID)
+--     ,ActualPostID = dbo.fn_GetActualPostID(d.EmployeeID)
+--  FROM (SELECT DISTINCT
+--      EmployeeID
+--    FROM DELETED) d;
+--
+--END;
 
 GO
 
@@ -542,6 +542,7 @@ END
 
 GO
 
+--Updating the actual rank and post for employees
 CREATE TRIGGER MESAchievementInsertUpdateDeleteTrigger
 ON tbl_MESAchievement
 AFTER INSERT, DELETE, UPDATE
