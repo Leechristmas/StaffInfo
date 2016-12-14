@@ -191,7 +191,24 @@ app.controller('dashboardController', [
             return Object.values(obj);
         }
 
+        $scope.showEventDetailsView = function (ev) {
+            dashboardService.setSelectedNotification($scope.event);
+            $mdDialog.show({
+                controller: 'calendarController',
+                templateUrl: 'app/views/eventDetailsView.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true
+            }).then(function(answer) {
+                $scope.loadEvents();
+                console.log('notification has been deleted.');
+            }, function() {
+                console.log('event details view has been closed.');
+            });
+        }
+
         $scope.showAddNotificationView = function (ev) {
+            dashboardService.setSelectedNotification({});//set empty model for adding view
             $mdDialog.show({
                 controller: 'calendarController',
                 templateUrl: 'app/views/addNotificationView.html',
@@ -199,7 +216,7 @@ app.controller('dashboardController', [
                 targetEvent: ev,
                 clickOutsideToClose: true
             }).then(function (answer) {
-                $scope.promise = $scope.loadEvents();
+                $scope.loadEvents();
                 console.log('new notification has been added.');
             }, function () {
                 console.log('adding view has been closed.');
@@ -210,14 +227,17 @@ app.controller('dashboardController', [
         $scope.eventSource = [];
         $scope.notification = {};
 
+        //change mode: month/week/day
         $scope.changeMode = function (mode) {
             $scope.mode = mode;
         };
 
+        //current day
         $scope.today = function () {
             $scope.currentDate = new Date();
         };
 
+        //true if is today
         $scope.isToday = function () {
             var today = new Date(),
                 currentCalendarDate = new Date($scope.currentDate);
@@ -234,7 +254,7 @@ app.controller('dashboardController', [
 
         //when event has been dbl clicked
         $scope.onDblClicked = function (event) {
-            
+            $scope.showEventDetailsView();
         }
 
         //updates the calendar
@@ -242,10 +262,12 @@ app.controller('dashboardController', [
             $scope.$broadcast('eventSourceChanged', $scope.eventSource);
         }
 
+        //prints selected date and time to console
         $scope.onTimeSelected = function (selectedTime) {
             console.log('Selected time: ' + selectedTime);
         };
 
+        //random generation events
         var createRandomEvents = function () {
             var events = [];
             for (var i = 0; i < 50; i += 1) {

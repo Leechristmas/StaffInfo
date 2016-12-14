@@ -81,7 +81,6 @@ app.controller('employeesController', [
             }, function () {
                 console.log('adding view has been closed.');
             });
-            //$scope.refreshEmployees();
         }
 
         //deletes the specified employee
