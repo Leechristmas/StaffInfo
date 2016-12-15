@@ -957,6 +957,10 @@
     <Content Include="scripts\md-data-table\md-data-table.js" />
     <Content Include="content\css\md-data-table.min.css" />
     <Content Include="scripts\md-data-table\md-data-table.min.js" />
+    <Content Include="scripts\moment-with-locales.js" />
+    <Content Include="scripts\moment-with-locales.min.js" />
+    <Content Include="scripts\moment.js" />
+    <Content Include="scripts\moment.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
