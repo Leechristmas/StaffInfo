@@ -187,7 +187,6 @@
     <Content Include="scripts\angular\angular.js" />
     <Content Include="scripts\angular\angular.min.js" />
     <Content Include="scripts\calendar-tpls.js" />
-    <Content Include="scripts\calendar-tpls.min.js" />
     <Content Include="scripts\chart-additional.js" />
     <Content Include="scripts\Chart.js" />
     <Content Include="scripts\Chart.min.js" />

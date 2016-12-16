@@ -49,7 +49,7 @@
         <div layout="row" layout-sm="column" layout-align="space-around" ng-if="isLoading">
             <md-progress-circular md-mode="indeterminate" md-diameter="96"></md-progress-circular>
         </div>
-        <md-tabs style="min-height: 700px;" ng-if="!isLoading">
+        <md-tabs style="min-height: 500px;" ng-if="!isLoading">
             <md-tab label="Службы" md-on-select="reloadPie()">
                 <md-content>
                     <div id="service-chart-container">

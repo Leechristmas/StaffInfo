@@ -29,7 +29,7 @@ namespace Staffinfo.API.Controllers
                 all =
                     await
                         _repository.EmployeeRepository.WhereAsync(
-                            e => e.RetirementDate != null && e.EmployeeLastname.Contains(query));
+                            e => e.RetirementDate != null && e.EmployeeLastname.StartsWith(query, StringComparison.OrdinalIgnoreCase));
 
             System.Web.HttpContext.Current.Response.Headers.Add("X-Total-Count", all.Count().ToString());
 
