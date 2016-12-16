@@ -85,6 +85,9 @@ footer {
     width: 45%;
 }
 
+.view-title {
+    padding-bottom: 30px;
+}
 
 table.md-table td.td-center.md-cell, 
 table.md-table th.td-center.md-column{
@@ -115,3 +118,21 @@ table.md-table th.td-center.md-column{
     -webkit-user-select: none;
     user-select: none;
 }
+
+/*settings*/
+.setting-fieldset {
+    padding-left: 30px;
+}
+
+
+/*checkbox-group*/
+.checkboxdemoSelectAll .demo-legend {
+  color: #3F51B5; }
+
+/*.fieldset {
+  border-style: solid;
+  border-width: 1px;
+  height: 100%; }*/
+
+.select-all-checkboxes {
+  padding-left: 30px; }

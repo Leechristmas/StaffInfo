@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var app = angular.module('StaffinfoApp', ['ui.router', 'ngMaterial', 'md.data.table', 'LocalStorageModule', 'angular-loading-bar', 'chart.js', 'ui.rCalendar']);
+var app = angular.module('StaffinfoApp', ['ui.router', 'ngMaterial', 'md.data.table', 'LocalStorageModule', 'angular-loading-bar', 'chart.js', 'ui.rCalendar', 'angularUserSettings']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
@@ -35,7 +35,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             controller: 'retireesController',
             templateUrl: 'app/views/retirees.html',
             noLogin: false
-        }).state('dismissed',{
+        }).state('dismissed', {
             url: '/dismissed',
             controller: 'dismissedController',
             templateUrl: 'app/views/dismissed.html',
@@ -44,6 +44,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             url: "/employees/details",
             controller: 'detailsController',
             templateUrl: 'app/views/employeeView.html',
+            noLogin: false
+        }).state('settings', {
+            url: "/settings",
+            controller: 'settingsController',
+            templateUrl: 'app/views/settingsView.html',
             noLogin: false
         });
 
@@ -69,6 +74,9 @@ app.config(function ($httpProvider) {
 var serviceBase = 'http://localhost:21200/';
 app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase
+});
+app.constant('ngSettingItems', {
+    calendarNotificationTypes: ["Дни рождения", "Аттестация", "Пользовательские"]
 });
 
 app.run(['$rootScope', '$state', '$stateParams', 'authService', function ($rootScope, $state, $stateParams, authService) {

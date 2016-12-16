@@ -1,0 +1,30 @@
+﻿<div class="container">
+    <h2 class="view-title">Настройки</h2>
+
+    <div class="setting-fieldset">
+        <div layout="row" layout-wrap>
+            <div flex="100" layout="column">
+                <div>
+                    <fieldset>
+                        <legend class="legend">Календарь: укажите отслеживаемые события</legend>
+                        <div layout="row" layout-wrap flex>
+                            <div flex-xs flex="50">
+                                <md-checkbox aria-label="Select All"
+                                             ng-checked="isChecked()"
+                                             md-indeterminate="isIndeterminate()"
+                                             ng-click="toggleAll()">
+                                    <span ng-if="isChecked()">Отменить </span><span ng-if="!isChecked()">Выбрать </span>Все
+                                </md-checkbox>
+                            </div>
+                            <div class="select-all-checkboxes" flex="100" ng-repeat="item in items">
+                                <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">
+                                    {{ item }}
+                                </md-checkbox>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

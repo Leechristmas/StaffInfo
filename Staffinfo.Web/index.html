@@ -20,31 +20,31 @@
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <md-button aria-label="Go Back" data-ng-hide="!authentication.isAuth" href="#/dashboard">
-                    <md-icon md-svg-src="img/icons/ic_dashboard_24px.svg" aria-label="Close dialog"></md-icon>
+                    <md-icon md-svg-src="img/icons/ic_dashboard_24px.svg"></md-icon>
                     Главная
                 </md-button>
                 <div layout="column" flex="33" flex-sm="100" flex-xs="100" layout-align="center center">
                     <md-menu data-ng-hide="!authentication.isAuth">
                         <md-button aria-label="Employees" ng-click="$mdOpenMenu($event)">
-                            <md-icon md-svg-src="img/icons/ic_group_24px.svg" aria-label="Close dialog"></md-icon>
+                            <md-icon md-svg-src="img/icons/ic_group_24px.svg"></md-icon>
                             Сотрудники
                         </md-button>
                         <md-menu-content width="4">
                             <md-menu-item>
                                 <md-button href="#/employees" ng-click="menuClick()">
-                                    <md-icon md-svg-src="img/icons/ic_group_24px.svg" aria-label="Close dialog"></md-icon>
+                                    <md-icon md-svg-src="img/icons/ic_group_24px.svg"></md-icon>
                                     <p flex>Действующие</p>
                                 </md-button>
                             </md-menu-item>
                             <md-menu-item>
                                 <md-button href="#/retirees" ng-click="menuClick()">
-                                    <md-icon md-svg-src="img/icons/ic_group_24px.svg" aria-label="Close dialog"></md-icon>
+                                    <md-icon md-svg-src="img/icons/ic_group_24px.svg"></md-icon>
                                     <p flex>Пенсионеры</p>
                                 </md-button>
                             </md-menu-item>
                             <md-menu-item>
                                 <md-button href="#/dismissed" ng-click="menuClick()">
-                                    <md-icon md-svg-src="img/icons/ic_group_24px.svg" aria-label="Close dialog"></md-icon>
+                                    <md-icon md-svg-src="img/icons/ic_group_24px.svg"></md-icon>
                                     <p flex>Уволенные</p>
                                 </md-button>
                             </md-menu-item>
@@ -52,8 +52,12 @@
                     </md-menu>
                 </div>
                 <md-button aria-label="Go Back" data-ng-hide="!authentication.isAuth" href="#/reports">
-                    <md-icon md-svg-src="img/icons/ic_description_24px.svg" aria-label="Close dialog"></md-icon>
+                    <md-icon md-svg-src="img/icons/ic_description_24px.svg"></md-icon>
                     Отчеты
+                </md-button>
+                <md-button aria-label="Settings" data-ng-hide="!authentication.isAuth" href="#/settings">
+                    <md-icon md-svg-src="img/icons/ic_settings_24px.svg"></md-icon>
+                    Настройки
                 </md-button>
                 <span flex></span>
                 <md-button data-ng-hide="!authentication.isAuth" href="#/dashboard">
@@ -114,8 +118,12 @@
     <script src="app/controllers/employeesController.js"></script>
     <script src="app/controllers/retireesController.js"></script>
     <script src="app/controllers/dismissedController.js"></script>
+    <script src="app/controllers/settingsController.js"></script>
     <!-- calendar -->
     <script src="scripts/calendar-tpls.js"></script>
     <script src="app/controllers/calendarController.js"></script>
+    <!-- user-settings -->
+    <script src="scripts/angular-user-settings.js"></script>
+
 </body>
 </html>

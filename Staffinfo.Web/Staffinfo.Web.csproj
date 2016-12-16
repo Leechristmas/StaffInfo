@@ -74,6 +74,7 @@
     <Content Include="app\controllers\indexController.js" />
     <Content Include="app\controllers\loginController.js" />
     <Content Include="app\controllers\retireesController.js" />
+    <Content Include="app\controllers\settingsController.js" />
     <Content Include="app\controllers\signupController.js" />
     <Content Include="app\services\authInterceptorService.js" />
     <Content Include="app\services\authService.js" />
@@ -96,6 +97,7 @@
     <Content Include="app\views\login.html" />
     <Content Include="app\views\retiredTransferView.html" />
     <Content Include="app\views\retirees.html" />
+    <Content Include="app\views\settingsView.html" />
     <Content Include="app\views\signup.html" />
     <Content Include="content\css\calendar.css" />
     <Content Include="content\css\calendar.min.css" />
@@ -137,6 +139,7 @@
     <Content Include="img\icons\ic_refresh_24px.svg" />
     <Content Include="img\icons\ic_save_24px.svg" />
     <Content Include="img\icons\ic_search_24px.svg" />
+    <Content Include="img\icons\ic_settings_24px.svg" />
     <Content Include="img\icons\ic_stars_24px.svg" />
     <Content Include="img\icons\ic_tab_24px.svg" />
     <Content Include="packages.config" />
@@ -184,6 +187,8 @@
     <Content Include="scripts\angular-scenario.js" />
     <Content Include="scripts\angular-touch.js" />
     <Content Include="scripts\angular-touch.min.js" />
+    <Content Include="scripts\angular-user-settings.js" />
+    <Content Include="scripts\angular-user-settings.min.js" />
     <Content Include="scripts\angular\angular.js" />
     <Content Include="scripts\angular\angular.min.js" />
     <Content Include="scripts\calendar-tpls.js" />
