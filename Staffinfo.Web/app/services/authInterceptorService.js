@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.factory('authInterceptorService', ['$q', '$location', 'localStorageService', function ($q, $location, localStorageService) {
+app.factory('authInterceptorService', ['$q', '$location', 'localStorageService', 'authService', function ($q, $location, localStorageService, authService) {
 
     var authInterceptorServiceFactory = {};
 
@@ -18,6 +18,7 @@ app.factory('authInterceptorService', ['$q', '$location', 'localStorageService',
     var _responseError = function (rejection) {
         if (rejection.status === 401) {
             $location.path('/login');
+            authService.logOut();
         }
         return $q.reject(rejection);
     }

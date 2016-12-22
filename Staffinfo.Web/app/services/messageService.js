@@ -1,14 +1,20 @@
 ﻿'use strict';
 app.factory('messageService', function() {
 
-    var _errorText = '';
+    var _error = {errorText: '', errorTitle: ''};
 
     var messageServiceFactory = {
-        setError: function(text) {
-            _errorText = text;
+        setError: function(error) {
+            _error = error;
         },
         getError: function() {
-            return _errorText;
+            return _error;
+        },
+        errorViewConfig: {
+            hideDelay: 5000,
+            position: 'top right',
+            controller: 'toastController',
+            templateUrl: 'app/views/error-toast.html'
         }
     };
 

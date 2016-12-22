@@ -20,18 +20,12 @@ app.controller('employeesController', [
 
         //gets employees with pagination
         $scope.getEmployees = function () {
-            //if ($scope.promise) $scope.promise.resolve();
             $scope.promise = employeesService.getEmployees($scope.query).then(function (response) {
                 $scope.employees = response.data;
                 $scope.total = response.headers('X-Total-Count');
             }, function (data) {
-                messageService.setError(data);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+                messageService.setError({errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText});
+                $mdToast.show(messageService.errorViewConfig);
             });
         }
 
@@ -52,13 +46,8 @@ app.controller('employeesController', [
 
                 $state.go('details');
             }, function (data) {
-                messageService.setError(data);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         };
 
@@ -99,14 +88,9 @@ app.controller('employeesController', [
                                     '</div>' +
                                 '</md-toast>'
                 });
-            }, function (error) {
-                messageService.setError(error);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+            }, function (data) {
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         }
 
@@ -154,8 +138,8 @@ app.controller('employeesController', [
             $mdDialog
                 .show($mdDialog
                     .alert()
-                    .title('Информация об ошибке')
-                    .textContent(messageService.getError())
+                    .title('Ошибка! ' + messageService.getError().errorTitle)
+                    .textContent(messageService.getError().errorText)
                     .ariaLabel('More info')
                     .ok('OK')
                     .targetEvent(e)
@@ -269,14 +253,9 @@ app.controller('employeesController', [
                         '</div>' +
                         '</md-toast>'
                 });
-            }, function (error) {
-                messageService.setError(error);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+            }, function (data) {
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         }
 
@@ -294,14 +273,9 @@ app.controller('employeesController', [
                         '</div>' +
                         '</md-toast>'
                 });
-            }, function (error) {
-                messageService.setError(error);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+            }, function (data) {
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         }
 
@@ -319,14 +293,9 @@ app.controller('employeesController', [
                         '</div>' +
                         '</md-toast>'
                 });
-            }, function (error) {
-                messageService.setError(error);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+            }, function (data) {
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         }
 
@@ -370,7 +339,7 @@ app.controller('employeesController', [
                     $state.go('employees');
 
                 $mdToast.show({
-                    hideDelay: 3000,
+                    hideDelay: 5000,
                     position: 'top right',
                     controller: 'toastController',
                     template: '<md-toast class="md-toast-success">' +
@@ -379,14 +348,9 @@ app.controller('employeesController', [
                         '</div>' +
                         '</md-toast>'
                 });
-            }, function (error) {
-                messageService.setError(error);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+            }, function (data) {
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         }
 
@@ -441,14 +405,9 @@ app.controller('employeesController', [
         $scope.getMesAchievements = function () {
             $scope.promise = employeesService.getMesAchievements().then(function (response) {
                 $scope.mesAchievements = response.data;
-            }, function (error) {
-                messageService.setError(error);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+            }, function (data) {
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         }
 
@@ -456,14 +415,9 @@ app.controller('employeesController', [
         $scope.getWorks = function () {
             $scope.promise = employeesService.getWorks().then(function (response) {
                 $scope.works = response.data;
-            }, function (error) {
-                messageService.setError(error);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+            }, function (data) {
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         }
 
@@ -471,14 +425,9 @@ app.controller('employeesController', [
         $scope.getMilitary = function () {
             $scope.promise = employeesService.getMilitary().then(function (response) {
                 $scope.military = response.data;
-            }, function (error) {
-                messageService.setError(error);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+            }, function (data) {
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         }
 
@@ -489,14 +438,9 @@ app.controller('employeesController', [
             $scope.promise = employeesService.getSeniorityById($scope.employee.id).then(function (response) {
                 console.log(response.data);
                 $scope.seniority = response.data;
-            }, function (error) {
-                messageService.setError(error);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+            }, function (data) {
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         }
 
@@ -527,54 +471,34 @@ app.controller('employeesController', [
             //posts init
             employeesService.getPosts(serviceId).then(function (response) {
                 $scope.posts = response.data;
-            }, function (error) {
-                messageService.setError(error);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+            }, function (data) {
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         }
 
         //ranks init
         employeesService.getRanks().then(function (response) {
             $scope.ranks = response.data;
-        }, function (error) {
-            messageService.setError(error);
-            $mdToast.show({
-                hideDelay: 3000,
-                position: 'top right',
-                controller: 'toastController',
-                templateUrl: 'app/views/error-toast.html'
-            });
+        }, function (data) {
+            messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+            $mdToast.show(messageService.errorViewConfig);
         });
 
         //locations init
         employeesService.getLocations().then(function (response) {
             $scope.locations = response.data;
-        }, function (error) {
-            messageService.setError(error);
-            $mdToast.show({
-                hideDelay: 3000,
-                position: 'top right',
-                controller: 'toastController',
-                templateUrl: 'app/views/error-toast.html'
-            });
+        }, function (data) {
+            messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+            $mdToast.show(messageService.errorViewConfig);
         });
 
         //services
         employeesService.getServices().then(function (response) {
             $scope.services = response.data;
-        }, function (error) {
-            messageService.setError(error);
-            $mdToast.show({
-                hideDelay: 3000,
-                position: 'top right',
-                controller: 'toastController',
-                templateUrl: 'app/views/error-toast.html'
-            });
+        }, function (data) {
+            messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+            $mdToast.show(messageService.errorViewConfig);
         });
 
         //saves new mes achievement
@@ -591,15 +515,10 @@ app.controller('employeesController', [
                                 '</md-toast>'
                 });
                 $mdDialog.hide('save'); //throw the 'answer' to the main controller to refresh or do not the list
-            }, function (error) {
+            }, function (data) {
                 $mdDialog.hide('cancel');
-                messageService.setError(error);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         }
 
@@ -617,15 +536,10 @@ app.controller('employeesController', [
                                 '</md-toast>'
                 });
                 $mdDialog.hide('save'); //throw the 'answer' to the main controller to refresh or do not the list
-            }, function (error) {
+            }, function (data) {
                 $mdDialog.hide('cancel');
-                messageService.setError(error);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         }
 
@@ -643,15 +557,10 @@ app.controller('employeesController', [
                                 '</md-toast>'
                 });
                 $mdDialog.hide('save'); //throw the 'answer' to the main controller to refresh or do not the list
-            }, function (error) {
+            }, function (data) {
                 $mdDialog.hide('cancel');
-                messageService.setError(error);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         }
 
@@ -703,16 +612,10 @@ app.controller('employeesController', [
                                 '</md-toast>'
                 });
                 $mdDialog.hide('save'); //throw the 'answer' to the main employee controller to refresh or do not the employee list
-            }, function (error) {
+            }, function (data) {
                 $mdDialog.hide('cancel');
-                messageService.setError(error);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         };
-
     }]);

@@ -26,15 +26,10 @@ app.controller('calendarController', [
                                     '</md-toast>'
                     });
                     $mdDialog.hide('save');
-                }, function (error) {
+                }, function (data) {
                     $mdDialog.hide('cancel');
-                    messageService.setError(error);
-                    $mdToast.show({
-                        hideDelay: 3000,
-                        position: 'top right',
-                        controller: 'toastController',
-                        templateUrl: 'app/views/error-toast.html'
-                    });
+                    messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                    $mdToast.show(messageService.errorViewConfig);
                 });
         }
 
@@ -51,15 +46,10 @@ app.controller('calendarController', [
                                 '</md-toast>'
                 });
                 $mdDialog.hide('save');
-            }, function (error) {
+            }, function (data) {
                 $mdDialog.hide('cancel');
-                messageService.setError(error);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         }
 

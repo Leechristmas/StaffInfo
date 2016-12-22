@@ -19,13 +19,8 @@
                 $scope.retirees = response.data;
                 $scope.total = response.headers('X-Total-Count');
             }, function (data) {
-                messageService.setError(data);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         }
 
@@ -42,13 +37,8 @@
 
                 $state.go('details');
             }, function (data) {
-                messageService.setError(data);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         };
 
@@ -78,14 +68,9 @@
                                     '</div>' +
                                 '</md-toast>'
                 });
-            }, function (error) {
-                messageService.setError(error);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+            }, function (data) {
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         }
 
@@ -138,14 +123,9 @@
                                 '</div>' +
                             '</md-toast>'
             });
-        }, function (error) {
-            messageService.setError(error);
-            $mdToast.show({
-                hideDelay: 3000,
-                position: 'top right',
-                controller: 'toastController',
-                templateUrl: 'app/views/error-toast.html'
-            });
+        }, function (data) {
+            messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+            $mdToast.show(messageService.errorViewConfig);
         });
         $scope.hide();
         $state.go('employees');
@@ -163,14 +143,9 @@
                                 '</div>' +
                             '</md-toast>'
             });
-        }, function (error) {
-            messageService.setError(error);
-            $mdToast.show({
-                hideDelay: 3000,
-                position: 'top right',
-                controller: 'toastController',
-                templateUrl: 'app/views/error-toast.html'
-            });
+        }, function (data) {
+            messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+            $mdToast.show(messageService.errorViewConfig);
         });
         $scope.hide();
         $state.go('employees');

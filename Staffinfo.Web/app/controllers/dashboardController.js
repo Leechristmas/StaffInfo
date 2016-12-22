@@ -60,13 +60,8 @@ app.controller('dashboardController', [
                 $scope.isLoading = false;
                 console.log('data has been loaded.');
             }, function (data) {
-                messageService.setError(data);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
 
         }
@@ -314,7 +309,7 @@ app.controller('dashboardController', [
                 includeCustomNotifications: true,
                 includeSertification: true,
                 includeBirthDates: true
-            }).then(function (response) {
+            }).then(function (response) {//success
                 var events = response.data;
                 events.forEach(function (item) {
                     item.allDay = true;
@@ -324,6 +319,9 @@ app.controller('dashboardController', [
                 });
                 $scope.eventSource = events;
                 $scope.updateCalendar();
+            }, function(data) {//error
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
             });
         };
 
