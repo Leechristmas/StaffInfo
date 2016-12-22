@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.factory('authInterceptorService', ['$q', '$location', 'localStorageService', 'authService', function ($q, $location, localStorageService, authService) {
+app.factory('authInterceptorService', ['$q', '$location', 'localStorageService', function ($q, $location, localStorageService) {
 
     var authInterceptorServiceFactory = {};
 
@@ -18,7 +18,8 @@ app.factory('authInterceptorService', ['$q', '$location', 'localStorageService',
     var _responseError = function (rejection) {
         if (rejection.status === 401) {
             $location.path('/login');
-            authService.logOut();
+
+            localStorageService.remove('authorizationData');//for hiding the 'authorized' user label at the toolbar. I think it should work correct O_O ))
         }
         return $q.reject(rejection);
     }
