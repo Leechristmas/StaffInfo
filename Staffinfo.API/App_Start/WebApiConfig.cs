@@ -5,6 +5,7 @@ using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Web.Http;
 using Newtonsoft.Json.Serialization;
+using Staffinfo.API.Filters;
 
 namespace Staffinfo.API
 {
@@ -13,6 +14,9 @@ namespace Staffinfo.API
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+
+            config.Filters.Add(new GlobalLogFilterAttribute());
+            log4net.Config.XmlConfigurator.Configure();
 
             // Web API routes
             config.MapHttpAttributeRoutes();

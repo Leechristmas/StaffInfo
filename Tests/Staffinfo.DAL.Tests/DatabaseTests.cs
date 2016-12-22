@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Staffinfo.API;
 using Staffinfo.DAL.Context;
 using Staffinfo.DAL.Models;
 using Staffinfo.DAL.Repositories;
@@ -116,6 +118,18 @@ namespace Staffinfo.DAL.Tests
             //    DueDate = new DateTime(2016, 12, 13)
             //});
             await _staffUnitRepository.EmployeeRepository.DeleteNotification(6);
+        }
+
+        [TestMethod]
+        public void Add_User()
+        {
+            AuthRepository authRepository = new AuthRepository();
+            IdentityResult identityResult = authRepository.RegisterUser(new UserModel()
+            {
+                UserName = "dshevchuk",
+                Password = "qwerty123456",
+                ConfirmPassword = "qwerty123456"
+            }).Result;
         }
 
         [TestMethod]

@@ -56,8 +56,10 @@ app.factory('authService', [
             if (authData) {
                 _authentication.isAuth = true;
                 _authentication.userName = authData.userName;
+            }else {
+                _authentication.isAuth = false;
+                _authentication.userName = "";
             }
-
         }
 
         var _isAuthenticated = function() {

@@ -13,7 +13,7 @@ namespace Staffinfo.API.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
-        private AuthRepository _repo = null;
+        private readonly AuthRepository _repo = null;
 
         public AccountController()
         {
