@@ -1,19 +1,33 @@
-﻿<!--<div class="container">
-    <form class="form-signin">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <label for="inputLogin" class="sr-only">Login</label>
-        <input type="text" id="inputLogin" class="form-control" placeholder="Login" required autofocus autocomplete="false">
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
-</div>-->
-<form class="form-login" role="form">
-    <h2 class="form-login-heading">Вход</h2>
-    <input type="text" class="form-control" placeholder="Username" data-ng-model="loginData.userName" required autofocus>
-    <input type="password" class="form-control" placeholder="Password" data-ng-model="loginData.password" required>
-    <button class="btn btn-lg btn-info btn-block" type="submit" data-ng-click="login()">Войти</button>
-    <div data-ng-hide="message == ''" class="alert alert-danger">
-        {{message}}
+﻿<div class="container login-container">
+    <div class="flash-container">
     </div>
-</form>
+
+    <div class="row">
+        <div class="col-sm-7">
+            <h1>База Данных Гомельского Пожарного Аварийно Спасательного Отряда.</h1>
+            <p>Система содержит кадровую информацию о сотрудниках ПАСО и их рабочей деятельности и автоматизирует работу отдела кадрового обеспечения Пожарного аварийно спасательного отряда Гомельского областного управления МЧС </p>
+        </div>
+        <div class="col-sm-5">
+            <md-whiteframe class="md-whiteframe-2dp" flex-sm="100" flex-gt-sm="100" flex-gt-md="100" layout>
+                <form class="form-login" role="form">
+                    <div class="login-header">
+                        <h2 class="form-login-heading text-center">Вход</h2>
+                    </div>
+                    <div class="form-group">
+                        <label for="login">Имя пользователя</label>
+                        <input type="text" class="form-control" placeholder="Username" id="login" data-ng-model="loginData.userName" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="login">Пароль</label>
+                        <input type="password" class="form-control" placeholder="Password" id="password" data-ng-model="loginData.password" required>
+                    </div>
+                    <button class="btn btn-lg btn-info btn-block" type="submit" data-ng-click="login()">Войти</button>
+                    <div data-ng-hide="message == ''" class="alert alert-danger">
+                        {{message}}
+                    </div>
+                </form>
+            </md-whiteframe>
+        </div>
+    </div>
+</div>
+
