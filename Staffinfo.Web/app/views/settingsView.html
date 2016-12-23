@@ -22,12 +22,12 @@
                                              ng-checked="isChecked()"
                                              md-indeterminate="isIndeterminate()"
                                              ng-click="toggleAll()">
-                                    <span ng-if="isChecked()">Отменить </span><span ng-if="!isChecked()">Выбрать </span>Все
+                                    <span class="unselectable" ng-if="isChecked()">Отменить Все</span><span class="unselectable" ng-if="!isChecked()">Выбрать Все</span>
                                 </md-checkbox>
                             </div>
                             <div class="select-all-checkboxes" flex="100" ng-repeat="item in allNotificationTypes">
                                 <md-checkbox ng-checked="exists(item, selectedNotifications)" ng-click="toggle(item, selectedNotifications)">
-                                    {{ item.title }}
+                                    <p class="unselectable">{{ item.title }}</p>
                                 </md-checkbox>
                             </div>
                         </div>

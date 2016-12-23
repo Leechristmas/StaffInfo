@@ -55,17 +55,24 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/");
 });
 
+//color theme configuring
 app.config(function ($mdThemingProvider) {
-    $mdThemingProvider.theme('default')
-        .primaryPalette('blue');
+    $mdThemingProvider
+      .theme('default')
+      .primaryPalette('blue')
+      .accentPalette('indigo')
+      .warnPalette('red')
+      .backgroundPalette('grey');
 });
 
+//datetimepicker format config
 app.config(function ($mdDateLocaleProvider) {
     $mdDateLocaleProvider.formatDate = function (date) {
         return moment(date).format('DD.MM.YYYY');
     }
 });
 
+//interceptors
 app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptorService');
 });

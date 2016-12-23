@@ -49,6 +49,10 @@
     font-weight: bold;
 }
 
+.calendar-header:first-letter {
+    text-transform:capitalize;
+}
+
 .calendar-hour-column, .calendar-week-column {
     width: 50px;
 }

@@ -50,31 +50,41 @@
             <md-progress-circular md-mode="indeterminate" md-diameter="96"></md-progress-circular>
         </div>
         <md-tabs style="min-height: 500px;" ng-if="!isLoading">
-            <md-tab label="Службы" md-on-select="reloadPie()">
-                <md-content>
-                    <div id="service-chart-container">
-                        <h3>Службы</h3>
-                        <md-button class="md-primary" ng-click="reloadPie()">Test</md-button>
-                        <div>
-                            <canvas class="unselectable" id="serviceChart" height="30" width="100"></canvas>
-                        </div>
-                    </div>
-                </md-content>
-            </md-tab>
-            <md-tab label="Выслуга лет" md-on-select="reloadBar()">
-                <md-content>
-                    <div id="seniority-chart-container">
-                        <h3>Выслуга лет</h3>
-                        <div>
-                            <canvas class="unselectable" id="seniorityChart" height="30" width="100"></canvas>
-                            <div flex-gt-sm="50">
+            <md-tab md-on-select="reloadPie()">
+                <md-tab-label>
+                    <p class="unselectable">Службы</p>
+                </md-tab-label>
+                <md-tab-body>
+                    <md-content>
+                        <div id="service-chart-container">
+                            <h3>Службы</h3>
+                            <md-button class="md-primary" ng-click="reloadPie()">Test</md-button>
+                            <div>
+                                <canvas class="unselectable" id="serviceChart" height="30" width="100"></canvas>
                             </div>
                         </div>
-                    </div>
-                    <md-checkbox ng-model="includeRetirees" aria-label="Retirees" ng-disabled="false" ng-click="toggleRetirees(includeRetirees)" style="margin-left: 10px;">
-                        Пенсионеры
-                    </md-checkbox>
-                </md-content>
+                    </md-content>
+                </md-tab-body>
+            </md-tab>
+            <md-tab md-on-select="reloadBar()">
+                <md-tab-label>
+                    <p class="unselectable">Выслуга лет</p>
+                </md-tab-label>
+                <md-tab-body>
+                    <md-content>
+                        <div id="seniority-chart-container">
+                            <h3>Выслуга лет</h3>
+                            <div>
+                                <canvas class="unselectable" id="seniorityChart" height="30" width="100"></canvas>
+                                <div flex-gt-sm="50">
+                                </div>
+                            </div>
+                        </div>
+                        <md-checkbox ng-model="includeRetirees" aria-label="Retirees" ng-disabled="false" ng-click="toggleRetirees(includeRetirees)" style="margin-left: 10px;">
+                            Пенсионеры
+                        </md-checkbox>
+                    </md-content>
+                </md-tab-body>
             </md-tab>
         </md-tabs>
         <!--<div>

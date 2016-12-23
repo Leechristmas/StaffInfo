@@ -1,5 +1,5 @@
 ﻿app.controller('settingsController', [
-    '$scope', '$userSettings', 'settingsService', function ($scope, $userSettings, settingsService) {
+    '$scope', '$userSettings', 'settingsService', '$mdToast', function ($scope, $userSettings, settingsService, $mdToast) {
 
         $scope.selectedNotifications = [];
 
@@ -45,16 +45,26 @@
 
         ////////////////////////////////////////
 
-        $scope.saveSettings = function() {
-            $scope.allNotificationTypes.forEach(function (item, index) {
-                //save changes of 'selected notification types' list to the service
-                settingsService.calendarSettings.includedNotificatoinTypes = $scope.selectedNotifications;
+        $scope.saveSettings = function () {
+            //save changes of 'selected notification types' list to the service
+            settingsService.calendarSettings.includedNotificatoinTypes = $scope.selectedNotifications;
 
+            $scope.allNotificationTypes.forEach(function (item, index) {
                 //save changes of 'selected notification types' list to the local storage
                 if ($scope.selectedNotifications.includes(item))
                     $userSettings.set(item.key, true);
                 else
                     $userSettings.set(item.key, false);
+            });
+            $mdToast.show({
+                hideDelay: 3000,
+                position: 'top right',
+                controller: 'toastController',
+                template: '<md-toast class="md-toast-success">' +
+                                '<div class="md-toast-content">' +
+                                  'Настройки были сохранены.' +
+                                '</div>' +
+                            '</md-toast>'
             });
         }
 
