@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 app.controller('dashboardController', [
-    '$scope', 'dashboardService', 'messageService', '$mdToast', '$interval', '$mdDialog', function ($scope, dashboardService, messageService, $mdToast, $interval, $mdDialog) {
+    '$scope', 'dashboardService', 'messageService', '$mdToast', '$interval', '$mdDialog', 'settingsService', function ($scope, dashboardService, messageService, $mdToast, $interval, $mdDialog, settingsService) {
         $scope.employees = [];
         $scope.servicesStruct = {};
         $scope.totalSeniorityStatistic = {};
@@ -305,10 +305,15 @@ app.controller('dashboardController', [
 
         //loads all events
         $scope.loadEvents = function () {
+
+            //load settings for calendar notifications
+            settingsService.calendarSettings.includedNotificatoinTypes = settingsService.calendarSettings.loadIncludedNotificatoinTypes();
+
+            //load notifications
             $scope.promise = dashboardService.getNotifications({
-                includeCustomNotifications: true,
-                includeSertification: true,
-                includeBirthDates: true
+                includeCustomNotifications: settingsService.calendarSettings.customAreIncluded(),
+                includeSertification: settingsService.calendarSettings.sertificationsAreIncluded(),
+                includeBirthDates: settingsService.calendarSettings.birthdaysAreIncluded()
             }).then(function (response) {//success
                 var events = response.data;
                 events.forEach(function (item) {

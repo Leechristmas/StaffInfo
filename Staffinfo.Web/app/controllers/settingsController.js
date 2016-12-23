@@ -1,16 +1,14 @@
 ﻿app.controller('settingsController', [
-    '$scope', '$userSettings', 'ngSettingItems', function ($scope, $userSettings, ngSettingItems) {
+    '$scope', '$userSettings', 'settingsService', function ($scope, $userSettings, settingsService) {
 
-        $scope.selected = [];
-        //var birthdays = false, sertification = false, custom = false;
+        $scope.selectedNotifications = [];
 
-        //loading settings
-        $scope.items = ngSettingItems.calendarNotificationTypes;
-        $scope.items.forEach(function(item, index) {
-            if ($userSettings.get(item))
-                $scope.selected.push(item);
-        });
+        //getting items from the service
+        $scope.allNotificationTypes = settingsService.calendarSettings.calendarNotificationTypes;
 
+        //loading settings from local storage
+        $scope.selectedNotifications = settingsService.calendarSettings.loadIncludedNotificatoinTypes();
+        
         /////////////////////////////////////
 
         //calendar
@@ -29,31 +27,39 @@
         };
 
         $scope.isIndeterminate = function () {
-            return ($scope.selected.length !== 0 &&
-                $scope.selected.length !== $scope.items.length);
+            return ($scope.selectedNotifications.length !== 0 &&
+                $scope.selectedNotifications.length !== $scope.allNotificationTypes.length);
         };
 
         $scope.isChecked = function () {
-            return $scope.selected.length === $scope.items.length;
+            return $scope.selectedNotifications.length === $scope.allNotificationTypes.length;
         };
 
         $scope.toggleAll = function () {
-            if ($scope.selected.length === $scope.items.length) {
-                $scope.selected = [];
-            } else if ($scope.selected.length === 0 || $scope.selected.length > 0) {
-                $scope.selected = $scope.items.slice(0);
+            if ($scope.selectedNotifications.length === $scope.allNotificationTypes.length) {
+                $scope.selectedNotifications = [];
+            } else if ($scope.selectedNotifications.length === 0 || $scope.selectedNotifications.length > 0) {
+                $scope.selectedNotifications = $scope.allNotificationTypes.slice(0);
             }
         };
 
         ////////////////////////////////////////
 
         $scope.saveSettings = function() {
-            $scope.items.forEach(function(item, index) {
-                if ($scope.selected.includes(item))
-                    $userSettings.set(item, true);
+            $scope.allNotificationTypes.forEach(function (item, index) {
+                //save changes of 'selected notification types' list to the service
+                settingsService.calendarSettings.includedNotificatoinTypes = $scope.selectedNotifications;
+
+                //save changes of 'selected notification types' list to the local storage
+                if ($scope.selectedNotifications.includes(item))
+                    $userSettings.set(item.key, true);
                 else
-                    $userSettings.set(item, false);
+                    $userSettings.set(item.key, false);
             });
+        }
+
+        $scope.resetChanges = function() {
+            $scope.selectedNotifications = settingsService.calendarSettings.loadIncludedNotificatoinTypes();
         }
 
     }

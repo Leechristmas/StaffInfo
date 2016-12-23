@@ -19,7 +19,7 @@
     <div data-ng-controller="indexController">
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <md-button aria-label="Go Back" data-ng-hide="!authentication.isAuth" href="#/dashboard">
+                <md-button aria-label="Go Back" data-ng-hide="!isAuth()" href="#/dashboard">
                     <md-icon md-svg-src="img/icons/ic_dashboard_24px.svg"></md-icon>
                     Главная
                 </md-button>
@@ -106,6 +106,7 @@
     <!-- Load services -->
     <script src="app/services/authInterceptorService.js"></script>
     <script src="app/services/authService.js"></script>
+    <script src="app/services/settingsService.js"></script>
     <script src="app/services/dashboardService.js"></script>
     <script src="app/services/employeesService.js"></script>
     <script src="app/services/messageService.js"></script>

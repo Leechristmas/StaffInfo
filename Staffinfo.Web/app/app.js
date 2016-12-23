@@ -75,9 +75,6 @@ var serviceBase = 'http://localhost:21200/';
 app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase
 });
-app.constant('ngSettingItems', {
-    calendarNotificationTypes: ["Дни рождения", "Аттестация", "Пользовательские"]
-});
 
 app.run(['$rootScope', '$state', '$stateParams', 'authService', function ($rootScope, $state, $stateParams, authService) {
     authService.fillAuthData();

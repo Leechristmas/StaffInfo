@@ -17,5 +17,6 @@ app.controller('indexController', ['$scope', '$location', 'authService', '$mdDia
     }
 
     $scope.authentication = authService.authentication;
+    $scope.isAuth = authService.isAuthenticated;
 
 }]);

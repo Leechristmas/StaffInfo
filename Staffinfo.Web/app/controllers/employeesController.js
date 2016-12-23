@@ -117,7 +117,7 @@ app.controller('employeesController', [
 
         $scope.employees = $scope.getEmployees();
 
-    }]).controller('toastController', ['$scope', '$mdDialog', 'messageService', function ($scope, $mdDialog, messageService) {
+    }]).controller('toastController', ['$scope', '$mdDialog', 'messageService', '$mdToast', function ($scope, $mdDialog, messageService, $mdToast) {
 
         var isDlgOpen = false;
 
