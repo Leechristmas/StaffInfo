@@ -24,7 +24,8 @@ namespace Staffinfo.DAL.Repositories
             IRepository<Rank> rankRepository, 
             IRepository<Service> serviceRepository, 
             IRepository<WorkTerm> workTermRepository,
-            IRepository<Dismissed> dismissedRepository )
+            IRepository<Dismissed> dismissedRepository,
+            IRepository<DisciplineItem> disciplineItemRepository)
         {
             AddressRepository = addressRepository;
             EmployeeRepository = employeeRepository;
@@ -37,6 +38,7 @@ namespace Staffinfo.DAL.Repositories
             ServiceRepository = serviceRepository;
             WorkTermRepository = workTermRepository;
             DismissedRepository = dismissedRepository;
+            DisciplineItemRepository = disciplineItemRepository;
         }
 
         public IRepository<Address> AddressRepository { get; }
@@ -60,6 +62,8 @@ namespace Staffinfo.DAL.Repositories
         public IRepository<Service> ServiceRepository { get; }
 
         public IRepository<WorkTerm> WorkTermRepository { get; }
+
+        public IRepository<DisciplineItem> DisciplineItemRepository { get; }
 
         #region Implementing interface IDisposable
 

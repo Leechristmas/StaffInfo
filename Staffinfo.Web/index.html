@@ -60,9 +60,14 @@
                     Настройки
                 </md-button>
                 <span flex></span>
-                <!--<md-button data-ng-hide="!authentication.isAuth" href="#/dashboard">
-                    Вы вошли как <strong>{{authentication.userName}}</strong>
-                </md-button>-->
+                <md-button data-ng-hide="!authentication.isAuth" href="#/dashboard">
+                    <p class="userRequisites">
+                        Добрый день, {{authentication.userName}}
+                    </p>
+                    <p class="userRequisites">
+                        {{actualDate}}
+                    </p>
+                </md-button>
                 <md-button class="md-raised" aria-label="Войти" data-ng-hide="authentication.isAuth" href="#/login">Войти</md-button>
                 <md-button class="md-raised" aria-label="Выйти" data-ng-hide="!authentication.isAuth" data-ng-click="logOut()">Выйти</md-button>
             </div>

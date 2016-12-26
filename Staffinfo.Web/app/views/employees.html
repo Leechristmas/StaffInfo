@@ -38,7 +38,8 @@
                     </tr>
                 </thead>
                 <tbody md-body>
-                    <tr md-row md-select-id="id" ng-repeat="empl in employees | orderBy: query.order | filter: query.filter">
+                    <tr ng-if="employees.length === 0"><td colspan="4" class="td-center text-center emptyRow">Пусто</td></tr>
+                    <tr ng-if="employees.length != 0" md-row md-select-id="id" ng-repeat="empl in employees | orderBy: query.order | filter: query.filter">
                         <td md-cell style="padding-left: 20px"><a ng-click="showDetails($event, empl.id)" class="emplRef">{{empl.employeeLastname}}</a></td>
                         <td md-cell>{{empl.employeeFirstname}}</td>
                         <td md-cell>{{empl.employeeMiddlename}}</td>

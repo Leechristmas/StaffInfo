@@ -35,6 +35,7 @@ DROP TABLE dbo.tbl_WorkTerm;
 DROP TABLE dbo.tbl_Location;
 DROP TABLE dbo.tbl_Passport;
 DROP TABLE dbo.tbl_Address;
+DROP TABLE dbo.tbl_GratitudesAndPunishment;
 DROP TABLE dbo.tbl_Employee;
 DROP TABLE dbo.tbl_Dismissed;
 DROP TABLE dbo.tbl_Rank;
@@ -227,6 +228,18 @@ CREATE TABLE dbo.tbl_Notifications (
  ,Details VARCHAR(200)
  ,DueDate DATETIME NOT NULL
 );
+
+GO
+
+CREATE TABLE dbo.tbl_GratitudesAndPunishment (
+  ID INT IDENTITY(1,1) PRIMARY KEY
+ ,EmployeeID INT REFERENCES dbo.tbl_Employee
+ ,Title NVARCHAR(60) NOT NULL
+ ,ItemType NCHAR(1) NOT NULL --'G' - gratitude/ 'V' - violation
+ ,Date DATETIME NOT NULL
+ ,Description NVARCHAR(200)
+ ,AwardOrFine BIGINT  --kopecs   
+)
 
 GO
 ------------------------------
@@ -502,30 +515,7 @@ GO
 ------------------------------
 --TRIGGERS
 ------------------------------
---Updating the actual rank and post for employees
---CREATE TRIGGER MESAchievemntInsertTrigger
---ON tbl_MESAchievement
---AFTER INSERT, DELETE, UPDATE
---AS
---BEGIN
---  UPDATE tbl_Employee
---  SET ActualRankID = dbo.fn_GetActualRankID(i.EmployeeID)
---     ,ActualPostID = dbo.fn_GetActualPostID(i.EmployeeID)
---  FROM (SELECT DISTINCT
---      EmployeeID
---    FROM INSERTED) i;
---
---  UPDATE tbl_Employee
---  SET ActualRankID = dbo.fn_GetActualRankID(d.EmployeeID)
---     ,ActualPostID = dbo.fn_GetActualPostID(d.EmployeeID)
---  FROM (SELECT DISTINCT
---      EmployeeID
---    FROM DELETED) d;
---
---END;
-
-GO
-
+--cascade deleting addresses and passport data
 CREATE TRIGGER EmployeeDeleteTrigger
 ON tbl_Employee
 AFTER DELETE

@@ -341,6 +341,41 @@ namespace Staffinfo.API.Controllers
         }
 
         [HttpPost]
+        [Route("api/employees/discipline")]
+        public async Task PostDisciplineItem([FromBody] DisciplineItemViewModel model)
+        {
+            DisciplineItem disciplineItem = new DisciplineItem
+            {
+                Id = 0,
+                EmployeeId = model.EmployeeId,
+                Title = model.Title,
+                ItemType = model.ItemType,
+                Date = model.Date,
+                AwardOrFine = model.AwardOrFine,
+                Description = model.Description
+            };
+            _repository.DisciplineItemRepository.Create(disciplineItem);
+            await _repository.DisciplineItemRepository.SaveAsync();
+        }
+
+        [HttpGet]
+        [Route("api/employees/discipline/{emplId:int}")]
+        public async Task<IEnumerable<DisciplineItemViewModel>> GetDisciplineItems(int emplId)
+        {
+            IEnumerable<DisciplineItem> disciplineItems =
+                await _repository.DisciplineItemRepository.WhereAsync(i => i.EmployeeId == emplId);
+            return disciplineItems.Select(i => new DisciplineItemViewModel(i));
+        }
+
+        [HttpDelete]
+        [Route("api/employees/discipline/{id:int}")]
+        public async Task DeleteDisciplineItem(int id)
+        {
+            await _repository.DisciplineItemRepository.Delete(id);
+            await _repository.DisciplineItemRepository.SaveAsync();
+        }
+
+        [HttpPost]
         [Route("api/employees/military")]
         public async Task PostMilitary([FromBody] MilitaryService value)
         {

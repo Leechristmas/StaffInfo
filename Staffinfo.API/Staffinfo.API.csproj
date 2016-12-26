@@ -229,6 +229,7 @@
     <Compile Include="Filters\GlobalLogFilterAttribute.cs" />
     <Compile Include="Filters\NotEmplExceptionFilterAttribute.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
+    <Compile Include="Models\DisciplineItemViewModel.cs" />
     <Compile Include="Models\Dismissal.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\EmployeeViewModelMin.cs" />

@@ -31,7 +31,8 @@ namespace Staffinfo.DAL.Tests
             new Repository<Rank>(new StaffContext()),
             new Repository<Service>(new StaffContext()), 
             new Repository<WorkTerm>(new StaffContext()),
-            new Repository<Dismissed>(new StaffContext()));
+            new Repository<Dismissed>(new StaffContext()),
+            new Repository<DisciplineItem>(new StaffContext()));
 
         //[TestMethod]
         //public void Select_GetAllAddresses()
@@ -130,6 +131,12 @@ namespace Staffinfo.DAL.Tests
                 Password = "qwerty123456",
                 ConfirmPassword = "qwerty123456"
             }).Result;
+        }
+
+        [TestMethod]
+        public void Get_All_Discipline_Items()
+        {
+            var t = _staffUnitRepository.DisciplineItemRepository.SelectAsync().Result;
         }
 
         [TestMethod]

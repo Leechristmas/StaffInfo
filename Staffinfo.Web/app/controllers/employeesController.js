@@ -24,7 +24,7 @@ app.controller('employeesController', [
                 $scope.employees = response.data;
                 $scope.total = response.headers('X-Total-Count');
             }, function (data) {
-                messageService.setError({errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText});
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
                 $mdToast.show(messageService.errorViewConfig);
             });
         }
@@ -300,7 +300,7 @@ app.controller('employeesController', [
         }
 
         //confirmation deleting
-        $scope.confirmDeleting = function (ev, id, type) { //type: W - works; M - military; A - achievements
+        $scope.confirmDeleting = function (ev, id, type) { //type: W - works; M - military; A - achievements; D - discipline items
 
             var confirm = $mdDialog.confirm()
                 .title('Удаление')
@@ -321,6 +321,8 @@ app.controller('employeesController', [
                     case "A":
                         _deleteMesAchievement(id);
                         break;
+                    case "D":
+                        _deleteDisciplineItem(id);
                     default:
                         break;
                 }
@@ -328,6 +330,41 @@ app.controller('employeesController', [
                 //cancel
             });
         }
+
+        //Discipline--------------
+
+        $scope.disciplineItems = [];
+        $scope.discType = 'G';  //gratitudes by default
+
+        var _deleteDisciplineItem = function (id) {
+            $scope.promise = employeesService.deleteDisciplineItem(id).then(function (response) {
+                $scope.getDisciplineItems(); //refresh
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                        '<div class="md-toast-content">' +
+                        'Запись была успешно удалена.' +
+                        '</div>' +
+                        '</md-toast>'
+                });
+            }, function (data) {
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
+            });
+        }
+
+        $scope.getDisciplineItems = function () {
+            $scope.promise = employeesService.getDisciplineItems($scope.employee.id).then(function (response) { //success
+                $scope.disciplineItems = response.data.filter(function (item) { return item.itemType === $scope.discType });
+            }, function (data) { //if error
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
+            });
+        }
+
+        //--------------------------
 
         //save specified changes for the employee
         $scope.saveChanges = function () {

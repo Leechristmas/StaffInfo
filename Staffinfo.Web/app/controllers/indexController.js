@@ -16,6 +16,8 @@ app.controller('indexController', ['$scope', '$location', 'authService', '$mdDia
         originatorEv = null;
     }
 
+    $scope.actualDate = new Date(Date.now()).toLocaleString("ru", { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
+
     $scope.authentication = authService.authentication;
     $scope.isAuth = authService.isAuthenticated;
 

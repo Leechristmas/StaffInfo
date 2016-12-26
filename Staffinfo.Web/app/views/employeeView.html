@@ -160,7 +160,8 @@
                                         </tr>
                                     </thead>
                                     <tbody md-body>
-                                        <tr md-row md-select-id="id" ng-repeat="item in mesAchievements | orderBy: 'startDate'">
+                                        <tr ng-if="mesAchievements.length === 0"><td colspan="4" class="td-center text-center emptyRow">Пусто</td></tr>
+                                        <tr ng-if="mesAchievements.length != 0" md-row md-select-id="id" ng-repeat="item in mesAchievements | orderBy: 'startDate'">
                                             <td md-cell>{{item.location}}</td>
                                             <td md-cell>{{item.post}}</td>
                                             <td md-cell>{{item.rank}}</td>
@@ -206,7 +207,8 @@
                                         </tr>
                                     </thead>
                                     <tbody md-body>
-                                        <tr md-row md-select-id="id" ng-repeat="item in military | orderBy: 'startDate'">
+                                        <tr ng-if="military.length === 0"><td colspan="4" class="td-center text-center emptyRow">Пусто</td></tr>
+                                        <tr ng-if="military.length != 0" md-row md-select-id="id" ng-repeat="item in military | orderBy: 'startDate'">
                                             <td md-cell>{{item.location}}</td>
                                             <td md-cell>{{item.rank}}</td>
                                             <td md-cell mdDesc="true" class="td-center">{{getDate(item.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
@@ -251,12 +253,67 @@
                                         </tr>
                                     </thead>
                                     <tbody md-body>
-                                        <tr md-row md-select-id="id" ng-repeat="item in works | orderBy: 'startDate'">
+                                        <tr ng-if="works.length === 0"><td colspan="4" class="td-center text-center emptyRow">Пусто</td></tr>
+                                        <tr ng-if="works.length != 0" md-row md-select-id="id" ng-repeat="item in works | orderBy: 'startDate'">
                                             <td md-cell>{{item.location}}</td>
                                             <td md-cell>{{item.post}}</td>
                                             <td md-cell mdDesc="true" class="td-center">{{getDate(item.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell class="td-center">{{getDate(item.finishDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'W')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </md-table-container>
+                        </md-content>
+                    </md-tab-body>
+                </md-tab>
+                <md-tab md-on-select="getDisciplineItems()">
+                    <md-tab-label>
+                        <p class="unselectable">
+                            <md-icon md-svg-icon="img/icons/ic_assignment_24px.svg"></md-icon> Дисциплина
+                        </p>
+                    </md-tab-label>
+                    <md-tab-body>
+                        <md-content class="md-padding">
+                            <h1 class="md-display-1">Дисциплина</h1>
+                            <div layout="column">
+                                <md-select placeholder="Discipline" name="discType" ng-model="discType" style="min-width: 200px;" ng-change="getDisciplineItems()">
+                                    <md-option value="G"><h4>Благодарности</h4></md-option>
+                                    <md-option value="V"><h4>Взыскания</h4></md-option>
+                                </md-select>
+                            </div>
+                            <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddWorkView($event)">
+                                <md-icon md-svg-src="img/icons/ic_add_24px.svg"></md-icon>
+                                <md-tooltip md-direction="bottom">
+                                    Добавить запись
+                                </md-tooltip>
+                            </md-button>
+                            <md-button class="md-fab md-primary md-fab-md" aria-label="Refresh" ng-click="getWorks()">
+                                <md-icon md-svg-src="img/icons/ic_refresh_24px.svg"></md-icon>
+                                <md-tooltip md-direction="bottom">
+                                    Обновить
+                                </md-tooltip>
+                            </md-button>
+
+                            <md-table-container>
+                                <table md-table md-progress="promise">
+                                    <thead md-head>
+                                        <tr md-row>
+                                            <th md-column>Заголовок</th>
+                                            <th md-column class="td-center">Дата</th>
+                                            <th md-column ng-if="discType === 'G'" class="td-center">Премия</th>
+                                            <th md-column ng-if="discType === 'V'" class="td-center">Сумма взыскания</th>
+                                            <th md-column>Описание</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody md-body>
+                                        <tr ng-if="disciplineItems.length === 0"><td colspan="4" class="td-center text-center emptyRow">Пусто</td></tr>
+                                        <tr ng-if="disciplineItems.length != 0" md-row md-select-id="id" ng-repeat="item in disciplineItems | orderBy: 'date'">
+                                            <td md-cell>{{item.title}}</td>
+                                            <td md-cell class="td-center">{{getDate(item.date).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
+                                            <td md-cell class="td-center">{{item.awardOrFine}}</td>
+                                            <td md-cell>{{item.description}}</td>
+                                            <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'D')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
                                         </tr>
                                     </tbody>
                                 </table>
