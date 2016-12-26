@@ -19,7 +19,7 @@ app.controller('loginController', ['$state', '$scope', '$mdToast', 'authService'
                 controller: 'toastController',
                 template: '<md-toast class="md-toast-success">' +
                                 '<div class="md-toast-content">' +
-                                  'Вы вошли в систему.' +
+                                  'Авторизация прошла успешно.' +
                                 '</div>' +
                             '</md-toast>'
             });
