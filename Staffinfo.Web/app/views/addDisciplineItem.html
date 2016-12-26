@@ -1,1 +1,49 @@
-﻿
+﻿<md-dialog aria-label="add a discipline item">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Добавление записи</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content style="max-width: 800px; max-height: 810px; min-width: 600px;">
+        <form>
+            <md-content class="md-padding">
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Заголовок</label>
+                        <input ng-model="newDisciplineItem.title" required md-maxlength="60" />
+                    </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm >
+                        <label ng-if="newDisciplineItem.itemType === 'G'">Премия</label>
+                        <label ng-if="newDisciplineItem.itemType === 'V'">Сумма взыскания</label>
+                        <input aria-label="awardOrFine" ng-model="newDisciplineItem.awardOrFine" required ng-pattern="/^[0-9]{1,7}(\.[0-9]+)?$/"/>
+                        <div class="hint">Сумма в рублях, например: 99.99</div>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Дата</label>
+                        <md-datepicker ng-model="newDisciplineItem.date" required></md-datepicker>
+                    </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" style="width: 100%;">
+                        <label>Описание</label>
+                        <textarea ng-model="newDisciplineItem.description" columns="1" md-maxlength="150" rows="3"></textarea>
+                    </md-input-container>
+                </div>
+            </md-content>
+        </form>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" class="dialog-footer">
+        <md-button ng-click="saveNewDisciplineItem()" class="md-primary md-raised">
+            Сохранить
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

@@ -4,8 +4,13 @@ app.factory('employeesService', [
     "$http", 'ngAuthSettings', function ($http, ngAuthSettings) {
         var employeesServiceFactory = {};
 
+        var _disciplineItems = {
+            actualDisciplineItemsType: ''
+        };
+
         //base address to API
         var serviceBase = ngAuthSettings.apiServiceBaseUri;
+
 
         //returns actual employees with pagination 
         var _getEmployees = function (query) {
@@ -166,6 +171,14 @@ app.factory('employeesService', [
             return $http.delete(serviceBase + 'api/employees/discipline/' + id);
         }
 
+        //returns promise for saving new discipline item
+        var _saveNewDisciplineItem = function (disciplineItem) {
+            return $http.post(serviceBase + 'api/employees/discipline', disciplineItem, {});
+        }
+
+        employeesServiceFactory.DisciplineItems = _disciplineItems;
+
+        employeesServiceFactory.saveNewDisciplineItem = _saveNewDisciplineItem;
         employeesServiceFactory.deleteDisciplineItem = _deleteDisciplineItem;
         employeesServiceFactory.getDisciplineItems = _getDisciplineItems;
         employeesServiceFactory.getServices = _getServices;

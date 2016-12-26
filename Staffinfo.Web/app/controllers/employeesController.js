@@ -191,6 +191,21 @@ app.controller('employeesController', [
             });
         };
 
+        $scope.showAddDisciplineItemView = function (ev) {
+            $mdDialog.show({
+                controller: 'addEmployeeItemsController',
+                templateUrl: 'app/views/addDisciplineItem.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true
+            }).then(function (answer) {
+                $scope.getDisciplineItems(); //refresh the list
+                console.log('new discipline item has been added.');
+            }, function () {
+                console.log('adding view has been closed.');
+            });
+        };
+
         $scope.showAddWorkView = function (ev) {
             $mdDialog.show({
                 controller: 'addEmployeeItemsController',
@@ -358,6 +373,7 @@ app.controller('employeesController', [
         $scope.getDisciplineItems = function () {
             $scope.promise = employeesService.getDisciplineItems($scope.employee.id).then(function (response) { //success
                 $scope.disciplineItems = response.data.filter(function (item) { return item.itemType === $scope.discType });
+                employeesService.DisciplineItems.actualDisciplineItemsType = $scope.discType;
             }, function (data) { //if error
                 messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
                 $mdToast.show(messageService.errorViewConfig);
@@ -502,6 +518,7 @@ app.controller('employeesController', [
         $scope.mesAchItem = { employeeId: employeesService.getActualEmployee().id };
         $scope.military = { employeeId: employeesService.getActualEmployee().id };
         $scope.work = { employeeId: employeesService.getActualEmployee().id };
+        $scope.newDisciplineItem = { employeeId: employeesService.getActualEmployee().id, itemType: employeesService.DisciplineItems.actualDisciplineItemsType };
 
 
         $scope.setPosts = function (serviceId) {
@@ -537,6 +554,27 @@ app.controller('employeesController', [
             messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
             $mdToast.show(messageService.errorViewConfig);
         });
+
+        //saves new discipline item
+        $scope.saveNewDisciplineItem = function() {
+            $scope.promise = employeesService.saveNewDisciplineItem($scope.newDisciplineItem).then(function (response) {
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                                    '<div class="md-toast-content">' +
+                                      'Запись успешно добавлена.' +
+                                    '</div>' +
+                                '</md-toast>'
+                });
+                $mdDialog.hide('save'); //throw the 'answer' to the main controller to refresh or do not the list
+            }, function (data) {
+                $mdDialog.hide('cancel');
+                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errorViewConfig);
+            });
+        }
 
         //saves new mes achievement
         $scope.saveNewMesAchievement = function () {
