@@ -960,6 +960,7 @@
     <Content Include="scripts\loading-bar.js" />
     <Content Include="scripts\loading-bar.min.js" />
     <Content Include="content\css\md-data-table.css" />
+    <Content Include="scripts\md-data-table\md-data-table-fixed-header.js" />
     <Content Include="scripts\md-data-table\md-data-table.js" />
     <Content Include="content\css\md-data-table.min.css" />
     <Content Include="scripts\md-data-table\md-data-table.min.js" />

@@ -148,9 +148,9 @@
                                     Обновить
                                 </md-tooltip>
                             </md-button>
-                            <md-table-container>
+                            <md-table-container class="scrollableTable">
                                 <table md-table md-progress="promise">
-                                    <thead md-head>
+                                    <thead md-head fix-head>
                                         <tr md-row>
                                             <th md-column>Место</th>
                                             <th md-column>Должность</th>
@@ -196,9 +196,9 @@
                                     Обновить
                                 </md-tooltip>
                             </md-button>
-                            <md-table-container>
+                            <md-table-container class="scrollableTable">
                                 <table md-table md-progress="promise">
-                                    <thead md-head>
+                                    <thead md-head fix-head>
                                         <tr md-row>
                                             <th md-column>Место</th>
                                             <th md-column>Звание</th>
@@ -242,9 +242,9 @@
                                     Обновить
                                 </md-tooltip>
                             </md-button>
-                            <md-table-container>
+                            <md-table-container class="scrollableTable">
                                 <table md-table md-progress="promise">
-                                    <thead md-head>
+                                    <thead md-head fix-head>
                                         <tr md-row>
                                             <th md-column>Место</th>
                                             <th md-column>Звание</th>
@@ -295,9 +295,9 @@
                                 </md-tooltip>
                             </md-button>
 
-                            <md-table-container>
+                            <md-table-container class="scrollableTable">
                                 <table md-table md-progress="promise">
-                                    <thead md-head>
+                                    <thead md-head fix-head>
                                         <tr md-row>
                                             <th md-column>Заголовок</th>
                                             <th md-column class="td-center">Дата</th>
@@ -367,15 +367,17 @@
                     </md-tab-body>
                 </md-tab>
             </md-tabs>
-        </form>
-        <ul>
-            <li ng-repeat="(key, errors) in form.$error track by $index">
-                <strong>{{ key }}</strong> errors
+            <div>
                 <ul>
-                    <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                    <li ng-repeat="(key, errors) in form.$error track by $index">
+                        <strong>{{ key }}</strong> errors
+                        <ul>
+                            <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                        </ul>
+                    </li>
                 </ul>
-            </li>
-        </ul>
+            </div>
+        </form>
     </md-content>
 
     <div class="_md-button-wrap pull-right">
