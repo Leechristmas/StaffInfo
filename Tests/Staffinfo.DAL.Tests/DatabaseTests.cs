@@ -140,6 +140,13 @@ namespace Staffinfo.DAL.Tests
         }
 
         [TestMethod]
+        public void Delete_Employee()
+        {
+            _staffUnitRepository.EmployeeRepository.Delete(2);
+            _staffUnitRepository.EmployeeRepository.SaveAsync();
+        }
+
+        [TestMethod]
         public void Add_Employee()
         {
             EmployeeViewModel e = new EmployeeViewModel

@@ -1,13 +1,16 @@
 ﻿'use strict';
 app.factory('messageService', function() {
 
-    var _error = {errorText: '', errorTitle: ''};
+    var messageServiceFactory = {}
 
-    var messageServiceFactory = {
-        setError: function(error) {
+    var _error = {errorText: '', errorTitle: ''};   //private
+    
+    var _errors = {
+
+        setError: function (error) {
             _error = error;
         },
-        getError: function() {
+        getError: function () {
             return _error;
         },
         errorViewConfig: {
@@ -16,7 +19,9 @@ app.factory('messageService', function() {
             controller: 'toastController',
             templateUrl: 'app/views/error-toast.html'
         }
-    };
+    }
+
+    messageServiceFactory.errors = _errors;
 
     return messageServiceFactory;
 });

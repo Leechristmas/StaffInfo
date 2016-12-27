@@ -2,7 +2,7 @@
 
 app.controller('calendarController', [
     '$scope', 'dashboardService', '$mdDialog', 'messageService', '$mdToast', function ($scope, dashboardService, $mdDialog, messageService, $mdToast) {
-        $scope.notification = dashboardService.getSelectedNotification();
+        $scope.notification = dashboardService.calendar.getSelectedNotification();
 
         $scope.hide = function () {
             $mdDialog.hide();
@@ -14,7 +14,7 @@ app.controller('calendarController', [
 
         $scope.deleteNotification = function () {
             if ($scope.notification.id > 0)
-                dashboardService.deleteNotification($scope.notification.id).then(function (response) {
+                dashboardService.calendar.deleteNotification($scope.notification.id).then(function (response) {
                     $mdToast.show({
                         hideDelay: 3000,
                         position: 'top right',
@@ -28,13 +28,13 @@ app.controller('calendarController', [
                     $mdDialog.hide('save');
                 }, function (data) {
                     $mdDialog.hide('cancel');
-                    messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                    messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
                     $mdToast.show(messageService.errorViewConfig);
                 });
         }
 
         $scope.saveNotification = function () {
-            dashboardService.saveNotification($scope.notification).then(function (response) {
+            dashboardService.calendar.saveNotification($scope.notification).then(function (response) {
                 $mdToast.show({
                     hideDelay: 3000,
                     position: 'top right',
@@ -48,7 +48,7 @@ app.controller('calendarController', [
                 $mdDialog.hide('save');
             }, function (data) {
                 $mdDialog.hide('cancel');
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
                 $mdToast.show(messageService.errorViewConfig);
             });
         }

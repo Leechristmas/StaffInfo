@@ -2,15 +2,10 @@
 
 app.controller('dashboardController', [
     '$scope', 'dashboardService', 'messageService', '$mdToast', '$interval', '$mdDialog', 'settingsService', function ($scope, dashboardService, messageService, $mdToast, $interval, $mdDialog, settingsService) {
-        $scope.employees = [];
-        $scope.servicesStruct = {};
-        $scope.totalSeniorityStatistic = {};
-        $scope.actualSeniorityStatistic = {};
-
+        
+//COMMON----------------------------------------------
         $scope.isLoading = true;
         $scope.determinateValue = 30;
-
-        $scope.includeRetirees = true;//include/exclude retirees to the seniority chart
 
         // Iterate every 100ms, non-stop and increment
         // the Determinate loader.
@@ -23,9 +18,45 @@ app.controller('dashboardController', [
 
         }, 100);
 
-        //charts
+        //loads the data for the page
+        $scope.loadData = function () {
+            $scope.isLoading = true;
+
+            var q1 = dashboardService.charts.getServicesStruct().then(function (response) {
+                $scope.servicesStruct = response.data;
+            });
+
+            var q2 = dashboardService.charts.getTotalSeniorityStatistic().then(function (response) {
+                $scope.totalSeniorityStatistic = response.data;
+            });
+
+            var q3 = dashboardService.charts.getActualSeniorityStatistic().then(function (response) {
+                $scope.actualSeniorityStatistic = response.data;
+            });
+
+            Promise.all([q1, q2, q3]).then(values => {
+                $scope.isLoading = false;
+                console.log('data has been loaded.');
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+
+        }
+
+        $scope.loadData();
+
+//----------------------------------------------------
+
+//CHARTS----------------------------------------------
+        $scope.servicesStruct = {};
+        $scope.totalSeniorityStatistic = {};
+        $scope.actualSeniorityStatistic = {};
+
         var pieChart = {};  //services
         var barChart = {};  //seniority
+
+        $scope.includeRetirees = true;//include/exclude retirees to the seniority chart
 
         //include/exclude reirees from the bar chart (seniority)
         $scope.toggleRetirees = function (includeRetirees) {
@@ -40,33 +71,6 @@ app.controller('dashboardController', [
             console.log(getData($scope.totalSeniorityStatistic));
             console.log(getData($scope.actualSeniorityStatistic));
         }
-
-        //loads the data for the page
-        $scope.loadData = function () {
-            $scope.isLoading = true;
-
-            var q1 = dashboardService.getServicesStruct().then(function (response) {
-                $scope.servicesStruct = response.data;
-            });
-            var q2 = dashboardService.getTotalSeniorityStatistic().then(function (response) {
-                $scope.totalSeniorityStatistic = response.data;
-            });
-
-            var q3 = dashboardService.getActualSeniorityStatistic().then(function (response) {
-                $scope.actualSeniorityStatistic = response.data;
-            });
-
-            Promise.all([q1, q2, q3]).then(values => {
-                $scope.isLoading = false;
-                console.log('data has been loaded.');
-            }, function (data) {
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
-            });
-
-        }
-
-        $scope.loadData();
 
         //redraws the pie chart (services)
         $scope.reloadPie = function () {
@@ -186,8 +190,16 @@ app.controller('dashboardController', [
             return Object.values(obj);
         }
 
+//----------------------------------------------------
+
+        
+//CALENDAR--------------------------------------------
+        //calendar
+        $scope.eventSource = [];
+        $scope.notification = {};
+
         $scope.showEventDetailsView = function (ev) {
-            dashboardService.setSelectedNotification($scope.event);
+            dashboardService.calendar.setSelectedNotification($scope.event);
             $mdDialog.show({
                 controller: 'calendarController',
                 templateUrl: 'app/views/eventDetailsView.html',
@@ -203,7 +215,7 @@ app.controller('dashboardController', [
         }
 
         $scope.showAddNotificationView = function (ev) {
-            dashboardService.setSelectedNotification({});//set empty model for adding view
+            dashboardService.calendar.setSelectedNotification({});//set empty model for adding view
             $mdDialog.show({
                 controller: 'calendarController',
                 templateUrl: 'app/views/addNotificationView.html',
@@ -217,10 +229,6 @@ app.controller('dashboardController', [
                 console.log('adding view has been closed.');
             });
         }
-
-        //calendar
-        $scope.eventSource = [];
-        $scope.notification = {};
 
         //change mode: month/week/day
         $scope.changeMode = function (mode) {
@@ -310,7 +318,7 @@ app.controller('dashboardController', [
             settingsService.calendarSettings.includedNotificatoinTypes = settingsService.calendarSettings.loadIncludedNotificatoinTypes();
 
             //load notifications
-            $scope.promise = dashboardService.getNotifications({
+            $scope.promise = dashboardService.calendar.getNotifications({
                 includeCustomNotifications: settingsService.calendarSettings.customAreIncluded(),
                 includeSertification: settingsService.calendarSettings.sertificationsAreIncluded(),
                 includeBirthDates: settingsService.calendarSettings.birthdaysAreIncluded()
@@ -325,11 +333,12 @@ app.controller('dashboardController', [
                 $scope.eventSource = events;
                 $scope.updateCalendar();
             }, function(data) {//error
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
             });
         };
 
         $scope.loadEvents();
     }
+//----------------------------------------------------
 ]);

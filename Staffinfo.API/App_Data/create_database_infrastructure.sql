@@ -233,7 +233,7 @@ GO
 
 CREATE TABLE dbo.tbl_GratitudesAndPunishment (
   ID INT IDENTITY(1,1) PRIMARY KEY
- ,EmployeeID INT REFERENCES dbo.tbl_Employee
+ ,EmployeeID INT REFERENCES dbo.tbl_Employee ON DELETE CASCADE
  ,Title NVARCHAR(60) NOT NULL
  ,ItemType NCHAR(1) NOT NULL --'G' - gratitude/ 'V' - violation
  ,Date DATETIME NOT NULL

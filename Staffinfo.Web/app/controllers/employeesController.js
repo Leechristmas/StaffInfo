@@ -3,6 +3,7 @@
 app.controller('employeesController', [
     '$scope', 'employeesService', '$mdToast', 'messageService', '$mdDialog', '$state', function ($scope, employeesService, $mdToast, messageService, $mdDialog, $state) {
 
+        //COMMON----------------------------------------------
         //options for queries to API and pagination
         $scope.query = {
             order: 'employeeLastname',
@@ -16,23 +17,61 @@ app.controller('employeesController', [
             filter: ''  //it would be better to refresh the list when filter has 3 chars at least.
         };
 
+        //returns date from string
+        $scope.getDate = function (date) {
+            var t = new Date(date);
+            return new Date(t.getFullYear(), t.getMonth(), t.getDate(), 3);
+        }
 
+
+
+        //----------------------------------------------------
+
+        //EMPLOYEES-------------------------------------------
 
         //gets employees with pagination
         $scope.getEmployees = function () {
-            $scope.promise = employeesService.getEmployees($scope.query).then(function (response) {
+            $scope.promise = employeesService.employees.getEmployees($scope.query).then(function (response) {
                 $scope.employees = response.data;
                 $scope.total = response.headers('X-Total-Count');
             }, function (data) {
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
             });
+        }
+
+        //employees list
+        $scope.employees = $scope.getEmployees();
+
+        //refresh employees list
+        $scope.refreshEmployees = function () {
+            $scope.promise = $scope.getEmployees();
         }
 
         //returns $promise with employee by id
         $scope.getEmployeeById = function (id) {
-            return employeesService.getEmployeeById(id);
+            return employeesService.employees.getEmployeeById(id);
         };
+
+        //deletes the specified employee
+        var _deleteEmployee = function (id) {
+            $scope.promise = employeesService.employees.deleteEmployeeById(id).then(function (response) {
+                $scope.refreshEmployees();//refresh
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                                    '<div class="md-toast-content">' +
+                                      'Информация о сотруднике была удалена.' +
+                                    '</div>' +
+                                '</md-toast>'
+                });
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
 
         //opens the dialog window with detailed information about specified employee
         $scope.showDetails = function (ev, id) {
@@ -42,20 +81,14 @@ app.controller('employeesController', [
                 var employee = response.data;
                 employee.birthDate = new Date(employee.birthDate);
 
-                employeesService.setActualEmployee(employee);
+                employeesService.employees.setActualEmployee(employee);
 
                 $state.go('details');
             }, function (data) {
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
             });
         };
-
-        //returns date from string
-        $scope.getDate = function (date) {
-            var t = new Date(date);
-            return new Date(t.getFullYear(), t.getMonth(), t.getDate(), 3);
-        }
 
         //shows the window with form for adding new employee
         $scope.showAddingView = function (ev) {
@@ -70,27 +103,6 @@ app.controller('employeesController', [
                 console.log('new employee has been added.');
             }, function () {
                 console.log('adding view has been closed.');
-            });
-        }
-
-        //deletes the specified employee
-        var _deleteEmployee = function (id) {
-            //TODO: deleting
-            $scope.promise = employeesService.deleteEmployeeById(id).then(function (response) {
-                $scope.refreshEmployees();//refresh
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    template: '<md-toast class="md-toast-success">' +
-                                    '<div class="md-toast-content">' +
-                                      'Информация о сотруднике была удалена.' +
-                                    '</div>' +
-                                '</md-toast>'
-                });
-            }, function (data) {
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
             });
         }
 
@@ -111,11 +123,7 @@ app.controller('employeesController', [
             });
         }
 
-        $scope.refreshEmployees = function () {
-            $scope.promise = $scope.getEmployees();
-        }
-
-        $scope.employees = $scope.getEmployees();
+        //----------------------------------------------------
 
     }]).controller('toastController', ['$scope', '$mdDialog', 'messageService', '$mdToast', function ($scope, $mdDialog, messageService, $mdToast) {
 
@@ -138,8 +146,8 @@ app.controller('employeesController', [
             $mdDialog
                 .show($mdDialog
                     .alert()
-                    .title('Ошибка! ' + messageService.getError().errorTitle)
-                    .textContent(messageService.getError().errorText)
+                    .title('Ошибка! ' + messageService.errors.getError().errorTitle)
+                    .textContent(messageService.errors.getError().errorText)
                     .ariaLabel('More info')
                     .ok('OK')
                     .targetEvent(e)
@@ -150,6 +158,11 @@ app.controller('employeesController', [
         };
 
     }]).controller('detailsController', ['$scope', '$mdDialog', 'employeesService', 'messageService', '$timeout', '$mdToast', '$state', function ($scope, $mdDialog, employeesService, messageService, $timeout, $mdToast, $state) {
+        
+
+//COMMON----------------------------------------------
+        $scope.maxDate = employeesService.common.maxBirthDate;
+
         $scope.hide = function () {
             $mdDialog.hide();
         };
@@ -158,7 +171,66 @@ app.controller('employeesController', [
             $mdDialog.cancel();
         };
 
-        $scope.maxDate = employeesService.maxDate;
+        //returns date from string
+        $scope.getDate = function (date) {
+            if (date) {
+                var t = new Date(date);
+                return new Date(t.getFullYear(), t.getMonth(), t.getDate(), 3);
+            } else
+                return null;
+        }
+
+        //selected employee
+        $scope.employee = employeesService.employees.getActualEmployee();
+        //selected for changing
+        $scope.changeable = employeesService.common.getClone($scope.employee);
+
+        $scope.uploadFile = function (input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+
+                    //Sets the Old Image to new New Image
+                    document.getElementById('photo-id').setAttribute('src', e.target.result);
+
+                    //Create a canvas and draw image on Client Side to get the byte[] equivalent
+                    var canvas = document.createElement("canvas");
+                    var imageElement = document.createElement("img");
+
+                    imageElement.setAttribute('src', e.target.result);
+                    canvas.width = imageElement.width;
+                    canvas.height = imageElement.height;
+                    var context = canvas.getContext("2d");
+                    context.drawImage(imageElement, 0, 0);
+                    var base64Image = canvas.toDataURL("image/jpeg");
+
+                    //Removes the Data Type Prefix 
+                    //And set the view model to the new value
+                    $scope.changeable.employeePhoto = base64Image.replace(/data:image\/jpeg;base64,/g, '');
+                }
+
+                //Renders Image on Page
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $scope.upload = function () {
+            angular.element(document.getElementById('photo-id')).click();
+        };
+
+        //reset all changes
+        $scope.resetChanges = function () {
+            $scope.changeable = employeesService.common.getClone($scope.employee);
+        }
+
+        $scope.isPensioner = function () {
+            if ($scope.employee.retirementDate) return true;
+            return false;
+        }
+
+//----------------------------------------------------
+     
+//HANDLERS--------------------------------------------
 
         //shows the window for adding new mes achievement
         $scope.showAddMesView = function (ev) {
@@ -254,66 +326,6 @@ app.controller('employeesController', [
             }
         };
 
-        //deletes work by id
-        var _deleteWork = function (id) {
-            $scope.promise = employeesService.deleteWork(id).then(function (response) {
-                $scope.getWorks(); //refresh
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    template: '<md-toast class="md-toast-success">' +
-                        '<div class="md-toast-content">' +
-                        'Запись была успешно удалена.' +
-                        '</div>' +
-                        '</md-toast>'
-                });
-            }, function (data) {
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
-            });
-        }
-
-        //deletes military by id
-        var _deleteMilitary = function (id) {
-            $scope.promise = employeesService.deleteMilitary(id).then(function (response) {
-                $scope.getMilitary(); //refresh
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    template: '<md-toast class="md-toast-success">' +
-                        '<div class="md-toast-content">' +
-                        'Запись была успешно удалена.' +
-                        '</div>' +
-                        '</md-toast>'
-                });
-            }, function (data) {
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
-            });
-        }
-
-        //deletes mes achievemnt by id
-        var _deleteMesAchievement = function (id) {
-            $scope.promise = employeesService.deleteMesAchievement(id).then(function (response) {
-                $scope.getMesAchievements(); //refresh
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    template: '<md-toast class="md-toast-success">' +
-                        '<div class="md-toast-content">' +
-                        'Запись была успешно удалена.' +
-                        '</div>' +
-                        '</md-toast>'
-                });
-            }, function (data) {
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
-            });
-        }
-
         //confirmation deleting
         $scope.confirmDeleting = function (ev, id, type) { //type: W - works; M - military; A - achievements; D - discipline items
 
@@ -346,46 +358,10 @@ app.controller('employeesController', [
             });
         }
 
-        //Discipline--------------
-
-        $scope.disciplineItems = [];
-        $scope.discType = 'G';  //gratitudes by default
-
-        var _deleteDisciplineItem = function (id) {
-            $scope.promise = employeesService.deleteDisciplineItem(id).then(function (response) {
-                $scope.getDisciplineItems(); //refresh
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    template: '<md-toast class="md-toast-success">' +
-                        '<div class="md-toast-content">' +
-                        'Запись была успешно удалена.' +
-                        '</div>' +
-                        '</md-toast>'
-                });
-            }, function (data) {
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
-            });
-        }
-
-        $scope.getDisciplineItems = function () {
-            $scope.promise = employeesService.getDisciplineItems($scope.employee.id).then(function (response) { //success
-                $scope.disciplineItems = response.data.filter(function (item) { return item.itemType === $scope.discType });
-                employeesService.DisciplineItems.actualDisciplineItemsType = $scope.discType;
-            }, function (data) { //if error
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
-            });
-        }
-
-        //--------------------------
-
         //save specified changes for the employee
         $scope.saveChanges = function () {
             //save the changes
-            employeesService.saveChanges($scope.changeable).then(function (response) {
+            employeesService.employees.saveChanges($scope.changeable).then(function (response) {
                 if ($scope.isPensioner())
                     $state.go('retirees');
                 else
@@ -402,111 +378,166 @@ app.controller('employeesController', [
                         '</md-toast>'
                 });
             }, function (data) {
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
             });
         }
-
-        $scope.uploadFile = function (input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-
-                    //Sets the Old Image to new New Image
-                    document.getElementById('photo-id').setAttribute('src', e.target.result);
-
-                    //Create a canvas and draw image on Client Side to get the byte[] equivalent
-                    var canvas = document.createElement("canvas");
-                    var imageElement = document.createElement("img");
-
-                    imageElement.setAttribute('src', e.target.result);
-                    canvas.width = imageElement.width;
-                    canvas.height = imageElement.height;
-                    var context = canvas.getContext("2d");
-                    context.drawImage(imageElement, 0, 0);
-                    var base64Image = canvas.toDataURL("image/jpeg");
-
-                    //Removes the Data Type Prefix 
-                    //And set the view model to the new value
-                    $scope.changeable.employeePhoto = base64Image.replace(/data:image\/jpeg;base64,/g, '');
-                }
-
-                //Renders Image on Page
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        $scope.upload = function () {
-            angular.element(document.getElementById('photo-id')).click();
-        };
-
-        //reset all changes
-        $scope.resetChanges = function () {
-            $scope.changeable = employeesService.getClone($scope.employee);
-        }
-
-        $scope.isPensioner = function () {
-            if ($scope.employee.retirementDate) return true;
-            return false;
-        }
-
-        $scope.mesAchievements = [];
-        $scope.works = [];
-        $scope.military = [];
-
-        //returns MES achievements for employee
-        $scope.getMesAchievements = function () {
-            $scope.promise = employeesService.getMesAchievements().then(function (response) {
-                $scope.mesAchievements = response.data;
-            }, function (data) {
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
-            });
-        }
-
-        //returns works for employee
-        $scope.getWorks = function () {
-            $scope.promise = employeesService.getWorks().then(function (response) {
-                $scope.works = response.data;
-            }, function (data) {
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
-            });
-        }
-
-        //returns works for employee
-        $scope.getMilitary = function () {
-            $scope.promise = employeesService.getMilitary().then(function (response) {
-                $scope.military = response.data;
-            }, function (data) {
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
-            });
-        }
-
-        $scope.employee = employeesService.getActualEmployee();
-        $scope.changeable = employeesService.getClone($scope.employee);
 
         $scope.getSeniority = function () {
-            $scope.promise = employeesService.getSeniorityById($scope.employee.id).then(function (response) {
+            $scope.promise = employeesService.employees.getSeniorityById($scope.employee.id).then(function (response) {
                 console.log(response.data);
                 $scope.seniority = response.data;
             }, function (data) {
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+//----------------------------------------------------
+
+//DISCIPLINE------------------------------------------
+
+        $scope.disciplineItems = [];
+        $scope.discType = 'G';  //gratitudes by default
+
+        var _deleteDisciplineItem = function (id) {
+            $scope.promise = employeesService.activityItems.disciplineItems.deleteDisciplineItem(id).then(function (response) {
+                $scope.getDisciplineItems(); //refresh
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                        '<div class="md-toast-content">' +
+                        'Запись была успешно удалена.' +
+                        '</div>' +
+                        '</md-toast>'
+                });
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
             });
         }
 
-        //returns date from string
-        $scope.getDate = function (date) {
-            if (date) {
-                var t = new Date(date);
-                return new Date(t.getFullYear(), t.getMonth(), t.getDate(), 3);
-            } else
-                return null;
+        $scope.getDisciplineItems = function () {
+            $scope.promise = employeesService.getDisciplineItems($scope.employee.id).then(function (response) { //success
+                $scope.disciplineItems = response.data.filter(function (item) { return item.itemType === $scope.discType });
+                employeesService.DisciplineItems.actualDisciplineItemsType = $scope.discType;
+            }, function (data) { //if error
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
         }
 
+//----------------------------------------------------
+     
+//MES-------------------------------------------------
+        $scope.mesAchievements = [];
+
+        //returns MES achievements for employee
+        $scope.getMesAchievements = function () {
+            $scope.promise = employeesService.activityItems.getMesAchievements().then(function (response) {
+                $scope.mesAchievements = response.data;
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+
+        //deletes mes achievemnt by id
+        var _deleteMesAchievement = function (id) {
+            $scope.promise = employeesService.activityItems.deleteMesAchievement(id).then(function (response) {
+                $scope.getMesAchievements(); //refresh
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                        '<div class="md-toast-content">' +
+                        'Запись была успешно удалена.' +
+                        '</div>' +
+                        '</md-toast>'
+                });
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+
+//----------------------------------------------------
+
+//WORKS-----------------------------------------------
+        $scope.works = [];
+
+        //returns works for employee
+        $scope.getWorks = function () {
+            $scope.promise = employeesService.activityItems.getWorks().then(function (response) {
+                $scope.works = response.data;
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+
+        //deletes work by id
+        var _deleteWork = function (id) {
+            $scope.promise = employeesService.activityItems.deleteWork(id).then(function (response) {
+                $scope.getWorks(); //refresh
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                        '<div class="md-toast-content">' +
+                        'Запись была успешно удалена.' +
+                        '</div>' +
+                        '</md-toast>'
+                });
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+
+//----------------------------------------------------
+        
+//MILITARY--------------------------------------------
+        $scope.military = [];
+
+        //returns works for employee
+        $scope.getMilitary = function () {
+            $scope.promise = employeesService.activityItems.getMilitary().then(function (response) {
+                $scope.military = response.data;
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+
+        //deletes military by id
+        var _deleteMilitary = function (id) {
+            $scope.promise = employeesService.activityItems.deleteMilitary(id).then(function (response) {
+                $scope.getMilitary(); //refresh
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                        '<div class="md-toast-content">' +
+                        'Запись была успешно удалена.' +
+                        '</div>' +
+                        '</md-toast>'
+                });
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+
+//----------------------------------------------------
+
     }]).controller('addEmployeeItemsController', ['$scope', '$mdDialog', 'employeesService', 'messageService', '$mdToast', function ($scope, $mdDialog, employeesService, messageService, $mdToast) {
+
+//COMMON----------------------------------------------
         $scope.hide = function () {
             $mdDialog.hide();
         };
@@ -515,70 +546,47 @@ app.controller('employeesController', [
             $mdDialog.cancel();
         };
 
-        $scope.mesAchItem = { employeeId: employeesService.getActualEmployee().id };
-        $scope.military = { employeeId: employeesService.getActualEmployee().id };
-        $scope.work = { employeeId: employeesService.getActualEmployee().id };
-        $scope.newDisciplineItem = { employeeId: employeesService.getActualEmployee().id, itemType: employeesService.DisciplineItems.actualDisciplineItemsType };
-
-
-        $scope.setPosts = function (serviceId) {
-            //posts init
-            employeesService.getPosts(serviceId).then(function (response) {
+        //posts init
+        $scope.getPosts = function (serviceId) {
+            employeesService.activityItems.getPosts(serviceId).then(function (response) {
                 $scope.posts = response.data;
             }, function (data) {
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
             });
         }
 
         //ranks init
-        employeesService.getRanks().then(function (response) {
+        employeesService.activityItems.getRanks().then(function (response) {
             $scope.ranks = response.data;
         }, function (data) {
-            messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-            $mdToast.show(messageService.errorViewConfig);
+            messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+            $mdToast.show(messageService.errors.errorViewConfig);
         });
 
         //locations init
-        employeesService.getLocations().then(function (response) {
+        employeesService.activityItems.getLocations().then(function (response) {
             $scope.locations = response.data;
         }, function (data) {
-            messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-            $mdToast.show(messageService.errorViewConfig);
+            messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+            $mdToast.show(messageService.errors.errorViewConfig);
         });
 
-        //services
-        employeesService.getServices().then(function (response) {
+        //services init
+        employeesService.activityItems.getServices().then(function (response) {
             $scope.services = response.data;
         }, function (data) {
-            messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-            $mdToast.show(messageService.errorViewConfig);
+            messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+            $mdToast.show(messageService.errors.errorViewConfig);
         });
+//----------------------------------------------------
 
-        //saves new discipline item
-        $scope.saveNewDisciplineItem = function() {
-            $scope.promise = employeesService.saveNewDisciplineItem($scope.newDisciplineItem).then(function (response) {
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    template: '<md-toast class="md-toast-success">' +
-                                    '<div class="md-toast-content">' +
-                                      'Запись успешно добавлена.' +
-                                    '</div>' +
-                                '</md-toast>'
-                });
-                $mdDialog.hide('save'); //throw the 'answer' to the main controller to refresh or do not the list
-            }, function (data) {
-                $mdDialog.hide('cancel');
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
-            });
-        }
+//MES-------------------------------------------------
+        $scope.mesAchItem = { employeeId: employeesService.getActualEmployee().id };
 
         //saves new mes achievement
         $scope.saveNewMesAchievement = function () {
-            $scope.promise = employeesService.saveMesAchievement($scope.mesAchItem).then(function (response) {
+            $scope.promise = employeesService.activityItems.saveMesAchievement($scope.mesAchItem).then(function (response) {
                 $mdToast.show({
                     hideDelay: 3000,
                     position: 'top right',
@@ -592,14 +600,18 @@ app.controller('employeesController', [
                 $mdDialog.hide('save'); //throw the 'answer' to the main controller to refresh or do not the list
             }, function (data) {
                 $mdDialog.hide('cancel');
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
             });
         }
+//----------------------------------------------------
+
+//MILITARY--------------------------------------------
+        $scope.military = { employeeId: employeesService.getActualEmployee().id };
 
         //saves new military
         $scope.saveNewMilitary = function () {
-            $scope.promise = employeesService.saveMilitary($scope.military).then(function (response) {
+            $scope.promise = employeesService.activityItems.saveMilitary($scope.military).then(function (response) {
                 $mdToast.show({
                     hideDelay: 3000,
                     position: 'top right',
@@ -613,14 +625,18 @@ app.controller('employeesController', [
                 $mdDialog.hide('save'); //throw the 'answer' to the main controller to refresh or do not the list
             }, function (data) {
                 $mdDialog.hide('cancel');
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
             });
         }
+//----------------------------------------------------
+
+//WORK------------------------------------------------
+        $scope.work = { employeeId: employeesService.getActualEmployee().id };
 
         //saves new work
         $scope.saveNewWork = function () {
-            $scope.promise = employeesService.saveWork($scope.work).then(function (response) {
+            $scope.promise = employeesService.activityItems.saveWork($scope.work).then(function (response) {
                 $mdToast.show({
                     hideDelay: 3000,
                     position: 'top right',
@@ -634,10 +650,36 @@ app.controller('employeesController', [
                 $mdDialog.hide('save'); //throw the 'answer' to the main controller to refresh or do not the list
             }, function (data) {
                 $mdDialog.hide('cancel');
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
             });
         }
+//----------------------------------------------------
+
+//DISCIPLINE------------------------------------------
+        $scope.newDisciplineItem = { employeeId: employeesService.getActualEmployee().id, itemType: employeesService.DisciplineItems.actualDisciplineItemsType };
+
+        //saves new discipline item
+        $scope.saveNewDisciplineItem = function () {
+            $scope.promise = employeesService.activityItems.disciplineItems.saveNewDisciplineItem($scope.newDisciplineItem).then(function (response) {
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                                    '<div class="md-toast-content">' +
+                                      'Запись успешно добавлена.' +
+                                    '</div>' +
+                                '</md-toast>'
+                });
+                $mdDialog.hide('save'); //throw the 'answer' to the main controller to refresh or do not the list
+            }, function (data) {
+                $mdDialog.hide('cancel');
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+//----------------------------------------------------
 
     }]).controller('addEmployeeController', ['$scope', '$mdDialog', 'employeesService', 'messageService', '$mdToast', function ($scope, $mdDialog, employeesService, messageService, $mdToast) {
 
@@ -653,7 +695,7 @@ app.controller('employeesController', [
             $mdDialog.hide(answer);
         };
 
-        $scope.maxDate = employeesService.maxDate;
+        $scope.maxDate = employeesService.common.maxBirthDate;
 
         var employee = {    //testing
             employeeLastname: "Тестовый",
@@ -674,8 +716,7 @@ app.controller('employeesController', [
         $scope.newEmployee = employee;
 
         $scope.saveNewEmployee = function () {
-            //ToDo: 
-            $scope.promise = employeesService.addNewEmployee($scope.newEmployee).then(function (response) {
+            $scope.promise = employeesService.employees.addNewEmployee($scope.newEmployee).then(function (response) {
                 $mdToast.show({
                     hideDelay: 3000,
                     position: 'top right',
@@ -689,8 +730,8 @@ app.controller('employeesController', [
                 $mdDialog.hide('save'); //throw the 'answer' to the main employee controller to refresh or do not the employee list
             }, function (data) {
                 $mdDialog.hide('cancel');
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
             });
         };
     }]);

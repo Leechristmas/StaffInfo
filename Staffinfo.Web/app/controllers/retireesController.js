@@ -19,8 +19,8 @@
                 $scope.retirees = response.data;
                 $scope.total = response.headers('X-Total-Count');
             }, function (data) {
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
             });
         }
 
@@ -37,8 +37,8 @@
 
                 $state.go('details');
             }, function (data) {
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
             });
         };
 
@@ -69,8 +69,8 @@
                                 '</md-toast>'
                 });
             }, function (data) {
-                messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-                $mdToast.show(messageService.errorViewConfig);
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
             });
         }
 
@@ -124,8 +124,8 @@
                             '</md-toast>'
             });
         }, function (data) {
-            messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-            $mdToast.show(messageService.errorViewConfig);
+            messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+            $mdToast.show(messageService.errors.errorViewConfig);
         });
         $scope.hide();
         $state.go('employees');
@@ -144,8 +144,8 @@
                             '</md-toast>'
             });
         }, function (data) {
-            messageService.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-            $mdToast.show(messageService.errorViewConfig);
+            messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+            $mdToast.show(messageService.errors.errorViewConfig);
         });
         $scope.hide();
         $state.go('employees');

@@ -160,7 +160,7 @@
                                         </tr>
                                     </thead>
                                     <tbody md-body>
-                                        <tr ng-if="mesAchievements.length === 0"><td colspan="4" class="td-center text-center emptyRow">Пусто</td></tr>
+                                        <tr ng-if="mesAchievements.length === 0"><td colspan="5" class="td-center text-center emptyRow">Пусто</td></tr>
                                         <tr ng-if="mesAchievements.length != 0" md-row md-select-id="id" ng-repeat="item in mesAchievements | orderBy: 'startDate'">
                                             <td md-cell>{{item.location}}</td>
                                             <td md-cell>{{item.post}}</td>
