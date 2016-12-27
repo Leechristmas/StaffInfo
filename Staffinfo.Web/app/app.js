@@ -83,7 +83,7 @@ app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase
 });
 
-app.run(['$rootScope', '$state', '$stateParams', 'authService', function ($rootScope, $state, $stateParams, authService) {
+app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesService', function ($rootScope, $state, $stateParams, authService, employeesService) {
     authService.fillAuthData();
 
     $rootScope.$state = $state;
@@ -96,6 +96,10 @@ app.run(['$rootScope', '$state', '$stateParams', 'authService', function ($rootS
           if (!toState.noLogin && !authService.isAuthenticated()) {
               event.preventDefault();
               $rootScope.$state.go('login');
+          }
+          if (toState.name === 'details' && !employeesService.employees.actualEmployee.hasOwnProperty('id')) {
+              event.preventDefault();
+              $rootScope.$state.go('employees');
           }
       }
     );
