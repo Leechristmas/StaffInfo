@@ -157,3 +157,16 @@ table.md-table th.td-center.md-column{
 md-table-container.scrollableTable {
   max-height: 300px;
 }
+
+.no-data-label {
+    text-align: center;
+}
+
+/*md-toast*/
+.md-top {
+position: fixed;
+}
+
+.md-right {
+position: fixed;
+}

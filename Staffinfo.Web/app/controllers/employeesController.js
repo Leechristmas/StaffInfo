@@ -582,7 +582,7 @@ app.controller('employeesController', [
 //----------------------------------------------------
 
 //MES-------------------------------------------------
-        $scope.mesAchItem = { employeeId: employeesService.getActualEmployee().id };
+        $scope.mesAchItem = { employeeId: employeesService.employees.getActualEmployee().id };
 
         //saves new mes achievement
         $scope.saveNewMesAchievement = function () {
@@ -607,7 +607,7 @@ app.controller('employeesController', [
 //----------------------------------------------------
 
 //MILITARY--------------------------------------------
-        $scope.military = { employeeId: employeesService.getActualEmployee().id };
+        $scope.military = { employeeId: employeesService.employees.getActualEmployee().id };
 
         //saves new military
         $scope.saveNewMilitary = function () {
@@ -632,7 +632,7 @@ app.controller('employeesController', [
 //----------------------------------------------------
 
 //WORK------------------------------------------------
-        $scope.work = { employeeId: employeesService.getActualEmployee().id };
+        $scope.work = { employeeId: employeesService.employees.getActualEmployee().id };
 
         //saves new work
         $scope.saveNewWork = function () {
@@ -657,7 +657,7 @@ app.controller('employeesController', [
 //----------------------------------------------------
 
 //DISCIPLINE------------------------------------------
-        $scope.newDisciplineItem = { employeeId: employeesService.getActualEmployee().id, itemType: employeesService.DisciplineItems.actualDisciplineItemsType };
+        $scope.newDisciplineItem = { employeeId: employeesService.employees.getActualEmployee().id, itemType: employeesService.activityItems.disciplineItems.actualDisciplineItemsType };
 
         //saves new discipline item
         $scope.saveNewDisciplineItem = function () {

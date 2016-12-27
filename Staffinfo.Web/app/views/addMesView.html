@@ -45,7 +45,7 @@
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Служба</label>
-                        <md-select ng-model="mesAchItem.serviceId" ng-change="setPosts(mesAchItem.serviceId)" required>
+                        <md-select ng-model="mesAchItem.serviceId" ng-change="getPosts(mesAchItem.serviceId)" required>
                             <md-optgroup>
                                 <md-option ng-value="service.id" ng-repeat="service in services">{{service.serviceName}} ({{service.serviceShortName}})</md-option>
                             </md-optgroup>

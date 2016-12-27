@@ -74,6 +74,12 @@ app.controller('dashboardController', [
 
         //redraws the pie chart (services)
         $scope.reloadPie = function () {
+
+            if (getData($scope.servicesStruct).length <= 0) {
+                document.getElementById("service-chart-container").innerHTML = "<h3 class='no-data-label'>Нет данных</h3>";
+                return;
+            }
+
             //clear the canvas
             document.getElementById("service-chart-container").innerHTML = "<canvas class=\"unselectable\" id='serviceChart' height='30' width='100'></canvas>";
             //get canvas
