@@ -15,7 +15,7 @@
 
         //gets retirees with pagination 
         $scope.getRetirees = function () {
-            $scope.promise = employeesService.getRetirees($scope.query).then(function (response) {
+            $scope.promise = employeesService.retirees.getRetirees($scope.query).then(function (response) {
                 $scope.retirees = response.data;
                 $scope.total = response.headers('X-Total-Count');
             }, function (data) {
@@ -44,7 +44,7 @@
 
         //returns $promise with employee by id
         $scope.getEmployeeById = function (id) {
-            return employeesService.getEmployeeById(id);
+            return employeesService.employees.getEmployeeById(id);
         };
 
         //returns date from string
@@ -56,7 +56,7 @@
         //deletes the specified employee
         var _deleteEmployee = function (id) {
             //TODO: deleting
-            $scope.promise = employeesService.deleteEmployeeById(id).then(function (response) {
+            $scope.promise = employeesService.employees.deleteEmployeeById(id).then(function (response) {
                 $scope.getRetirees();//refresh
                 $mdToast.show({
                     hideDelay: 3000,
@@ -107,7 +107,7 @@
         $mdDialog.hide(answer);
     };
 
-    $scope.employee = employeesService.getClone(employeesService.getActualEmployee());
+    $scope.employee = employeesService.common.getClone(employeesService.employees.getActualEmployee());
     $scope.dismissal = {};
 
     $scope.transferToDismissed = function () {
@@ -132,7 +132,7 @@
     }
 
     $scope.transferToRetirees = function () {
-        $scope.promise = employeesService.transferToRetirees($scope.employee).then(function (response) {//transfer to pensioners
+        $scope.promise = employeesService.employees.transferToRetirees($scope.employee).then(function (response) {//transfer to pensioners
             $mdToast.show({
                 hideDelay: 3000,
                 position: 'top right',

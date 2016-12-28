@@ -5,12 +5,13 @@ var app = angular.module('StaffinfoApp', ['ui.router', 'ngMaterial', 'md.data.ta
 app.config(function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider
-        .state('home', {
-            url: "/",
-            controller: "loginController",
-            templateUrl: "app/views/login.html",
-            noLogin: true
-        }).state('login', {
+        //.state('home', {
+        //    url: "/",
+        //    controller: "loginController",
+        //    templateUrl: "app/views/login.html",
+        //    noLogin: true
+        //})
+        .state('login', {
             url: "/login",
             controller: "loginController",
             templateUrl: "app/views/login.html",
@@ -52,8 +53,18 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             noLogin: false
         });
 
-    $urlRouterProvider.otherwise("/");
+    $urlRouterProvider.otherwise("/dashboard");
+
+    //$urlRouterProvider.when(/home/ , [
+    //    '$state', '$match', function($location, $match) {
+    //        if(authService.isAuth)
+    //            $state.go('dashboard');
+    //        else
+    //            $state.go('login');
+    //    }]);
+
 });
+
 
 //color theme configuring
 app.config(function ($mdThemingProvider) {
@@ -83,7 +94,7 @@ app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase
 });
 
-app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesService', function ($rootScope, $state, $stateParams, authService, employeesService) {
+app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesService', 'localStorageService', function ($rootScope, $state, $stateParams, authService, employeesService, localStorageService) {
     authService.fillAuthData();
 
     $rootScope.$state = $state;
@@ -97,9 +108,13 @@ app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesServic
               event.preventDefault();
               $rootScope.$state.go('login');
           }
-          if (toState.name === 'details' && !employeesService.employees.actualEmployee.hasOwnProperty('id')) {
+          if (toState.name === 'details' && !employeesService.employees.actualEmployee.hasOwnProperty('id')) {//redirect if actual employee is empty (manually refreshing)
               event.preventDefault();
               $rootScope.$state.go('employees');
+          }
+          if (toState.name === 'login') {//Session time has expired!
+              if (!localStorageService.get('authorizationData'))
+                  authService.logOut();
           }
       }
     );

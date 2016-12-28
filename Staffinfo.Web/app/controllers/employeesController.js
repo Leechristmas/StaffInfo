@@ -419,9 +419,9 @@ app.controller('employeesController', [
         }
 
         $scope.getDisciplineItems = function () {
-            $scope.promise = employeesService.getDisciplineItems($scope.employee.id).then(function (response) { //success
+            $scope.promise = employeesService.activityItems.disciplineItems.getDisciplineItems($scope.employee.id).then(function (response) { //success
                 $scope.disciplineItems = response.data.filter(function (item) { return item.itemType === $scope.discType });
-                employeesService.DisciplineItems.actualDisciplineItemsType = $scope.discType;
+                employeesService.activityItems.disciplineItems.actualDisciplineItemsType = $scope.discType;
             }, function (data) { //if error
                 messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
                 $mdToast.show(messageService.errors.errorViewConfig);
