@@ -1,0 +1,23 @@
+﻿<md-dialog aria-label="warning">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Внимание</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <p>
+                Вы бездействовали в течение 2 минут - сессия будет закрыта через:
+            </p>
+            <div layout="row" layout-sm="column" layout-align="space-around" class="warningBox">
+                <md-progress-circular md-mode="indeterminate" md-diameter="80px" class="circular-time-to"></md-progress-circular><span class="time-to">{{timeInSec}}</span>
+            </div>
+        </div>
+    </md-dialog-content>
+
+</md-dialog>

@@ -1,9 +1,9 @@
 ﻿'use strict';
-app.controller('indexController', ['$scope', '$location', 'authService', '$mdDialog', function ($scope, $location, authService, $mdDialog) {
+app.controller('indexController', ['$scope', '$location', 'authService', '$mdDialog', 'Idle', 'Keepalive', 'idleConfig', '$timeout', 'idleService', '$state', 'localStorageService', function ($scope, $location, authService, $mdDialog, Idle, Keepalive, idleConfig, $timeout, idleService, $state, localStorageService) {
 
     $scope.logOut = function () {
         authService.logOut();
-        $location.path('/home');
+        $location.path('/login');
     }
 
     var originatorEv;
@@ -12,7 +12,7 @@ app.controller('indexController', ['$scope', '$location', 'authService', '$mdDia
         $mdOpenMenu(ev);
     };
 
-    this.menuClick = function() {
+    this.menuClick = function () {
         originatorEv = null;
     }
 
@@ -21,4 +21,43 @@ app.controller('indexController', ['$scope', '$location', 'authService', '$mdDia
     $scope.authentication = authService.authentication;
     $scope.isAuth = authService.isAuthenticated;
 
+    //IDLE------------------------------------------------
+
+    $scope.alertWin = {};
+
+    $scope.$on('IdleStart', function () {//user is enactive
+        if (!authService.isAuthenticated()) return;
+
+        idleService.idleHasBeenStopped = false;
+
+        $mdDialog.show({
+            controller: 'dialogController',
+            templateUrl: 'app/views/idleWarning.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true
+        });
+    });
+
+    $scope.$on('IdleEnd', function () {//user has returned
+        idleService.idleHasBeenStopped = true;
+    });
+
+    $scope.$on('IdleTimeout', function () {//time has expired
+        $mdDialog.show({
+            controller: 'dialogController',
+            templateUrl: 'app/views/sessionExpiredView.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true
+        }).finally(function() {
+            authService.logOut();
+            $state.go('login');
+        });
+    });
+
+    //$scope.$on('Keepalive', function() {
+    //    console.log(localStorageService.get('authorizationData'));
+    //    console.log(authService.isAuthenticated());
+    //});
+
+    //----------------------------------------------------s
 }]);

@@ -17,39 +17,39 @@
     <script src="scripts/angular/angular.js"></script>
 
     <div data-ng-controller="indexController">
-        <md-toolbar>
+        <md-toolbar ng-hide="'login' | isState">
             <div class="md-toolbar-tools">
                 <md-button aria-label="Go Back" data-ng-hide="!isAuth()" href="#/dashboard">
                     <md-icon md-svg-src="img/icons/ic_dashboard_24px.svg"></md-icon>
                     Главная
                 </md-button>
                 <!--<div layout="column" flex="33" flex-sm="100" flex-xs="100" layout-align="center center">-->
-                    <md-menu data-ng-hide="!authentication.isAuth">
-                        <md-button aria-label="Employees" ng-click="$mdOpenMenu($event)">
-                            <md-icon md-svg-src="img/icons/ic_group_24px.svg"></md-icon>
-                            Сотрудники
-                        </md-button>
-                        <md-menu-content width="4">
-                            <md-menu-item>
-                                <md-button href="#/employees" ng-click="menuClick()">
-                                    <md-icon md-svg-src="img/icons/ic_group_24px.svg"></md-icon>
-                                    <p flex>Действующие</p>
-                                </md-button>
-                            </md-menu-item>
-                            <md-menu-item>
-                                <md-button href="#/retirees" ng-click="menuClick()">
-                                    <md-icon md-svg-src="img/icons/ic_group_24px.svg"></md-icon>
-                                    <p flex>Пенсионеры</p>
-                                </md-button>
-                            </md-menu-item>
-                            <md-menu-item>
-                                <md-button href="#/dismissed" ng-click="menuClick()">
-                                    <md-icon md-svg-src="img/icons/ic_group_24px.svg"></md-icon>
-                                    <p flex>Уволенные</p>
-                                </md-button>
-                            </md-menu-item>
-                        </md-menu-content>
-                    </md-menu>
+                <md-menu data-ng-hide="!authentication.isAuth">
+                    <md-button aria-label="Employees" ng-click="$mdOpenMenu($event)">
+                        <md-icon md-svg-src="img/icons/ic_group_24px.svg"></md-icon>
+                        Сотрудники
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item>
+                            <md-button href="#/employees" ng-click="menuClick()">
+                                <md-icon md-svg-src="img/icons/ic_group_24px.svg"></md-icon>
+                                <p flex>Действующие</p>
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button href="#/retirees" ng-click="menuClick()">
+                                <md-icon md-svg-src="img/icons/ic_group_24px.svg"></md-icon>
+                                <p flex>Пенсионеры</p>
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button href="#/dismissed" ng-click="menuClick()">
+                                <md-icon md-svg-src="img/icons/ic_group_24px.svg"></md-icon>
+                                <p flex>Уволенные</p>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
                 <!--</div>-->
                 <md-button aria-label="Go Back" data-ng-hide="!authentication.isAuth" href="#/reports">
                     <md-icon md-svg-src="img/icons/ic_description_24px.svg"></md-icon>
@@ -80,13 +80,14 @@
         </md-content>
     </div>
 
-    <!--<div class="container" ui-view="">
 
-        </div>-->
 
     <footer>
         <h5 class="text-center"><strong>&copy;Shevchuk</strong></h5>
     </footer>
+
+    
+
     <!-- 3rd party libraries -->
     <script src="Scripts/angular-ui-router.js"></script>
     <script src="scripts/angular-local-storage.js"></script>
@@ -116,6 +117,7 @@
     <script src="app/services/dashboardService.js"></script>
     <script src="app/services/employeesService.js"></script>
     <script src="app/services/messageService.js"></script>
+    <script src="app/services/idleService.js"></script>
     <!-- Load controllers -->
     <script src="app/controllers/indexController.js"></script>
     <script src="app/controllers/homeController.js"></script>
@@ -126,11 +128,14 @@
     <script src="app/controllers/retireesController.js"></script>
     <script src="app/controllers/dismissedController.js"></script>
     <script src="app/controllers/settingsController.js"></script>
+    <script src="app/controllers/dialogController.js"></script>
     <!-- calendar -->
     <script src="scripts/calendar-tpls.js"></script>
     <script src="app/controllers/calendarController.js"></script>
     <!-- user-settings -->
     <script src="scripts/angular-user-settings.js"></script>
+    <!-- IDLE (session control) -->
+    <script src="scripts/angular-idle.js"></script>
 
 </body>
 </html>

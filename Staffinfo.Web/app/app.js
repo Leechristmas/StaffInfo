@@ -1,16 +1,10 @@
 ﻿'use strict';
 
-var app = angular.module('StaffinfoApp', ['ui.router', 'ngMaterial', 'md.data.table', 'fixed.table.header', 'LocalStorageModule', 'angular-loading-bar', 'chart.js', 'ui.rCalendar', 'angularUserSettings']);
+var app = angular.module('StaffinfoApp', ['ui.router', 'ngMaterial', 'md.data.table', 'fixed.table.header', 'LocalStorageModule', 'angular-loading-bar', 'chart.js', 'ui.rCalendar', 'angularUserSettings', 'ngIdle']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider
-        //.state('home', {
-        //    url: "/",
-        //    controller: "loginController",
-        //    templateUrl: "app/views/login.html",
-        //    noLogin: true
-        //})
         .state('login', {
             url: "/login",
             controller: "loginController",
@@ -54,17 +48,28 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         });
 
     $urlRouterProvider.otherwise("/dashboard");
-
-    //$urlRouterProvider.when(/home/ , [
-    //    '$state', '$match', function($location, $match) {
-    //        if(authService.isAuth)
-    //            $state.go('dashboard');
-    //        else
-    //            $state.go('login');
-    //    }]);
-
 });
 
+//http path to the API
+var serviceBase = 'http://localhost:21200/';
+app.constant('ngAuthSettings', {
+    apiServiceBaseUri: serviceBase
+});
+//idle config
+app.constant('idleConfig', {
+    idle: 120,
+    timeout: 10,
+    interval: 50
+});
+
+//idle
+app.config([
+    'KeepaliveProvider', 'IdleProvider', 'idleConfig', function (KeepaliveProvider, IdleProvider, idleConfig) {
+        IdleProvider.idle(idleConfig.idle); //idle time
+        IdleProvider.timeout(idleConfig.timeout);
+        KeepaliveProvider.interval(idleConfig.interval);
+    }
+]);
 
 //color theme configuring
 app.config(function ($mdThemingProvider) {
@@ -88,13 +93,9 @@ app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptorService');
 });
 
-//http path to the API
-var serviceBase = 'http://localhost:21200/';
-app.constant('ngAuthSettings', {
-    apiServiceBaseUri: serviceBase
-});
+app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesService', 'localStorageService', 'Idle', function ($rootScope, $state, $stateParams, authService, employeesService, localStorageService, Idle) {
+    Idle.watch();
 
-app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesService', 'localStorageService', function ($rootScope, $state, $stateParams, authService, employeesService, localStorageService) {
     authService.fillAuthData();
 
     $rootScope.$state = $state;
@@ -112,7 +113,7 @@ app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesServic
               event.preventDefault();
               $rootScope.$state.go('employees');
           }
-          if (toState.name === 'login') {//Session time has expired!
+          if (toState.name === 'login') {//SERVER session time has expired!
               if (!localStorageService.get('authorizationData'))
                   authService.logOut();
           }

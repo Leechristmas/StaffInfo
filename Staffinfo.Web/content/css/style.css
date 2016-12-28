@@ -166,3 +166,22 @@ md-table-container.scrollableTable {
 .md-top {
 position: fixed;
 }
+
+.warningBox {
+    height: 80px;
+    width: 450px;
+}
+
+.time-to {
+    font-size: 18pt;
+    font-weight: bold;
+    vertical-align: central;
+    horiz-align: center;
+    position: relative;
+    right: 130px;
+    top: 22px;
+}
+.circular-time-to {
+    position: relative;
+    left: 95px;
+}
