@@ -55,7 +55,7 @@ namespace Staffinfo.API
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromHours(2),
+                AccessTokenExpireTimeSpan = TimeSpan.FromHours(10),
                 Provider = new AuthorizationServerProvider()
             };
 

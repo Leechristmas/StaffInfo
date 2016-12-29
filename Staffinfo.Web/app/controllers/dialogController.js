@@ -15,6 +15,7 @@ app.controller('dialogController', [
         };
 
         $scope.timeInSec = idleConfig.timeout;
+        console.log('countdown started');
 
         var countUp = function () {
 

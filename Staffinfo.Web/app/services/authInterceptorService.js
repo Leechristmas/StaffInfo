@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.factory('authInterceptorService', ['$q', '$location', 'localStorageService', function ($q, $location, localStorageService) {
+app.factory('authInterceptorService', ['$q', '$location', 'localStorageService', 'messageService', function ($q, $location, localStorageService, messageService) {
 
     var authInterceptorServiceFactory = {};
 
@@ -19,7 +19,10 @@ app.factory('authInterceptorService', ['$q', '$location', 'localStorageService',
         if (rejection.status === 401) {
             $location.path('/login');
 
-            localStorageService.remove('authorizationData');//for hiding the 'authorized' user label at the toolbar. I think it should work correct O_O ))
+            if (localStorageService.get('authorizationData')) {
+                console.log('server session has expired.')
+                //messageService.errors.setError({ errorText: 'Время серверной сессии истекло. Пожалуйста, авторизуйтесь заново, чтобы продолжить работу', errorTitle: 'Внимание' });
+            }
         }
         return $q.reject(rejection);
     }

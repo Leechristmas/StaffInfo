@@ -94,7 +94,7 @@ app.config(function ($httpProvider) {
 });
 
 app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesService', 'localStorageService', 'Idle', function ($rootScope, $state, $stateParams, authService, employeesService, localStorageService, Idle) {
-    Idle.watch();
+    //Idle.watch();
 
     authService.fillAuthData();
 

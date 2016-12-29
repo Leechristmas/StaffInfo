@@ -23,9 +23,8 @@ app.controller('indexController', ['$scope', '$location', 'authService', '$mdDia
 
     //IDLE------------------------------------------------
 
-    $scope.alertWin = {};
-
     $scope.$on('IdleStart', function () {//user is enactive
+        console.log('idle started');
         if (!authService.isAuthenticated()) return;
 
         idleService.idleHasBeenStopped = false;
