@@ -94,7 +94,7 @@
         $scope.retirees = $scope.getRetirees();
     }
 ])
-.controller('transferController', ['$scope', 'employeesService', 'messageService', '$mdDialog', '$mdToast', '$state', function ($scope, employeesService, messageService, $mdDialog, $mdToast, $state) {
+.controller('transferController', ['$scope', 'employeesService', 'messageService', '$mdDialog', '$mdToast', '$state', '$rootScope', function ($scope, employeesService, messageService, $mdDialog, $mdToast, $state, $rootScope) {
     $scope.hide = function () {
         $mdDialog.hide();
     };
@@ -112,7 +112,7 @@
 
     $scope.transferToDismissed = function () {
         $scope.dismissal.employeeId = $scope.employee.id;
-        $scope.promise = employeesService.trasnferToDismissed($scope.dismissal).then(function (response) {
+        $scope.promise = employeesService.employees.transferToDismissed($scope.dismissal).then(function (response) {//transfer to dismissed
             $mdToast.show({
                 hideDelay: 3000,
                 position: 'top right',
@@ -123,12 +123,12 @@
                                 '</div>' +
                             '</md-toast>'
             });
+            $scope.hide();
+            $state.go('employees');
         }, function (data) {
             messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
             $mdToast.show(messageService.errors.errorViewConfig);
         });
-        $scope.hide();
-        $state.go('employees');
     }
 
     $scope.transferToRetirees = function () {
@@ -143,11 +143,11 @@
                                 '</div>' +
                             '</md-toast>'
             });
+            $scope.hide();
+            $state.go('employees');
         }, function (data) {
             messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
             $mdToast.show(messageService.errors.errorViewConfig);
         });
-        $scope.hide();
-        $state.go('employees');
     }
 }]);
