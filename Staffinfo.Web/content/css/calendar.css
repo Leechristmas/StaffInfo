@@ -110,6 +110,15 @@
     cursor: pointer;
 }
 
+.table>tbody>tr>td {
+    vertical-align: middle;
+}
+
+.table>tbody>tr>td p {
+    margin-top: 14px;
+    margin-bottom: 14px;
+}
+
 .monthview-secondary-with-event {
     background-color: #d9edf7;
 }
