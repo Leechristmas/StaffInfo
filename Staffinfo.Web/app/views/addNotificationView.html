@@ -14,16 +14,18 @@
                  <div layout-gt-sm="row">
                      <md-input-container class="md-block" flex-gt-sm>
                          <label>Заголовок</label>
+                         <md-icon md-svg-src="img/icons/ic_title_24px.svg"></md-icon>
                          <input ng-model="notification.title" required md-maxlength="20"/>
                      </md-input-container>
                      <md-input-container class="md-block" flex-gt-sm>
                          <label>Дата</label>
-                         <md-datepicker ng-model="notification.dueDate" md-placeholder="Укажите Дату" required></md-datepicker>
+                         <md-datepicker ng-model="notification.dueDate" required></md-datepicker>
                      </md-input-container>
                  </div>
                  <div layout-gt-sm="row">
                      <md-input-container class="md-block" style="width: 100%;">
                          <label>Текст Уведомления</label>
+                         <md-icon md-svg-src="img/icons/ic_description_24px.svg"></md-icon>
                          <textarea ng-model="notification.details" columns="1" md-maxlength="200" rows="3" required></textarea>
                      </md-input-container>
                  </div>

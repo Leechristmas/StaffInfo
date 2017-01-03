@@ -15,6 +15,7 @@
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Заголовок</label>
+                        <md-icon md-svg-src="img/icons/ic_title_24px.svg"></md-icon>
                         <input ng-model="newDisciplineItem.title" required md-maxlength="60" />
                     </md-input-container>
                 </div>
@@ -24,6 +25,7 @@
                         <label ng-if="newDisciplineItem.itemType === 'G'">Премия</label>
                         <label ng-if="newDisciplineItem.itemType === 'V'">Сумма взыскания</label>
                         <input aria-label="awardOrFine" ng-model="newDisciplineItem.awardOrFine" required ng-pattern="/^[0-9]{1,7}(\.[0-9]+)?$/"/>
+                        <md-icon style="font-weight: bold">BYN</md-icon>
                         <div class="hint">Сумма в рублях, например: 99.99</div>
                     </md-input-container>
                     <md-input-container class="md-block" flex-gt-sm>
@@ -35,6 +37,7 @@
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" style="width: 100%;">
                         <label>Описание</label>
+                        <md-icon md-svg-src="img/icons/ic_description_24px.svg"></md-icon>
                         <textarea ng-model="newDisciplineItem.description" columns="1" md-maxlength="150" rows="3"></textarea>
                     </md-input-container>
                 </div>

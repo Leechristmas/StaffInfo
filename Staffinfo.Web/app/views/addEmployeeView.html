@@ -16,16 +16,19 @@
                         <div layout-gt-sm="row">
                             <md-input-container class="md-block" flex-gt-sm md-open-on-focus>
                                 <label>Фамилия</label>
+                                <md-icon md-svg-src="img/icons/ic_person_24px.svg" class="name"></md-icon>
                                 <input ng-model="newEmployee.employeeLastname" required md-maxlength="30">
                             </md-input-container>
 
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Имя</label>
+                                <md-icon md-svg-src="img/icons/ic_person_24px.svg" class="name"></md-icon>
                                 <input ng-model="newEmployee.employeeFirstname" required md-maxlength="30">
                             </md-input-container>
 
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Отчество</label>
+                                <md-icon md-svg-src="img/icons/ic_person_24px.svg" class="name"></md-icon>
                                 <input ng-model="newEmployee.employeeMiddlename" required md-maxlength="30">
                             </md-input-container>
                         </div>
@@ -33,6 +36,7 @@
                         <div layout-gt-sm="row">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Заметка</label>
+                                <md-icon md-svg-src="img/icons/ic_description_24px.svg" class="name"></md-icon>
                                 <input ng-model="newEmployee.description" md-maxlength="100" />
                             </md-input-container>
 
@@ -49,6 +53,7 @@
                         <div layout-gt-sm="row">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Адрес</label>
+                                <md-icon md-svg-src="img/icons/ic_place_24px.svg" class="name"></md-icon>
                                 <input ng-model="newEmployee.detailedAddress" required md-maxlength="70"/>
                             </md-input-container>
                         </div>
@@ -56,16 +61,19 @@
                         <div layout-gt-sm="row">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Город</label>
+                                <md-icon md-svg-src="img/icons/ic_location_city_24px.svg" class="name"></md-icon>
                                 <input ng-model="newEmployee.city" required md-maxlength="30"/>
                             </md-input-container>
 
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Область</label>
+                                <md-icon md-svg-src="img/icons/ic_location_city_24px.svg" class="name"></md-icon>
                                 <input ng-model="newEmployee.area" required md-maxlength="30"/>
                             </md-input-container>
 
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Почтовый индекс</label>
+                                <md-icon md-svg-src="img/icons/ic_local_post_office_24px.svg" class="name"></md-icon>
                                 <input ng-model="newEmployee.zipCode" required ng-pattern="/^[0-9]{6}$/" md-maxlength="6" ng-minlength="6"/>
                             </md-input-container>
                         </div>
@@ -74,6 +82,7 @@
                         <div layout-gt-sm="row">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Номер паспорта</label>
+                                <md-icon md-svg-icon="img/icons/ic_assignment_ind_24px.svg"></md-icon>
                                 <input ng-model="newEmployee.passportNumber" required md-maxlength="9" ng-minlength="9"/>
                             </md-input-container>
                         </div>
@@ -81,6 +90,7 @@
                         <div layout-gt-sm="row">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Организация, выдавшая паспорт</label>
+                                <md-icon md-svg-icon="img/icons/ic_assignment_ind_24px.svg"></md-icon>
                                 <input ng-model="newEmployee.passportOrganization" required md-maxlength="50"/>
                             </md-input-container>
                         </div>
@@ -89,11 +99,13 @@
                         <div layout-gt-sm="row">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Тел. 1</label>
+                                <md-icon md-svg-icon="img/icons/ic_phone_24px.svg"></md-icon>
                                 <input placeholder="+375 (XX) XXX XX XX" ng-model="newEmployee.firstPhone" md-maxlength="13"/>
                             </md-input-container>
 
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Тел. 2</label>
+                                <md-icon md-svg-icon="img/icons/ic_phone_24px.svg"></md-icon>
                                 <input placeholder="+375 (XX) XXX XX XX" ng-model="newEmployee.secondPhone" md-maxlength="13"/>
                             </md-input-container>
                         </div>
