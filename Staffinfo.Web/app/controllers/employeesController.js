@@ -695,7 +695,8 @@ app.controller('employeesController', [
             $mdDialog.hide(answer);
         };
 
-        $scope.maxDate = employeesService.common.maxBirthDate;
+        $scope.maxBirthDate = employeesService.common.maxBirthDate;
+        $scope.minBirthDate = employeesService.common.minBirthDate;
 
         var employee = {    //testing
             employeeLastname: "Тестовый",

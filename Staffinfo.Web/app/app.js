@@ -105,6 +105,18 @@ app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesServic
 
     $rootScope.$on('$stateChangeStart',
       function (event, toState, toParams, fromState, fromParams) {
+
+          if (toState.name !== 'login')
+              Idle.watch();
+          else {
+              if (!authService.isAuthenticated() && !Idle.isExpired())
+                  Idle.unwatch();
+          }
+
+          console.log(Idle);
+
+          //var t = Idle.running();
+
           if (!toState.noLogin && !authService.isAuthenticated()) {
               event.preventDefault();
               $rootScope.$state.go('login');

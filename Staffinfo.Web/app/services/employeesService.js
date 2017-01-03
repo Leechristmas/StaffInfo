@@ -83,8 +83,9 @@ app.factory('employeesService', [
                 }
                 return copy;
             },
-            //max birthDate
-            maxBirthDate: new Date(new Date(Date.now()).getFullYear() - 18, new Date(Date.now()).getMonth(), new Date(Date.now()).getDate())
+            //max/min birthDate
+            maxBirthDate: new Date(new Date(Date.now()).getFullYear() - 18, new Date(Date.now()).getMonth(), new Date(Date.now()).getDate()),
+            minBirthDate: new Date(new Date(Date.now()).getFullYear() - 60, new Date(Date.now()).getMonth(), new Date(Date.now()).getDate())
         }
 
         //activity items (locations, ranks, posts, works, etc.) properties and methods

@@ -31,7 +31,7 @@ app.factory('authService', [
                     _authentication.userName = loginData.userName;
 
                     deferred.resolve(response);
-                    Idle.watch();
+                    //Idle.watch();
                 })
                 .error(function (err, status) {
                     _logOut();
@@ -48,6 +48,8 @@ app.factory('authService', [
 
             _authentication.isAuth = false;
             _authentication.userName = "";
+
+            //Idle.unwatch();
         };
 
         var _fillAuthData = function () {
