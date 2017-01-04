@@ -168,14 +168,19 @@ app.controller('employeesController', [
 
 
         $scope.personalInfoTabConfig = function() {
-            $scope.promise = employeesService.activityItems.getMesAchievements().then(function (response) {
+            $scope.promise = employeesService.activityItems.getMesAchievements().then(function (response) {//calculating constraint for retirement date
                 $scope.mesAchievements = response.data;
-                if ($scope.mesAchievements) {
+                if ($scope.mesAchievements && $scope.mesAchievements.length > 0) {
                     $scope.minRetirementDate = new Date($scope.mesAchievements[0].startDate);
                     $scope.mesAchievements.forEach(function (item) {
-                        var date = new Date(item.startDate);
+                        var date = null;
+                        if (item.finishDate)
+                            date = new Date(item.finishDate);
+                        else 
+                            date = new Date(Date.now());
+
                         if (date > $scope.minRetirementDate) {
-                            $scope.minRetirementDate = date;//maybe finish date should be here.
+                            $scope.minRetirementDate = date; //maybe finish date should be here.
                         }
                     });
                 }
@@ -569,6 +574,9 @@ app.controller('employeesController', [
             $mdDialog.cancel();
         };
 
+        $scope.minDate = employeesService.activityItems.constants.minDate;
+        $scope.maxDate = employeesService.activityItems.constants.maxDate;
+
         //posts init
         $scope.getPosts = function (serviceId) {
             employeesService.activityItems.getPosts(serviceId).then(function (response) {
@@ -609,6 +617,14 @@ app.controller('employeesController', [
 
         //saves new mes achievement
         $scope.saveNewMesAchievement = function () {
+
+            //if strat date is bigger than "today"
+            if ($scope.mesAchItem.startDate > $scope.maxDate) {
+                messageService.errors.setError({ errorText: 'Дата указана неверно: проверьте диапазон дат.', errorTitle: "" });
+                $mdToast.show(messageService.errors.errorViewConfig);
+                return;
+            }
+
             $scope.promise = employeesService.activityItems.saveMesAchievement($scope.mesAchItem).then(function (response) {
                 $mdToast.show({
                     hideDelay: 3000,

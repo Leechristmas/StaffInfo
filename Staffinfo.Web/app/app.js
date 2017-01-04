@@ -113,8 +113,6 @@ app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesServic
                   Idle.unwatch();
           }
 
-          console.log(Idle);
-
           //var t = Idle.running();
 
           if (!toState.noLogin && !authService.isAuthenticated()) {

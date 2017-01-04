@@ -90,7 +90,7 @@ app.factory('employeesService', [
 
         //activity items (locations, ranks, posts, works, etc.) properties and methods
         var _activityItems = {
-            getWorks: function () {
+            getWorks: function() {
                 return $http.get(serviceBase + 'api/employees/works/' + _employees.actualEmployee.id);
             },
             saveWork: function(item) {
@@ -105,7 +105,7 @@ app.factory('employeesService', [
             saveMilitary: function(item) {
                 return $http.post(serviceBase + 'api/employees/military', item, {});
             },
-            deleteMilitary: function (id) {
+            deleteMilitary: function(id) {
                 return $http.delete(serviceBase + 'api/employees/military/' + id);
             },
             getMesAchievements: function() {
@@ -114,13 +114,13 @@ app.factory('employeesService', [
             saveMesAchievement: function(item) {
                 return $http.post(serviceBase + 'api/employees/mesachievements', item, {});
             },
-            deleteMesAchievement: function (id) {
+            deleteMesAchievement: function(id) {
                 return $http.delete(serviceBase + 'api/employees/mesachievements/' + id);
             },
             getRanks: function() {
                 return $http.get(serviceBase + 'api/employees/ranks');
             },
-            getPosts: function (serviceId) {
+            getPosts: function(serviceId) {
                 if (serviceId)
                     return $http.get(serviceBase + 'api/employees/postsforservice/' + serviceId);
                 else
@@ -141,9 +141,13 @@ app.factory('employeesService', [
                 deleteDisciplineItem: function(id) {
                     return $http.delete(serviceBase + 'api/employees/discipline/' + id);
                 },
-                saveNewDisciplineItem: function (disciplineItem) {
+                saveNewDisciplineItem: function(disciplineItem) {
                     return $http.post(serviceBase + 'api/employees/discipline', disciplineItem, {});
                 }
+            },
+            constants: {
+                minDate: new Date(1960, 1, 1),
+                maxDate: new Date(Date.now())
             }
         }
 

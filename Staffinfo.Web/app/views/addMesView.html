@@ -14,12 +14,12 @@
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Начало Периода</label>
-                        <md-datepicker ng-model="mesAchItem.startDate" required md-max-date="mesAchItem.finishDate"></md-datepicker>
+                        <md-datepicker ng-model="mesAchItem.startDate" required md-max-date="mesAchItem.finishDate" md-min-date="minDate"></md-datepicker>
                     </md-input-container>
 
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Конец Периода</label>
-                        <md-datepicker ng-model="mesAchItem.finishDate" md-min-date="mesAchItem.startDate"></md-datepicker>
+                        <md-datepicker ng-model="mesAchItem.finishDate" md-min-date="mesAchItem.startDate" md-max-date="maxDate"></md-datepicker>
                     </md-input-container>
                 </div>
 
@@ -57,11 +57,16 @@
 
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Должность</label>
-                        <md-select ng-model="mesAchItem.postId" required>
+                        <md-select name="post" ng-model="mesAchItem.postId" required>
                             <md-optgroup>
                                 <md-option ng-value="post.id" ng-repeat="post in posts">{{post.name}}</md-option>
                             </md-optgroup>
                         </md-select>
+                        <div ng-messages="itemForm.post.$error" class="validation-messages">
+                            <div ng-message="required">
+                                Для выбора должности сначала необходимо указать службу.
+                            </div>
+                        </div>
                     </md-input-container>
                 </div>
 

@@ -24,13 +24,13 @@
                     <md-input-container class="md-block" flex-gt-sm >
                         <label ng-if="newDisciplineItem.itemType === 'G'">Премия</label>
                         <label ng-if="newDisciplineItem.itemType === 'V'">Сумма взыскания</label>
-                        <input aria-label="awardOrFine" ng-model="newDisciplineItem.awardOrFine" required ng-pattern="/^[0-9]{1,7}(\.[0-9]+)?$/"/>
+                        <input aria-label="awardOrFine" ng-model="newDisciplineItem.awardOrFine" required ng-pattern="/^[0-9]{1,7}(\.[0-9]{1,2})?$/"/>
                         <md-icon style="font-weight: bold">BYN</md-icon>
                         <div class="hint">Сумма в рублях, например: 99.99</div>
                     </md-input-container>
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Дата</label>
-                        <md-datepicker ng-model="newDisciplineItem.date" required></md-datepicker>
+                        <md-datepicker ng-model="newDisciplineItem.date" md-min-date="minDate" md-max-date="maxDate" required></md-datepicker>
                     </md-input-container>
                 </div>
 
