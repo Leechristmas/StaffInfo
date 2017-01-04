@@ -14,12 +14,18 @@
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Начало Периода</label>
-                        <md-datepicker ng-model="mesAchItem.startDate" required md-max-date="mesAchItem.finishDate" md-min-date="minDate"></md-datepicker>
+                        <md-datepicker name="startDate" ng-model="mesAchItem.startDate" required md-max-date="mesAchItem.finishDate" md-min-date="minDate"></md-datepicker>
+                        <div ng-messages="itemForm.startDate.$error" class="validation-messages">
+                            <div ng-message="required">Необходимо заполнить это поле.</div>
+                        </div>
                     </md-input-container>
 
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Конец Периода</label>
-                        <md-datepicker ng-model="mesAchItem.finishDate" md-min-date="mesAchItem.startDate" md-max-date="maxDate"></md-datepicker>
+                        <md-datepicker name="finishDate" ng-model="mesAchItem.finishDate" md-min-date="mesAchItem.startDate" md-max-date="maxDate"></md-datepicker>
+                        <div ng-messages="itemForm.finishDate.$error" class="validation-messages">
+                            <div ng-message="required">Необходимо заполнить это поле.</div>
+                        </div>
                     </md-input-container>
                 </div>
 
@@ -27,20 +33,26 @@
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Место</label>
                         <md-icon md-svg-src="img/icons/ic_place_24px.svg"></md-icon>
-                        <md-select ng-model="mesAchItem.locationId" required>
+                        <md-select name="location" ng-model="mesAchItem.locationId" required>
                             <md-optgroup>
                                 <md-option ng-value="location.id" ng-repeat="location in locations">{{location.name}}</md-option>
                             </md-optgroup>
                         </md-select>
+                        <div ng-messages="itemForm.location.$error" class="validation-messages">
+                            <div ng-message="required">Укажите место службы.</div>
+                        </div>
                     </md-input-container>
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Звание</label>
                         <md-icon md-svg-src="img/icons/ic_grade_24px.svg"></md-icon>
-                        <md-select ng-model="mesAchItem.rankId" required>
+                        <md-select name="rank" ng-model="mesAchItem.rankId" required>
                             <md-optgroup>
                                 <md-option ng-value="rank.id" ng-repeat="rank in ranks">{{rank.name}}</md-option>
                             </md-optgroup>
                         </md-select>
+                        <div ng-messages="itemForm.rank.$error" class="validation-messages">
+                            <div ng-message="required">Укажите звание.</div>
+                        </div>
                     </md-input-container>
                 </div>
 
@@ -48,11 +60,14 @@
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Служба</label>
                         <md-icon md-svg-src="img/icons/ic_work_24px.svg"></md-icon>
-                        <md-select ng-model="mesAchItem.serviceId" ng-change="getPosts(mesAchItem.serviceId)" required>
+                        <md-select name="service" ng-model="mesAchItem.serviceId" ng-change="getPosts(mesAchItem.serviceId)" required>
                             <md-optgroup>
                                 <md-option ng-value="service.id" ng-repeat="service in services">{{service.serviceName}} ({{service.serviceShortName}})</md-option>
                             </md-optgroup>
                         </md-select>
+                        <div ng-messages="itemForm.service.$error" class="validation-messages">
+                            <div ng-message="required">Укажите службу.</div>
+                        </div>
                     </md-input-container>
 
                     <md-input-container class="md-block" flex-gt-sm>

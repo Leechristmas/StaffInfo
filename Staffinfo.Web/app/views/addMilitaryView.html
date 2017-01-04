@@ -14,12 +14,18 @@
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Начало Периода</label>
-                        <md-datepicker ng-model="military.startDate" required md-min-date="minDate" md-max-date="military.finishDate"></md-datepicker>
+                        <md-datepicker name="startDate" ng-model="military.startDate" required md-min-date="minDate" md-max-date="military.finishDate"></md-datepicker>
+                        <div ng-messages="addMilitaryForm.startDate.$error" class="validation-messages">
+                            <div ng-message="required">Необходимо заполнить это поле.</div>
+                        </div>
                     </md-input-container>
 
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Конец Периода</label>
-                        <md-datepicker ng-model="military.finishDate" required md-max-date="maxDate" md-min-date="military.startDate"></md-datepicker>
+                        <md-datepicker name="finishDate" ng-model="military.finishDate" required md-max-date="maxDate" md-min-date="military.startDate"></md-datepicker>
+                        <div ng-messages="addMilitaryForm.finishDate.$error" class="validation-messages">
+                            <div ng-message="required">Необходимо заполнить это поле.</div>
+                        </div>
                     </md-input-container>
                 </div>
 
@@ -27,16 +33,22 @@
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Место</label>
                         <md-icon md-svg-src="img/icons/ic_place_24px.svg"></md-icon>
-                        <md-select ng-model="military.locationId" required>
+                        <md-select name="location" ng-model="military.locationId" required>
                             <md-optgroup>
                                 <md-option ng-value="location.id" ng-repeat="location in locations">{{location.name}}</md-option>
                             </md-optgroup>
                         </md-select>
+                        <div ng-messages="addMilitaryForm.location.$error" class="validation-messages">
+                            <div ng-message="required">Укажите место службы.</div>
+                        </div>
                     </md-input-container>
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Звание</label>
                         <md-icon md-svg-src="img/icons/ic_grade_24px.svg"></md-icon>
-                        <input ng-model="military.rank" required md-maxlength="30" />
+                        <input name="rank" ng-model="military.rank" required md-maxlength="30" />
+                        <div ng-messages="addMilitaryForm.rank.$error" class="validation-messages">
+                            <div ng-message="required">Укажите звание.</div>
+                        </div>
                     </md-input-container>
                 </div>
 

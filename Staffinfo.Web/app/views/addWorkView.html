@@ -14,12 +14,18 @@
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Начало Периода</label>
-                        <md-datepicker ng-model="work.startDate" required md-min-date="minDate" md-max-date="work.finishDate"></md-datepicker>
+                        <md-datepicker name="startDate" ng-model="work.startDate" required md-min-date="minDate" md-max-date="work.finishDate"></md-datepicker>
+                        <div ng-messages="addWorkForm.startDate.$error" class="validation-messages">
+                            <div ng-message="required">Необходимо заполнить это поле.</div>
+                        </div>
                     </md-input-container>
 
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Конец Периода</label>
-                        <md-datepicker ng-model="work.finishDate" required md-max-date="maxDate" md-min-date="work.startDate"></md-datepicker>
+                        <md-datepicker name="finishDate" ng-model="work.finishDate" required md-max-date="maxDate" md-min-date="work.startDate"></md-datepicker>
+                        <div ng-messages="addWorkForm.finishDate.$error" class="validation-messages">
+                            <div ng-message="required">Необходимо заполнить это поле.</div>
+                        </div>
                     </md-input-container>
                 </div>
 
@@ -27,16 +33,22 @@
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Место</label>
                         <md-icon md-svg-src="img/icons/ic_place_24px.svg"></md-icon>
-                        <md-select ng-model="work.locationId" required>
+                        <md-select name="location" ng-model="work.locationId" required>
                             <md-optgroup>
                                 <md-option ng-value="location.id" ng-repeat="location in locations">{{location.name}}</md-option>
                             </md-optgroup>
                         </md-select>
+                        <div ng-messages="addWorkForm.location.$error" class="validation-messages">
+                            <div ng-message="required">Укажите место работы.</div>
+                        </div>
                     </md-input-container>
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Должность</label>
                         <md-icon md-svg-src="img/icons/ic_grade_24px.svg"></md-icon>
-                        <input ng-model="work.post" required md-maxlength="30" />
+                        <input name="post" ng-model="work.post" required md-maxlength="30" />
+                        <div ng-messages="addWorkForm.post.$error" class="validation-messages">
+                            <div ng-message="required">Укажите должность.</div>
+                        </div>
                     </md-input-container>
                 </div>
 
