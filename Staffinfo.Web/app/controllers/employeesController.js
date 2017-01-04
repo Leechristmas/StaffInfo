@@ -158,10 +158,33 @@ app.controller('employeesController', [
         };
 
     }]).controller('detailsController', ['$scope', '$mdDialog', 'employeesService', 'messageService', '$timeout', '$mdToast', '$state', function ($scope, $mdDialog, employeesService, messageService, $timeout, $mdToast, $state) {
-        
+
 
 //COMMON----------------------------------------------
-        $scope.maxDate = employeesService.common.maxBirthDate;
+
+        $scope.maxBirthDate = employeesService.common.maxBirthDate;
+        $scope.minBirthDate = employeesService.common.minBirthDate;
+        $scope.minRetirementDate = '';
+
+
+        $scope.personalInfoTabConfig = function() {
+            $scope.promise = employeesService.activityItems.getMesAchievements().then(function (response) {
+                $scope.mesAchievements = response.data;
+                if ($scope.mesAchievements) {
+                    $scope.minRetirementDate = new Date($scope.mesAchievements[0].startDate);
+                    $scope.mesAchievements.forEach(function (item) {
+                        var date = new Date(item.startDate);
+                        if (date > $scope.minRetirementDate) {
+                            $scope.minRetirementDate = date;//maybe finish date should be here.
+                        }
+                    });
+                }
+
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
 
         $scope.hide = function () {
             $mdDialog.hide();
@@ -228,9 +251,9 @@ app.controller('employeesController', [
             return false;
         }
 
-//----------------------------------------------------
-     
-//HANDLERS--------------------------------------------
+        //----------------------------------------------------
+
+        //HANDLERS--------------------------------------------
 
         //shows the window for adding new mes achievement
         $scope.showAddMesView = function (ev) {
@@ -392,9 +415,9 @@ app.controller('employeesController', [
                 $mdToast.show(messageService.errors.errorViewConfig);
             });
         }
-//----------------------------------------------------
+        //----------------------------------------------------
 
-//DISCIPLINE------------------------------------------
+        //DISCIPLINE------------------------------------------
 
         $scope.disciplineItems = [];
         $scope.discType = 'G';  //gratitudes by default
@@ -428,9 +451,9 @@ app.controller('employeesController', [
             });
         }
 
-//----------------------------------------------------
-     
-//MES-------------------------------------------------
+        //----------------------------------------------------
+
+        //MES-------------------------------------------------
         $scope.mesAchievements = [];
 
         //returns MES achievements for employee
@@ -463,9 +486,9 @@ app.controller('employeesController', [
             });
         }
 
-//----------------------------------------------------
+        //----------------------------------------------------
 
-//WORKS-----------------------------------------------
+        //WORKS-----------------------------------------------
         $scope.works = [];
 
         //returns works for employee
@@ -498,9 +521,9 @@ app.controller('employeesController', [
             });
         }
 
-//----------------------------------------------------
-        
-//MILITARY--------------------------------------------
+        //----------------------------------------------------
+
+        //MILITARY--------------------------------------------
         $scope.military = [];
 
         //returns works for employee
@@ -533,11 +556,11 @@ app.controller('employeesController', [
             });
         }
 
-//----------------------------------------------------
+        //----------------------------------------------------
 
     }]).controller('addEmployeeItemsController', ['$scope', '$mdDialog', 'employeesService', 'messageService', '$mdToast', function ($scope, $mdDialog, employeesService, messageService, $mdToast) {
 
-//COMMON----------------------------------------------
+        //COMMON----------------------------------------------
         $scope.hide = function () {
             $mdDialog.hide();
         };
@@ -579,9 +602,9 @@ app.controller('employeesController', [
             messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
             $mdToast.show(messageService.errors.errorViewConfig);
         });
-//----------------------------------------------------
+        //----------------------------------------------------
 
-//MES-------------------------------------------------
+        //MES-------------------------------------------------
         $scope.mesAchItem = { employeeId: employeesService.employees.getActualEmployee().id };
 
         //saves new mes achievement
@@ -604,9 +627,9 @@ app.controller('employeesController', [
                 $mdToast.show(messageService.errors.errorViewConfig);
             });
         }
-//----------------------------------------------------
+        //----------------------------------------------------
 
-//MILITARY--------------------------------------------
+        //MILITARY--------------------------------------------
         $scope.military = { employeeId: employeesService.employees.getActualEmployee().id };
 
         //saves new military
@@ -629,9 +652,9 @@ app.controller('employeesController', [
                 $mdToast.show(messageService.errors.errorViewConfig);
             });
         }
-//----------------------------------------------------
+        //----------------------------------------------------
 
-//WORK------------------------------------------------
+        //WORK------------------------------------------------
         $scope.work = { employeeId: employeesService.employees.getActualEmployee().id };
 
         //saves new work
@@ -654,9 +677,9 @@ app.controller('employeesController', [
                 $mdToast.show(messageService.errors.errorViewConfig);
             });
         }
-//----------------------------------------------------
+        //----------------------------------------------------
 
-//DISCIPLINE------------------------------------------
+        //DISCIPLINE------------------------------------------
         $scope.newDisciplineItem = { employeeId: employeesService.employees.getActualEmployee().id, itemType: employeesService.activityItems.disciplineItems.actualDisciplineItemsType };
 
         //saves new discipline item
@@ -679,7 +702,7 @@ app.controller('employeesController', [
                 $mdToast.show(messageService.errors.errorViewConfig);
             });
         }
-//----------------------------------------------------
+        //----------------------------------------------------
 
     }]).controller('addEmployeeController', ['$scope', '$mdDialog', 'employeesService', 'messageService', '$mdToast', function ($scope, $mdDialog, employeesService, messageService, $mdToast) {
 

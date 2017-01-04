@@ -33,7 +33,7 @@
                 employee.birthDate = new Date(employee.birthDate);
                 employee.retirementDate = new Date(employee.retirementDate);
 
-                employeesService.setActualEmployee(employee);
+                employeesService.employees.setActualEmployee(employee);
 
                 $state.go('details');
             }, function (data) {

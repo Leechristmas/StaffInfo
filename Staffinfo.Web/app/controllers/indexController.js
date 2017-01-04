@@ -42,6 +42,7 @@ app.controller('indexController', ['$scope', '$location', 'authService', '$mdDia
     });
 
     $scope.$on('IdleTimeout', function () {//time has expired
+        localStorageService.remove('authorizationData');//manually logout
         $mdDialog.show({
             controller: 'dialogController',
             templateUrl: 'app/views/sessionExpiredView.html',

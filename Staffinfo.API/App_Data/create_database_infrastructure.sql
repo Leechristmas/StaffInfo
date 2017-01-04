@@ -232,7 +232,7 @@ CREATE TABLE dbo.tbl_Notifications (
 GO
 
 CREATE TABLE dbo.tbl_GratitudesAndPunishment (
-  ID INT IDENTITY(1,1) PRIMARY KEY
+  ID INT IDENTITY (1, 1) PRIMARY KEY
  ,EmployeeID INT REFERENCES dbo.tbl_Employee ON DELETE CASCADE
  ,Title NVARCHAR(60) NOT NULL
  ,ItemType NCHAR(1) NOT NULL --'G' - gratitude/ 'V' - violation
@@ -385,13 +385,13 @@ BEGIN
 
   IF @IncludeBirthDates = 1
   BEGIN
-    INSERT INTO #query (Id, Author, Title, Details, DueDate)
+    INSERT INTO #query (ID, Author, Title, Details, DueDate)
         SELECT
           -1
          ,NULL
          ,'День Рождения'
          ,'День рождения сотрудника ' + te.EmployeeLastname + ' ' + te.EmployeeFirstname + ' ' + te.EmployeeMiddlename + ' (' + CONVERT(VARCHAR, te.BirthDate, 104) + ')'
-         ,DATEADD(yy, DATEDIFF(yy,te.BirthDate,getdate()), te.BirthDate)
+         ,DATEADD(yy, DATEDIFF(yy, te.BirthDate, GETDATE()), te.BirthDate)
         FROM dbo.tbl_Employee te
         WHERE te.RetirementDate IS NULL;
   END
@@ -427,7 +427,12 @@ AS
 BEGIN
   INSERT INTO tbl_Notifications (Author, Title, Details, DueDate)
     VALUES (@Author, @Title, @Details, @DueDate);
-  SELECT * FROM tbl_Notifications tn WHERE tn.ID = (SELECT MAX(ID) FROM tbl_Notifications tn1)
+  SELECT
+    *
+  FROM tbl_Notifications tn
+  WHERE tn.ID = (SELECT
+      MAX(ID)
+    FROM tbl_Notifications tn1)
 END
 
 GO
@@ -542,5 +547,65 @@ BEGIN
   SET ActualRankID = dbo.fn_GetActualRankID(ID)
      ,ActualPostID = dbo.fn_GetActualPostID(ID)
 END
+
+GO
+
+--forbid adding more than 1 null finish date for every employee
+CREATE TRIGGER MESAchievementInserTrigger
+ON tbl_MESAchievement
+FOR INSERT
+AS
+BEGIN
+
+  DECLARE @emplID INT
+         ,@date DATETIME;
+
+  DECLARE cur CURSOR FAST_FORWARD READ_ONLY LOCAL FOR SELECT
+    i.EmployeeID
+   ,i.FinishDate
+  FROM INSERTED i
+
+  OPEN cur
+
+  FETCH NEXT FROM cur INTO @emplID, @date
+
+  WHILE @@fetch_status = 0
+  BEGIN
+
+  IF @date IS NULL
+  BEGIN
+    IF (SELECT
+          COUNT(*)
+        FROM INSERTED i
+        WHERE i.EmployeeID = @emplID
+        AND i.FinishDate IS NULL)
+      > 1
+    BEGIN
+      ROLLBACK TRAN;
+      RAISERROR ('Can not be inserted more than 1 assignment with null finish date!', 16, 2);
+      RETURN;
+    END
+
+    IF (SELECT
+          COUNT(*)
+        FROM tbl_MESAchievement tm
+        WHERE tm.EmployeeID = @emplID
+        AND tm.FinishDate IS NULL)
+      > 1
+    BEGIN
+      ROLLBACK TRAN;
+      RAISERROR ('Actual assignment (finishDate is null) is already exists!', 16, 2);
+      RETURN;
+    END
+  END
+
+  FETCH NEXT FROM cur INTO @emplID, @date
+
+  END
+
+  CLOSE cur
+  DEALLOCATE cur
+
+END;
 
 GO

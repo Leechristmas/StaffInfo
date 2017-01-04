@@ -138,7 +138,7 @@ VALUES ('Гомельский ПАСО', 'Куйбышево 59', 'хз'),
 GO
 
 INSERT INTO dbo.tbl_MESAchievement (EmployeeID, LocationID, StartDate, FinishDate, PostID, RankID, Description)
- VALUES (1, 1, '2000-04-05', '2001-05-06', 1, 1, 'xz'),
+ VALUES (1, 1, '2000-04-05', NULL, 1, 1, 'xz'),
 	(2, 2, '2000-04-05', '2010-05-06', 8, 2, 'xz'),
 	(3, 3, '2000-04-05', '2001-05-06', 3, 3, 'xz'),
 	(4, 4, '2000-04-05', '2007-05-06', 17, 4, 'xz');

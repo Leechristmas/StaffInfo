@@ -20,7 +20,7 @@
     <md-content>
         <form name="employeeForm">
             <md-tabs md-dynamic-height style="max-height: 800px;">
-                <md-tab>
+                <md-tab md-on-select="personalInfoTabConfig()">
                     <md-tab-label>
                         <p class="unselectable">
                             <md-icon md-svg-icon="img/icons/ic_assignment_ind_24px.svg"></md-icon>Личные данные
@@ -57,12 +57,17 @@
 
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label>Дата Рождения</label>
-                                    <md-datepicker ng-model="changeable.birthDate" required md-max-date="maxDate" style="width: 100%;"></md-datepicker>
+                                    <md-datepicker ng-model="changeable.birthDate" name="birthDate" required md-max-date="maxBirthDate" md-min-date="minBirthDate" style="width: 100%;"></md-datepicker>
+                                    <div ng-messages="employeeForm.birthDate.$error" class="validation-messages">
+                                        <div ng-message-exp="['md-mindate', 'md-maxdate']">
+                                            Возраст сотрудника не может быть меньше 18 и больше 60 лет.
+                                        </div>
+                                    </div>
                                 </md-input-container>
 
                                 <md-input-container class="md-block" flex-gt-sm ng-if="isPensioner()">
                                     <label>Дата Отставки</label>
-                                    <md-datepicker ng-model="changeable.retirementDate" md-placeholder="Укажите Дату" required></md-datepicker>
+                                    <md-datepicker ng-model="changeable.retirementDate" md-min-date="minRetirementDate" required></md-datepicker>
                                 </md-input-container>
                             </div>
                         </md-content>
@@ -110,7 +115,10 @@
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label>Номер паспорта</label>
                                     <md-icon md-svg-icon="img/icons/ic_assignment_ind_24px.svg"></md-icon>
-                                    <input ng-model="changeable.passportNumber" required md-maxlength="9" ng-minlength="9" />
+                                    <input ng-model="changeable.passportNumber" required md-maxlength="9" ng-minlength="9"/>
+                                    <div class="hint" style="margin-left: 30px;">
+                                        Серия и номер паспорта: AA1234567
+                                    </div>
                                 </md-input-container>
                             </div>
 
@@ -127,13 +135,19 @@
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label>Тел. 1</label>
                                     <md-icon md-svg-icon="img/icons/ic_phone_24px.svg"></md-icon>
-                                    <input placeholder="+375 (XX) XXX XX XX" ng-model="changeable.firstPhoneNumber" md-maxlength="13" />
+                                    <input ng-model="changeable.firstPhoneNumber" md-maxlength="13" />
+                                    <div class="hint" style="margin-left: 30px;">
+                                        +375 (XX) XXX XX XX
+                                    </div>
                                 </md-input-container>
 
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label>Тел. 2</label>
                                     <md-icon md-svg-icon="img/icons/ic_phone_24px.svg"></md-icon>
-                                    <input placeholder="+375 (XX) XXX XX XX" ng-model="changeable.secondPhoneNumber" md-maxlength="13" />
+                                    <input ng-model="changeable.secondPhoneNumber" md-maxlength="13"/>
+                                    <div class="hint" style="margin-left: 30px;">
+                                        +375 (XX) XXX XX XX
+                                    </div>
                                 </md-input-container>
                             </div>
                         </md-content>

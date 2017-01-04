@@ -34,8 +34,8 @@
                         <td md-cell style="padding-left: 20px"><a ng-click="showDetails($event, retired.id)" class="emplRef">{{retired.employeeLastname}}</a></td>
                         <td md-cell>{{retired.employeeFirstname}}</td>
                         <td md-cell>{{retired.employeeMiddlename}}</td>
-                        <td md-cell class="td-center">{{getDate(retired.birthDate).toISOString().slice(0, 10)}}</td>
-                        <td md-cell class="td-center">{{getDate(retired.retirementDate).toISOString().slice(0, 10)}}</td>
+                        <td md-cell class="td-center">{{getDate(retired.birthDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
+                        <td md-cell class="td-center">{{getDate(retired.retirementDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                         <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, retired.id)" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить всю информацию о сотруднике</md-tooltip></md-button></td>
                     </tr>
                 </tbody>
