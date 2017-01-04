@@ -1,5 +1,7 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,11 +23,17 @@ namespace Staffinfo.API.Filters
                 actionExecutedContext.Response = new HttpResponseMessage()
                 {
                     Content =
-                        new StringContent($"Произошла ошибка: {actionExecutedContext.Exception.Message}", Encoding.UTF8,
+                        new StringContent($"Произошла ошибка: {GetNativeException(actionExecutedContext.Exception).Message}", Encoding.UTF8,
                             "text/plain"),
                     StatusCode = HttpStatusCode.InternalServerError
                 };
             }, cancellationToken);
+        }
+
+        private Exception GetNativeException(Exception ex)
+        {
+            if (ex.InnerException == null) return ex;
+            return GetNativeException(ex.InnerException);
         }
     }
 }
