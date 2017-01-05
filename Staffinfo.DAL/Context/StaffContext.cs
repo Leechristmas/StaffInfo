@@ -33,6 +33,7 @@ namespace Staffinfo.DAL.Context
         public virtual DbSet<WorkTerm> WorkTerms { get; set; } 
         public virtual DbSet<Dismissed> Dismissed { get; set; } 
         public virtual DbSet<DisciplineItem> DisciplineItems { get; set; }
+        public virtual DbSet<OutFromOffice> OutFromOffices { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -48,7 +49,8 @@ namespace Staffinfo.DAL.Context
                 .Add(new ServiceMap())
                 .Add(new WorkTermMap())
                 .Add(new DismissedMap())
-                .Add(new DisciplineItemMap());
+                .Add(new DisciplineItemMap())
+                .Add(new OutFromOfficeMap());
         }
 
         public virtual ObjectResult<int> GetExpirience(int employeeId)

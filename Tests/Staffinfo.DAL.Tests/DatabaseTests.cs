@@ -32,7 +32,8 @@ namespace Staffinfo.DAL.Tests
             new Repository<Service>(new StaffContext()), 
             new Repository<WorkTerm>(new StaffContext()),
             new Repository<Dismissed>(new StaffContext()),
-            new Repository<DisciplineItem>(new StaffContext()));
+            new Repository<DisciplineItem>(new StaffContext()),
+            new Repository<OutFromOffice>(new StaffContext()));
 
         //[TestMethod]
         //public void Select_GetAllAddresses()
@@ -144,6 +145,12 @@ namespace Staffinfo.DAL.Tests
         {
             _staffUnitRepository.EmployeeRepository.Delete(2);
             _staffUnitRepository.EmployeeRepository.SaveAsync();
+        }
+
+        [TestMethod]
+        public void Get_OutFromOffice()
+        {
+            var t = _staffUnitRepository.OutFromOfficeRepository.SelectAsync().Result;
         }
 
         [TestMethod]

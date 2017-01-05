@@ -151,6 +151,15 @@ INSERT INTO dbo.tbl_Notifications (Author, Title, Details, DueDate)
       ('qwerty', 'напоминание 2', 'просто тестовое напоминание', '2016-11-12');
 
 GO
+
+INSERT INTO dbo.tbl_OutFromOffice (EmployeeID, startdate, FinishDate, Cause, Description)
+  VALUES (1, '2000-04-05', '2010-05-06', 'S', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'),
+  (2, '2000-04-05', '2010-05-06', 'S', ''),
+  (3, '2000-04-05', '2010-05-06', 'S', ''),
+  (1, '2000-04-05', '2010-05-06', 'D', '');
+
+GO
+
 INSERT INTO dbo.tbl_GratitudesAndPunishment(Title, EmployeeID, ItemType, Date, Description, AwardOrFine)
   VALUES ('за отличную службу', 4, 'G', '2016-12-03', 'премия', 50000),
       ('за отличную службу', 2, 'V', '2016-02-03', 'премия', 50000),

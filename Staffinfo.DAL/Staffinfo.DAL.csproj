@@ -66,6 +66,7 @@
     <Compile Include="Mapping\LocationMap.cs" />
     <Compile Include="Mapping\MesAchievementMap.cs" />
     <Compile Include="Mapping\MilitaryServiceMap.cs" />
+    <Compile Include="Mapping\OutFromOfficeMap.cs" />
     <Compile Include="Mapping\PassportMap.cs" />
     <Compile Include="Mapping\PostMap.cs" />
     <Compile Include="Mapping\RankMap.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Models\MesAchievement.cs" />
     <Compile Include="Models\MilitaryService.cs" />
     <Compile Include="Models\Notification.cs" />
+    <Compile Include="Models\OutFromOffice.cs" />
     <Compile Include="Models\Passport.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\Rank.cs" />

@@ -90,6 +90,7 @@
     <Content Include="app\views\addMilitaryView.html" />
     <Content Include="app\views\addDisciplineItem.html" />
     <Content Include="app\views\addNotificationView.html" />
+    <Content Include="app\views\addOutFromOfficeItem.html" />
     <Content Include="app\views\addWorkView.html" />
     <Content Include="app\views\dashboard.html" />
     <Content Include="app\views\dismissalView.html" />
@@ -107,7 +108,6 @@
     <Content Include="app\views\settingsView.html" />
     <Content Include="app\views\signup.html" />
     <Content Include="content\css\calendar.css" />
-    <Content Include="content\css\calendar.min.css" />
     <Content Include="content\css\angular-material.css" />
     <Content Include="content\css\angular-material.layout-attributes.css" />
     <Content Include="content\css\angular-material.layout-attributes.min.css" />

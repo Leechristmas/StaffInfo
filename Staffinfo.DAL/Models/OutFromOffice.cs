@@ -4,29 +4,24 @@ using Staffinfo.DAL.Models.Common;
 
 namespace Staffinfo.DAL.Models
 {
-    //Gratitude or punishment
-    public class DisciplineItem: Entity
+    public class OutFromOffice: Entity
     {
         [Required]
         public int? EmployeeId { get; set; }
-
         public virtual Employee Employee { get; set; }
 
-        [MaxLength(60)]
         [Required]
-        public string Title { get; set; }
-        
-        [Required]
-        public string ItemType { get; set; }
-        
-        [Required]
-        public DateTime Date { get; set; }
+        public DateTime StartDate { get; set; }
 
         [Required]
-        public long AwardOrFine { get; set; }
+        public DateTime FinishDate { get; set; }
 
-        [MaxLength(200)]
+        [Required]
+        [MaxLength(1)]
+        public string Cause { get; set; }
+
+        [MaxLength(255)]
         public string Description { get; set; }
-        
+
     }
 }

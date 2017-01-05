@@ -376,6 +376,40 @@ namespace Staffinfo.API.Controllers
         }
 
         [HttpPost]
+        [Route("api/employees/outfromoffice")]
+        public async Task PostOutFromOffice([FromBody] OutFromOfficeViewModel model)
+        {
+            OutFromOffice outFromOffice = new OutFromOffice
+            {
+                Id = 0,
+                EmployeeId = model.EmployeeId,
+                StartDate = model.StartDate,
+                FinishDate = model.FinishDate,
+                Cause = model.Cause,
+                Description = model.Description
+            };
+            _repository.OutFromOfficeRepository.Create(outFromOffice);
+            await _repository.OutFromOfficeRepository.SaveAsync();
+        }
+
+        [HttpGet]
+        [Route("api/employees/outfromoffice/{employeeId:int}")]
+        public async Task<IEnumerable<OutFromOfficeViewModel>> GetOutFromOffice(int employeeId)
+        {
+            IEnumerable<OutFromOffice> outFromOffice =
+                    await _repository.OutFromOfficeRepository.WhereAsync(i => i.EmployeeId == employeeId);
+            return outFromOffice.Select(i => new OutFromOfficeViewModel(i));
+        }
+
+        [HttpDelete]
+        [Route("api/employees/outfromoffice/{id:int}")]
+        public async Task DeleteOutFromOfice(int id)
+        {
+            await _repository.OutFromOfficeRepository.Delete(id);
+            await _repository.OutFromOfficeRepository.SaveAsync();
+        }
+
+        [HttpPost]
         [Route("api/employees/military")]
         public async Task PostMilitary([FromBody] MilitaryService value)
         {

@@ -321,6 +321,21 @@ app.controller('employeesController', [
             });
         };
 
+        $scope.showAddOutFromOfficeView = function (ev) {
+            $mdDialog.show({
+                controller: 'addEmployeeItemsController',
+                templateUrl: 'app/views/addOutFromOfficeItem.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true
+            }).then(function (answer) {
+                $scope.getOutFromOffice(); //refresh the list
+                console.log('new "out from office" item has been added.');
+            }, function () {
+                console.log('adding view has been closed.');
+            });
+        };
+
         //shows confirmation for transferring employee
         $scope.askForTransfer = function (type, ev) {
             var confirm = {};
@@ -355,7 +370,7 @@ app.controller('employeesController', [
         };
 
         //confirmation deleting
-        $scope.confirmDeleting = function (ev, id, type) { //type: W - works; M - military; A - achievements; D - discipline items
+        $scope.confirmDeleting = function (ev, id, type) { //type: W - works; M - military; A - achievements; D - discipline items; O- 'out from office' items
 
             var confirm = $mdDialog.confirm()
                 .title('Удаление')
@@ -378,6 +393,8 @@ app.controller('employeesController', [
                         break;
                     case "D":
                         _deleteDisciplineItem(id);
+                    case "O":
+                        _deleteOutFromOfficeItem(id);
                     default:
                         break;
                 }
@@ -420,6 +437,42 @@ app.controller('employeesController', [
                 $mdToast.show(messageService.errors.errorViewConfig);
             });
         }
+        //----------------------------------------------------
+
+        //OUT FROM OFFICE-------------------------------------
+
+        $scope.outFromOfficeItems = [];
+        $scope.outFromOfficeType = 'S';
+
+        var _deleteOutFromOfficeItem = function (id) {
+            $scope.promise = employeesService.activityItems.outFromOffice.deleteOutFromOffice(id).then(function (response) {
+                $scope.getOutFromOffice(); //refresh
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                        '<div class="md-toast-content">' +
+                        'Запись была успешно удалена.' +
+                        '</div>' +
+                        '</md-toast>'
+                });
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+
+        $scope.getOutFromOffice = function () {
+            $scope.promise = employeesService.activityItems.outFromOffice.getOutFromOffice($scope.employee.id).then(function (response) { //success
+                $scope.outFromOfficeItems = response.data.filter(function (item) { return item.cause === $scope.outFromOfficeType });
+                employeesService.activityItems.outFromOffice.actualOutFromOfficeType = $scope.outFromOfficeType;
+            }, function (data) { //if error
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+
         //----------------------------------------------------
 
         //DISCIPLINE------------------------------------------
@@ -612,6 +665,32 @@ app.controller('employeesController', [
         });
         //----------------------------------------------------
 
+        //OUT FROM OFFICE-------------------------------------
+
+        $scope.outFromOffice = { employeeId: employeesService.employees.getActualEmployee().id, cause: employeesService.activityItems.outFromOffice.actualOutFromOfficeType };
+
+        $scope.saveNewOutFromOffice = function () {
+            $scope.promise = employeesService.activityItems.outFromOffice.saveOutFromOffice($scope.outFromOffice).then(function (response) {
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                                    '<div class="md-toast-content">' +
+                                      'Запись успешно добавлена.' +
+                                    '</div>' +
+                                '</md-toast>'
+                });
+                $mdDialog.hide('save'); //throw the 'answer' to the main controller to refresh or do not the list
+            }, function (data) {
+                $mdDialog.hide('cancel');
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+
+        //----------------------------------------------------
+        
         //MES-------------------------------------------------
         $scope.mesAchItem = { employeeId: employeesService.employees.getActualEmployee().id };
 

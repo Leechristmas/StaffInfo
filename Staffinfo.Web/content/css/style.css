@@ -187,3 +187,9 @@ position: fixed;
     position: relative;
     left: 95px;
 }
+
+.cell-text-overflow {
+    white-space: nowrap; /* Отменяем перенос текста */
+    overflow: hidden; /* Обрезаем содержимое */
+    text-overflow: ellipsis;
+}

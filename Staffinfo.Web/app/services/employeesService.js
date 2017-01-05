@@ -145,6 +145,19 @@ app.factory('employeesService', [
                     return $http.post(serviceBase + 'api/employees/discipline', disciplineItem, {});
                 }
             },
+            //properties and methods of out from office
+            outFromOffice: {
+                actualOutFromOfficeType: '',
+                getOutFromOffice: function(employeeId) {
+                    return $http.get(serviceBase + 'api/employees/outfromoffice/' + employeeId);
+                },
+                deleteOutFromOffice: function(id) {
+                    return $http.delete(serviceBase + 'api/employees/outfromoffice/' + id);
+                },
+                saveOutFromOffice: function(item) {
+                    return $http.post(serviceBase + 'api/employees/outfromoffice/', item, {});
+                }
+            },
             constants: {
                 minDate: new Date(1960, 1, 1),
                 maxDate: new Date(Date.now())

@@ -36,13 +36,14 @@ DROP TABLE dbo.tbl_Location;
 DROP TABLE dbo.tbl_Passport;
 DROP TABLE dbo.tbl_Address;
 DROP TABLE dbo.tbl_GratitudesAndPunishment;
+DROP TABLE dbo.tbl_OutFromOffice;
 DROP TABLE dbo.tbl_Employee;
 DROP TABLE dbo.tbl_Dismissed;
 DROP TABLE dbo.tbl_Rank;
 DROP TABLE dbo.tbl_Post;
 DROP TABLE dbo.tbl_Service;
 DROP TABLE dbo.tbl_MilitaryService;
-DROP TABLE dbo.tbl_Notifications;
+DROP TABLE dbo.tbl_Notification;
 
 GO
 
@@ -221,7 +222,7 @@ UNIQUE (EmployeeID, StartDate);
 
 GO
 
-CREATE TABLE dbo.tbl_Notifications (
+CREATE TABLE dbo.tbl_Notification (
   ID INT IDENTITY (1, 1) PRIMARY KEY
  ,Author VARCHAR(100)
  ,Title VARCHAR(20) NOT NULL
@@ -242,6 +243,17 @@ CREATE TABLE dbo.tbl_GratitudesAndPunishment (
 )
 
 GO
+
+CREATE TABLE dbo.tbl_OutFromOffice(
+  ID INT IDENTITY (1,1) PRIMARY KEY
+ ,EmployeeID INT REFERENCES dbo.tbl_Employee ON DELETE CASCADE
+ ,StartDate DATETIME NOT NULL
+ ,FinishDate DATETIME NOT NULL
+ ,Cause NCHAR(1) NOT NULL  --больничные(S), отпуска(V), отгулы(D)
+ ,Description NVARCHAR(255))
+
+GO
+
 ------------------------------
 --PROCEDURES
 ------------------------------
@@ -380,7 +392,7 @@ BEGIN
          ,tn.Title
          ,tn.Details
          ,tn.DueDate
-        FROM dbo.tbl_Notifications tn
+        FROM dbo.tbl_Notification tn
   END
 
   IF @IncludeBirthDates = 1

@@ -1,0 +1,48 @@
+﻿<md-dialog aria-label="Добавить запись">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Добавление записи</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content style="max-width: 800px; max-height: 810px; min-width: 600px;">
+        <form name="addOutFromOfficeForm">
+            <md-content class="md-padding">
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Начало Периода</label>
+                        <md-datepicker name="startDate" ng-model="outFromOffice.startDate" required md-min-date="minDate" md-max-date="outFromOffice.finishDate"></md-datepicker>
+                        <div ng-messages="addOutFromOfficeForm.startDate.$error" class="validation-messages">
+                            <div ng-message="required">Необходимо заполнить это поле.</div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Конец Периода</label>
+                        <md-datepicker name="finishDate" ng-model="outFromOffice.finishDate" required md-max-date="maxDate" md-min-date="outFromOffice.startDate"></md-datepicker>
+                        <div ng-messages="addOutFromOfficeForm.finishDate.$error" class="validation-messages">
+                            <div ng-message="required">Необходимо заполнить это поле.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" style="width: 100%;">
+                        <label>Заметка</label>
+                        <md-icon md-svg-src="img/icons/ic_description_24px.svg" class="name"></md-icon>
+                        <textarea ng-model="outFromOffice.description" columns="1" md-maxlength="150" rows="3"></textarea>
+                    </md-input-container>
+                </div>
+            </md-content>
+        </form>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" class="dialog-footer">
+        <md-button ng-click="saveNewOutFromOffice()" class="md-primary md-raised" ng-disabled="addOutFromOfficeForm.$invalid">
+            Сохранить
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

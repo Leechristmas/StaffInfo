@@ -293,28 +293,83 @@
                         </md-content>
                     </md-tab-body>
                 </md-tab>
-                <md-tab md-on-select="getDisciplineItems()">
+            <md-tab md-on-select="getDisciplineItems()">
+                <md-tab-label>
+                    <p class="unselectable">
+                        <md-icon md-svg-icon="img/icons/ic_assignment_24px.svg"></md-icon> Дисциплина
+                    </p>
+                </md-tab-label>
+                <md-tab-body>
+                    <md-content class="md-padding">
+                        <h1 class="md-display-1">Дисциплина</h1>
+                        <div layout="column">
+                            <md-select placeholder="Discipline" name="discType" ng-model="discType" style="min-width: 200px;" ng-change="getDisciplineItems()">
+                                <md-option value="G"><h4>Благодарности</h4></md-option>
+                                <md-option value="V"><h4>Взыскания</h4></md-option>
+                            </md-select>
+                        </div>
+                        <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddDisciplineItemView($event)">
+                            <md-icon md-svg-src="img/icons/ic_add_24px.svg"></md-icon>
+                            <md-tooltip md-direction="bottom">
+                                Добавить запись
+                            </md-tooltip>
+                        </md-button>
+                        <md-button class="md-fab md-primary md-fab-md" aria-label="Refresh" ng-click="getDisciplineItems()">
+                            <md-icon md-svg-src="img/icons/ic_refresh_24px.svg"></md-icon>
+                            <md-tooltip md-direction="bottom">
+                                Обновить
+                            </md-tooltip>
+                        </md-button>
+
+                        <md-table-container class="scrollableTable">
+                            <table md-table md-progress="promise">
+                                <thead md-head fix-head>
+                                <tr md-row>
+                                    <th md-column>Заголовок</th>
+                                    <th md-column class="td-center">Дата</th>
+                                    <th md-column ng-if="discType === 'G'" class="td-center">Премия</th>
+                                    <th md-column ng-if="discType === 'V'" class="td-center">Сумма взыскания</th>
+                                    <th md-column>Описание</th>
+                                </tr>
+                                </thead>
+                                <tbody md-body>
+                                <tr ng-if="disciplineItems.length === 0"><td colspan="4" class="td-center text-center emptyRow">Пусто</td></tr>
+                                <tr ng-if="disciplineItems.length != 0" md-row md-select-id="id" ng-repeat="item in disciplineItems | orderBy: 'date'">
+                                    <td md-cell>{{item.title}}</td>
+                                    <td md-cell class="td-center">{{getDate(item.date).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
+                                    <td md-cell class="td-center">{{item.awardOrFine}}</td>
+                                    <td md-cell>{{item.description}}</td>
+                                    <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'D')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </md-table-container>
+                    </md-content>
+                </md-tab-body>
+            </md-tab>
+                <md-tab md-on-select="getOutFromOffice()">
                     <md-tab-label>
                         <p class="unselectable">
-                            <md-icon md-svg-icon="img/icons/ic_assignment_24px.svg"></md-icon> Дисциплина
+                            <md-icon md-svg-icon="img/icons/ic_assignment_24px.svg"></md-icon> Отпуска/Больничные
                         </p>
                     </md-tab-label>
                     <md-tab-body>
                         <md-content class="md-padding">
-                            <h1 class="md-display-1">Дисциплина</h1>
+                            <h1 class="md-display-1">Отпуска/Больничные</h1>
                             <div layout="column">
-                                <md-select placeholder="Discipline" name="discType" ng-model="discType" style="min-width: 200px;" ng-change="getDisciplineItems()">
-                                    <md-option value="G"><h4>Благодарности</h4></md-option>
-                                    <md-option value="V"><h4>Взыскания</h4></md-option>
+                                <md-select name="outFromOfficeType" ng-model="outFromOfficeType" style="min-width: 200px;" ng-change="getOutFromOffice()">
+                                    <md-option value="S"><h4>Больничные</h4></md-option>
+                                    <md-option value="D"><h4>Отгулы</h4></md-option>
+                                    <md-option value="V"><h4>Отпуска</h4></md-option>
                                 </md-select>
                             </div>
-                            <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddDisciplineItemView($event)">
+                            <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddOutFromOfficeView($event)">
                                 <md-icon md-svg-src="img/icons/ic_add_24px.svg"></md-icon>
                                 <md-tooltip md-direction="bottom">
                                     Добавить запись
                                 </md-tooltip>
                             </md-button>
-                            <md-button class="md-fab md-primary md-fab-md" aria-label="Refresh" ng-click="">
+                            <md-button class="md-fab md-primary md-fab-md" aria-label="Refresh" ng-click="getOutFromOffice()">
                                 <md-icon md-svg-src="img/icons/ic_refresh_24px.svg"></md-icon>
                                 <md-tooltip md-direction="bottom">
                                     Обновить
@@ -325,21 +380,18 @@
                                 <table md-table md-progress="promise">
                                     <thead md-head fix-head>
                                         <tr md-row>
-                                            <th md-column>Заголовок</th>
-                                            <th md-column class="td-center">Дата</th>
-                                            <th md-column ng-if="discType === 'G'" class="td-center">Премия</th>
-                                            <th md-column ng-if="discType === 'V'" class="td-center">Сумма взыскания</th>
+                                            <th md-column class="td-center">Начало периода</th>
+                                            <th md-column class="td-center">Конец периода</th>
                                             <th md-column>Описание</th>
                                         </tr>
                                     </thead>
                                     <tbody md-body>
-                                        <tr ng-if="disciplineItems.length === 0"><td colspan="4" class="td-center text-center emptyRow">Пусто</td></tr>
-                                        <tr ng-if="disciplineItems.length != 0" md-row md-select-id="id" ng-repeat="item in disciplineItems | orderBy: 'date'">
-                                            <td md-cell>{{item.title}}</td>
-                                            <td md-cell class="td-center">{{getDate(item.date).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
-                                            <td md-cell class="td-center">{{item.awardOrFine}}</td>
-                                            <td md-cell>{{item.description}}</td>
-                                            <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'D')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
+                                        <tr ng-if="outFromOfficeItems.length === 0"><td colspan="4" class="td-center text-center emptyRow">Пусто</td></tr>
+                                        <tr ng-if="outFromOfficeItems.length != 0" md-row md-select-id="id" ng-repeat="item in outFromOfficeItems | orderBy: 'startDate'">
+                                            <td md-cell class="td-center">{{getDate(item.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
+                                            <td md-cell class="td-center">{{getDate(item.finishDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
+                                            <td md-cell class="cell-text-overflow" style="max-width: 300px;">{{item.description}}</td>
+                                            <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'O')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
                                         </tr>
                                     </tbody>
                                 </table>
