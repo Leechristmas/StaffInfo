@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 app.factory('employeesService', [
-    "$http", 'ngAuthSettings', function ($http, ngAuthSettings) {
+    "$http", 'ngAuthSettings', 'localStorageService', function ($http, ngAuthSettings, localStorageService) {
         var employeesServiceFactory = {};
 
         //base address to API
@@ -53,25 +53,36 @@ app.factory('employeesService', [
             saveChanges: function (employee) {
                 return $http.put(serviceBase + 'api/employees/' + employee.id, employee, {});
             },
-            //returns actual(selected) employee
-            getActualEmployee: function () {
-                return this.actualEmployee;
-            },
             setActualEmployee: function (employee) {
+                localStorageService.set('actualEmployee', employee);
                 this.actualEmployee = employee;
             },
-            transferToRetirees: function(employee) {
+            //returns actual(selected) employee
+            getActualEmployee: function () {//
+                if (!angular.equals(this.actualEmployee, {}))
+                    return this.actualEmployee;
+                else {
+                    var empl = localStorageService.get('actualEmployee');
+                    if (empl && !angular.equals(empl, {})) {
+                        this.setActualEmployee(empl);
+                        empl.birthDate = new Date(empl.birthDate);
+                        return empl;
+                    } else
+                        return null; //TODO: redirect to the error page
+                }
+            },
+            transferToRetirees: function (employee) {
                 return $http.post(serviceBase + 'api/employees/retiredtransfer', employee, {});
             },
-            transferToDismissed: function(dismissal) {
+            transferToDismissed: function (dismissal) {
                 return $http.post(serviceBase + 'api/employees/dismissedtransfer', dismissal, {});
             },
             //getting seniority by employee id
-            getSeniorityById: function(employeeId) {
+            getSeniorityById: function (employeeId) {
                 return $http.get(serviceBase + 'api/employees/seniority/' + employeeId);
             }
         }
-        
+
         //common properties and methods
         var _common = {
             //returns clone of the specified object
@@ -90,84 +101,84 @@ app.factory('employeesService', [
 
         //activity items (locations, ranks, posts, works, etc.) properties and methods
         var _activityItems = {
-            getWorks: function() {
+            getWorks: function () {
                 return $http.get(serviceBase + 'api/employees/works/' + _employees.actualEmployee.id);
             },
-            saveWork: function(item) {
+            saveWork: function (item) {
                 return $http.post(serviceBase + 'api/employees/works', item, {});
             },
-            deleteWork: function(id) {
+            deleteWork: function (id) {
                 return $http.delete(serviceBase + 'api/employees/works/' + id);
             },
-            getMilitary: function() {
+            getMilitary: function () {
                 return $http.get(serviceBase + 'api/employees/military/' + _employees.actualEmployee.id);
             },
-            saveMilitary: function(item) {
+            saveMilitary: function (item) {
                 return $http.post(serviceBase + 'api/employees/military', item, {});
             },
-            deleteMilitary: function(id) {
+            deleteMilitary: function (id) {
                 return $http.delete(serviceBase + 'api/employees/military/' + id);
             },
-            getMesAchievements: function() {
+            getMesAchievements: function () {
                 return $http.get(serviceBase + 'api/employees/mesachievements/' + _employees.actualEmployee.id);
             },
-            saveMesAchievement: function(item) {
+            saveMesAchievement: function (item) {
                 return $http.post(serviceBase + 'api/employees/mesachievements', item, {});
             },
-            deleteMesAchievement: function(id) {
+            deleteMesAchievement: function (id) {
                 return $http.delete(serviceBase + 'api/employees/mesachievements/' + id);
             },
-            getRanks: function() {
+            getRanks: function () {
                 return $http.get(serviceBase + 'api/employees/ranks');
             },
-            getPosts: function(serviceId) {
+            getPosts: function (serviceId) {
                 if (serviceId)
                     return $http.get(serviceBase + 'api/employees/postsforservice/' + serviceId);
                 else
                     return $http.get(serviceBase + 'api/employees/posts');
             },
-            getServices: function() {
+            getServices: function () {
                 return $http.get(serviceBase + 'api/employees/services');
             },
-            getLocations: function() {
+            getLocations: function () {
                 return $http.get(serviceBase + 'api/employees/locations');
             },
             //properties and methods of discipline items
             disciplineItems: {
                 actualDisciplineItemsType: '',
-                getDisciplineItems: function(employeeId) {
+                getDisciplineItems: function (employeeId) {
                     return $http.get(serviceBase + 'api/employees/discipline/' + employeeId);
                 },
-                deleteDisciplineItem: function(id) {
+                deleteDisciplineItem: function (id) {
                     return $http.delete(serviceBase + 'api/employees/discipline/' + id);
                 },
-                saveNewDisciplineItem: function(disciplineItem) {
+                saveNewDisciplineItem: function (disciplineItem) {
                     return $http.post(serviceBase + 'api/employees/discipline', disciplineItem, {});
                 }
             },
             //properties and methods of out from office
             outFromOffice: {
                 actualOutFromOfficeType: '',
-                getOutFromOffice: function(employeeId) {
+                getOutFromOffice: function (employeeId) {
                     return $http.get(serviceBase + 'api/employees/outfromoffice/' + employeeId);
                 },
-                deleteOutFromOffice: function(id) {
+                deleteOutFromOffice: function (id) {
                     return $http.delete(serviceBase + 'api/employees/outfromoffice/' + id);
                 },
-                saveOutFromOffice: function(item) {
+                saveOutFromOffice: function (item) {
                     return $http.post(serviceBase + 'api/employees/outfromoffice/', item, {});
                 }
             },
             sertification: {
-              getSertifications: function(employeeId) {
-                  return $http.get(serviceBase + 'api/employees/sertification/' + employeeId);
-              },
-              deleteSertification: function(id) {
-                  return $http.delete(serviceBase + 'api/employees/sertification/' + id);
-              },
-              saveSertification: function(item) {
-                  return $http.post(serviceBase + 'api/employees/sertification/', item, {});
-              }
+                getSertifications: function (employeeId) {
+                    return $http.get(serviceBase + 'api/employees/sertification/' + employeeId);
+                },
+                deleteSertification: function (id) {
+                    return $http.delete(serviceBase + 'api/employees/sertification/' + id);
+                },
+                saveSertification: function (item) {
+                    return $http.post(serviceBase + 'api/employees/sertification/', item, {});
+                }
             },
             constants: {
                 minDate: new Date(1960, 1, 1),

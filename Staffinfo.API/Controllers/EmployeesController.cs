@@ -103,7 +103,9 @@ namespace Staffinfo.API.Controllers
                 PassportId = passport.Id,
                 AddressId = address.Id,
                 Description = value.Description,
-                EmployeePhoto = value.EmployeePhoto
+                EmployeePhoto = value.EmployeePhoto,
+                FirstPhoneNumber = value.FirstPhoneNumber,
+                SecondPhoneNumber = value.SecondPhoneNumber
             };
             _repository.EmployeeRepository.Create(newEmpl);
             await _repository.EmployeeRepository.SaveAsync();
@@ -151,6 +153,8 @@ namespace Staffinfo.API.Controllers
                 original.BirthDate = value.BirthDate;
                 original.Description = value.Description;
                 original.EmployeePhoto = value.EmployeePhoto;
+                original.FirstPhoneNumber = value.FirstPhoneNumber;
+                original.SecondPhoneNumber = value.SecondPhoneNumber;
 
                 _repository.EmployeeRepository.Update(original);
                 await _repository.EmployeeRepository.SaveAsync();

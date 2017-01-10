@@ -119,10 +119,10 @@ app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesServic
               event.preventDefault();
               $rootScope.$state.go('login');
           }
-          if (toState.name === 'details' && !employeesService.employees.actualEmployee.hasOwnProperty('id')) {//redirect if actual employee is empty (manually refreshing)
-              event.preventDefault();
-              $rootScope.$state.go('employees');
-          }
+          //if (toState.name === 'details' && !employeesService.employees.actualEmployee.hasOwnProperty('id')) {//redirect if actual employee is empty (manually refreshing)
+          //    event.preventDefault();
+          //    $rootScope.$state.go('employees');
+          //}
           if (toState.name === 'login') {//SERVER session time has expired!
               if (!localStorageService.get('authorizationData'))
                   authService.logOut();
