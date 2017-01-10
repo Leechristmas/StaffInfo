@@ -1,7 +1,7 @@
 ﻿<md-dialog aria-label="Добавить запись">
     <md-toolbar>
         <div class="md-toolbar-tools">
-            <h2>Добавление записи</h2>
+            <h2>{{mode === 'add' ? 'Добавление': 'Редактирование'}}</h2>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="cancel()">
                 <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
@@ -42,10 +42,13 @@
                             <div ng-message="required">Укажите место службы.</div>
                         </div>
                     </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Звание</label>
                         <md-icon md-svg-src="img/icons/ic_grade_24px.svg"></md-icon>
-                        <input name="rank" ng-model="military.rank" required md-maxlength="30" />
+                        <input name="rank" ng-model="military.rank" required md-maxlength="30"/>
                         <div ng-messages="addMilitaryForm.rank.$error" class="validation-messages">
                             <div ng-message="required">Укажите звание.</div>
                         </div>

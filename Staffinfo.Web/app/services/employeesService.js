@@ -101,32 +101,43 @@ app.factory('employeesService', [
 
         //activity items (locations, ranks, posts, works, etc.) properties and methods
         var _activityItems = {
-            getWorks: function () {
-                return $http.get(serviceBase + 'api/employees/works/' + _employees.actualEmployee.id);
+            works: {
+                selectedWork: null,
+                saveWork: function (item) {
+                    return $http.post(serviceBase + 'api/employees/works', item, {});
+                },
+                deleteWork: function (id) {
+                    return $http.delete(serviceBase + 'api/employees/works/' + id);
+                },
+                getWorks: function () {
+                    return $http.get(serviceBase + 'api/employees/works/' + _employees.actualEmployee.id);
+                }
             },
-            saveWork: function (item) {
-                return $http.post(serviceBase + 'api/employees/works', item, {});
+            military: {
+                selectedMilitary: null,
+                getMilitary: function () {
+                    return $http.get(serviceBase + 'api/employees/military/' + _employees.actualEmployee.id);
+                },
+                saveMilitary: function (item) {
+                    if (item.id)//update
+                        return $http.put(serviceBase + 'api/employees/military/' + item.id, item, {});
+                    return $http.post(serviceBase + 'api/employees/military', item, {});//save a new item
+                },
+                deleteMilitary: function (id) {
+                    return $http.delete(serviceBase + 'api/employees/military/' + id);
+                }
             },
-            deleteWork: function (id) {
-                return $http.delete(serviceBase + 'api/employees/works/' + id);
-            },
-            getMilitary: function () {
-                return $http.get(serviceBase + 'api/employees/military/' + _employees.actualEmployee.id);
-            },
-            saveMilitary: function (item) {
-                return $http.post(serviceBase + 'api/employees/military', item, {});
-            },
-            deleteMilitary: function (id) {
-                return $http.delete(serviceBase + 'api/employees/military/' + id);
-            },
-            getMesAchievements: function () {
-                return $http.get(serviceBase + 'api/employees/mesachievements/' + _employees.actualEmployee.id);
-            },
-            saveMesAchievement: function (item) {
-                return $http.post(serviceBase + 'api/employees/mesachievements', item, {});
-            },
-            deleteMesAchievement: function (id) {
-                return $http.delete(serviceBase + 'api/employees/mesachievements/' + id);
+            mesAchievements: {
+                selectedMesAchievement: null,
+                getMesAchievements: function () {
+                    return $http.get(serviceBase + 'api/employees/mesachievements/' + _employees.actualEmployee.id);
+                },
+                saveMesAchievement: function (item) {
+                    return $http.post(serviceBase + 'api/employees/mesachievements', item, {});
+                },
+                deleteMesAchievement: function (id) {
+                    return $http.delete(serviceBase + 'api/employees/mesachievements/' + id);
+                }
             },
             getRanks: function () {
                 return $http.get(serviceBase + 'api/employees/ranks');

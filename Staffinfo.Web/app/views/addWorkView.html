@@ -42,10 +42,13 @@
                             <div ng-message="required">Укажите место работы.</div>
                         </div>
                     </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Должность</label>
                         <md-icon md-svg-src="img/icons/ic_grade_24px.svg"></md-icon>
-                        <input name="post" ng-model="work.post" required md-maxlength="30" />
+                        <input name="post" ng-model="work.post" required md-maxlength="30"/>
                         <div ng-messages="addWorkForm.post.$error" class="validation-messages">
                             <div ng-message="required">Укажите должность.</div>
                         </div>

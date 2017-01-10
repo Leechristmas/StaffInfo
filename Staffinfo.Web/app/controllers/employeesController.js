@@ -167,7 +167,7 @@ app.controller('employeesController', [
         $scope.minRetirementDate = '';
 
         $scope.personalInfoTabConfig = function() {
-            $scope.promise = employeesService.activityItems.getMesAchievements().then(function (response) {//calculating constraint for retirement date
+            $scope.promise = employeesService.activityItems.mesAchievements.getMesAchievements().then(function (response) {//calculating constraint for retirement date
                 $scope.mesAchievements = response.data;
                 if ($scope.mesAchievements && $scope.mesAchievements.length > 0) {
                     $scope.minRetirementDate = new Date($scope.mesAchievements[0].startDate);
@@ -275,13 +275,24 @@ app.controller('employeesController', [
             });
         };
 
-        $scope.showAddMilitaryView = function (ev) {
+        $scope.showAddMilitaryView = function (ev, mode, item) {
+            if (mode === 'add')
+                employeesService.activityItems.military.selectedMilitary = null;
+            else if (mode === 'edit') {
+                employeesService.activityItems.military.selectedMilitary = item;
+                item.startDate = $scope.getDate(item.startDate);
+                item.finishDate = $scope.getDate(item.finishDate);
+            }
+                
             $mdDialog.show({
                 controller: 'addEmployeeItemsController',
                 templateUrl: 'app/views/addMilitaryView.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
-                clickOutsideToClose: true
+                clickOutsideToClose: true,
+                locals: {
+                    mode: mode
+                }
             }).then(function (answer) {
                 $scope.getMilitary(); //refresh the list
                 console.log('new military has been added.');
@@ -313,7 +324,7 @@ app.controller('employeesController', [
                 targetEvent: ev,
                 clickOutsideToClose: true
             }).then(function (answer) {
-                $scope.getWorks(); //refresh the list
+                $scope.works.getWorks(); //refresh the list
                 console.log('new work has been added.');
             }, function () {
                 console.log('adding view has been closed.');
@@ -446,7 +457,6 @@ app.controller('employeesController', [
 
         $scope.getSeniority = function () {
             $scope.promise = employeesService.employees.getSeniorityById($scope.employee.id).then(function (response) {
-                console.log(response.data);
                 $scope.seniority = response.data;
             }, function (data) {
                 messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
@@ -532,7 +542,7 @@ app.controller('employeesController', [
 
         //returns MES achievements for employee
         $scope.getMesAchievements = function () {
-            $scope.promise = employeesService.activityItems.getMesAchievements().then(function (response) {
+            $scope.promise = employeesService.activityItems.mesAchievements.getMesAchievements().then(function (response) {
                 $scope.mesAchievements = response.data;
             }, function (data) {
                 messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
@@ -542,7 +552,7 @@ app.controller('employeesController', [
 
         //deletes mes achievemnt by id
         var _deleteMesAchievement = function (id) {
-            $scope.promise = employeesService.activityItems.deleteMesAchievement(id).then(function (response) {
+            $scope.promise = employeesService.activityItems.mesAchievements.deleteMesAchievement(id).then(function (response) {
                 $scope.getMesAchievements(); //refresh
                 $mdToast.show({
                     hideDelay: 3000,
@@ -567,7 +577,7 @@ app.controller('employeesController', [
 
         //returns works for employee
         $scope.getWorks = function () {
-            $scope.promise = employeesService.activityItems.getWorks().then(function (response) {
+            $scope.promise = employeesService.activityItems.works.getWorks().then(function (response) {
                 $scope.works = response.data;
             }, function (data) {
                 messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
@@ -577,7 +587,7 @@ app.controller('employeesController', [
 
         //deletes work by id
         var _deleteWork = function (id) {
-            $scope.promise = employeesService.activityItems.deleteWork(id).then(function (response) {
+            $scope.promise = employeesService.activityItems.works.deleteWork(id).then(function (response) {
                 $scope.getWorks(); //refresh
                 $mdToast.show({
                     hideDelay: 3000,
@@ -602,7 +612,7 @@ app.controller('employeesController', [
 
         //returns military for employee
         $scope.getMilitary = function () {
-            $scope.promise = employeesService.activityItems.getMilitary().then(function (response) {
+            $scope.promise = employeesService.activityItems.military.getMilitary().then(function (response) {
                 $scope.military = response.data;
             }, function (data) {
                 messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
@@ -612,7 +622,7 @@ app.controller('employeesController', [
 
         //deletes military by id
         var _deleteMilitary = function (id) {
-            $scope.promise = employeesService.activityItems.deleteMilitary(id).then(function (response) {
+            $scope.promise = employeesService.activityItems.military.deleteMilitary(id).then(function (response) {
                 $scope.getMilitary(); //refresh
                 $mdToast.show({
                     hideDelay: 3000,
@@ -669,7 +679,7 @@ app.controller('employeesController', [
 
         //----------------------------------------------------
 
-}]).controller('addEmployeeItemsController', ['$scope', '$mdDialog', 'employeesService', 'messageService', '$mdToast', function ($scope, $mdDialog, employeesService, messageService, $mdToast) {
+}]).controller('addEmployeeItemsController', ['$scope', '$mdDialog', 'employeesService', 'messageService', '$mdToast', 'mode', function ($scope, $mdDialog, employeesService, messageService, $mdToast, mode) {
 
         //COMMON----------------------------------------------
         $scope.hide = function () {
@@ -682,6 +692,7 @@ app.controller('employeesController', [
 
         $scope.minDate = employeesService.activityItems.constants.minDate;
         $scope.maxDate = employeesService.activityItems.constants.maxDate;
+        $scope.mode = mode;
 
         //posts init
         $scope.getPosts = function (serviceId) {
@@ -778,18 +789,18 @@ app.controller('employeesController', [
         //----------------------------------------------------
 
         //MILITARY--------------------------------------------
-        $scope.military = { employeeId: employeesService.employees.getActualEmployee().id };
+        $scope.military = employeesService.activityItems.military.selectedMilitary == null ? { employeeId: employeesService.employees.getActualEmployee().id } : employeesService.activityItems.military.selectedMilitary;
 
         //saves new military
         $scope.saveNewMilitary = function () {
-            $scope.promise = employeesService.activityItems.saveMilitary($scope.military).then(function (response) {
+            $scope.promise = employeesService.activityItems.military.saveMilitary($scope.military).then(function (response) {
                 $mdToast.show({
                     hideDelay: 3000,
                     position: 'top right',
                     controller: 'toastController',
                     template: '<md-toast class="md-toast-success">' +
                                     '<div class="md-toast-content">' +
-                                      'Запись успешно добавлена.' +
+                                      (mode === 'edit' ? 'Запись успешно изменена.' : 'Запись успешно добавлена.') +
                                     '</div>' +
                                 '</md-toast>'
                 });
@@ -807,14 +818,14 @@ app.controller('employeesController', [
 
         //saves new work
         $scope.saveNewWork = function () {
-            $scope.promise = employeesService.activityItems.saveWork($scope.work).then(function (response) {
+            $scope.promise = employeesService.activityItems.works.saveWork($scope.work).then(function (response) {
                 $mdToast.show({
                     hideDelay: 3000,
                     position: 'top right',
                     controller: 'toastController',
                     template: '<md-toast class="md-toast-success">' +
                                     '<div class="md-toast-content">' +
-                                      'Запись успешно добавлена.' +
+                                      mode === 'edit' ? 'Запись успешно изменена' : 'Запись успешно добавлена.' +
                                     '</div>' +
                                 '</md-toast>'
                 });

@@ -210,7 +210,7 @@
                     <md-tab-body>
                         <md-content class="md-padding">
                             <h1 class="md-display-1">Служба в других силовых структурах</h1>
-                            <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddMilitaryView($event)">
+                            <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddMilitaryView($event, 'add')">
                                 <md-icon md-svg-src="img/icons/ic_add_24px.svg"></md-icon>
                                 <md-tooltip md-direction="bottom">
                                     Добавить запись
@@ -239,7 +239,8 @@
                                             <td md-cell>{{item.rank}}</td>
                                             <td md-cell mdDesc="true" class="td-center">{{getDate(item.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell class="td-center">{{getDate(item.finishDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
-                                            <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'M')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
+                                            <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'M')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
+                                            <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="showAddMilitaryView($event, 'edit', item)" class="pull-right"><md-icon md-svg-src="img/icons/ic_mode_edit_24px.svg"></md-icon><md-tooltip md-direction="bottom">Редактировать запись</md-tooltip></md-button></td>
                                         </tr>
                                     </tbody>
                                 </table>
