@@ -423,6 +423,21 @@ BEGIN
         WHERE te.RetirementDate IS NULL;
   END
 
+  IF @IncludeSertification = 1
+  BEGIN
+    INSERT INTO #query (ID, Author, Title, Details, DueDate)
+        SELECT
+          -1
+         ,NULL
+         ,'Аттестация'
+         ,'Аттестация сотрудника ' + te.EmployeeLastname + ' ' + te.EmployeeFirstname + ' ' + te.EmployeeMiddlename
+         ,ts.DueDate
+        FROM dbo.tbl_Sertification ts
+            ,dbo.tbl_Employee te
+        WHERE ts.EmployeeID = te.ID
+        AND te.RetirementDate IS NULL;
+  END
+
   SELECT
     *
   FROM #query q;
@@ -436,9 +451,9 @@ AS
 BEGIN
   IF EXISTS (SELECT
         *
-      FROM dbo.tbl_Notifications n
+      FROM dbo.tbl_Notification n
       WHERE n.ID = @NotificationId)
-    DELETE FROM dbo.tbl_Notifications
+    DELETE FROM dbo.tbl_Notification
     WHERE ID = @NotificationId;
   ELSE
     RAISERROR ('Notification with specified id does not exist is null!', 16, 2);
@@ -452,14 +467,14 @@ CREATE PROCEDURE dbo.pr_AddNotification @Author VARCHAR(100),
 @DueDate DATETIME
 AS
 BEGIN
-  INSERT INTO tbl_Notifications (Author, Title, Details, DueDate)
+  INSERT INTO tbl_Notification (Author, Title, Details, DueDate)
     VALUES (@Author, @Title, @Details, @DueDate);
   SELECT
     *
-  FROM tbl_Notifications tn
+  FROM tbl_Notification tn
   WHERE tn.ID = (SELECT
       MAX(ID)
-    FROM tbl_Notifications tn1)
+    FROM tbl_Notification tn1)
 END
 
 GO

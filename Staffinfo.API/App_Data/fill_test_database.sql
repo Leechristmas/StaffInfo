@@ -145,7 +145,7 @@ INSERT INTO dbo.tbl_MESAchievement (EmployeeID, LocationID, StartDate, FinishDat
 
 GO
 
-INSERT INTO dbo.tbl_Notifications (Author, Title, Details, DueDate)
+INSERT INTO dbo.tbl_Notification (Author, Title, Details, DueDate)
   VALUES ('qwerty', 'напоминание 1', 'просто тестовое напоминание', '2016-12-12'),
       ('qwerty', 'напоминание 2', 'просто тестовое напоминание', '2016-12-11'),
       ('qwerty', 'напоминание 2', 'просто тестовое напоминание', '2016-11-12');
