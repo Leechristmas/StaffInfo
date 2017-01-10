@@ -33,7 +33,8 @@ namespace Staffinfo.DAL.Tests
             new Repository<WorkTerm>(new StaffContext()),
             new Repository<Dismissed>(new StaffContext()),
             new Repository<DisciplineItem>(new StaffContext()),
-            new Repository<OutFromOffice>(new StaffContext()));
+            new Repository<OutFromOffice>(new StaffContext()),
+            new Repository<Sertification>(new StaffContext()));
 
         //[TestMethod]
         //public void Select_GetAllAddresses()
@@ -151,6 +152,12 @@ namespace Staffinfo.DAL.Tests
         public void Get_OutFromOffice()
         {
             var t = _staffUnitRepository.OutFromOfficeRepository.SelectAsync().Result;
+        }
+
+        [TestMethod]
+        public void Get_Sertifications()
+        {
+            var t = _staffUnitRepository.SertificationRepository.SelectAsync().Result;
         }
 
         [TestMethod]

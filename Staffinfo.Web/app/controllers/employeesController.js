@@ -166,7 +166,6 @@ app.controller('employeesController', [
         $scope.minBirthDate = employeesService.common.minBirthDate;
         $scope.minRetirementDate = '';
 
-
         $scope.personalInfoTabConfig = function() {
             $scope.promise = employeesService.activityItems.getMesAchievements().then(function (response) {//calculating constraint for retirement date
                 $scope.mesAchievements = response.data;
@@ -336,6 +335,21 @@ app.controller('employeesController', [
             });
         };
 
+        $scope.showAddSertificationView = function (ev) {
+            $mdDialog.show({
+                controller: 'addEmployeeItemsController',
+                templateUrl: 'app/views/addSertificationView.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true
+            }).then(function (answer) {
+                $scope.getSertifications(); //refresh the list
+                console.log('new sertification item has been added.');
+            }, function () {
+                console.log('adding view has been closed.');
+            });
+        };
+
         //shows confirmation for transferring employee
         $scope.askForTransfer = function (type, ev) {
             var confirm = {};
@@ -382,19 +396,21 @@ app.controller('employeesController', [
             $mdDialog.show(confirm).then(function () {
                 //delete the item
                 switch (type) {
-                    case "W":
+                    case "W":   //works
                         _deleteWork(id);
                         break;
-                    case "M":
+                    case "M":   //military
                         _deleteMilitary(id);
                         break;
-                    case "A":
+                    case "A":   //MES achievements
                         _deleteMesAchievement(id);
                         break;
-                    case "D":
+                    case "D":   //discipline
                         _deleteDisciplineItem(id);
-                    case "O":
+                    case "O":   //out from office
                         _deleteOutFromOfficeItem(id);
+                    case "S":   //sertification
+                        _deleteSertification(id);
                     default:
                         break;
                 }
@@ -584,7 +600,7 @@ app.controller('employeesController', [
         //MILITARY--------------------------------------------
         $scope.military = [];
 
-        //returns works for employee
+        //returns military for employee
         $scope.getMilitary = function () {
             $scope.promise = employeesService.activityItems.getMilitary().then(function (response) {
                 $scope.military = response.data;
@@ -616,7 +632,44 @@ app.controller('employeesController', [
 
         //----------------------------------------------------
 
-    }]).controller('addEmployeeItemsController', ['$scope', '$mdDialog', 'employeesService', 'messageService', '$mdToast', function ($scope, $mdDialog, employeesService, messageService, $mdToast) {
+        //SERTIFICATION---------------------------------------
+
+        $scope.sertifications = [];
+
+        //returns sertifications for employee
+        $scope.getSertifications = function () {
+            $scope.promise = employeesService.activityItems.sertification.getSertifications(employeesService.employees.actualEmployee.id).then(function (response) {
+                $scope.sertifications = response.data;
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+
+        //deletes sertifications by id
+        var _deleteSertification = function (id) {
+            $scope.promise = employeesService.activityItems.sertification.deleteSertification(id).then(function (response) {
+                $scope.getSertifications(); //refresh
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                        '<div class="md-toast-content">' +
+                        'Запись была успешно удалена.' +
+                        '</div>' +
+                        '</md-toast>'
+                });
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+
+
+        //----------------------------------------------------
+
+}]).controller('addEmployeeItemsController', ['$scope', '$mdDialog', 'employeesService', 'messageService', '$mdToast', function ($scope, $mdDialog, employeesService, messageService, $mdToast) {
 
         //COMMON----------------------------------------------
         $scope.hide = function () {
@@ -799,7 +852,33 @@ app.controller('employeesController', [
         }
         //----------------------------------------------------
 
-    }]).controller('addEmployeeController', ['$scope', '$mdDialog', 'employeesService', 'messageService', '$mdToast', function ($scope, $mdDialog, employeesService, messageService, $mdToast) {
+        //SERTIFICATION---------------------------------------
+        $scope.sertification = { employeeId: employeesService.employees.getActualEmployee().id };
+        
+        //saves new sertification item
+        $scope.saveNewSertification = function () {
+            $scope.promise = employeesService.activityItems.sertification.saveSertification($scope.sertification).then(function (response) {
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                                    '<div class="md-toast-content">' +
+                                      'Запись успешно добавлена.' +
+                                    '</div>' +
+                                '</md-toast>'
+                });
+                $mdDialog.hide('save'); //throw the 'answer' to the main controller to refresh or do not the list
+            }, function (data) {
+                $mdDialog.hide('cancel');
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+
+        //----------------------------------------------------
+
+}]).controller('addEmployeeController', ['$scope', '$mdDialog', 'employeesService', 'messageService', '$mdToast', function ($scope, $mdDialog, employeesService, messageService, $mdToast) {
 
         $scope.hide = function () {
             $mdDialog.hide();

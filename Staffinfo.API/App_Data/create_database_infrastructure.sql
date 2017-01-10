@@ -36,6 +36,7 @@ DROP TABLE dbo.tbl_Location;
 DROP TABLE dbo.tbl_Passport;
 DROP TABLE dbo.tbl_Address;
 DROP TABLE dbo.tbl_GratitudesAndPunishment;
+DROP TABLE dbo.tbl_Sertification;
 DROP TABLE dbo.tbl_OutFromOffice;
 DROP TABLE dbo.tbl_Employee;
 DROP TABLE dbo.tbl_Dismissed;
@@ -240,17 +241,31 @@ CREATE TABLE dbo.tbl_GratitudesAndPunishment (
  ,Date DATETIME NOT NULL
  ,Description NVARCHAR(200)
  ,AwardOrFine BIGINT  --kopecs   
-)
+);
 
 GO
 
-CREATE TABLE dbo.tbl_OutFromOffice(
-  ID INT IDENTITY (1,1) PRIMARY KEY
+CREATE TABLE dbo.tbl_Sertification (
+  ID INT IDENTITY (1, 1) PRIMARY KEY
+ ,EmployeeID INT REFERENCES dbo.tbl_Employee ON DELETE CASCADE
+ ,DueDate DATETIME NOT NULL
+ ,Description NVARCHAR(255)
+);
+
+ALTER TABLE dbo.tbl_Sertification
+ADD CONSTRAINT unq_Sertification
+UNIQUE (EmployeeID, DueDate)
+
+GO
+
+CREATE TABLE dbo.tbl_OutFromOffice (
+  ID INT IDENTITY (1, 1) PRIMARY KEY
  ,EmployeeID INT REFERENCES dbo.tbl_Employee ON DELETE CASCADE
  ,StartDate DATETIME NOT NULL
  ,FinishDate DATETIME NOT NULL
  ,Cause NCHAR(1) NOT NULL  --больничные(S), отпуска(V), отгулы(D)
- ,Description NVARCHAR(255))
+ ,Description NVARCHAR(255)
+)
 
 GO
 

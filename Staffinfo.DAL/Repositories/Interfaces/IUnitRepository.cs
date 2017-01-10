@@ -21,5 +21,6 @@ namespace Staffinfo.DAL.Repositories.Interfaces
         IRepository<WorkTerm> WorkTermRepository { get; }
         IRepository<DisciplineItem> DisciplineItemRepository { get; }
         IRepository<OutFromOffice> OutFromOfficeRepository { get; } 
+        IRepository<Sertification> SertificationRepository { get; } 
     }
 }

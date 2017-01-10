@@ -158,6 +158,17 @@ app.factory('employeesService', [
                     return $http.post(serviceBase + 'api/employees/outfromoffice/', item, {});
                 }
             },
+            sertification: {
+              getSertifications: function(employeeId) {
+                  return $http.get(serviceBase + 'api/employees/sertification/' + employeeId);
+              },
+              deleteSertification: function(id) {
+                  return $http.delete(serviceBase + 'api/employees/sertification/' + id);
+              },
+              saveSertification: function(item) {
+                  return $http.post(serviceBase + 'api/employees/sertification/', item, {});
+              }
+            },
             constants: {
                 minDate: new Date(1960, 1, 1),
                 maxDate: new Date(Date.now())

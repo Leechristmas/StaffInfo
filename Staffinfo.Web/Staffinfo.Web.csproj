@@ -91,6 +91,7 @@
     <Content Include="app\views\addDisciplineItem.html" />
     <Content Include="app\views\addNotificationView.html" />
     <Content Include="app\views\addOutFromOfficeItem.html" />
+    <Content Include="app\views\addSertificationView.html" />
     <Content Include="app\views\addWorkView.html" />
     <Content Include="app\views\dashboard.html" />
     <Content Include="app\views\dismissalView.html" />

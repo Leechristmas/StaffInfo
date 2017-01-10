@@ -409,6 +409,38 @@ namespace Staffinfo.API.Controllers
             await _repository.OutFromOfficeRepository.SaveAsync();
         }
 
+        [HttpGet]
+        [Route("api/employees/sertification/{employeeId:int}")]
+        public async Task<IEnumerable<SertificationViewModel>> GetSertifications(int employeeId)
+        {
+            IEnumerable<Sertification> sertifications =
+                await _repository.SertificationRepository.WhereAsync(i => i.EmployeeId == employeeId);
+            return sertifications.Select(i => new SertificationViewModel(i));
+        }
+
+        [HttpPost]
+        [Route("api/employees/sertification")]
+        public async Task PostSertification([FromBody]SertificationViewModel model)
+        {
+            Sertification sertification = new Sertification
+            {
+                Id = 0,
+                EmployeeId = model.EmployeeId,
+                DueDate = model.DueDate,
+                Description = model.Description
+            };
+            _repository.SertificationRepository.Create(sertification);
+            await _repository.SertificationRepository.SaveAsync();
+        }
+
+        [HttpDelete]
+        [Route("api/employees/sertification/{id:int}")]
+        public async Task DeleteSertification(int id)
+        {
+            await _repository.SertificationRepository.Delete(id);
+            await _repository.SertificationRepository.SaveAsync();
+        }
+
         [HttpPost]
         [Route("api/employees/military")]
         public async Task PostMilitary([FromBody] MilitaryService value)

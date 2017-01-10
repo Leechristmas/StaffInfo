@@ -166,3 +166,11 @@ INSERT INTO dbo.tbl_GratitudesAndPunishment(Title, EmployeeID, ItemType, Date, D
       ('за отличную службу', 2, 'G', '2016-12-03', 'премия', 50000),
       ('за отличную службу', 3, 'V', '2016-12-03', 'премия', 50000),
       ('за отличную службу',2, 'G', '2016-12-03', 'премия', 50000);
+
+GO
+
+INSERT INTO dbo.tbl_Sertification(EmployeeID, DueDate, Description)
+  VALUES (1, '2010-12-10', 'description1'),
+      (1, '2010-11-10', 'description2');
+
+GO

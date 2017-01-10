@@ -50,7 +50,8 @@ namespace Staffinfo.DAL.Context
                 .Add(new WorkTermMap())
                 .Add(new DismissedMap())
                 .Add(new DisciplineItemMap())
-                .Add(new OutFromOfficeMap());
+                .Add(new OutFromOfficeMap())
+                .Add(new SertificationMap());
         }
 
         public virtual ObjectResult<int> GetExpirience(int employeeId)

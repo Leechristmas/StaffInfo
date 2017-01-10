@@ -70,6 +70,7 @@
     <Compile Include="Mapping\PassportMap.cs" />
     <Compile Include="Mapping\PostMap.cs" />
     <Compile Include="Mapping\RankMap.cs" />
+    <Compile Include="Mapping\SertificationMap.cs" />
     <Compile Include="Mapping\ServiceMap.cs" />
     <Compile Include="Mapping\WorkTermMap.cs" />
     <Compile Include="Models\Address.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Models\Passport.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\Rank.cs" />
+    <Compile Include="Models\Sertification.cs" />
     <Compile Include="Models\Service.cs" />
     <Compile Include="Models\WorkTerm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -7,7 +7,6 @@ namespace Staffinfo.DAL.Models
     //Gratitude or punishment
     public class DisciplineItem: Entity
     {
-        [Required]
         public int? EmployeeId { get; set; }
 
         public virtual Employee Employee { get; set; }

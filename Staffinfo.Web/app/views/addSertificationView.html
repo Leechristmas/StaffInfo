@@ -1,0 +1,40 @@
+﻿<md-dialog aria-label="Добавить запись">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Добавление записи</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content style="max-width: 800px; max-height: 810px; min-width: 600px;">
+        <form name="addSertificationForm">
+            <md-content class="md-padding">
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Дата аттестации</label>
+                        <md-datepicker name="dueDate" ng-model="sertification.dueDate" required md-min-date="minDate"></md-datepicker>
+                        <div ng-messages="addSertificationForm.dueDate.$error" class="validation-messages">
+                            <div ng-message="required">Необходимо заполнить это поле.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" style="width: 100%;">
+                        <label>Заметка</label>
+                        <md-icon md-svg-src="img/icons/ic_description_24px.svg" class="name"></md-icon>
+                        <textarea ng-model="sertification.description" columns="1" md-maxlength="255" rows="5"></textarea>
+                    </md-input-container>
+                </div>
+            </md-content>
+        </form>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" class="dialog-footer">
+        <md-button ng-click="saveNewSertification()" class="md-primary md-raised" ng-disabled="addSertificationForm.$invalid">
+            Сохранить
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>
