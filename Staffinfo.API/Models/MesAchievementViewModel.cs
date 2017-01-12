@@ -28,6 +28,12 @@ namespace Staffinfo.API.Models
         [DataMember(Name = "location")]
         public string Location { get; set; }
 
+        [DataMember(Name="serviceId")]
+        public int? ServiceId { get; set; }
+
+        [DataMember(Name = "service")]
+        public string Service { get; set; }
+
         [DataMember(Name = "postId")]
         public int? PostId { get; set; }
 
@@ -56,6 +62,8 @@ namespace Staffinfo.API.Models
             Location = mesAchievement.Location?.LocationName;
             PostId = mesAchievement.PostId;
             Post = mesAchievement.Post?.PostName;
+            ServiceId = mesAchievement.Post?.ServiceId;
+            Service = mesAchievement.Post?.Service?.ServiceName;
             RankId = mesAchievement.RankId;
             Rank = mesAchievement.Rank?.RankName;   
         }

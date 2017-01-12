@@ -784,7 +784,7 @@ app.controller('employeesController', [
 
         //OUT FROM OFFICE-------------------------------------
 
-        $scope.outFromOffice = employeesService.activityItems.outFromOffice.selectedOutFromOfficeItem 
+        $scope.outFromOffice = employeesService.activityItems.outFromOffice.selectedOutFromOfficeItem == null
             ? { employeeId: employeesService.employees.getActualEmployee().id, cause: employeesService.activityItems.outFromOffice.actualOutFromOfficeType }
             : employeesService.activityItems.outFromOffice.selectedOutFromOfficeItem;
 
@@ -815,6 +815,8 @@ app.controller('employeesController', [
             ? { employeeId: employeesService.employees.getActualEmployee().id }
             : employeesService.activityItems.mesAchievements.selectedMesAchievement;
 
+        if (mode === 'edit') $scope.getPosts($scope.mesAchItem.serviceId);
+
         //saves new mes achievement
         $scope.saveNewMesAchievement = function () {
 
@@ -825,14 +827,13 @@ app.controller('employeesController', [
                 return;
             }
 
-            $scope.promise = employeesService.activityItems.saveMesAchievement($scope.mesAchItem).then(function (response) {
+            $scope.promise = employeesService.activityItems.mesAchievements.saveMesAchievement($scope.mesAchItem).then(function (response) {
                 $mdToast.show({
                     hideDelay: 3000,
                     position: 'top right',
                     controller: 'toastController',
                     template: '<md-toast class="md-toast-success">' +
                                       (mode === 'edit' ? 'Запись успешно изменена.' : 'Запись успешно добавлена.') +
-                                      'Запись успешно добавлена.' +
                                     '</div>' +
                                 '</md-toast>'
                 });
@@ -900,9 +901,9 @@ app.controller('employeesController', [
         //----------------------------------------------------
 
         //DISCIPLINE------------------------------------------
-        $scope.newDisciplineItem = employeesService.activityItems.mesAchievements.selectedMesAchievement == null
+        $scope.newDisciplineItem = employeesService.activityItems.disciplineItems.selectedDisciplineItem == null
             ? { employeeId: employeesService.employees.getActualEmployee().id, itemType: employeesService.activityItems.disciplineItems.actualDisciplineItemsType }
-            : employeesService.activityItems.mesAchievements.selectedMesAchievement;
+            : employeesService.activityItems.disciplineItems.selectedDisciplineItem;
 
         //saves new discipline item
         $scope.saveNewDisciplineItem = function () {

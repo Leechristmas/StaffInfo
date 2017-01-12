@@ -51,7 +51,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 });
 
 //http path to the API
-var serviceBase = 'http://staffinfoapi.azurewebsites.net/'; //'http://localhost:21200/';
+var serviceBase = 'http://localhost:21200/';//'http://staffinfoapi.azurewebsites.net/'; 
 app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase
 });

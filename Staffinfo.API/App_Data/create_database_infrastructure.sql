@@ -595,7 +595,7 @@ GO
 --forbid adding more than 1 null finish date for every employee
 CREATE TRIGGER MESAchievementInserTrigger
 ON tbl_MESAchievement
-FOR INSERT
+FOR INSERT,UPDATE
 AS
 BEGIN
 
