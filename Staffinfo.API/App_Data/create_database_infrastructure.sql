@@ -225,9 +225,9 @@ GO
 
 CREATE TABLE dbo.tbl_Notification (
   ID INT IDENTITY (1, 1) PRIMARY KEY
- ,Author VARCHAR(100)
- ,Title VARCHAR(20) NOT NULL
- ,Details VARCHAR(200)
+ ,Author NVARCHAR(100)
+ ,Title NVARCHAR(20) NOT NULL
+ ,Details NVARCHAR(200)
  ,DueDate DATETIME NOT NULL
 );
 
@@ -350,7 +350,7 @@ CREATE PROCEDURE dbo.pr_GetSeniorityStatistic_NOT_USED @Scale INT, @Min INT, @Ma
 AS
 BEGIN
   DECLARE @data TABLE (
-    Name VARCHAR(20)
+    Name NVARCHAR(20)
    ,Count INT
   );
   CREATE TABLE #seniority (
@@ -369,7 +369,7 @@ BEGIN
   BEGIN
   INSERT INTO @data
       SELECT
-        'от ' + CAST((@step / 365) AS VARCHAR(3)) + ' до ' + CAST(((@step / 365) + @Scale) AS VARCHAR(3))
+        'от ' + CAST((@step / 365) AS NVARCHAR(3)) + ' до ' + CAST(((@step / 365) + @Scale) AS NVARCHAR(3))
        ,COUNT(*)
       FROM #seniority s
       WHERE s.Seniority >= @step
@@ -392,9 +392,9 @@ AS
 BEGIN
   CREATE TABLE #query (
     ID INT
-   ,Author VARCHAR(100)
-   ,Title VARCHAR(20) NOT NULL
-   ,Details VARCHAR(200)
+   ,Author NVARCHAR(100)
+   ,Title NVARCHAR(20) NOT NULL
+   ,Details NVARCHAR(200)
    ,DueDate DATETIME NOT NULL
   );
 
@@ -416,8 +416,8 @@ BEGIN
         SELECT
           -1
          ,NULL
-         ,'День Рождения'
-         ,'День рождения сотрудника ' + te.EmployeeLastname + ' ' + te.EmployeeFirstname + ' ' + te.EmployeeMiddlename + ' (' + CONVERT(VARCHAR, te.BirthDate, 104) + ')'
+         ,N'День Рождения'
+         ,N'День рождения сотрудника ' + te.EmployeeLastname + ' ' + te.EmployeeFirstname + ' ' + te.EmployeeMiddlename + ' (' + CONVERT(NVARCHAR, te.BirthDate, 104) + ')'
          ,DATEADD(yy, DATEDIFF(yy, te.BirthDate, GETDATE()), te.BirthDate)
         FROM dbo.tbl_Employee te
         WHERE te.RetirementDate IS NULL;
@@ -429,8 +429,8 @@ BEGIN
         SELECT
           -1
          ,NULL
-         ,'Аттестация'
-         ,'Аттестация сотрудника ' + te.EmployeeLastname + ' ' + te.EmployeeFirstname + ' ' + te.EmployeeMiddlename
+         ,N'Аттестация'
+         ,N'Аттестация сотрудника ' + te.EmployeeLastname + ' ' + te.EmployeeFirstname + ' ' + te.EmployeeMiddlename
          ,ts.DueDate
         FROM dbo.tbl_Sertification ts
             ,dbo.tbl_Employee te
@@ -461,9 +461,9 @@ END
 
 GO
 
-CREATE PROCEDURE dbo.pr_AddNotification @Author VARCHAR(100),
-@Title VARCHAR(20),
-@Details VARCHAR(200),
+CREATE PROCEDURE dbo.pr_AddNotification @Author NVARCHAR(100),
+@Title NVARCHAR(20),
+@Details NVARCHAR(200),
 @DueDate DATETIME
 AS
 BEGIN

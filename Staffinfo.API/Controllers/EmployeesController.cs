@@ -71,7 +71,7 @@ namespace Staffinfo.API.Controllers
         }
 
         // POST: api/Employee
-        public async Task Post([FromBody]EmployeeViewModel value)
+        public async Task AddEmployee([FromBody]EmployeeViewModel value)
         {
             //adding passport
             Passport passport = new Passport
@@ -114,7 +114,7 @@ namespace Staffinfo.API.Controllers
         // PUT: api/Employee/5
         [HttpPut]
         [Route("api/employees/{id:int}")]
-        public async Task EditMilitary(int id, [FromBody]EmployeeViewModel value)
+        public async Task EditEmployee(int id, [FromBody]EmployeeViewModel value)
         {
             if (value.AddressId != null)
             {
@@ -461,56 +461,6 @@ namespace Staffinfo.API.Controllers
             };
             _repository.MilitaryServiceRepository.Create(militaryService);
             await _repository.MilitaryServiceRepository.SaveAsync();
-        }
-
-        // PUT: api/Employee/5
-        [HttpPut]
-        [Route("api/employees/{id:int}")]
-        public async Task Put(int id, [FromBody]EmployeeViewModel value)
-        {
-            if (value.AddressId != null)
-            {
-                Address address = await _repository.AddressRepository.SelectAsync(value.AddressId.Value);
-                if (address != null)
-                {
-                    address.City = value.City;
-                    address.DetailedAddress = value.DetailedAddress;
-                    address.Area = value.Area;
-                    address.ZipCode = value.ZipCode;
-
-                    _repository.AddressRepository.Update(address);
-                    await _repository.AddressRepository.SaveAsync();
-                }
-            }
-
-            if (value.PassportId != null)
-            {
-                Passport passport = await _repository.PassportRepository.SelectAsync(value.PassportId.Value);
-                if (passport != null)
-                {
-                    passport.PassportNumber = value.PassportNumber;
-                    passport.PassportOrganization = value.PassportOrganization;
-
-                    _repository.PassportRepository.Update(passport);
-                    await _repository.PassportRepository.SaveAsync();
-                }
-            }
-
-            Employee original = await _repository.EmployeeRepository.SelectAsync(id);
-            if (original != null)
-            {
-                original.EmployeeFirstname = value.EmployeeFirstname;
-                original.EmployeeLastname = value.EmployeeLastname;
-                original.EmployeeMiddlename = value.EmployeeMiddlename;
-                original.BirthDate = value.BirthDate;
-                original.Description = value.Description;
-                original.EmployeePhoto = value.EmployeePhoto;
-                original.FirstPhoneNumber = value.FirstPhoneNumber;
-                original.SecondPhoneNumber = value.SecondPhoneNumber;
-
-                _repository.EmployeeRepository.Update(original);
-                await _repository.EmployeeRepository.SaveAsync();
-            }
         }
 
         [HttpPut]

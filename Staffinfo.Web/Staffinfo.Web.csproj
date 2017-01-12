@@ -149,6 +149,7 @@
     <Content Include="img\icons\ic_mode_edit_24px.svg" />
     <Content Include="img\icons\ic_person_24px.svg" />
     <Content Include="img\icons\ic_person_add_24px.svg" />
+    <Content Include="img\icons\ic_phone_24px.svg" />
     <Content Include="img\icons\ic_place_24px.svg" />
     <Content Include="img\icons\ic_refresh_24px.svg" />
     <Content Include="img\icons\ic_save_24px.svg" />
@@ -159,6 +160,7 @@
     <Content Include="img\icons\ic_title_24px.svg" />
     <Content Include="img\icons\ic_work_24px.svg" />
     <Content Include="packages.config" />
+    <Content Include="Properties\PublishProfiles\Staffinfo - Web Deploy.pubxml.user" />
     <Content Include="scripts\angular-animate\angular-animate.js" />
     <Content Include="scripts\angular-animate\angular-animate.min.js" />
     <Content Include="scripts\angular-aria\angular-aria.js" />
@@ -960,6 +962,12 @@
     <Content Include="scripts\angular-chart.min.js.map" />
     <Content Include="scripts\angular-aria\angular-aria.min.js.map" />
     <Content Include="scripts\angular-animate\angular-animate.min.js.map" />
+    <Content Include="content\fonts\PlayBold\PlayBold.eot" />
+    <Content Include="content\fonts\PlayBold\PlayBold.ttf" />
+    <Content Include="content\fonts\PlayBold\PlayBold.woff" />
+    <Content Include="content\fonts\PlayRegular\PlayRegular.eot" />
+    <Content Include="content\fonts\PlayRegular\PlayRegular.ttf" />
+    <Content Include="content\fonts\PlayRegular\PlayRegular.woff" />
     <None Include="Properties\PublishProfiles\Staffinfo - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
