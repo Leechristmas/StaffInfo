@@ -1,7 +1,7 @@
 ﻿<md-dialog aria-label="Добавить запись">
     <md-toolbar>
         <div class="md-toolbar-tools">
-            <h2>Добавление Записи</h2>
+            <h2>{{mode === 'add' ? 'Добавление': 'Редактирование'}}</h2>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="cancel()">
                 <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>

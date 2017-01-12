@@ -960,6 +960,7 @@
     <Content Include="scripts\angular-chart.min.js.map" />
     <Content Include="scripts\angular-aria\angular-aria.min.js.map" />
     <Content Include="scripts\angular-animate\angular-animate.min.js.map" />
+    <None Include="Properties\PublishProfiles\Staffinfo - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

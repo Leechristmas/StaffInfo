@@ -104,6 +104,8 @@ app.factory('employeesService', [
             works: {
                 selectedWork: null,
                 saveWork: function (item) {
+                    if (item.id)//update
+                        return $http.put(serviceBase + 'api/employees/works/' + item.id, item, {});
                     return $http.post(serviceBase + 'api/employees/works', item, {});
                 },
                 deleteWork: function (id) {
@@ -133,6 +135,8 @@ app.factory('employeesService', [
                     return $http.get(serviceBase + 'api/employees/mesachievements/' + _employees.actualEmployee.id);
                 },
                 saveMesAchievement: function (item) {
+                    if (item.id)//update
+                        return $http.put(serviceBase + 'api/employees/mesachievements/' + item.id, item, {});
                     return $http.post(serviceBase + 'api/employees/mesachievements', item, {});
                 },
                 deleteMesAchievement: function (id) {
@@ -156,6 +160,7 @@ app.factory('employeesService', [
             },
             //properties and methods of discipline items
             disciplineItems: {
+                selectedDisciplineItem: null,
                 actualDisciplineItemsType: '',
                 getDisciplineItems: function (employeeId) {
                     return $http.get(serviceBase + 'api/employees/discipline/' + employeeId);
@@ -164,11 +169,14 @@ app.factory('employeesService', [
                     return $http.delete(serviceBase + 'api/employees/discipline/' + id);
                 },
                 saveNewDisciplineItem: function (disciplineItem) {
+                    if (disciplineItem.id)//update
+                        return $http.put(serviceBase + 'api/employees/discipline/' + disciplineItem.id, disciplineItem, {});
                     return $http.post(serviceBase + 'api/employees/discipline', disciplineItem, {});
                 }
             },
             //properties and methods of out from office
             outFromOffice: {
+                selectedOutFromOfficeItem: null,
                 actualOutFromOfficeType: '',
                 getOutFromOffice: function (employeeId) {
                     return $http.get(serviceBase + 'api/employees/outfromoffice/' + employeeId);
@@ -177,10 +185,13 @@ app.factory('employeesService', [
                     return $http.delete(serviceBase + 'api/employees/outfromoffice/' + id);
                 },
                 saveOutFromOffice: function (item) {
+                    if (item.id)//update
+                        return $http.put(serviceBase + 'api/employees/outfromoffice/' + item.id, item, {});
                     return $http.post(serviceBase + 'api/employees/outfromoffice/', item, {});
                 }
             },
             sertification: {
+                selectedSertification: null,
                 getSertifications: function (employeeId) {
                     return $http.get(serviceBase + 'api/employees/sertification/' + employeeId);
                 },
@@ -188,6 +199,8 @@ app.factory('employeesService', [
                     return $http.delete(serviceBase + 'api/employees/sertification/' + id);
                 },
                 saveSertification: function (item) {
+                    if (item.id)//update
+                        return $http.put(serviceBase + 'api/employees/sertification/' + item.id, item, {});
                     return $http.post(serviceBase + 'api/employees/sertification/', item, {});
                 }
             },

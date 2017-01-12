@@ -162,7 +162,7 @@
                     <md-tab-body>
                         <md-content class="md-padding">
                             <h1 class="md-display-1">Служба в МЧС</h1>
-                            <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddMesView($event)">
+                            <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddMesView($event, 'add')">
                                 <md-icon md-svg-src="img/icons/ic_add_24px.svg"></md-icon>
                                 <md-tooltip md-direction="bottom">
                                     Добавить запись
@@ -193,7 +193,8 @@
                                             <td md-cell>{{item.rank}}</td>
                                             <td md-cell mdDesc="true" class="td-center">{{getDate(item.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell class="td-center" style="padding-left: 25px;">{{getDate(item.finishDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
-                                            <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'A')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
+                                            <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'A')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
+                                            <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="showAddMesView($event, 'edit', item)" class="pull-right"><md-icon md-svg-src="img/icons/ic_mode_edit_24px.svg"></md-icon><md-tooltip md-direction="bottom">Редактировать запись</md-tooltip></md-button></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -257,7 +258,7 @@
                     <md-tab-body>
                         <md-content class="md-padding">
                             <h1 class="md-display-1">Другие места работы</h1>
-                            <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddWorkView($event)">
+                            <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddWorkView($event, 'add')">
                                 <md-icon md-svg-src="img/icons/ic_add_24px.svg"></md-icon>
                                 <md-tooltip md-direction="bottom">
                                     Добавить запись
@@ -286,7 +287,8 @@
                                             <td md-cell>{{item.post}}</td>
                                             <td md-cell mdDesc="true" class="td-center">{{getDate(item.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell class="td-center">{{getDate(item.finishDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
-                                            <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'W')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
+                                            <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'W')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
+                                            <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="showAddWorkView($event, 'edit', item)" class="pull-right"><md-icon md-svg-src="img/icons/ic_mode_edit_24px.svg"></md-icon><md-tooltip md-direction="bottom">Редактировать запись</md-tooltip></md-button></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -309,7 +311,7 @@
                                     <md-option value="V"><h4>Взыскания</h4></md-option>
                                 </md-select>
                             </div>
-                            <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddDisciplineItemView($event)">
+                            <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddDisciplineItemView($event, 'add')">
                                 <md-icon md-svg-src="img/icons/ic_add_24px.svg"></md-icon>
                                 <md-tooltip md-direction="bottom">
                                     Добавить запись
@@ -340,7 +342,8 @@
                                             <td md-cell class="td-center">{{getDate(item.date).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell class="td-center">{{item.awardOrFine}}</td>
                                             <td md-cell>{{item.description}}</td>
-                                            <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'D')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
+                                            <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'D')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
+                                            <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="showAddDisciplineItemView($event, 'edit', item)" class="pull-right"><md-icon md-svg-src="img/icons/ic_mode_edit_24px.svg"></md-icon><md-tooltip md-direction="bottom">Редактировать запись</md-tooltip></md-button></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -357,7 +360,7 @@
                     <md-tab-body>
                         <md-content class="md-padding">
                             <h1 class="md-display-1">Аттестация</h1>
-                            <md-button class="md-fab md-primary md-fab-md" aria-label="Add Sertification" ng-click="showAddSertificationView($event)">
+                            <md-button class="md-fab md-primary md-fab-md" aria-label="Add Sertification" ng-click="showAddSertificationView($event, 'add')">
                                 <md-icon md-svg-src="img/icons/ic_add_24px.svg"></md-icon>
                                 <md-tooltip md-direction="bottom">
                                     Добавить запись
@@ -383,7 +386,8 @@
                                         <tr ng-if="sertifications.length != 0" md-row md-select-id="id" ng-repeat="item in sertifications | orderBy: 'dueDate'">
                                             <td md-cell class="td-center">{{getDate(item.dueDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell>{{item.description}}</td>
-                                            <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'S')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
+                                            <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'S')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
+                                            <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="showAddSertificationView($event, 'edit', item)" class="pull-right"><md-icon md-svg-src="img/icons/ic_mode_edit_24px.svg"></md-icon><md-tooltip md-direction="bottom">Редактировать запись</md-tooltip></md-button></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -407,7 +411,7 @@
                                     <md-option value="V"><h4>Отпуска</h4></md-option>
                                 </md-select>
                             </div>
-                            <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddOutFromOfficeView($event)">
+                            <md-button class="md-fab md-primary md-fab-md" aria-label="Add MES" ng-click="showAddOutFromOfficeView($event, 'add')">
                                 <md-icon md-svg-src="img/icons/ic_add_24px.svg"></md-icon>
                                 <md-tooltip md-direction="bottom">
                                     Добавить запись
@@ -435,7 +439,8 @@
                                             <td md-cell class="td-center">{{getDate(item.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell class="td-center">{{getDate(item.finishDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell class="cell-text-overflow" style="max-width: 300px;">{{item.description}}</td>
-                                            <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'O')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
+                                            <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'O')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
+                                            <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="showAddOutFromOfficeView($event, 'edit', item)" class="pull-right"><md-icon md-svg-src="img/icons/ic_mode_edit_24px.svg"></md-icon><md-tooltip md-direction="bottom">Редактировать запись</md-tooltip></md-button></td>
                                         </tr>
                                     </tbody>
                                 </table>

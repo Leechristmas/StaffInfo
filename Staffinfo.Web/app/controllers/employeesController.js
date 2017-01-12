@@ -260,13 +260,24 @@ app.controller('employeesController', [
         //HANDLERS--------------------------------------------
 
         //shows the window for adding new mes achievement
-        $scope.showAddMesView = function (ev) {
+        $scope.showAddMesView = function (ev, mode, item) {
+            if (mode === 'add')
+                employeesService.activityItems.mesAchievements.selectedMesAchievement = null;
+            else if (mode === 'edit') {
+                employeesService.activityItems.mesAchievements.selectedMesAchievement = item;
+                item.startDate = $scope.getDate(item.startDate);
+                item.finishDate = $scope.getDate(item.finishDate);
+            }
+
             $mdDialog.show({
                 controller: 'addEmployeeItemsController',
                 templateUrl: 'app/views/addMesView.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
-                clickOutsideToClose: true
+                clickOutsideToClose: true,
+                locals: {
+                    mode: mode
+                }
             }).then(function (answer) {
                 $scope.getMesAchievements(); //refresh the list
                 console.log('new achievement has been added.');
@@ -301,13 +312,23 @@ app.controller('employeesController', [
             });
         };
 
-        $scope.showAddDisciplineItemView = function (ev) {
+        $scope.showAddDisciplineItemView = function (ev, mode, item) {
+            if (mode === 'add')
+                employeesService.activityItems.disciplineItems.selectedDisciplineItem = null;
+            else if (mode === 'edit') {
+                employeesService.activityItems.disciplineItems.selectedDisciplineItem = item;
+                item.date = $scope.getDate(item.date);
+            }
+
             $mdDialog.show({
                 controller: 'addEmployeeItemsController',
                 templateUrl: 'app/views/addDisciplineItem.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
-                clickOutsideToClose: true
+                clickOutsideToClose: true,
+                locals: {
+                    mode: mode
+                }
             }).then(function (answer) {
                 $scope.getDisciplineItems(); //refresh the list
                 console.log('new discipline item has been added.');
@@ -316,28 +337,50 @@ app.controller('employeesController', [
             });
         };
 
-        $scope.showAddWorkView = function (ev) {
+        $scope.showAddWorkView = function (ev, mode, item) {
+            if (mode === 'add')
+                employeesService.activityItems.works.selectedWork = null;
+            else if (mode === 'edit') {
+                employeesService.activityItems.works.selectedWork = item;
+                item.startDate = $scope.getDate(item.startDate);
+                item.finishDate = $scope.getDate(item.finishDate);
+            }
+
             $mdDialog.show({
                 controller: 'addEmployeeItemsController',
                 templateUrl: 'app/views/addWorkView.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
-                clickOutsideToClose: true
+                clickOutsideToClose: true,
+                locals: {
+                    mode: mode
+                }
             }).then(function (answer) {
-                $scope.works.getWorks(); //refresh the list
+                $scope.getWorks(); //refresh the list
                 console.log('new work has been added.');
             }, function () {
                 console.log('adding view has been closed.');
             });
         };
 
-        $scope.showAddOutFromOfficeView = function (ev) {
+        $scope.showAddOutFromOfficeView = function (ev, mode, item) {
+            if (mode === 'add')
+                employeesService.activityItems.outFromOffice.selectedOutFromOfficeItem = null;
+            else if (mode === 'edit') {
+                employeesService.activityItems.outFromOffice.selectedOutFromOfficeItem = item;
+                item.startDate = $scope.getDate(item.startDate);
+                item.finishDate = $scope.getDate(item.finishDate);
+            }
+
             $mdDialog.show({
                 controller: 'addEmployeeItemsController',
                 templateUrl: 'app/views/addOutFromOfficeItem.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
-                clickOutsideToClose: true
+                clickOutsideToClose: true,
+                locals: {
+                    mode: mode
+                }
             }).then(function (answer) {
                 $scope.getOutFromOffice(); //refresh the list
                 console.log('new "out from office" item has been added.');
@@ -346,13 +389,23 @@ app.controller('employeesController', [
             });
         };
 
-        $scope.showAddSertificationView = function (ev) {
+        $scope.showAddSertificationView = function (ev, mode, item) {
+            if (mode === 'add')
+                employeesService.activityItems.sertification.selectedSertification = null;
+            else if (mode === 'edit') {
+                employeesService.activityItems.sertification.selectedSertification = item;
+                item.dueDate = $scope.getDate(item.dueDate);
+            }
+
             $mdDialog.show({
                 controller: 'addEmployeeItemsController',
                 templateUrl: 'app/views/addSertificationView.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
-                clickOutsideToClose: true
+                clickOutsideToClose: true,
+                locals: {
+                    mode: mode
+                }
             }).then(function (answer) {
                 $scope.getSertifications(); //refresh the list
                 console.log('new sertification item has been added.');
@@ -731,7 +784,9 @@ app.controller('employeesController', [
 
         //OUT FROM OFFICE-------------------------------------
 
-        $scope.outFromOffice = { employeeId: employeesService.employees.getActualEmployee().id, cause: employeesService.activityItems.outFromOffice.actualOutFromOfficeType };
+        $scope.outFromOffice = employeesService.activityItems.outFromOffice.selectedOutFromOfficeItem 
+            ? { employeeId: employeesService.employees.getActualEmployee().id, cause: employeesService.activityItems.outFromOffice.actualOutFromOfficeType }
+            : employeesService.activityItems.outFromOffice.selectedOutFromOfficeItem;
 
         $scope.saveNewOutFromOffice = function () {
             $scope.promise = employeesService.activityItems.outFromOffice.saveOutFromOffice($scope.outFromOffice).then(function (response) {
@@ -741,7 +796,7 @@ app.controller('employeesController', [
                     controller: 'toastController',
                     template: '<md-toast class="md-toast-success">' +
                                     '<div class="md-toast-content">' +
-                                      'Запись успешно добавлена.' +
+                                      (mode === 'edit' ? 'Запись успешно изменена.' : 'Запись успешно добавлена.') +
                                     '</div>' +
                                 '</md-toast>'
                 });
@@ -756,7 +811,9 @@ app.controller('employeesController', [
         //----------------------------------------------------
         
         //MES-------------------------------------------------
-        $scope.mesAchItem = { employeeId: employeesService.employees.getActualEmployee().id };
+        $scope.mesAchItem = employeesService.activityItems.mesAchievements.selectedMesAchievement == null 
+            ? { employeeId: employeesService.employees.getActualEmployee().id }
+            : employeesService.activityItems.mesAchievements.selectedMesAchievement;
 
         //saves new mes achievement
         $scope.saveNewMesAchievement = function () {
@@ -774,7 +831,7 @@ app.controller('employeesController', [
                     position: 'top right',
                     controller: 'toastController',
                     template: '<md-toast class="md-toast-success">' +
-                                    '<div class="md-toast-content">' +
+                                      (mode === 'edit' ? 'Запись успешно изменена.' : 'Запись успешно добавлена.') +
                                       'Запись успешно добавлена.' +
                                     '</div>' +
                                 '</md-toast>'
@@ -789,7 +846,9 @@ app.controller('employeesController', [
         //----------------------------------------------------
 
         //MILITARY--------------------------------------------
-        $scope.military = employeesService.activityItems.military.selectedMilitary == null ? { employeeId: employeesService.employees.getActualEmployee().id } : employeesService.activityItems.military.selectedMilitary;
+        $scope.military = employeesService.activityItems.military.selectedMilitary == null
+            ? { employeeId: employeesService.employees.getActualEmployee().id }
+            : employeesService.activityItems.military.selectedMilitary;
 
         //saves new military
         $scope.saveNewMilitary = function () {
@@ -814,7 +873,9 @@ app.controller('employeesController', [
         //----------------------------------------------------
 
         //WORK------------------------------------------------
-        $scope.work = { employeeId: employeesService.employees.getActualEmployee().id };
+        $scope.work = employeesService.activityItems.works.selectedWork == null
+            ? { employeeId: employeesService.employees.getActualEmployee().id }
+            : employeesService.activityItems.works.selectedWork;
 
         //saves new work
         $scope.saveNewWork = function () {
@@ -825,7 +886,7 @@ app.controller('employeesController', [
                     controller: 'toastController',
                     template: '<md-toast class="md-toast-success">' +
                                     '<div class="md-toast-content">' +
-                                      mode === 'edit' ? 'Запись успешно изменена' : 'Запись успешно добавлена.' +
+                                      (mode === 'edit' ? 'Запись успешно изменена.' : 'Запись успешно добавлена.') +
                                     '</div>' +
                                 '</md-toast>'
                 });
@@ -839,7 +900,9 @@ app.controller('employeesController', [
         //----------------------------------------------------
 
         //DISCIPLINE------------------------------------------
-        $scope.newDisciplineItem = { employeeId: employeesService.employees.getActualEmployee().id, itemType: employeesService.activityItems.disciplineItems.actualDisciplineItemsType };
+        $scope.newDisciplineItem = employeesService.activityItems.mesAchievements.selectedMesAchievement == null
+            ? { employeeId: employeesService.employees.getActualEmployee().id, itemType: employeesService.activityItems.disciplineItems.actualDisciplineItemsType }
+            : employeesService.activityItems.mesAchievements.selectedMesAchievement;
 
         //saves new discipline item
         $scope.saveNewDisciplineItem = function () {
@@ -850,7 +913,7 @@ app.controller('employeesController', [
                     controller: 'toastController',
                     template: '<md-toast class="md-toast-success">' +
                                     '<div class="md-toast-content">' +
-                                      'Запись успешно добавлена.' +
+                                      (mode === 'edit' ? 'Запись успешно изменена.' : 'Запись успешно добавлена.') +
                                     '</div>' +
                                 '</md-toast>'
                 });
@@ -864,7 +927,9 @@ app.controller('employeesController', [
         //----------------------------------------------------
 
         //SERTIFICATION---------------------------------------
-        $scope.sertification = { employeeId: employeesService.employees.getActualEmployee().id };
+        $scope.sertification = employeesService.activityItems.sertification.selectedSertification == null
+            ? { employeeId: employeesService.employees.getActualEmployee().id }
+            : employeesService.activityItems.sertification.selectedSertification;
         
         //saves new sertification item
         $scope.saveNewSertification = function () {
@@ -875,7 +940,7 @@ app.controller('employeesController', [
                     controller: 'toastController',
                     template: '<md-toast class="md-toast-success">' +
                                     '<div class="md-toast-content">' +
-                                      'Запись успешно добавлена.' +
+                                      (mode === 'edit' ? 'Запись успешно изменена.' : 'Запись успешно добавлена.') +
                                     '</div>' +
                                 '</md-toast>'
                 });

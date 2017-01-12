@@ -14,7 +14,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             url: "/signup",
             controller: "signupController",
             templateUrl: "app/views/signup.html",
-            noLogin: false
+            noLogin: true
         }).state('dashboard', {
             url: "/dashboard",
             controller: "dashboardController",
@@ -51,7 +51,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 });
 
 //http path to the API
-var serviceBase = 'http://localhost:21200/';
+var serviceBase = 'http://staffinfoapi.azurewebsites.net/'; //'http://localhost:21200/';
 app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase
 });
