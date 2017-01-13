@@ -23,8 +23,6 @@ app.controller('employeesController', [
             return new Date(t.getFullYear(), t.getMonth(), t.getDate(), 3);
         }
 
-
-
         //----------------------------------------------------
 
         //EMPLOYEES-------------------------------------------
@@ -264,9 +262,9 @@ app.controller('employeesController', [
             if (mode === 'add')
                 employeesService.activityItems.mesAchievements.selectedMesAchievement = null;
             else if (mode === 'edit') {
-                employeesService.activityItems.mesAchievements.selectedMesAchievement = item;
-                item.startDate = $scope.getDate(item.startDate);
-                item.finishDate = $scope.getDate(item.finishDate);
+                employeesService.activityItems.mesAchievements.selectedMesAchievement = employeesService.common.getClone(item);
+                employeesService.activityItems.mesAchievements.selectedMesAchievement.startDate = $scope.getDate(item.startDate);
+                employeesService.activityItems.mesAchievements.selectedMesAchievement.finishDate = $scope.getDate(item.finishDate);
             }
 
             $mdDialog.show({
@@ -290,9 +288,9 @@ app.controller('employeesController', [
             if (mode === 'add')
                 employeesService.activityItems.military.selectedMilitary = null;
             else if (mode === 'edit') {
-                employeesService.activityItems.military.selectedMilitary = item;
-                item.startDate = $scope.getDate(item.startDate);
-                item.finishDate = $scope.getDate(item.finishDate);
+                employeesService.activityItems.military.selectedMilitary = employeesService.common.getClone(item);
+                employeesService.activityItems.military.selectedMilitary.startDate = $scope.getDate(item.startDate);
+                employeesService.activityItems.military.selectedMilitary.finishDate = $scope.getDate(item.finishDate);
             }
                 
             $mdDialog.show({
@@ -316,8 +314,8 @@ app.controller('employeesController', [
             if (mode === 'add')
                 employeesService.activityItems.disciplineItems.selectedDisciplineItem = null;
             else if (mode === 'edit') {
-                employeesService.activityItems.disciplineItems.selectedDisciplineItem = item;
-                item.date = $scope.getDate(item.date);
+                employeesService.activityItems.disciplineItems.selectedDisciplineItem = employeesService.common.getClone(item);
+                employeesService.activityItems.disciplineItems.selectedDisciplineItem.date = $scope.getDate(item.date);
             }
 
             $mdDialog.show({
@@ -341,9 +339,9 @@ app.controller('employeesController', [
             if (mode === 'add')
                 employeesService.activityItems.works.selectedWork = null;
             else if (mode === 'edit') {
-                employeesService.activityItems.works.selectedWork = item;
-                item.startDate = $scope.getDate(item.startDate);
-                item.finishDate = $scope.getDate(item.finishDate);
+                employeesService.activityItems.works.selectedWork = employeesService.common.getClone(item);
+                employeesService.activityItems.works.selectedWork.startDate = $scope.getDate(item.startDate);
+                employeesService.activityItems.works.selectedWork.finishDate = $scope.getDate(item.finishDate);
             }
 
             $mdDialog.show({
@@ -367,9 +365,9 @@ app.controller('employeesController', [
             if (mode === 'add')
                 employeesService.activityItems.outFromOffice.selectedOutFromOfficeItem = null;
             else if (mode === 'edit') {
-                employeesService.activityItems.outFromOffice.selectedOutFromOfficeItem = item;
-                item.startDate = $scope.getDate(item.startDate);
-                item.finishDate = $scope.getDate(item.finishDate);
+                employeesService.activityItems.outFromOffice.selectedOutFromOfficeItem = employeesService.common.getClone(item);
+                employeesService.activityItems.outFromOffice.selectedOutFromOfficeItem.startDate = $scope.getDate(item.startDate);
+                employeesService.activityItems.outFromOffice.selectedOutFromOfficeItem.finishDate = $scope.getDate(item.finishDate);
             }
 
             $mdDialog.show({
@@ -393,8 +391,8 @@ app.controller('employeesController', [
             if (mode === 'add')
                 employeesService.activityItems.sertification.selectedSertification = null;
             else if (mode === 'edit') {
-                employeesService.activityItems.sertification.selectedSertification = item;
-                item.dueDate = $scope.getDate(item.dueDate);
+                employeesService.activityItems.sertification.selectedSertification = employeesService.common.getClone(item);
+                employeesService.activityItems.sertification.selectedSertification.dueDate = $scope.getDate(item.dueDate);
             }
 
             $mdDialog.show({
@@ -743,6 +741,11 @@ app.controller('employeesController', [
             $mdDialog.cancel();
         };
 
+        $scope.dtpckrOnFocus = function (item, field) {//when ditetimepicker is focused and the model field is undefined
+            if (!item[field])
+                item[field] = new Date();
+        }
+
         $scope.minDate = employeesService.activityItems.constants.minDate;
         $scope.maxDate = employeesService.activityItems.constants.maxDate;
         $scope.mode = mode;
@@ -821,7 +824,7 @@ app.controller('employeesController', [
         $scope.saveNewMesAchievement = function () {
 
             //if strat date is bigger than "today"
-            if ($scope.mesAchItem.startDate > $scope.maxDate) {
+            if ($scope.mesAchItem.startDate.withoutTime().startDate > $scope.maxDate.withoutTime()) {
                 messageService.errors.setError({ errorText: 'Дата указана неверно: проверьте диапазон дат.', errorTitle: "" });
                 $mdToast.show(messageService.errors.errorViewConfig);
                 return;

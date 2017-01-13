@@ -52,7 +52,7 @@
                             
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Дата Рождения</label>
-                                <md-datepicker ng-model="newEmployee.birthDate" name="birthDate" required md-max-date="maxBirthDate" md-min-date="minBirthDate"></md-datepicker>
+                                <md-datepicker ng-model="newEmployee.birthDate" name="birthDate" required md-max-date="maxBirthDate" md-min-date="minBirthDate"  ng-focus="dtpckrOnFocus(newEmployee, 'birthDate')"></md-datepicker>
                                 <div ng-messages="addEmployeeForm.birthDate.$error" class="validation-messages">
                                     <div ng-message-exp="['md-mindate', 'md-maxdate']">
                                         Возраст сотрудника не может быть меньше 18 и больше 60 лет.

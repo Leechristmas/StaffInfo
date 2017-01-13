@@ -131,4 +131,10 @@ app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesServic
     );
 }]);
 
+Date.prototype.withoutTime = function () {
+    var d = new Date(this);
+    d.setHours(0, 0, 0, 0, 0);
+    return d;
+}
+
 

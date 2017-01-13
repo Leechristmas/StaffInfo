@@ -14,7 +14,7 @@
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Дата аттестации</label>
-                        <md-datepicker name="dueDate" ng-model="sertification.dueDate" required md-min-date="minDate"></md-datepicker>
+                        <md-datepicker name="dueDate" ng-model="sertification.dueDate" required md-min-date="minDate"  ng-focus="dtpckrOnFocus(sertification, 'dueDate')"></md-datepicker>
                         <div ng-messages="addSertificationForm.dueDate.$error" class="validation-messages">
                             <div ng-message="required">Необходимо заполнить это поле.</div>
                         </div>

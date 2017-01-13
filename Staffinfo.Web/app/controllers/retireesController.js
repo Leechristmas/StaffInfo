@@ -107,6 +107,11 @@
         $mdDialog.hide(answer);
     };
 
+    $scope.dtpckrOnFocus = function (item, field) {//when ditetimepicker is focused and the model field is undefined
+        if (!item[field])
+            item[field] = new Date();
+    }
+
     $scope.employee = employeesService.common.getClone(employeesService.employees.getActualEmployee());
     $scope.dismissal = {};
 

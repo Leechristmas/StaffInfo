@@ -12,6 +12,11 @@ app.controller('calendarController', [
             $mdDialog.cancel();
         };
 
+        $scope.dtpckrOnFocus = function (item, field) {//when ditetimepicker is focused and the model field is undefined
+            if (!item[field])
+                item[field] = new Date();
+        }
+
         $scope.deleteNotification = function () {
             if ($scope.notification.id > 0)
                 dashboardService.calendar.deleteNotification($scope.notification.id).then(function (response) {

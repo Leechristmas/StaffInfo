@@ -14,7 +14,7 @@
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Начало Периода</label>
-                        <md-datepicker name="startDate" ng-model="mesAchItem.startDate" required md-max-date="mesAchItem.finishDate" md-min-date="minDate"></md-datepicker>
+                        <md-datepicker name="startDate" ng-model="mesAchItem.startDate" required md-max-date="mesAchItem.finishDate" md-min-date="minDate" ng-focus="dtpckrOnFocus(mesAchItem, 'startDate')"></md-datepicker>
                         <div ng-messages="itemForm.startDate.$error" class="validation-messages">
                             <div ng-message="required">Необходимо заполнить это поле.</div>
                         </div>
@@ -22,7 +22,7 @@
 
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Конец Периода</label>
-                        <md-datepicker name="finishDate" ng-model="mesAchItem.finishDate" md-min-date="mesAchItem.startDate" md-max-date="maxDate"></md-datepicker>
+                        <md-datepicker name="finishDate" ng-model="mesAchItem.finishDate" md-min-date="mesAchItem.startDate" md-max-date="maxDate"  ng-focus="dtpckrOnFocus(mesAchItem, 'finishDate')"></md-datepicker>
                         <div ng-messages="itemForm.finishDate.$error" class="validation-messages">
                             <div ng-message="required">Необходимо заполнить это поле.</div>
                         </div>

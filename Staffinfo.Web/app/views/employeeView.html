@@ -187,11 +187,11 @@
                                     </thead>
                                     <tbody md-body>
                                         <tr ng-if="mesAchievements.length === 0"><td colspan="5" class="td-center text-center emptyRow">Пусто</td></tr>
-                                        <tr ng-if="mesAchievements.length != 0" md-row md-select-id="id" ng-repeat="item in mesAchievements | orderBy: 'startDate'">
+                                        <tr ng-if="mesAchievements.length != 0" md-row md-select-id="id" ng-repeat="item in mesAchievements | orderBy: '-startDate'">
                                             <td md-cell>{{item.location}}</td>
                                             <td md-cell>{{item.post}}</td>
                                             <td md-cell>{{item.rank}}</td>
-                                            <td md-cell mdDesc="true" class="td-center">{{getDate(item.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
+                                            <td md-cell class="td-center">{{getDate(item.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell class="td-center" style="padding-left: 25px;">{{getDate(item.finishDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'A')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
                                             <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="showAddMesView($event, 'edit', item)" class="pull-right"><md-icon md-svg-src="img/icons/ic_mode_edit_24px.svg"></md-icon><md-tooltip md-direction="bottom">Редактировать запись</md-tooltip></md-button></td>
@@ -235,10 +235,10 @@
                                     </thead>
                                     <tbody md-body>
                                         <tr ng-if="military.length === 0"><td colspan="4" class="td-center text-center emptyRow">Пусто</td></tr>
-                                        <tr ng-if="military.length != 0" md-row md-select-id="id" ng-repeat="item in military | orderBy: 'startDate'">
+                                        <tr ng-if="military.length != 0" md-row md-select-id="id" ng-repeat="item in military | orderBy: '-startDate'">
                                             <td md-cell>{{item.location}}</td>
                                             <td md-cell>{{item.rank}}</td>
-                                            <td md-cell mdDesc="true" class="td-center">{{getDate(item.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
+                                            <td md-cell class="td-center">{{getDate(item.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell class="td-center">{{getDate(item.finishDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'M')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
                                             <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="showAddMilitaryView($event, 'edit', item)" class="pull-right"><md-icon md-svg-src="img/icons/ic_mode_edit_24px.svg"></md-icon><md-tooltip md-direction="bottom">Редактировать запись</md-tooltip></md-button></td>
@@ -282,10 +282,10 @@
                                     </thead>
                                     <tbody md-body>
                                         <tr ng-if="works.length === 0"><td colspan="4" class="td-center text-center emptyRow">Пусто</td></tr>
-                                        <tr ng-if="works.length != 0" md-row md-select-id="id" ng-repeat="item in works | orderBy: 'startDate'">
+                                        <tr ng-if="works.length != 0" md-row md-select-id="id" ng-repeat="item in works | orderBy: '-startDate'">
                                             <td md-cell>{{item.location}}</td>
                                             <td md-cell>{{item.post}}</td>
-                                            <td md-cell mdDesc="true" class="td-center">{{getDate(item.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
+                                            <td md-cell class="td-center">{{getDate(item.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell class="td-center">{{getDate(item.finishDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'W')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
                                             <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="showAddWorkView($event, 'edit', item)" class="pull-right"><md-icon md-svg-src="img/icons/ic_mode_edit_24px.svg"></md-icon><md-tooltip md-direction="bottom">Редактировать запись</md-tooltip></md-button></td>
@@ -337,7 +337,7 @@
                                     </thead>
                                     <tbody md-body>
                                         <tr ng-if="disciplineItems.length === 0"><td colspan="4" class="td-center text-center emptyRow">Пусто</td></tr>
-                                        <tr ng-if="disciplineItems.length != 0" md-row md-select-id="id" ng-repeat="item in disciplineItems | orderBy: 'date'">
+                                        <tr ng-if="disciplineItems.length != 0" md-row md-select-id="id" ng-repeat="item in disciplineItems | orderBy: '-date'">
                                             <td md-cell>{{item.title}}</td>
                                             <td md-cell class="td-center">{{getDate(item.date).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell class="td-center">{{item.awardOrFine}}</td>
@@ -383,7 +383,7 @@
                                     </thead>
                                     <tbody md-body>
                                         <tr ng-if="sertifications.length === 0"><td colspan="4" class="td-center text-center emptyRow">Пусто</td></tr>
-                                        <tr ng-if="sertifications.length != 0" md-row md-select-id="id" ng-repeat="item in sertifications | orderBy: 'dueDate'">
+                                        <tr ng-if="sertifications.length != 0" md-row md-select-id="id" ng-repeat="item in sertifications | orderBy: '-dueDate'">
                                             <td md-cell class="td-center">{{getDate(item.dueDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell>{{item.description}}</td>
                                             <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'S')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
@@ -435,7 +435,7 @@
                                     </thead>
                                     <tbody md-body>
                                         <tr ng-if="outFromOfficeItems.length === 0"><td colspan="4" class="td-center text-center emptyRow">Пусто</td></tr>
-                                        <tr ng-if="outFromOfficeItems.length != 0" md-row md-select-id="id" ng-repeat="item in outFromOfficeItems | orderBy: 'startDate'">
+                                        <tr ng-if="outFromOfficeItems.length != 0" md-row md-select-id="id" ng-repeat="item in outFromOfficeItems | orderBy: '-startDate'">
                                             <td md-cell class="td-center">{{getDate(item.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell class="td-center">{{getDate(item.finishDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell class="cell-text-overflow" style="max-width: 300px;">{{item.description}}</td>
@@ -472,8 +472,6 @@
                                 <h3>На гражданских должностях:</h3>
                                 <h2>{{seniority.workSeniorityDays}} дней</h2>
                             </div>
-
-                            <!--<md-input ng-model="seniority.mesSeniorityDays"></md-input>-->
                         </md-content>
                     </md-tab-body>
                 </md-tab>
