@@ -15,7 +15,7 @@ namespace Staffinfo.API
         {
             // Web API configuration and services
 
-            //config.Filters.Add(new GlobalLogFilterAttribute());
+            config.Filters.Add(new GlobalLogFilterAttribute());
             log4net.Config.XmlConfigurator.Configure();
 
             // Web API routes
