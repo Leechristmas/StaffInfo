@@ -24,6 +24,7 @@ namespace Staffinfo.DAL.Tests
             _repository = new StaffUnitRepository(addressRepository, null, null, null, null, passportRepository, null, null, null, null, null, null, null, null);
         }
 
+        #region TestContext
         private TestContext testContextInstance;
 
         /// <summary>
@@ -40,7 +41,8 @@ namespace Staffinfo.DAL.Tests
             {
                 testContextInstance = value;
             }
-        }
+        } 
+        #endregion
 
         #region Additional test attributes
         //

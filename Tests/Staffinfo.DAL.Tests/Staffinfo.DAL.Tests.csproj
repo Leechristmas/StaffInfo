@@ -75,6 +75,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AddressAndPassportRepositoriesTests.cs" />
+    <Compile Include="EmployeeRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
