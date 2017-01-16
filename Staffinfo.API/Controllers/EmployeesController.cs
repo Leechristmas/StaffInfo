@@ -322,7 +322,8 @@ namespace Staffinfo.API.Controllers
                 LocationId = value.LocationId,
                 PostId = value.PostId,
                 RankId = value.RankId,
-                EmployeeId = value.EmployeeId
+                EmployeeId = value.EmployeeId,
+                Description = value.Description
             };
             _repository.MesAchievementRepository.Create(mesAchievement);
             await _repository.MesAchievementRepository.SaveAsync();
