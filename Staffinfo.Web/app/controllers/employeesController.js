@@ -39,7 +39,7 @@ app.controller('employeesController', [
         }
 
         //employees list
-        $scope.employees = $scope.getEmployees();
+        $scope.getEmployees();
 
         //refresh employees list
         $scope.refreshEmployees = function () {
@@ -54,7 +54,7 @@ app.controller('employeesController', [
         //deletes the specified employee
         var _deleteEmployee = function (id) {
             $scope.promise = employeesService.employees.deleteEmployeeById(id).then(function (response) {
-                $scope.refreshEmployees();//refresh
+                $scope.getEmployees();//refresh
                 $mdToast.show({
                     hideDelay: 3000,
                     position: 'top right',
@@ -97,7 +97,7 @@ app.controller('employeesController', [
                 targetEvent: ev,
                 clickOutsideToClose: true
             }).then(function (answer) {
-                $scope.refreshEmployees();
+                $scope.getEmployees();
                 console.log('new employee has been added.');
             }, function () {
                 console.log('adding view has been closed.');

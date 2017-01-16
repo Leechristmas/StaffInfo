@@ -2,7 +2,7 @@
     <h2 class="view-title">Действующие Сотрудники</h2>
 
     <div>
-        <md-button class="md-fab md-primary md-fab-md" aria-label="Refresh" ng-click="refreshEmployees()">
+        <md-button class="md-fab md-primary md-fab-md" aria-label="Refresh" ng-click="getEmployees()">
             <md-icon md-svg-src="img/icons/ic_refresh_24px.svg"></md-icon>
             <md-tooltip md-direction="bottom">
                 Обновить
@@ -27,7 +27,7 @@
     <md-card class="table-container">
         <md-table-container>
             <table md-table md-progress="promise">
-                <thead md-head fix-head>
+                <thead md-head> <!--fix-head-->
                     <tr md-row>
                         <th md-column>Фамилия</th>
                         <th md-column>Имя</th>
