@@ -15,6 +15,9 @@ namespace Staffinfo.DAL.Models
         [Required]
         public string Title { get; set; }
         
+        /// <summary>
+        /// 'G' - gratitude/ 'V' - punishment
+        /// </summary>
         [Required]
         public string ItemType { get; set; }
         

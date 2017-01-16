@@ -81,18 +81,12 @@ namespace Staffinfo.DAL.Tests
         public async Task CRUD_ShouldCreateGetUpdateDeleteAnEmployeeItem()
         {
             var id = CreateEployee().Result;
-            var item = GetEmployee_ShouldReturnAnEmployeeById(id);
+            var item = TestingCRUDHelper.GetItem_ShouldReturnAnItemById(_repository.EmployeeRepository, id);
+
+            TestingCRUDHelper.GetAllItems_ShouldReturnAllItemsFromDB(_repository.EmployeeRepository);
+
             await Update_ShouldUpdateItem(item);
-            await Delete_ShouldDeleteTheItemById(id);
-        }
-
-        private async Task Delete_ShouldDeleteTheItemById(int id)
-        {
-            await _repository.EmployeeRepository.Delete(id);
-            await _repository.EmployeeRepository.SaveAsync();
-            var deleted = await _repository.EmployeeRepository.SelectAsync(id);
-
-            Assert.IsNull(deleted, "the item has not been deleted!");
+            await TestingCRUDHelper.Delete_ShouldDeleteSpecifiedItemFromDB(_repository.EmployeeRepository, id);
         }
 
         private async Task Update_ShouldUpdateItem(Employee employee)
@@ -100,7 +94,7 @@ namespace Staffinfo.DAL.Tests
             employee.EmployeeLastname = "Ivanov";
             employee.EmployeeFirstname = "Ivan";
             employee.EmployeeMiddlename = "Ivanovich";
-            employee.BirthDate = new DateTime(2000, 1, 1); ;
+            employee.BirthDate = new DateTime(2000, 1, 1);
             
             _repository.EmployeeRepository.Update(employee);
             await _repository.EmployeeRepository.SaveAsync();
@@ -111,15 +105,6 @@ namespace Staffinfo.DAL.Tests
             Assert.AreEqual(updated.EmployeeLastname, employee.EmployeeLastname, "The \"lastname\" has not been updated!");
             Assert.AreEqual(updated.EmployeeMiddlename, employee.EmployeeMiddlename, "The \"middlename\" has not been updated!");
             Assert.AreEqual(updated.BirthDate, employee.BirthDate, "The \"birthdate\" has not been updated!");
-        }
-
-        private Employee GetEmployee_ShouldReturnAnEmployeeById(int id)
-        {
-            Employee gotEmployee = _repository.EmployeeRepository.SelectAsync(id).Result;
-
-            Assert.IsNotNull(gotEmployee, "returned iten is \"NULL\"");
-
-            return gotEmployee;
         }
 
         private async Task<int> CreateEployee()
