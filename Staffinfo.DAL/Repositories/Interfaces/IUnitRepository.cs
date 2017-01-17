@@ -19,5 +19,8 @@ namespace Staffinfo.DAL.Repositories.Interfaces
         IRepository<Rank> RankRepository { get; }
         IRepository<Service> ServiceRepository { get; }
         IRepository<WorkTerm> WorkTermRepository { get; }
+        IRepository<DisciplineItem> DisciplineItemRepository { get; }
+        IRepository<OutFromOffice> OutFromOfficeRepository { get; } 
+        IRepository<Sertification> SertificationRepository { get; } 
     }
 }

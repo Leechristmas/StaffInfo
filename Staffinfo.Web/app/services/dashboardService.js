@@ -5,22 +5,43 @@ app.factory('dashboardService', ['$http', 'ngAuthSettings','authService', functi
 
     var dashboardServiceFactory = {};
 
-    var _getTotalSeniorityStatisctic = function(options) {
-        return $http.get(serviceBase + 'api/employees/seniority/statistic/total');
+    //calendar properties and methods
+    var _calendar = {
+        selectedNotification: {},
+        getSelectedNotification: function () {
+            return this.selectedNotification;
+        },
+        setSelectedNotification: function (notification) {
+            this.selectedNotification = notification;
+        },
+        getNotifications: function (options) {
+            return $http.get(serviceBase + 'api/dashboard/notifications?includeCustomNotifications=' + options.includeCustomNotifications +
+                '&includeSertification=' + options.includeSertification + '&includeBirthDates=' + options.includeBirthDates);
+        },
+        saveNotification: function (notification) {
+            notification.author = authService.authentication.userName;
+            return $http.post(serviceBase + 'api/dashboard/notifications', notification, {});
+        },
+        deleteNotification: function (id) {
+            return $http.delete(serviceBase + 'api/dashboard/notifications?notificationId=' + id);
+        }
     }
 
-    var _getActualSeniorityStatistic = function(options) {
-        return $http.get(serviceBase + 'api/employees/seniority/statistic/actual');
+    //charts properties and methods
+    var _charts = {
+        getTotalSeniorityStatistic: function () {
+            return $http.get(serviceBase + 'api/employees/seniority/statistic/total');
+        },
+        getActualSeniorityStatistic: function () {
+            return $http.get(serviceBase + 'api/employees/seniority/statistic/actual');
+        },
+        getServicesStruct: function () {
+            return $http.get(serviceBase + 'api/employees/servicesstruct');
+        }
     }
 
-    //returns promise for getting services struct
-    var _getServicesStruct = function () {
-        return $http.get(serviceBase + 'api/employees/servicesstruct');
-    }
-
-    dashboardServiceFactory.getActualSeniorityStatistic = _getActualSeniorityStatistic;
-    dashboardServiceFactory.getTotalSeniorityStatistic = _getTotalSeniorityStatisctic;
-    dashboardServiceFactory.getServicesStruct = _getServicesStruct;
+    dashboardServiceFactory.calendar = _calendar;
+    dashboardServiceFactory.charts = _charts;
 
     return dashboardServiceFactory;
 

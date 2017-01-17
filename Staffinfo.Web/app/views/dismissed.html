@@ -1,5 +1,5 @@
 ﻿<div class="container">
-    <h2>Уволенные</h2>
+    <h2 class="view-title">Уволенные</h2>
 
     <div>
         <md-button class="md-fab md-primary md-fab-md" aria-label="Refresh" ng-click="getDismissed()">
@@ -36,8 +36,8 @@
                         <td md-cell>{{empl.dismissedLastname}}</td>
                         <td md-cell>{{empl.dismissedFirstname}}</td>
                         <td md-cell>{{empl.dismissedMiddlename}}</td>
-                        <td md-cell class="td-center">{{getDate(empl.birthDate).toISOString().slice(0, 10)}}</td>
-                        <td md-cell class="td-center">{{getDate(empl.dismissalDate).toISOString().slice(0, 10)}}</td>
+                        <td md-cell class="td-center">{{getDate(empl.birthDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
+                        <td md-cell class="td-center">{{getDate(empl.dismissalDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                         <td md-cell>{{empl.clause}}</td>
                         <td md-cell>{{empl.clauseDescription}}</td>
                         <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, empl.id)" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить всю информацию о сотруднике</md-tooltip></md-button></td>

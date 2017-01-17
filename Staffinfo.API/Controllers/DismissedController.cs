@@ -28,7 +28,7 @@ namespace Staffinfo.API.Controllers
             else
                 all =
                     await
-                        _repository.DismissedRepository.WhereAsync(e => e.DismissedLastname.Contains(query));
+                        _repository.DismissedRepository.WhereAsync(e => e.DismissedLastname.StartsWith(query, StringComparison.OrdinalIgnoreCase));
 
             System.Web.HttpContext.Current.Response.Headers.Add("X-Total-Count", all.Count().ToString());
 

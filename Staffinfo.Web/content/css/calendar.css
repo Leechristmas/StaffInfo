@@ -10,6 +10,7 @@
     width: 100%;
     overflow-x: hidden;
     overflow-y: auto;
+    max-height: 310px;
 }
 
 .table-fixed {
@@ -22,13 +23,23 @@
     text-align: center;
 }
 
+.event-title {
+    width: 110px;
+    white-space: nowrap; /* Отменяем перенос текста */
+    overflow: hidden; /* Обрезаем содержимое */
+    padding: 5px; /* Поля */
+    text-overflow: ellipsis;
+}
+
 .event-detail-container {
     border-top: 2px darkgrey solid;
 }
 
 .event-detail {
     cursor: pointer;
-    white-space: nowrap;
+    white-space: nowrap; /* Отменяем перенос текста */
+    overflow: hidden; /* Обрезаем содержимое */
+    padding: 5px; /* Поля */
     text-overflow: ellipsis;
 }
 
@@ -36,6 +47,10 @@
     text-align: center;
     padding-top: 5px;
     font-weight: bold;
+}
+
+.calendar-header:first-letter {
+    text-transform:capitalize;
 }
 
 .calendar-hour-column, .calendar-week-column {
@@ -95,6 +110,15 @@
     cursor: pointer;
 }
 
+.table>tbody>tr>td {
+    vertical-align: middle;
+}
+
+.table>tbody>tr>td p {
+    margin-top: 14px;
+    margin-bottom: 14px;
+}
+
 .monthview-secondary-with-event {
     background-color: #d9edf7;
 }
@@ -120,10 +144,10 @@
     margin-bottom: 0;
 }
 
-.weekview-header th {
-    overflow: hidden;
-    white-space: nowrap;
-}
+    .weekview-header th {
+        overflow: hidden;
+        white-space: nowrap;
+    }
 
 .weekview-allday-table, .dayview-allday-table {
     height: 52px;
@@ -168,4 +192,3 @@
         font-size: 12px;
     }
 }
-

@@ -1,5 +1,4 @@
 ﻿<md-dialog aria-label="Увольнение">
-    <form>
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <h2>Увольнение</h2>
@@ -10,7 +9,7 @@
             </div>
         </md-toolbar>
         <md-dialog-content style="max-width: 800px; max-height: 810px; min-width: 600px;">
-            <form>
+            <form name="transferForm">
                 <md-content class="md-padding">
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
@@ -27,7 +26,7 @@
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" style="width: 100%;">
                             <label>Заметка</label>
-                            <textarea ng-model="dismissal.clauseDescription" columns="1" md-maxlength="150" rows="3"></textarea>
+                            <textarea ng-model="dismissal.clauseDescription" columns="1" md-maxlength="150" rows="3" required></textarea>
                         </md-input-container>
                     </div>
                 </md-content>
@@ -35,9 +34,8 @@
         </md-dialog-content>
 
         <md-dialog-actions layout="row" class="dialog-footer">
-            <md-button ng-click="transferToDismissed()" class="md-primary md-raised">
+            <md-button ng-click="transferToDismissed()" class="md-primary md-raised" ng-disabled="transferForm.$invalid">
                 Сохранить
             </md-button>
         </md-dialog-actions>
-    </form>
 </md-dialog>

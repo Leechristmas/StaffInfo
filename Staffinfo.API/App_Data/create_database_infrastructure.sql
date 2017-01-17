@@ -35,12 +35,16 @@ DROP TABLE dbo.tbl_WorkTerm;
 DROP TABLE dbo.tbl_Location;
 DROP TABLE dbo.tbl_Passport;
 DROP TABLE dbo.tbl_Address;
+DROP TABLE dbo.tbl_GratitudesAndPunishment;
+DROP TABLE dbo.tbl_Sertification;
+DROP TABLE dbo.tbl_OutFromOffice;
 DROP TABLE dbo.tbl_Employee;
 DROP TABLE dbo.tbl_Dismissed;
 DROP TABLE dbo.tbl_Rank;
 DROP TABLE dbo.tbl_Post;
 DROP TABLE dbo.tbl_Service;
 DROP TABLE dbo.tbl_MilitaryService;
+DROP TABLE dbo.tbl_Notification;
 
 GO
 
@@ -53,6 +57,9 @@ GO
 DROP PROCEDURE dbo.pr_TransferEmployeeToDismissed;
 DROP PROCEDURE dbo.pr_GetServicesStructure;
 DROP PROCEDURE dbo.pr_GetSeniorityStatistic_NOT_USED;
+DROP PROCEDURE dbo.pr_GetNotifications;
+DROP PROCEDURE dbo.pr_DeleteNotification;
+DROP PROCEDURE dbo.pr_AddNotification;
 
 GO
 
@@ -157,7 +164,7 @@ CREATE TABLE dbo.tbl_MESAchievement (
  ,EmployeeID INT NOT NULL
  ,LocationID INT NOT NULL
  ,StartDate DATETIME NOT NULL
- ,FinishDate DATETIME
+ ,FinishDate DATETIME DEFAULT NULL
  ,PostID INT NOT NULL
  ,RankID INT NOT NULL
  ,Description NVARCHAR(200)
@@ -213,6 +220,52 @@ CONSTRAINT fk_MilitaryService_Location
 FOREIGN KEY (LocationID) REFERENCES dbo.tbl_Location,
 CONSTRAINT unq_MilitaryService
 UNIQUE (EmployeeID, StartDate);
+
+GO
+
+CREATE TABLE dbo.tbl_Notification (
+  ID INT IDENTITY (1, 1) PRIMARY KEY
+ ,Author NVARCHAR(100)
+ ,Title NVARCHAR(20) NOT NULL
+ ,Details NVARCHAR(200)
+ ,DueDate DATETIME NOT NULL
+);
+
+GO
+
+CREATE TABLE dbo.tbl_GratitudesAndPunishment (
+  ID INT IDENTITY (1, 1) PRIMARY KEY
+ ,EmployeeID INT REFERENCES dbo.tbl_Employee ON DELETE CASCADE
+ ,Title NVARCHAR(60) NOT NULL
+ ,ItemType NCHAR(1) NOT NULL --'G' - gratitude/ 'V' - violation
+ ,Date DATETIME NOT NULL
+ ,Description NVARCHAR(200)
+ ,AwardOrFine BIGINT  --kopecs   
+);
+
+GO
+
+CREATE TABLE dbo.tbl_Sertification (
+  ID INT IDENTITY (1, 1) PRIMARY KEY
+ ,EmployeeID INT REFERENCES dbo.tbl_Employee ON DELETE CASCADE
+ ,DueDate DATETIME NOT NULL
+ ,Description NVARCHAR(255)
+);
+
+ALTER TABLE dbo.tbl_Sertification
+ADD CONSTRAINT unq_Sertification
+UNIQUE (EmployeeID, DueDate)
+
+GO
+
+CREATE TABLE dbo.tbl_OutFromOffice (
+  ID INT IDENTITY (1, 1) PRIMARY KEY
+ ,EmployeeID INT REFERENCES dbo.tbl_Employee ON DELETE CASCADE
+ ,StartDate DATETIME NOT NULL
+ ,FinishDate DATETIME NOT NULL
+ ,Cause NCHAR(1) NOT NULL  --больничные(S), отпуска(V), отгулы(D)
+ ,Description NVARCHAR(255)
+)
 
 GO
 
@@ -297,7 +350,7 @@ CREATE PROCEDURE dbo.pr_GetSeniorityStatistic_NOT_USED @Scale INT, @Min INT, @Ma
 AS
 BEGIN
   DECLARE @data TABLE (
-    Name VARCHAR(20)
+    Name NVARCHAR(20)
    ,Count INT
   );
   CREATE TABLE #seniority (
@@ -316,7 +369,7 @@ BEGIN
   BEGIN
   INSERT INTO @data
       SELECT
-        'от ' + CAST((@step / 365) AS VARCHAR(3)) + ' до ' + CAST(((@step / 365) + @Scale) AS VARCHAR(3))
+        'от ' + CAST((@step / 365) AS NVARCHAR(3)) + ' до ' + CAST(((@step / 365) + @Scale) AS NVARCHAR(3))
        ,COUNT(*)
       FROM #seniority s
       WHERE s.Seniority >= @step
@@ -332,7 +385,99 @@ END
 
 GO
 
+CREATE PROCEDURE dbo.pr_GetNotifications @IncludeCustomNotifications BIT = 0,
+@IncludeSertification BIT = 0,  --when corresponding table will be added
+@IncludeBirthDates BIT = 0
+AS
+BEGIN
+  CREATE TABLE #query (
+    ID INT
+   ,Author NVARCHAR(100)
+   ,Title NVARCHAR(20) NOT NULL
+   ,Details NVARCHAR(200)
+   ,DueDate DATETIME NOT NULL
+  );
 
+  IF @IncludeCustomNotifications = 1
+  BEGIN
+    INSERT INTO #query (ID, Author, Title, Details, DueDate)
+        SELECT
+          tn.ID
+         ,tn.Author
+         ,tn.Title
+         ,tn.Details
+         ,tn.DueDate
+        FROM dbo.tbl_Notification tn
+  END
+
+  IF @IncludeBirthDates = 1
+  BEGIN
+    INSERT INTO #query (ID, Author, Title, Details, DueDate)
+        SELECT
+          -1
+         ,NULL
+         ,N'День Рождения'
+         ,N'День рождения сотрудника ' + te.EmployeeLastname + ' ' + te.EmployeeFirstname + ' ' + te.EmployeeMiddlename + ' (' + CONVERT(NVARCHAR, te.BirthDate, 104) + ')'
+         ,DATEADD(yy, DATEDIFF(yy, te.BirthDate, GETDATE()), te.BirthDate)
+        FROM dbo.tbl_Employee te
+        WHERE te.RetirementDate IS NULL;
+  END
+
+  IF @IncludeSertification = 1
+  BEGIN
+    INSERT INTO #query (ID, Author, Title, Details, DueDate)
+        SELECT
+          -1
+         ,NULL
+         ,N'Аттестация'
+         ,N'Аттестация сотрудника ' + te.EmployeeLastname + ' ' + te.EmployeeFirstname + ' ' + te.EmployeeMiddlename
+         ,ts.DueDate
+        FROM dbo.tbl_Sertification ts
+            ,dbo.tbl_Employee te
+        WHERE ts.EmployeeID = te.ID
+        AND te.RetirementDate IS NULL;
+  END
+
+  SELECT
+    *
+  FROM #query q;
+
+END;
+
+GO
+
+CREATE PROCEDURE dbo.pr_DeleteNotification @NotificationId INT
+AS
+BEGIN
+  IF EXISTS (SELECT
+        *
+      FROM dbo.tbl_Notification n
+      WHERE n.ID = @NotificationId)
+    DELETE FROM dbo.tbl_Notification
+    WHERE ID = @NotificationId;
+  ELSE
+    RAISERROR ('Notification with specified id does not exist is null!', 16, 2);
+END
+
+GO
+
+CREATE PROCEDURE dbo.pr_AddNotification @Author NVARCHAR(100),
+@Title NVARCHAR(20),
+@Details NVARCHAR(200),
+@DueDate DATETIME
+AS
+BEGIN
+  INSERT INTO tbl_Notification (Author, Title, Details, DueDate)
+    VALUES (@Author, @Title, @Details, @DueDate);
+  SELECT
+    *
+  FROM tbl_Notification tn
+  WHERE tn.ID = (SELECT
+      MAX(ID)
+    FROM tbl_Notification tn1)
+END
+
+GO
 ------------------------------
 --FUNCTIONS
 ------------------------------
@@ -390,7 +535,10 @@ BEGIN
     OR @Type = 0)
   BEGIN
     SELECT
-      @TotalDays = @TotalDays + DATEDIFF(DAY, tm.StartDate, CASE WHEN tm.FinishDate IS NULL THEN GETDATE() ELSE tm.FinishDate END)
+      @TotalDays = @TotalDays + DATEDIFF(DAY, tm.StartDate, CASE
+        WHEN tm.FinishDate IS NULL THEN GETDATE()
+        ELSE tm.FinishDate
+      END)
     FROM tbl_MESAchievement tm
     WHERE tm.EmployeeID = @EmployeeID;
   END
@@ -399,7 +547,10 @@ BEGIN
     OR @Type = 0)
   BEGIN
     SELECT
-      @TotalDays = @TotalDays + DATEDIFF(DAY, tms.StartDate, CASE WHEN tms.FinishDate IS NULL THEN GETDATE() ELSE tms.FinishDate END)
+      @TotalDays = @TotalDays + DATEDIFF(DAY, tms.StartDate, CASE
+        WHEN tms.FinishDate IS NULL THEN GETDATE()
+        ELSE tms.FinishDate
+      END)
     FROM tbl_MilitaryService tms
     WHERE tms.EmployeeID = @EmployeeID;
   END
@@ -411,30 +562,7 @@ GO
 ------------------------------
 --TRIGGERS
 ------------------------------
---Updating the actual rank and post for employees
-CREATE TRIGGER MESAchievemntInsertTrigger
-ON tbl_MESAchievement
-AFTER INSERT, DELETE, UPDATE
-AS
-BEGIN
-  UPDATE tbl_Employee
-  SET ActualRankID = dbo.fn_GetActualRankID(i.EmployeeID)
-     ,ActualPostID = dbo.fn_GetActualPostID(i.EmployeeID)
-  FROM (SELECT DISTINCT
-      EmployeeID
-    FROM INSERTED) i;
-
-  UPDATE tbl_Employee
-  SET ActualRankID = dbo.fn_GetActualRankID(d.EmployeeID)
-     ,ActualPostID = dbo.fn_GetActualPostID(d.EmployeeID)
-  FROM (SELECT DISTINCT
-      EmployeeID
-    FROM DELETED) d;
-
-END;
-
-GO
-
+--cascade deleting addresses and passport data
 CREATE TRIGGER EmployeeDeleteTrigger
 ON tbl_Employee
 AFTER DELETE
@@ -451,6 +579,7 @@ END
 
 GO
 
+--Updating the actual rank and post for employees
 CREATE TRIGGER MESAchievementInsertUpdateDeleteTrigger
 ON tbl_MESAchievement
 AFTER INSERT, DELETE, UPDATE
@@ -460,5 +589,65 @@ BEGIN
   SET ActualRankID = dbo.fn_GetActualRankID(ID)
      ,ActualPostID = dbo.fn_GetActualPostID(ID)
 END
+
+GO
+
+--forbid adding more than 1 null finish date for every employee
+CREATE TRIGGER MESAchievementInserTrigger
+ON tbl_MESAchievement
+FOR INSERT,UPDATE
+AS
+BEGIN
+
+  DECLARE @emplID INT
+         ,@date DATETIME;
+
+  DECLARE cur CURSOR FAST_FORWARD READ_ONLY LOCAL FOR SELECT
+    i.EmployeeID
+   ,i.FinishDate
+  FROM INSERTED i
+
+  OPEN cur
+
+  FETCH NEXT FROM cur INTO @emplID, @date
+
+  WHILE @@fetch_status = 0
+  BEGIN
+
+  IF @date IS NULL
+  BEGIN
+    IF (SELECT
+          COUNT(*)
+        FROM INSERTED i
+        WHERE i.EmployeeID = @emplID
+        AND i.FinishDate IS NULL)
+      > 1
+    BEGIN
+      ROLLBACK TRAN;
+      RAISERROR ('Can not be inserted more than 1 assignment with null finish date!', 16, 2);
+      RETURN;
+    END
+
+    IF (SELECT
+          COUNT(*)
+        FROM tbl_MESAchievement tm
+        WHERE tm.EmployeeID = @emplID
+        AND tm.FinishDate IS NULL)
+      > 1
+    BEGIN
+      ROLLBACK TRAN;
+      RAISERROR ('Actual assignment (finishDate is null) is already exists!', 16, 2);
+      RETURN;
+    END
+  END
+
+  FETCH NEXT FROM cur INTO @emplID, @date
+
+  END
+
+  CLOSE cur
+  DEALLOCATE cur
+
+END;
 
 GO

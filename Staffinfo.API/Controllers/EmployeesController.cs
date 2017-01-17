@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Autofac.Core.Lifetime;
 using Staffinfo.API.Models;
 using Staffinfo.DAL.Models;
 using Staffinfo.DAL.Repositories;
@@ -41,7 +36,7 @@ namespace Staffinfo.API.Controllers
                 all =
                     await
                         _repository.EmployeeRepository.WhereAsync(
-                            e => e.RetirementDate == null && e.EmployeeLastname.Contains(query));
+                            e => e.RetirementDate == null && e.EmployeeLastname.StartsWith(query, StringComparison.OrdinalIgnoreCase));
 
             System.Web.HttpContext.Current.Response.Headers.Add("X-Total-Count", all.Count().ToString());
 
@@ -76,7 +71,7 @@ namespace Staffinfo.API.Controllers
         }
 
         // POST: api/Employee
-        public async Task Post([FromBody]EmployeeViewModel value)
+        public async Task AddEmployee([FromBody]EmployeeViewModel value)
         {
             //adding passport
             Passport passport = new Passport
@@ -108,7 +103,9 @@ namespace Staffinfo.API.Controllers
                 PassportId = passport.Id,
                 AddressId = address.Id,
                 Description = value.Description,
-                EmployeePhoto = value.EmployeePhoto
+                EmployeePhoto = value.EmployeePhoto,
+                FirstPhoneNumber = value.FirstPhoneNumber,
+                SecondPhoneNumber = value.SecondPhoneNumber
             };
             _repository.EmployeeRepository.Create(newEmpl);
             await _repository.EmployeeRepository.SaveAsync();
@@ -117,7 +114,7 @@ namespace Staffinfo.API.Controllers
         // PUT: api/Employee/5
         [HttpPut]
         [Route("api/employees/{id:int}")]
-        public async Task Put(int id, [FromBody]EmployeeViewModel value)
+        public async Task EditEmployee(int id, [FromBody]EmployeeViewModel value)
         {
             if (value.AddressId != null)
             {
@@ -156,6 +153,8 @@ namespace Staffinfo.API.Controllers
                 original.BirthDate = value.BirthDate;
                 original.Description = value.Description;
                 original.EmployeePhoto = value.EmployeePhoto;
+                original.FirstPhoneNumber = value.FirstPhoneNumber;
+                original.SecondPhoneNumber = value.SecondPhoneNumber;
 
                 _repository.EmployeeRepository.Update(original);
                 await _repository.EmployeeRepository.SaveAsync();
@@ -252,176 +251,5 @@ namespace Staffinfo.API.Controllers
         {
             return await _repository.EmployeeRepository.GetServicesStructure();
         }
-
-        #region Reference Books
-
-        /// <summary>
-        /// Returns all ranks
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("api/employees/ranks")]
-        public async Task<IEnumerable<NamedEntity>> GetRanks()
-        {
-            IEnumerable<Rank> list = await _repository.RankRepository.SelectAsync();
-            return list.OrderBy(r => r.RankWeight).Select(r => new NamedEntity {Name = r.RankName, Id = r.Id});
-        }
-
-        [HttpGet]
-        [Route("api/employees/ranks/{id:int}")]
-        public async Task<Rank> GetRank(int id)
-        {
-            return await _repository.RankRepository.SelectAsync(id);
-        }
-
-        [HttpGet]
-        [Route("api/employees/services")]
-        public async Task<IEnumerable<Service>> GetServices()
-        {
-            return await _repository.ServiceRepository.SelectAsync();
-        }
-
-        [HttpGet]
-        [Route("api/employees/services/{id:int}")]
-        public async Task<Service> GetService(int id)
-        {
-            return await _repository.ServiceRepository.SelectAsync(id);
-        }
-
-        [HttpGet]
-        [Route("api/employees/posts")]
-        public async Task<IEnumerable<NamedEntity>> GetPosts()
-        {
-            IEnumerable<Post> list =  await _repository.PostRepository.SelectAsync();
-            return list.OrderBy(p => p.PostWeight).Select(p => new NamedEntity {Id = p.Id, Name = p.PostName});
-        }
-
-        [HttpGet]
-        [Route("api/employees/postsforservice/{serviceId:int}")]
-        public async Task<IEnumerable<NamedEntity>> GetPostsByServiceId(int serviceId)
-        {
-            IEnumerable<Post> list = await _repository.PostRepository.WhereAsync(p => p.ServiceId == serviceId);
-            return list.OrderBy(p => p.PostWeight).Select(p => new NamedEntity { Id = p.Id, Name = p.PostName });
-        }
-
-        [HttpGet]
-        [Route("api/employees/posts/{id:int}")]
-        public async Task<Post> GetPost(int id)
-        {
-            return await _repository.PostRepository.SelectAsync(id);
-        }
-
-        [HttpPost]
-        [Route("api/employees/mesachievements")]
-        public async Task PostMesAchievement([FromBody]MesAchievement value)
-        {
-            MesAchievement mesAchievement = new MesAchievement
-            {
-                Id = 0,
-                StartDate = value.StartDate,
-                FinishDate = value.FinishDate,
-                LocationId = value.LocationId,
-                PostId = value.PostId,
-                RankId = value.RankId,
-                EmployeeId = value.EmployeeId
-            };
-            _repository.MesAchievementRepository.Create(mesAchievement);
-            await _repository.MesAchievementRepository.SaveAsync();
-        }
-
-        [HttpGet]
-        [Route("api/employees/mesachievements/{emplId:int}")]
-        public async Task<IEnumerable<MesAchievementViewModel>> GetMesAchiements(int emplId)
-        {
-            IEnumerable<MesAchievement> mesAchievements = await _repository.MesAchievementRepository.WhereAsync(i => i.EmployeeId == emplId);
-            return mesAchievements.Select(i => new MesAchievementViewModel(i));
-        }
-
-        [HttpDelete]
-        [Route("api/employees/mesachievements/{id:int}")]
-        public async Task DeleteMesAchievement(int id)
-        {
-            await _repository.MesAchievementRepository.Delete(id);
-            await _repository.MesAchievementRepository.SaveAsync();
-        }
-
-        [HttpPost]
-        [Route("api/employees/military")]
-        public async Task PostMilitary([FromBody] MilitaryService value)
-        {
-            MilitaryService militaryService = new MilitaryService
-            {
-                Id = 0,
-                StartDate = value.StartDate,
-                FinishDate = value.FinishDate,
-                EmployeeId = value.EmployeeId,
-                Description = value.Description,
-                LocationId = value.LocationId,
-                Rank = value.Rank
-            };
-            _repository.MilitaryServiceRepository.Create(militaryService);
-            await _repository.MilitaryServiceRepository.SaveAsync();
-        }
-
-        [HttpGet]
-        [Route("api/employees/military/{emplId:int}")]
-        public async Task<IEnumerable<MilitaryServiceViewModel>> GetMilitary(int emplId)
-        {
-            IEnumerable<MilitaryService> military = await _repository.MilitaryServiceRepository.WhereAsync(i => i.EmployeeId == emplId);
-            return military.Select(i => new MilitaryServiceViewModel(i));
-        }
-
-        [HttpDelete]
-        [Route("api/employees/military/{id:int}")]
-        public async Task DeleteMilitary(int id)
-        {
-            await _repository.MilitaryServiceRepository.Delete(id);
-            await _repository.MilitaryServiceRepository.SaveAsync();
-        }
-
-        [HttpGet]
-        [Route("api/employees/works/{emplId:int}")]
-        public async Task<IEnumerable<WorkTermViewModel>> GetWorks(int emplId)
-        {
-            IEnumerable<WorkTerm> works = await _repository.WorkTermRepository.WhereAsync(i => i.EmployeeId == emplId);
-            return works.Select(i => new WorkTermViewModel(i));
-        }
-
-        [HttpDelete]
-        [Route("api/employees/works/{id:int}")]
-        public async Task DeleteWork(int id)
-        {
-            await _repository.WorkTermRepository.Delete(id);
-            await _repository.WorkTermRepository.SaveAsync();
-        }
-
-        [Route("api/employees/works")]
-        public async Task PostWork([FromBody] WorkTerm value)
-        {
-            WorkTerm workTerm = new WorkTerm
-            {
-                Id = 0,
-                EmployeeId = value.EmployeeId,
-                Description = value.Description,
-                LocationId = value.LocationId,
-                StartDate = value.StartDate,
-                FinishDate = value.FinishDate,
-                Post = value.Post
-            };
-            _repository.WorkTermRepository.Create(workTerm);
-            await _repository.WorkTermRepository.SaveAsync();
-        }
-
-        [HttpGet]
-        [Route("api/employees/locations")]
-        public async Task<IEnumerable<NamedEntity>> GetLocations()
-        {
-            IEnumerable<Location> locations = await _repository.LocationRepository.SelectAsync();
-            return locations.OrderBy(l => l.LocationName)
-                .Select(l => new NamedEntity {Id = l.Id, Name = l.LocationName});
-        }
-
-        #endregion
-
     }
 }

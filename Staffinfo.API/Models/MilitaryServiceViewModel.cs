@@ -13,7 +13,7 @@ namespace Staffinfo.API.Models
         public DateTime StartDate { get; set; }
 
         [DataMember(Name = "finishDate")]
-        public DateTime? FinishDate { get; set; }
+        public DateTime FinishDate { get; set; }
 
         [DataMember(Name = "description")]
         public string Description { get; set; }

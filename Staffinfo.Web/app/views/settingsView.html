@@ -1,0 +1,51 @@
+﻿<div class="container">
+
+    <div class="row">
+        <h2 class="view-title">
+            Настройки 
+            <md-button ng-href="#/dashboard" class="md-primary md-raised pull-right">
+                <md-icon md-svg-icon="img/icons/ic_arrow_back_24px.svg"></md-icon>
+                На главную
+            </md-button>
+        </h2>
+    </div>
+
+    <div class="setting-fieldset">
+        <div layout="row" layout-wrap>
+            <div flex="100" layout="column">
+                <div>
+                    <fieldset>
+                        <legend class="legend">Календарь: укажите отслеживаемые события</legend>
+                        <div layout="row" layout-wrap flex>
+                            <div flex-xs flex="50">
+                                <md-checkbox aria-label="Select All"
+                                             ng-checked="isChecked()"
+                                             md-indeterminate="isIndeterminate()"
+                                             ng-click="toggleAll()">
+                                    <span class="unselectable" ng-if="isChecked()">Отменить Все</span><span class="unselectable" ng-if="!isChecked()">Выбрать Все</span>
+                                </md-checkbox>
+                            </div>
+                            <div class="select-all-checkboxes" flex="100" ng-repeat="item in allNotificationTypes">
+                                <md-checkbox ng-checked="exists(item, selectedNotifications)" ng-click="toggle(item, selectedNotifications)">
+                                    <p class="unselectable">{{ item.title }}</p>
+                                </md-checkbox>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="_md-button-wrap pull-right">
+        <md-button class="md-primary md-raised" ng-click="saveSettings()">
+            <md-icon md-svg-icon="img/icons/ic_save_24px.svg"></md-icon>
+            Сохранить
+        </md-button>
+        <md-button class="md-primary md-raised" ng-click="resetChanges()">
+            <md-icon md-svg-icon="img/icons/ic_clear_24px.svg"></md-icon>
+            Отмена
+        </md-button>
+    </div>
+
+</div>

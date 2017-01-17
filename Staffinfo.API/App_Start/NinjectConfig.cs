@@ -37,6 +37,8 @@ public static class NinjectConfig
         kernel.Bind<IRepository<Service>>().To<Repository<Service>>().InRequestScope();
         kernel.Bind<IRepository<WorkTerm>>().To<Repository<WorkTerm>>().InRequestScope();
         kernel.Bind<IRepository<Dismissed>>().To<Repository<Dismissed>>().InRequestScope();
-
+        kernel.Bind<IRepository<DisciplineItem>>().To<Repository<DisciplineItem>>().InRequestScope();
+        kernel.Bind<IRepository<OutFromOffice>>().To<Repository<OutFromOffice>>().InRequestScope();
+        kernel.Bind<IRepository<Sertification>>().To<Repository<Sertification>>().InRequestScope();
     }
 }

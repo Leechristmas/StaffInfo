@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 app.factory('authService', [
-    '$http', '$q', 'localStorageService', 'ngAuthSettings', function ($http, $q, localStorageService, ngAuthSettings) {
+    '$http', '$q', 'localStorageService', 'ngAuthSettings', 'Idle', function ($http, $q, localStorageService, ngAuthSettings, Idle) {
 
         var serviceBase = ngAuthSettings.apiServiceBaseUri;
         var authServiceFactory = {};
@@ -31,6 +31,7 @@ app.factory('authService', [
                     _authentication.userName = loginData.userName;
 
                     deferred.resolve(response);
+                    //Idle.watch();
                 })
                 .error(function (err, status) {
                     _logOut();
@@ -48,6 +49,7 @@ app.factory('authService', [
             _authentication.isAuth = false;
             _authentication.userName = "";
 
+            //Idle.unwatch();
         };
 
         var _fillAuthData = function () {
@@ -56,8 +58,8 @@ app.factory('authService', [
             if (authData) {
                 _authentication.isAuth = true;
                 _authentication.userName = authData.userName;
-            }
-
+            } else
+                _logOut();
         }
 
         var _isAuthenticated = function() {

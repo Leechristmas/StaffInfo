@@ -1,58 +1,74 @@
 ﻿<md-dialog aria-label="Добавить запись">
-    <form>
-        <md-toolbar>
-            <div class="md-toolbar-tools">
-                <h2>Добавление записи</h2>
-                <span flex></span>
-                <md-button class="md-icon-button" ng-click="cancel()">
-                    <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
-                </md-button>
-            </div>
-        </md-toolbar>
-        <md-dialog-content style="max-width: 800px; max-height: 810px; min-width: 600px;">
-            <form>
-                <md-content class="md-padding">
-                    <div layout-gt-sm="row">
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>Начало Периода</label>
-                            <md-datepicker ng-model="work.startDate" md-placeholder="Укажите Дату" required md-max-date="work.finishDate"></md-datepicker>
-                        </md-input-container>
-
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>Конец Периода</label>
-                            <md-datepicker ng-model="work.finishDate" md-placeholder="Укажите Дату" required md-min-date="work.startDate"></md-datepicker>
-                        </md-input-container>
-                    </div>
-
-                    <div layout-gt-sm="row">
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>Место</label>
-                            <md-select ng-model="work.locationId" required>
-                                <md-optgroup>
-                                    <md-option ng-value="location.id" ng-repeat="location in locations">{{location.name}}</md-option>
-                                </md-optgroup>
-                            </md-select>
-                        </md-input-container>
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>Должность</label>
-                            <input ng-model="work.post" required md-maxlength="30" />
-                        </md-input-container>
-                    </div>
-
-                    <div layout-gt-sm="row">
-                        <md-input-container class="md-block" style="width: 100%;">
-                            <label>Заметка</label>
-                            <textarea ng-model="work.description" columns="1" md-maxlength="150" rows="3"></textarea>
-                        </md-input-container>
-                    </div>
-                </md-content>
-            </form>
-        </md-dialog-content>
-
-        <md-dialog-actions layout="row" class="dialog-footer">
-            <md-button ng-click="saveNewWork()" class="md-primary md-raised">
-                Сохранить
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{mode === 'add' ? 'Добавление': 'Редактирование'}}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
             </md-button>
-        </md-dialog-actions>
-    </form>
+        </div>
+    </md-toolbar>
+    <md-dialog-content style="max-width: 800px; max-height: 810px; min-width: 600px;">
+        <form name="addWorkForm">
+            <md-content class="md-padding">
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Начало Периода</label>
+                        <md-datepicker name="startDate" ng-model="work.startDate" required md-min-date="minDate" md-max-date="work.finishDate"  ng-focus="dtpckrOnFocus(work, 'startDate')"></md-datepicker>
+                        <div ng-messages="addWorkForm.startDate.$error" class="validation-messages">
+                            <div ng-message="required">Необходимо заполнить это поле.</div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Конец Периода</label>
+                        <md-datepicker name="finishDate" ng-model="work.finishDate" required md-max-date="maxDate" md-min-date="work.startDate"  ng-focus="dtpckrOnFocus(work, 'finishDate')"></md-datepicker>
+                        <div ng-messages="addWorkForm.finishDate.$error" class="validation-messages">
+                            <div ng-message="required">Необходимо заполнить это поле.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Место</label>
+                        <md-icon md-svg-src="img/icons/ic_place_24px.svg"></md-icon>
+                        <md-select name="location" ng-model="work.locationId" required>
+                            <md-optgroup>
+                                <md-option ng-value="location.id" ng-repeat="location in locations">{{location.name}}</md-option>
+                            </md-optgroup>
+                        </md-select>
+                        <div ng-messages="addWorkForm.location.$error" class="validation-messages">
+                            <div ng-message="required">Укажите место работы.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Должность</label>
+                        <md-icon md-svg-src="img/icons/ic_grade_24px.svg"></md-icon>
+                        <input name="post" ng-model="work.post" required md-maxlength="30"/>
+                        <div ng-messages="addWorkForm.post.$error" class="validation-messages">
+                            <div ng-message="required">Укажите должность.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" style="width: 100%;">
+                        <label>Заметка</label>
+                        <md-icon md-svg-src="img/icons/ic_description_24px.svg" class="name"></md-icon>
+                        <textarea ng-model="work.description" columns="1" md-maxlength="150" rows="3"></textarea>
+                    </md-input-container>
+                </div>
+            </md-content>
+        </form>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" class="dialog-footer">
+        <md-button ng-click="saveNewWork()" class="md-primary md-raised" ng-disabled="addWorkForm.$invalid">
+            Сохранить
+        </md-button>
+    </md-dialog-actions>
 </md-dialog>

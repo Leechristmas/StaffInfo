@@ -1,8 +1,8 @@
 ﻿<div class="container">
-    <h2>Действующие Сотрудники</h2>
+    <h2 class="view-title">Действующие Сотрудники</h2>
 
     <div>
-        <md-button class="md-fab md-primary md-fab-md" aria-label="Refresh" ng-click="refreshEmployees()">
+        <md-button class="md-fab md-primary md-fab-md" aria-label="Refresh" ng-click="getEmployees()">
             <md-icon md-svg-src="img/icons/ic_refresh_24px.svg"></md-icon>
             <md-tooltip md-direction="bottom">
                 Обновить
@@ -27,7 +27,7 @@
     <md-card class="table-container">
         <md-table-container>
             <table md-table md-progress="promise">
-                <thead md-head>
+                <thead md-head> <!--fix-head-->
                     <tr md-row>
                         <th md-column>Фамилия</th>
                         <th md-column>Имя</th>
@@ -44,7 +44,7 @@
                         <td md-cell>{{empl.employeeMiddlename}}</td>
                         <td md-cell>{{empl.actualPost}}</td>
                         <td md-cell>{{empl.actualRank}}</td>
-                        <td md-cell class="td-center">{{getDate(empl.birthDate).toISOString().slice(0, 10)}}</td>
+                        <td md-cell class="td-center">{{getDate(empl.birthDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                         <td md-cell style="width: 25px;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, empl.id)" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить всю информацию о сотруднике</md-tooltip></md-button></td>
                     </tr>
                 </tbody>

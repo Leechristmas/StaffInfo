@@ -15,17 +15,12 @@
 
         //gets retirees with pagination 
         $scope.getDismissed = function() {
-            $scope.promise = employeesService.getDismissed($scope.query).then(function (response) {
+            $scope.promise = employeesService.dismissed.getDismissed($scope.query).then(function (response) {
                 $scope.dismissed = response.data;
                 $scope.total = response.headers('X-Total-Count');
             }, function(data) {
-                messageService.setError(data);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
             });
         }
 
@@ -36,8 +31,7 @@
 
         //deletes the specified employee
         var _deleteDismissed = function(id) {
-            //TODO: deleting
-            $scope.promise = employeesService.deleteDismissedById(id).then(function(response) {
+            $scope.promise = employeesService.dismissed.deleteDismissedById(id).then(function (response) {
                 $scope.getDismissed(); //refresh
                 $mdToast.show({
                     hideDelay: 3000,
@@ -49,14 +43,9 @@
                         '</div>' +
                         '</md-toast>'
                 });
-            }, function(error) {
-                messageService.setError(error);
-                $mdToast.show({
-                    hideDelay: 3000,
-                    position: 'top right',
-                    controller: 'toastController',
-                    templateUrl: 'app/views/error-toast.html'
-                });
+            }, function(data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
             });
         }
 

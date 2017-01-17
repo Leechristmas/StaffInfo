@@ -1,5 +1,5 @@
 ﻿<div flex layout="row">
-    <md-sidebar class="md-sidenav-left sidenav" data-ng-controller="calendarController" >
+    <md-sidebar class="md-sidenav-left sidenav" >
         <!--Calendar will be here.-->
         <!--<div class="alert alert-success" ng-show="event">
             Event selected:{{event.startTime|date:'MMM/dd,yyyy,HH:mm'}} - {{event.endTime|date:'MMM/dd,yyyy,HH:mm'}}, {{event.title}}
@@ -7,13 +7,13 @@
 
         <div class="btn-toolbar">
             <div class="btn-group">
-                <md-button class="md-fab md-primary md-fab-md" aria-label="Add record">
+                <md-button class="md-fab md-primary md-fab-md" aria-label="Add record" ng-click="showAddNotificationView($event)">
                     <md-icon md-svg-src="img/icons/ic_add_24px.svg"></md-icon>
                     <md-tooltip md-direction="bottom">
                         Добавить запись
                     </md-tooltip>
                 </md-button>
-                <md-button type="button" aria-label="month" ng-class="{active:mode==='month'}"
+                <!--<md-button type="button" aria-label="month" ng-class="{active:mode==='month'}"
                            ng-click="changeMode('month')">
                     Month
                 </md-button>
@@ -24,12 +24,12 @@
                 <md-button type="button" aria-label="day" ng-class="{active:mode==='day'}"
                            ng-click="changeMode('day')">
                     Day
-                </md-button>
+                </md-button>-->
             </div>
             <div class="btn-group">
                 <md-button type="button" class="md-primary" ng-disabled="isToday()"
                         ng-click="today()">
-                    Today
+                    Сегодня
                 </md-button>
             </div>
         </div>
@@ -37,43 +37,54 @@
             <calendar ng-model="currentDate" calendar-mode="mode" event-source="eventSource"
                       range-changed="reloadSource(startTime, endTime)"
                       event-selected="onEventSelected(event)"
-                      time-selected="onTimeSelected(selectedTime)"></calendar>
+                      time-selected="onTimeSelected(selectedTime)"
+                      dbl-clicked="onDblClicked(event)"></calendar>
         </div>
     </md-sidebar>
 
-    <md-content ui-view="" class="dashboard-content">
+    <md-content class="dashboard-content">
         <div>
-            <h2>Общая кадровая структура</h2>
+            <h2 class="view-title">Общая кадровая структура</h2>
         </div>
         <div layout="row" layout-sm="column" layout-align="space-around" ng-if="isLoading">
             <md-progress-circular md-mode="indeterminate" md-diameter="96"></md-progress-circular>
         </div>
-        <md-tabs style="min-height: 700px;" ng-if="!isLoading">
-            <md-tab label="Службы" md-on-select="reloadPie()">
-                <md-content>
-                    <div id="service-chart-container">
-                        <h3>Службы</h3>
-                        <md-button class="md-primary" ng-click="reloadPie()">Test</md-button>
-                        <div>
-                            <canvas id="serviceChart" height="30" width="100"></canvas>
-                        </div>
-                    </div>
-                </md-content>
-            </md-tab>
-            <md-tab label="Выслуга лет" md-on-select="reloadBar()">
-                <md-content>
-                    <div id="seniority-chart-container">
-                        <h3>Выслуга лет</h3>
-                        <div>
-                            <canvas id="seniorityChart" height="30" width="100"></canvas>
-                            <div flex-gt-sm="50">
+        <md-tabs style="min-height: 500px;" ng-if="!isLoading">
+            <md-tab md-on-select="reloadPie()">
+                <md-tab-label>
+                    <p class="unselectable">Службы</p>
+                </md-tab-label>
+                <md-tab-body>
+                    <md-content>
+                        <div id="service-chart-container">
+                            <h3>Службы</h3>
+                            <md-button class="md-primary" ng-click="reloadPie()">Test</md-button>
+                            <div>
+                                <canvas class="unselectable" id="serviceChart" height="30" width="100"></canvas>
                             </div>
                         </div>
-                    </div>
-                    <md-checkbox ng-model="includeRetirees" aria-label="Retirees" ng-disabled="false" ng-click="toggleRetirees(includeRetirees)" style="margin-left: 10px;">
-                        Пенсионеры
-                    </md-checkbox>
-                </md-content>
+                    </md-content>
+                </md-tab-body>
+            </md-tab>
+            <md-tab md-on-select="reloadBar()">
+                <md-tab-label>
+                    <p class="unselectable">Выслуга лет</p>
+                </md-tab-label>
+                <md-tab-body>
+                    <md-content>
+                        <div id="seniority-chart-container">
+                            <h3>Выслуга лет</h3>
+                            <div>
+                                <canvas class="unselectable" id="seniorityChart" height="30" width="100"></canvas>
+                                <div flex-gt-sm="50">
+                                </div>
+                            </div>
+                        </div>
+                        <md-checkbox ng-model="includeRetirees" aria-label="Retirees" ng-disabled="false" ng-click="toggleRetirees(includeRetirees)" style="margin-left: 10px;">
+                            Пенсионеры
+                        </md-checkbox>
+                    </md-content>
+                </md-tab-body>
             </md-tab>
         </md-tabs>
         <!--<div>

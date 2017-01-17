@@ -1,0 +1,49 @@
+﻿ <md-dialog aria-label="add notification">
+     <md-toolbar>
+         <div class="md-toolbar-tools">
+             <h2>Добавить Уведомление</h2>
+             <span flex></span>
+             <md-button class="md-icon-button" ng-click="cancel()">
+                 <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+             </md-button>
+         </div>
+     </md-toolbar>
+     <md-dialog-content style="max-width: 800px; max-height: 810px; min-width: 600px;">
+         <form name="addNotification">
+             <md-content class="md-padding">
+                 <div layout-gt-sm="row">
+                     <md-input-container class="md-block" flex-gt-sm>
+                         <label>Заголовок</label>
+                         <md-icon md-svg-src="img/icons/ic_title_24px.svg"></md-icon>
+                         <input name="title" ng-model="notification.title" required md-maxlength="20"/>
+                         <div ng-messages="addNotification.title.$error" class="validation-messages">
+                             <div ng-message="required">Необходимо заполнить это поле.</div>
+                         </div>
+                     </md-input-container>
+                     <md-input-container class="md-block" flex-gt-sm>
+                         <label>Дата</label>
+                         <md-datepicker name="dueDate" ng-model="notification.dueDate" required  ng-focus="dtpckrOnFocus(notification, 'dueDate')"></md-datepicker>
+                         <div ng-messages="addNotification.dueDate.$error" class="validation-messages">
+                             <div ng-message="required">Необходимо заполнить это поле.</div>
+                         </div>
+                     </md-input-container>
+                 </div>
+                 <div layout-gt-sm="row">
+                     <md-input-container class="md-block" style="width: 100%;">
+                         <label>Текст Уведомления</label>
+                         <md-icon md-svg-src="img/icons/ic_description_24px.svg"></md-icon>
+                         <textarea name="details" ng-model="notification.details" columns="1" md-maxlength="200" rows="3" required></textarea>
+                         <div ng-messages="addNotification.details.$error" class="validation-messages">
+                             <div ng-message="required">Необходимо заполнить это поле.</div>
+                         </div>
+                     </md-input-container>
+                 </div>
+             </md-content>
+         </form>
+     </md-dialog-content>
+     <md-dialog-actions layout="row" class="dialog-footer">
+         <md-button ng-click="saveNotification()" class="md-primary md-raised" ng-disabled="addNotification.$invalid">
+             Сохранить
+         </md-button>
+     </md-dialog-actions>
+ </md-dialog>

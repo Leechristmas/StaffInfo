@@ -7,7 +7,7 @@ namespace Staffinfo.DAL.Mapping
         public MesAchievementMap(): base("tbl_MesAchievement")
         {
             this.Property(t => t.StartDate).IsRequired().HasColumnName("StartDate");
-            this.Property(t => t.FinishDate).IsRequired().HasColumnName("FinishDate");
+            this.Property(t => t.FinishDate).IsOptional().HasColumnName("FinishDate");
 
             //navigation properties
             this.Property(t => t.EmployeeId).IsOptional().HasColumnName("EmployeeID");

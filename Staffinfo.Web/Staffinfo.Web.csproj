@@ -68,21 +68,30 @@
   <ItemGroup>
     <Content Include="app\controllers\calendarController.js" />
     <Content Include="app\controllers\dashboardController.js" />
+    <Content Include="app\controllers\dialogController.js" />
     <Content Include="app\controllers\dismissedController.js" />
     <Content Include="app\controllers\employeesController.js" />
     <Content Include="app\controllers\homeController.js" />
     <Content Include="app\controllers\indexController.js" />
     <Content Include="app\controllers\loginController.js" />
     <Content Include="app\controllers\retireesController.js" />
+    <Content Include="app\controllers\settingsController.js" />
     <Content Include="app\controllers\signupController.js" />
+    <Content Include="app\directives\countdown.js" />
     <Content Include="app\services\authInterceptorService.js" />
     <Content Include="app\services\authService.js" />
     <Content Include="app\services\dashboardService.js" />
     <Content Include="app\services\employeesService.js" />
+    <Content Include="app\services\idleService.js" />
     <Content Include="app\services\messageService.js" />
+    <Content Include="app\services\settingsService.js" />
     <Content Include="app\views\addEmployeeView.html" />
     <Content Include="app\views\addMesView.html" />
     <Content Include="app\views\addMilitaryView.html" />
+    <Content Include="app\views\addDisciplineItem.html" />
+    <Content Include="app\views\addNotificationView.html" />
+    <Content Include="app\views\addOutFromOfficeItem.html" />
+    <Content Include="app\views\addSertificationView.html" />
     <Content Include="app\views\addWorkView.html" />
     <Content Include="app\views\dashboard.html" />
     <Content Include="app\views\dismissalView.html" />
@@ -90,13 +99,16 @@
     <Content Include="app\views\employees.html" />
     <Content Include="app\views\employeeView.html" />
     <Content Include="app\views\error-toast.html" />
+    <Content Include="app\views\eventDetailsView.html" />
     <Content Include="app\views\home.html" />
+    <Content Include="app\views\idleWarning.html" />
     <Content Include="app\views\login.html" />
     <Content Include="app\views\retiredTransferView.html" />
     <Content Include="app\views\retirees.html" />
+    <Content Include="app\views\sessionExpiredView.html" />
+    <Content Include="app\views\settingsView.html" />
     <Content Include="app\views\signup.html" />
     <Content Include="content\css\calendar.css" />
-    <Content Include="content\css\calendar.min.css" />
     <Content Include="content\css\angular-material.css" />
     <Content Include="content\css\angular-material.layout-attributes.css" />
     <Content Include="content\css\angular-material.layout-attributes.min.css" />
@@ -127,15 +139,28 @@
     <Content Include="img\icons\ic_dashboard_24px.svg" />
     <Content Include="img\icons\ic_delete_forever_24px.svg" />
     <Content Include="img\icons\ic_description_24px.svg" />
+    <Content Include="img\icons\ic_grade_24px.svg" />
     <Content Include="img\icons\ic_group_24px.svg" />
     <Content Include="img\icons\ic_insert_photo_24px.svg" />
+    <Content Include="img\icons\ic_keyboard_arrow_left_24px.svg" />
+    <Content Include="img\icons\ic_keyboard_arrow_right_24px.svg" />
+    <Content Include="img\icons\ic_local_post_office_24px.svg" />
+    <Content Include="img\icons\ic_location_city_24px.svg" />
+    <Content Include="img\icons\ic_mode_edit_24px.svg" />
+    <Content Include="img\icons\ic_person_24px.svg" />
     <Content Include="img\icons\ic_person_add_24px.svg" />
+    <Content Include="img\icons\ic_phone_24px.svg" />
+    <Content Include="img\icons\ic_place_24px.svg" />
     <Content Include="img\icons\ic_refresh_24px.svg" />
     <Content Include="img\icons\ic_save_24px.svg" />
     <Content Include="img\icons\ic_search_24px.svg" />
+    <Content Include="img\icons\ic_settings_24px.svg" />
     <Content Include="img\icons\ic_stars_24px.svg" />
     <Content Include="img\icons\ic_tab_24px.svg" />
+    <Content Include="img\icons\ic_title_24px.svg" />
+    <Content Include="img\icons\ic_work_24px.svg" />
     <Content Include="packages.config" />
+    <Content Include="Properties\PublishProfiles\Staffinfo - Web Deploy.pubxml.user" />
     <Content Include="scripts\angular-animate\angular-animate.js" />
     <Content Include="scripts\angular-animate\angular-animate.min.js" />
     <Content Include="scripts\angular-aria\angular-aria.js" />
@@ -143,6 +168,8 @@
     <Content Include="scripts\angular-chart.js" />
     <Content Include="scripts\angular-chart.min.js" />
     <Content Include="scripts\angular-cookies.min.js.map" />
+    <Content Include="scripts\angular-idle.js" />
+    <Content Include="scripts\angular-idle.min.js" />
     <Content Include="scripts\angular-loader.min.js.map" />
     <Content Include="scripts\angular-local-storage.js" />
     <Content Include="scripts\angular-local-storage.min.js" />
@@ -180,10 +207,11 @@
     <Content Include="scripts\angular-scenario.js" />
     <Content Include="scripts\angular-touch.js" />
     <Content Include="scripts\angular-touch.min.js" />
+    <Content Include="scripts\angular-user-settings.js" />
+    <Content Include="scripts\angular-user-settings.min.js" />
     <Content Include="scripts\angular\angular.js" />
     <Content Include="scripts\angular\angular.min.js" />
     <Content Include="scripts\calendar-tpls.js" />
-    <Content Include="scripts\calendar-tpls.min.js" />
     <Content Include="scripts\chart-additional.js" />
     <Content Include="scripts\Chart.js" />
     <Content Include="scripts\Chart.min.js" />
@@ -934,6 +962,13 @@
     <Content Include="scripts\angular-chart.min.js.map" />
     <Content Include="scripts\angular-aria\angular-aria.min.js.map" />
     <Content Include="scripts\angular-animate\angular-animate.min.js.map" />
+    <Content Include="content\fonts\PlayBold\PlayBold.eot" />
+    <Content Include="content\fonts\PlayBold\PlayBold.ttf" />
+    <Content Include="content\fonts\PlayBold\PlayBold.woff" />
+    <Content Include="content\fonts\PlayRegular\PlayRegular.eot" />
+    <Content Include="content\fonts\PlayRegular\PlayRegular.ttf" />
+    <Content Include="content\fonts\PlayRegular\PlayRegular.woff" />
+    <None Include="Properties\PublishProfiles\Staffinfo - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -950,17 +985,20 @@
     <Content Include="scripts\loading-bar.js" />
     <Content Include="scripts\loading-bar.min.js" />
     <Content Include="content\css\md-data-table.css" />
+    <Content Include="scripts\md-data-table\md-data-table-fixed-header.js" />
     <Content Include="scripts\md-data-table\md-data-table.js" />
     <Content Include="content\css\md-data-table.min.css" />
     <Content Include="scripts\md-data-table\md-data-table.min.js" />
+    <Content Include="scripts\moment-with-locales.js" />
+    <Content Include="scripts\moment-with-locales.min.js" />
+    <Content Include="scripts\moment.js" />
+    <Content Include="scripts\moment.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="app\directives\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

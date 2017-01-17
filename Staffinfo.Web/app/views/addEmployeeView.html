@@ -16,29 +16,49 @@
                         <div layout-gt-sm="row">
                             <md-input-container class="md-block" flex-gt-sm md-open-on-focus>
                                 <label>Фамилия</label>
-                                <input ng-model="newEmployee.employeeLastname" required md-maxlength="30">
+                                <md-icon md-svg-src="img/icons/ic_person_24px.svg"></md-icon>
+                                <input name="lastname" ng-model="newEmployee.employeeLastname" required md-maxlength="30">
+                                <div ng-messages="addEmployeeForm.lastname.$error" class="validation-messages">
+                                    <div ng-message="required">Укажите фамилию.</div>
+                                </div>
                             </md-input-container>
 
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Имя</label>
-                                <input ng-model="newEmployee.employeeFirstname" required md-maxlength="30">
+                                <md-icon md-svg-src="img/icons/ic_person_24px.svg"></md-icon>
+                                <input name="firstname" ng-model="newEmployee.employeeFirstname" required md-maxlength="30">
+                                <div ng-messages="addEmployeeForm.firstname.$error" class="validation-messages">
+                                    <div ng-message="required">Укажите имя.</div>
+                                </div>
                             </md-input-container>
 
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Отчество</label>
-                                <input ng-model="newEmployee.employeeMiddlename" required md-maxlength="30">
+                                <md-icon md-svg-src="img/icons/ic_person_24px.svg"></md-icon>
+                                <input name="middlename" ng-model="newEmployee.employeeMiddlename" required md-maxlength="30">
+                                <div ng-messages="addEmployeeForm.middlename.$error" class="validation-messages">
+                                    <div ng-message="required">Укажите отчество.</div>
+                                </div>
                             </md-input-container>
                         </div>
 
                         <div layout-gt-sm="row">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Заметка</label>
+                                <md-icon md-svg-src="img/icons/ic_description_24px.svg"></md-icon>
                                 <input ng-model="newEmployee.description" md-maxlength="100" />
                             </md-input-container>
 
+                            
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Дата Рождения</label>
-                                <md-datepicker ng-model="newEmployee.birthDate" md-placeholder="Укажите Дату" required md-max-date="maxDate"></md-datepicker>
+                                <md-datepicker ng-model="newEmployee.birthDate" name="birthDate" required md-max-date="maxBirthDate" md-min-date="minBirthDate"  ng-focus="dtpckrOnFocus(newEmployee, 'birthDate')"></md-datepicker>
+                                <div ng-messages="addEmployeeForm.birthDate.$error" class="validation-messages">
+                                    <div ng-message-exp="['md-mindate', 'md-maxdate']">
+                                        Возраст сотрудника не может быть меньше 18 и больше 60 лет.
+                                    </div>
+                                    <div ng-message="required">Необходимо заполнить это поле.</div>
+                                </div>
                             </md-input-container>
                         </div>
                     </md-content>
@@ -49,24 +69,40 @@
                         <div layout-gt-sm="row">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Адрес</label>
-                                <input ng-model="newEmployee.detailedAddress" required md-maxlength="70"/>
+                                <md-icon md-svg-src="img/icons/ic_place_24px.svg"></md-icon>
+                                <input name="address" ng-model="newEmployee.detailedAddress" required md-maxlength="70"/>
+                                <div ng-messages="addEmployeeForm.address.$error" class="validation-messages">
+                                    <div ng-message="required">Укажите адрес.</div>
+                                </div>
                             </md-input-container>
                         </div>
 
                         <div layout-gt-sm="row">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Город</label>
-                                <input ng-model="newEmployee.city" required md-maxlength="30"/>
+                                <md-icon md-svg-src="img/icons/ic_location_city_24px.svg"></md-icon>
+                                <input name="city" ng-model="newEmployee.city" required md-maxlength="30"/>
+                                <div ng-messages="addEmployeeForm.city.$error" class="validation-messages">
+                                    <div ng-message="required">Укажите город.</div>
+                                </div>
                             </md-input-container>
 
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Область</label>
-                                <input ng-model="newEmployee.area" required md-maxlength="30"/>
+                                <md-icon md-svg-src="img/icons/ic_location_city_24px.svg" class="name"></md-icon>
+                                <input name="area" ng-model="newEmployee.area" required md-maxlength="30"/>
+                                <div ng-messages="addEmployeeForm.area.$error" class="validation-messages">
+                                    <div ng-message="required">Укажите область.</div>
+                                </div>
                             </md-input-container>
 
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Почтовый индекс</label>
-                                <input ng-model="newEmployee.zipCode" required ng-pattern="/^[0-9]{6}$/" md-maxlength="6" ng-minlength="6"/>
+                                <md-icon md-svg-src="img/icons/ic_local_post_office_24px.svg" class="name"></md-icon>
+                                <input name="zipCode" ng-model="newEmployee.zipCode" required ng-pattern="/^[0-9]{6}$/" md-maxlength="6" ng-minlength="6"/>
+                                <div ng-messages="addEmployeeForm.zipCode.$error" class="validation-messages">
+                                    <div ng-message="required">Укажите почтовый индекс.</div>
+                                </div>
                             </md-input-container>
                         </div>
 
@@ -74,14 +110,25 @@
                         <div layout-gt-sm="row">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Номер паспорта</label>
-                                <input ng-model="newEmployee.passportNumber" required md-maxlength="9" ng-minlength="9"/>
+                                <md-icon md-svg-icon="img/icons/ic_assignment_ind_24px.svg"></md-icon>
+                                <div ng-messages="addEmployeeForm.passportNumber.$error" style="padding-top: 35px;" class="validation-messages">
+                                    <div ng-message="required">Укажите номер и серию паспорта.</div>
+                                </div>
+                                <input name="passportNumber" ng-model="newEmployee.passportNumber" required md-maxlength="9" ng-minlength="9"/>
+                                <div class="hint" style="margin-left: 30px;">
+                                    Серия и номер паспорта: AA1234567
+                                </div>
                             </md-input-container>
                         </div>
 
                         <div layout-gt-sm="row">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Организация, выдавшая паспорт</label>
-                                <input ng-model="newEmployee.passportOrganization" required md-maxlength="50"/>
+                                <md-icon md-svg-icon="img/icons/ic_assignment_ind_24px.svg"></md-icon>
+                                <input name="passportOrganization" ng-model="newEmployee.passportOrganization" required md-maxlength="50"/>
+                                <div ng-messages="addEmployeeForm.passportOrganization.$error" class="validation-messages">
+                                    <div ng-message="required">Укажите организацию, которая выдала пасспорт.</div>
+                                </div>
                             </md-input-container>
                         </div>
 
@@ -89,12 +136,20 @@
                         <div layout-gt-sm="row">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Тел. 1</label>
-                                <input placeholder="+375 (XX) XXX XX XX" ng-model="newEmployee.firstPhone" md-maxlength="13"/>
+                                <md-icon md-svg-icon="img/icons/ic_phone_24px.svg"></md-icon>
+                                <input ng-model="newEmployee.firstPhone" md-maxlength="13"/>
+                                <div class="hint" style="margin-left: 30px;"><!-- margin is needed because of the icon -->
+                                    +375 (XX) XXX XX XX
+                                </div>
                             </md-input-container>
 
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Тел. 2</label>
-                                <input placeholder="+375 (XX) XXX XX XX" ng-model="newEmployee.secondPhone" md-maxlength="13"/>
+                                <md-icon md-svg-icon="img/icons/ic_phone_24px.svg"></md-icon>
+                                <input ng-model="newEmployee.secondPhone" md-maxlength="13"/>
+                                <div class="hint" style="margin-left: 30px;">
+                                    +375 (XX) XXX XX XX
+                                </div>
                             </md-input-container>
                         </div>
                     </md-content>
@@ -102,7 +157,7 @@
             </md-tabs>
         </form>
     </md-dialog-content>
-
+    
     <md-dialog-actions layout="row" class="dialog-footer">
         <md-button ng-click="saveNewEmployee()" class="md-primary md-raised" ng-disabled="addEmployeeForm.$invalid">
             Сохранить

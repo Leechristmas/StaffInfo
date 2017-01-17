@@ -11,6 +11,7 @@ using Owin;
 using Staffinfo.API.Providers;
 
 [assembly: OwinStartup(typeof(Staffinfo.API.Startup))]
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace Staffinfo.API
 {
     public class Startup
@@ -54,7 +55,7 @@ namespace Staffinfo.API
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromHours(2),
+                AccessTokenExpireTimeSpan = TimeSpan.FromHours(10),
                 Provider = new AuthorizationServerProvider()
             };
 
