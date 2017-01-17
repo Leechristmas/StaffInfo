@@ -228,6 +228,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DismissedController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
+    <Compile Include="Controllers\ReferenceBooksController.cs" />
     <Compile Include="Controllers\RetireesController.cs" />
     <Compile Include="Filters\GlobalExceptionHandler.cs" />
     <Compile Include="Filters\GlobalLogFilterAttribute.cs" />

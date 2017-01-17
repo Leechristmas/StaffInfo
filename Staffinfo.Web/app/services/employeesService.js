@@ -144,19 +144,19 @@ app.factory('employeesService', [
                 }
             },
             getRanks: function () {
-                return $http.get(serviceBase + 'api/employees/ranks');
+                return $http.get(serviceBase + 'api/reference-books/ranks');
             },
             getPosts: function (serviceId) {
                 if (serviceId)
-                    return $http.get(serviceBase + 'api/employees/postsforservice/' + serviceId);
+                    return $http.get(serviceBase + 'api/reference-books/posts-for-service/' + serviceId);
                 else
-                    return $http.get(serviceBase + 'api/employees/posts');
+                    return $http.get(serviceBase + 'api/reference-books/posts');
             },
             getServices: function () {
-                return $http.get(serviceBase + 'api/employees/services');
+                return $http.get(serviceBase + 'api/reference-books/services');
             },
             getLocations: function () {
-                return $http.get(serviceBase + 'api/employees/locations');
+                return $http.get(serviceBase + 'api/reference-books/locations');
             },
             //properties and methods of discipline items
             disciplineItems: {
