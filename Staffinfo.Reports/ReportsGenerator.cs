@@ -52,6 +52,8 @@ namespace Staffinfo.Reports
                         }
 
                         sheet.Cells[4, 1, (rowIndex - 1), 6].Style.Border.BorderAround(ExcelBorderStyle.Medium);
+                        sheet.Cells[4, 1, (rowIndex - 1), 6].Style.Font.Size = 10;
+                        sheet.Cells[4, 1, (rowIndex - 1), 6].Style.Font.Name = "Times New Roman";
                         sheet.Cells[4, 1, (rowIndex - 1), 6].Style.WrapText = true;
                         sheet.Cells[4, 4, (rowIndex - 1), 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;//set data to center
                         sheet.Cells[4, 1, (rowIndex - 1), 6].Style.VerticalAlignment = ExcelVerticalAlignment.Center;//set all cells to center by vertical
