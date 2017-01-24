@@ -229,6 +229,7 @@
     <Compile Include="Controllers\DismissedController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\ReferenceBooksController.cs" />
+    <Compile Include="Controllers\ReportingController.cs" />
     <Compile Include="Controllers\RetireesController.cs" />
     <Compile Include="Filters\GlobalExceptionHandler.cs" />
     <Compile Include="Filters\GlobalLogFilterAttribute.cs" />
@@ -267,6 +268,10 @@
     <ProjectReference Include="..\Staffinfo.DAL\Staffinfo.DAL.csproj">
       <Project>{9960415B-90F6-4F66-AC50-1EE384E3E0FE}</Project>
       <Name>Staffinfo.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Staffinfo.Reports\Staffinfo.Reports.csproj">
+      <Project>{894528B1-F3E9-4749-8712-960253AF4642}</Project>
+      <Name>Staffinfo.Reports</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

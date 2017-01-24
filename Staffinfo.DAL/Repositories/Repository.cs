@@ -15,7 +15,7 @@ namespace Staffinfo.DAL.Repositories
     /// Generic repository for every model
     /// </summary>
     /// <typeparam name="T">the model type</typeparam>
-    public class Repository<T>: IStaffRepository, IRepository<T> where T : Entity
+    public class Repository<T>: IStaffRepository, IRepository<T>, IDisposable where T : Entity
     {
         [Inject]
         public StaffContext StaffContext { get; set; }
@@ -76,6 +76,11 @@ namespace Staffinfo.DAL.Repositories
         public async Task SaveAsync()
         {
             await StaffContext.SaveChangesAsync();
+        }
+
+        public void Dispose()
+        {
+            StaffContext.Dispose();
         }
     }
 }

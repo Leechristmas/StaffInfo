@@ -11,5 +11,10 @@ namespace Staffinfo.DAL.Models
         /// Due date for the rank (months count)
         /// </summary>
         public int Term { get; set; }
+
+        public override string ToString()
+        {
+            return RankName;
+        }
     }
 }

@@ -74,6 +74,7 @@
     <Content Include="app\controllers\homeController.js" />
     <Content Include="app\controllers\indexController.js" />
     <Content Include="app\controllers\loginController.js" />
+    <Content Include="app\controllers\reportingController.js" />
     <Content Include="app\controllers\retireesController.js" />
     <Content Include="app\controllers\settingsController.js" />
     <Content Include="app\controllers\signupController.js" />
@@ -84,6 +85,7 @@
     <Content Include="app\services\employeesService.js" />
     <Content Include="app\services\idleService.js" />
     <Content Include="app\services\messageService.js" />
+    <Content Include="app\services\reportingService.js" />
     <Content Include="app\services\settingsService.js" />
     <Content Include="app\views\addEmployeeView.html" />
     <Content Include="app\views\addMesView.html" />
@@ -103,6 +105,7 @@
     <Content Include="app\views\home.html" />
     <Content Include="app\views\idleWarning.html" />
     <Content Include="app\views\login.html" />
+    <Content Include="app\views\reportingView.html" />
     <Content Include="app\views\retiredTransferView.html" />
     <Content Include="app\views\retirees.html" />
     <Content Include="app\views\sessionExpiredView.html" />
@@ -129,6 +132,8 @@
     </Content>
     <Content Include="img\default-avatar.jpg" />
     <Content Include="img\default-avatar.png" />
+    <Content Include="img\icons\doc.png" />
+    <Content Include="img\icons\excel.png" />
     <Content Include="img\icons\ic_add_24px.svg" />
     <Content Include="img\icons\ic_arrow_back_24px.svg" />
     <Content Include="img\icons\ic_assignment_24px.svg" />
@@ -159,6 +164,7 @@
     <Content Include="img\icons\ic_tab_24px.svg" />
     <Content Include="img\icons\ic_title_24px.svg" />
     <Content Include="img\icons\ic_work_24px.svg" />
+    <Content Include="img\icons\pdf.png" />
     <Content Include="packages.config" />
     <Content Include="Properties\PublishProfiles\Staffinfo - Web Deploy.pubxml.user" />
     <Content Include="scripts\angular-animate\angular-animate.js" />

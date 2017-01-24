@@ -9,5 +9,10 @@ namespace Staffinfo.DAL.Models
 
         public int? ServiceId { get; set; }
         public virtual Service Service { get; set; }
+
+        public override string ToString()
+        {
+            return PostName;
+        }
     }
 }

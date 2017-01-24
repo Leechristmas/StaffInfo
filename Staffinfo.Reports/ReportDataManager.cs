@@ -1,51 +1,50 @@
 ﻿using System;
+using System.Data;
+using System.Globalization;
 using System.IO;
+using System.Threading.Tasks;
 using System.Web;
+using System.Xml;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using Staffinfo.DAL.Context;
+using Staffinfo.DAL.Models;
+using Staffinfo.DAL.Repositories;
 
 namespace Staffinfo.Reports
 {
     public static class ReportDataManager
     {
-        public static MemoryStream GetTotalEmployeesListAsAReport()
+        /// <summary>
+        /// Returns data for the 'total employees' report
+        /// </summary>
+        /// <returns></returns>
+        public async static Task<DataTable> GetTotalEmployeesData()
         {
-            try
+            DataTable data = null;
+            using (Repository<Employee> repository = new Repository<Employee>(new StaffContext()))
             {
+                var query = repository.SelectAsync();
 
-                var t = AppDomain.CurrentDomain;
+                data = new DataTable();
+                data.Columns.Add("lastname", typeof (string));
+                data.Columns.Add("firstname", typeof (string));
+                data.Columns.Add("middlename", typeof (string));
+                data.Columns.Add("birthdate", typeof (string));
+                data.Columns.Add("currentrank", typeof (string));
+                data.Columns.Add("currentpost", typeof (string));
 
-                string templateDocument = "~/Staffinfo.Reports/Templates/Total_Employees.xlsx";//Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                 //$"Reporting/Templates/Total_Employees.xlxs");
+                var employees = await query;
 
-                MemoryStream output = new MemoryStream();
-
-                using (FileStream templateDocumentStream = File.OpenRead(templateDocument))
+                foreach (var employee in employees)
                 {
-                    using (ExcelPackage package = new ExcelPackage(templateDocumentStream))
-                    {
-                        ExcelWorksheet sheet = package.Workbook.Worksheets["TE"];
-
-                        int rowIndex = 4;
-
-                        sheet.Cells[rowIndex, 1].Value = "Иванов";
-                        sheet.Cells[rowIndex, 2].Value = "Иван";
-                        sheet.Cells[rowIndex, 3].Value = "Иванович";
-                        sheet.Cells[rowIndex, 4].Value = (new DateTime(1978, 3, 4)).ToString("d");
-                        sheet.Cells[rowIndex, 5].Value = "Сержант";
-                        sheet.Cells[rowIndex, 6].Value = "Водитель-водолаз";
-
-
-                        package.SaveAs(output);
-                    }
-                    return output;
+                    data.Rows.Add(employee.EmployeeLastname, employee.EmployeeFirstname, employee.EmployeeMiddlename,
+                        employee.BirthDate.ToString("d", new CultureInfo("ru-RU")), employee.ActualRank,
+                        employee.ActualPost);
                 }
             }
-            catch (Exception e)
-            {
-                return null;
-            }
+
+            return data;
         }
-        
-         
     }
 }

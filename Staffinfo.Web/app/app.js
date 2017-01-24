@@ -45,6 +45,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             controller: 'settingsController',
             templateUrl: 'app/views/settingsView.html',
             noLogin: false
+        }).state('reporting', {
+            url: "/reporting",
+            controller: "reportingController",
+            templateUrl: 'app/views/reportingView.html',
+            noLogin: false
         });
 
     $urlRouterProvider.otherwise("/dashboard");

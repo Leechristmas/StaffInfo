@@ -59,9 +59,6 @@
       <Name>Staffinfo.Reports</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Templates\Total_Employees.xlsx" />
-  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
