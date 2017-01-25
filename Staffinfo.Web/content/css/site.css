@@ -161,7 +161,7 @@ div.padded p {
     margin: 0;
     padding: 0;
     width: 50px; 
-    height: 50px;
+    /*height: 50px;*/
 }
 
 .png-icon{
@@ -171,5 +171,5 @@ div.padded p {
     background-repeat: no-repeat no-repeat;
     pointer-events: none;
     width: 50px; 
-    height: 50px;
+    /*height: 50px;*/
 }

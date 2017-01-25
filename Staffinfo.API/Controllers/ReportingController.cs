@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
+using iTextSharp.text;
 using Staffinfo.DAL.Repositories.Interfaces;
 using Staffinfo.Reports;
 
@@ -30,20 +31,33 @@ namespace Staffinfo.API.Controllers
         {
             try
             {
-                var filename = $"Сотрудники-{DateTime.Now.ToString("d", new CultureInfo("ru-RU"))}.xlsx";
-
                 HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-                var stream = await ReportsGenerator.GetTotalEmployeesListAsXlsx();
+                string filename;
+                MemoryStream stream;
 
-                stream.Position = 0;
-                result.Content = new StreamContent(stream);
-
-                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                if (String.CompareOrdinal(format, "pdf") == 0)
                 {
-                    FileName = filename
-                };
-
+                    filename = $"Сотрудники-{DateTime.Now.ToString("d", new CultureInfo("ru-RU"))}.pdf";
+                    stream = new MemoryStream((await ReportsGenerator.GetTotalEmployeesListAsPdf()).ToArray());
+                    result.Content = new StreamContent(stream);
+                    result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                    {
+                        FileName = filename
+                    };
+                }
+                else
+                {
+                    filename = $"Сотрудники-{DateTime.Now.ToString("d", new CultureInfo("ru-RU"))}.xlsx";
+                    stream = await ReportsGenerator.GetTotalEmployeesListAsXlsx();
+                    stream.Position = 0;
+                    result.Content = new StreamContent(stream);
+                    result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                    {
+                        FileName = filename
+                    };
+                }
 
                 return result;
             }
