@@ -56,6 +56,15 @@
                                 </md-input-container>
 
                                 <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Личный номер</label>
+                                    <md-icon md-svg-icon="img/icons/ic_perm_identity_24px.svg"></md-icon>
+                                    <input ng-model="changeable.personalNumber" required md-maxlength="7" ng-minlength="7" />
+                                    <div class="hint" style="margin-left: 30px;">
+                                        Личный номер - 7 символов
+                                    </div>
+                                </md-input-container>
+
+                                <md-input-container class="md-block" flex-gt-sm>
                                     <label>Дата Рождения</label>
                                     <md-datepicker ng-model="changeable.birthDate" name="birthDate" required md-max-date="maxBirthDate" md-min-date="minBirthDate" style="width: 100%;"></md-datepicker>
                                     <div ng-messages="employeeForm.birthDate.$error" class="validation-messages">

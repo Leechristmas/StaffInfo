@@ -989,7 +989,9 @@ app.controller('employeesController', [
             passportOrganization: 'тестовая организация',
             passportIdentityNumber: '102proit265743',
             firstPhone: 'первый номер',
-            secondPhone: 'второй номер'
+            secondPhone: 'второй номер',
+            gender: "M",
+            personalNumber: "Г-00001"
         }
 
         $scope.newEmployee = employee;

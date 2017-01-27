@@ -43,16 +43,19 @@
                         </div>
 
                         <div layout-gt-sm="row">
+
                             <md-input-container class="md-block" flex-gt-sm>
-                                <label>Заметка</label>
-                                <md-icon md-svg-src="img/icons/ic_description_24px.svg"></md-icon>
-                                <input ng-model="newEmployee.description" md-maxlength="100" />
+                                <label>Личный номер</label>
+                                <md-icon md-svg-src="img/icons/ic_perm_identity_24px.svg" class="name"></md-icon>
+                                <input name="personalNumber" ng-model="newEmployee.personalNumber" required md-maxlength="7" ng-minlength="7"/>
+                                <div ng-messages="addEmployeeForm.personalNumber.$error" class="validation-messages">
+                                    <div ng-message="required">Укажите личный номер сотрудника.</div>
+                                </div>
                             </md-input-container>
 
-                            
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Дата Рождения</label>
-                                <md-datepicker ng-model="newEmployee.birthDate" name="birthDate" required md-max-date="maxBirthDate" md-min-date="minBirthDate"  ng-focus="dtpckrOnFocus(newEmployee, 'birthDate')"></md-datepicker>
+                                <md-datepicker ng-model="newEmployee.birthDate" name="birthDate" required md-max-date="maxBirthDate" md-min-date="minBirthDate" ng-focus="dtpckrOnFocus(newEmployee, 'birthDate')"></md-datepicker>
                                 <div ng-messages="addEmployeeForm.birthDate.$error" class="validation-messages">
                                     <div ng-message-exp="['md-mindate', 'md-maxdate']">
                                         Возраст сотрудника не может быть меньше 18 и больше 60 лет.
@@ -60,7 +63,25 @@
                                     <div ng-message="required">Необходимо заполнить это поле.</div>
                                 </div>
                             </md-input-container>
+
                         </div>
+
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Заметка</label>
+                                <md-icon md-svg-src="img/icons/ic_description_24px.svg"></md-icon>
+                                <input ng-model="newEmployee.description" md-maxlength="100" />
+                            </md-input-container>
+
+                            <md-input-container class="md-block">
+                                <label>Пол</label>
+                                <md-select placeholder="Пол" name="gender" ng-model="newEmployee.gender">
+                                    <md-option selected value="M">Мужской</md-option>
+                                    <md-option value="W">Женский</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+
                     </md-content>
                 </md-tab>
                 <md-tab label="Контактные данные">

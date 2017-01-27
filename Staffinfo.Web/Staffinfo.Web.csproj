@@ -152,6 +152,7 @@
     <Content Include="img\icons\ic_local_post_office_24px.svg" />
     <Content Include="img\icons\ic_location_city_24px.svg" />
     <Content Include="img\icons\ic_mode_edit_24px.svg" />
+    <Content Include="img\icons\ic_perm_identity_24px.svg" />
     <Content Include="img\icons\ic_person_24px.svg" />
     <Content Include="img\icons\ic_person_add_24px.svg" />
     <Content Include="img\icons\ic_phone_24px.svg" />

@@ -107,7 +107,9 @@ namespace Staffinfo.API.Controllers
                 Description = value.Description,
                 EmployeePhoto = value.EmployeePhoto,
                 FirstPhoneNumber = value.FirstPhoneNumber,
-                SecondPhoneNumber = value.SecondPhoneNumber
+                SecondPhoneNumber = value.SecondPhoneNumber,
+                Gender = value.Gender,
+                PersonalNumber = value.PersonalNumber
             };
             _repository.EmployeeRepository.Create(newEmpl);
             await _repository.EmployeeRepository.SaveAsync();
@@ -158,6 +160,9 @@ namespace Staffinfo.API.Controllers
                 original.EmployeePhoto = value.EmployeePhoto;
                 original.FirstPhoneNumber = value.FirstPhoneNumber;
                 original.SecondPhoneNumber = value.SecondPhoneNumber;
+                original.PersonalNumber = value.PersonalNumber;
+                        
+                //Changing gender is forbidden!!!
 
                 _repository.EmployeeRepository.Update(original);
                 await _repository.EmployeeRepository.SaveAsync();

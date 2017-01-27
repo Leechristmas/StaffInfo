@@ -10,6 +10,12 @@ namespace Staffinfo.API.Models
         [DataMember(Name = "passportId")]
         public int? PassportId { get; set; }
 
+        [DataMember(Name = "gender")]
+        public string Gender { get; set; }
+
+        [DataMember(Name = "personalNumber")]
+        public string PersonalNumber { get; set; }
+
         [DataMember(Name = "passportNumber")]
         public string PassportNumber { get; set; }
     
@@ -64,6 +70,8 @@ namespace Staffinfo.API.Models
             SecondPhoneNumber = employee.SecondPhoneNumber;
             RetirementDate = employee.RetirementDate;
             EmployeePhoto = employee.EmployeePhoto;
+            Gender = employee.Gender;
+            PersonalNumber = employee.PersonalNumber;
         }
     }
 }

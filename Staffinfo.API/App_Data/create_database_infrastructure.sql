@@ -139,8 +139,8 @@ CREATE TABLE dbo.tbl_Employee (
  ,Description NVARCHAR(100)
  ,FirstPhoneNumber NVARCHAR(13)
  ,SecondPhoneNumber NVARCHAR(13)
- ,Gender NCHAR(1) --'W'/'M',
- ,PersonalNumber NVARCHAR(7)
+ ,Gender NCHAR(1) NOT NULL--'W'/'M',
+ ,PersonalNumber NVARCHAR(7) NOT NULL UNIQUE
 --TODO
 );
 
