@@ -34,6 +34,8 @@ namespace Staffinfo.DAL.Context
         public virtual DbSet<Dismissed> Dismissed { get; set; } 
         public virtual DbSet<DisciplineItem> DisciplineItems { get; set; }
         public virtual DbSet<OutFromOffice> OutFromOffices { get; set; }
+        public virtual DbSet<EducationItem> EducationItems { get; set; }
+        public virtual DbSet<Contract> Contracts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -51,7 +53,9 @@ namespace Staffinfo.DAL.Context
                 .Add(new DismissedMap())
                 .Add(new DisciplineItemMap())
                 .Add(new OutFromOfficeMap())
-                .Add(new SertificationMap());
+                .Add(new SertificationMap())
+                .Add(new EducationItemMap())
+                .Add(new ContractMap());
         }
 
         public virtual ObjectResult<int> GetExpirience(int employeeId)

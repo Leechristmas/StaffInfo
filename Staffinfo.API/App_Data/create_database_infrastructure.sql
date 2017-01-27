@@ -38,6 +38,8 @@ DROP TABLE dbo.tbl_Address;
 DROP TABLE dbo.tbl_GratitudesAndPunishment;
 DROP TABLE dbo.tbl_Sertification;
 DROP TABLE dbo.tbl_OutFromOffice;
+DROP TABLE dbo.tbl_Education;
+DROP TABLE dbo.tbl_Contract;
 DROP TABLE dbo.tbl_Employee;
 DROP TABLE dbo.tbl_Dismissed;
 DROP TABLE dbo.tbl_Rank;
@@ -172,6 +174,24 @@ CREATE TABLE dbo.tbl_MESAchievement (
  ,FinishDate DATETIME DEFAULT NULL
  ,PostID INT NOT NULL
  ,RankID INT NOT NULL
+ ,Description NVARCHAR(200)
+);
+
+CREATE TABLE dbo.tbl_Education(
+  ID INT IDENTITY (1, 1) PRIMARY KEY
+ ,EmployeeID INT NOT NULL REFERENCES dbo.tbl_Employee ON DELETE CASCADE
+ ,Institution NVARCHAR(100) NOT NULL
+ ,Speciality NVARCHAR(100) NOT NULL
+ ,StartDate DATE NOT NULL
+ ,FinishDate DATE NOT NULL
+ ,Description NVARCHAR(200)
+);
+
+CREATE TABLE dbo.tbl_Contract(
+  ID INT IDENTITY(1,1) PRIMARY KEY
+ ,EmployeeID INT NOT NULL REFERENCES dbo.tbl_Employee ON DELETE CASCADE
+ ,StartDate DATE NOT NULL
+ ,FinishDate DATE NOT NULL
  ,Description NVARCHAR(200)
 );
 

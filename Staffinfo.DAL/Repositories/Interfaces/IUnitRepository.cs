@@ -22,5 +22,7 @@ namespace Staffinfo.DAL.Repositories.Interfaces
         IRepository<DisciplineItem> DisciplineItemRepository { get; }
         IRepository<OutFromOffice> OutFromOfficeRepository { get; } 
         IRepository<Sertification> SertificationRepository { get; } 
+        IRepository<EducationItem> EducationRepository { get; } 
+        IRepository<Contract> ContractRepository { get; } 
     }
 }

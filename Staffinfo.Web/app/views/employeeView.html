@@ -124,7 +124,7 @@
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label>Номер паспорта</label>
                                     <md-icon md-svg-icon="img/icons/ic_assignment_ind_24px.svg"></md-icon>
-                                    <input ng-model="changeable.passportNumber" required md-maxlength="9" ng-minlength="9"/>
+                                    <input ng-model="changeable.passportNumber" required md-maxlength="9" ng-minlength="9" />
                                     <div class="hint" style="margin-left: 30px;">
                                         Серия и номер паспорта: AA1234567
                                     </div>
@@ -135,7 +135,7 @@
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label>Идентификационный номер</label>
                                     <md-icon md-svg-icon="img/icons/ic_assignment_ind_24px.svg"></md-icon>
-                                    <input ng-model="changeable.passportIdentityNumber" required md-maxlength="14" ng-minlength="14" /> 
+                                    <input ng-model="changeable.passportIdentityNumber" required md-maxlength="14" ng-minlength="14" />
                                     <div class="hint" style="margin-left: 30px;">
                                         Идентификационный номер - 14 символов
                                     </div>
@@ -408,6 +408,102 @@
                                             <td md-cell>{{item.description}}</td>
                                             <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'S')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
                                             <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="showAddSertificationView($event, 'edit', item)" class="pull-right"><md-icon md-svg-src="img/icons/ic_mode_edit_24px.svg"></md-icon><md-tooltip md-direction="bottom">Редактировать запись</md-tooltip></md-button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </md-table-container>
+                        </md-content>
+                    </md-tab-body>
+                </md-tab>
+            <md-tab md-on-select="getContracts()">
+                <md-tab-label>
+                    <p class="unselectable">
+                        <md-icon md-svg-icon="img/icons/ic_assignment_24px.svg"></md-icon> Контракты
+                    </p>
+                </md-tab-label>
+                <md-tab-body>
+                    <md-content class="md-padding">
+                        <h1 class="md-display-1">Контракты</h1>
+                        <md-button class="md-fab md-primary md-fab-md" aria-label="Add Contract" ng-click="showAddContractView($event, 'add')">
+                            <md-icon md-svg-src="img/icons/ic_add_24px.svg"></md-icon>
+                            <md-tooltip md-direction="bottom">
+                                Добавить запись
+                            </md-tooltip>
+                        </md-button>
+                        <md-button class="md-fab md-primary md-fab-md" aria-label="Refresh" ng-click="getContracts()">
+                            <md-icon md-svg-src="img/icons/ic_refresh_24px.svg"></md-icon>
+                            <md-tooltip md-direction="bottom">
+                                Обновить
+                            </md-tooltip>
+                        </md-button>
+
+                        <md-table-container class="scrollableTable">
+                            <table md-table md-progress="promise">
+                                <thead md-head fix-head>
+                                <tr md-row>
+                                    <th md-column class="td-center">Дата начала контракта</th>
+                                    <th md-column class="td-center">Дата истечения контракта</th>
+                                    <th md-column>Описание</th>
+                                </tr>
+                                </thead>
+                                <tbody md-body>
+                                <tr ng-if="contracts.length === 0"><td colspan="4" class="td-center text-center emptyRow">Пусто</td></tr>
+                                <tr ng-if="contracts.length != 0" md-row md-select-id="id" ng-repeat="item in contracts | orderBy: '-startDate'">
+                                    <td md-cell class="td-center">{{getDate(item.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
+                                    <td md-cell class="td-center">{{getDate(item.finishDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
+                                    <td md-cell>{{item.description}}</td>
+                                    <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'C')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
+                                    <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="showAddContractView($event, 'edit', item)" class="pull-right"><md-icon md-svg-src="img/icons/ic_mode_edit_24px.svg"></md-icon><md-tooltip md-direction="bottom">Редактировать запись</md-tooltip></md-button></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </md-table-container>
+                    </md-content>
+                </md-tab-body>
+            </md-tab>
+                <md-tab md-on-select="getEducation()">
+                    <md-tab-label>
+                        <p class="unselectable">
+                            <md-icon md-svg-icon="img/icons/ic_assignment_24px.svg"></md-icon> Образование
+                        </p>
+                    </md-tab-label>
+                    <md-tab-body>
+                        <md-content class="md-padding">
+                            <h1 class="md-display-1">Образование</h1>
+                            <md-button class="md-fab md-primary md-fab-md" aria-label="Add Contract" ng-click="showAddEducationView($event, 'add')">
+                                <md-icon md-svg-src="img/icons/ic_add_24px.svg"></md-icon>
+                                <md-tooltip md-direction="bottom">
+                                    Добавить запись
+                                </md-tooltip>
+                            </md-button>
+                            <md-button class="md-fab md-primary md-fab-md" aria-label="Refresh" ng-click="getEducation()">
+                                <md-icon md-svg-src="img/icons/ic_refresh_24px.svg"></md-icon>
+                                <md-tooltip md-direction="bottom">
+                                    Обновить
+                                </md-tooltip>
+                            </md-button>
+
+                            <md-table-container class="scrollableTable">
+                                <table md-table md-progress="promise">
+                                    <thead md-head fix-head>
+                                        <tr md-row>
+                                            <th md-column class="td-center">Учебное заведение</th>
+                                            <th md-column class="td-center">Специальность</th>
+                                            <th md-column class="td-center">Дата начала обучения</th>
+                                            <th md-column class="td-center">Дата завершения</th>
+                                            <th md-column>Описание</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody md-body>
+                                        <tr ng-if="educationItems.length === 0"><td colspan="4" class="td-center text-center emptyRow">Пусто</td></tr>
+                                        <tr ng-if="educationItems.length != 0" md-row md-select-id="id" ng-repeat="item in educationItems | orderBy: '-startDate'">
+                                            <td md-cell class="td-center">{{item.institution}}</td>
+                                            <td md-cell class="td-center">{{item.speciality}}</td>
+                                            <td md-cell class="td-center">{{getDate(item.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
+                                            <td md-cell class="td-center">{{getDate(item.finishDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
+                                            <td md-cell>{{item.description}}</td>
+                                            <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'E')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
+                                            <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="showAddEducationView($event, 'edit', item)" class="pull-right"><md-icon md-svg-src="img/icons/ic_mode_edit_24px.svg"></md-icon><md-tooltip md-direction="bottom">Редактировать запись</md-tooltip></md-button></td>
                                         </tr>
                                     </tbody>
                                 </table>

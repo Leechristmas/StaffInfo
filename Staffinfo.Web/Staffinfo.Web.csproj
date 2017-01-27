@@ -87,6 +87,8 @@
     <Content Include="app\services\messageService.js" />
     <Content Include="app\services\reportingService.js" />
     <Content Include="app\services\settingsService.js" />
+    <Content Include="app\views\addContractView.html" />
+    <Content Include="app\views\addEducationView.html" />
     <Content Include="app\views\addEmployeeView.html" />
     <Content Include="app\views\addMesView.html" />
     <Content Include="app\views\addMilitaryView.html" />

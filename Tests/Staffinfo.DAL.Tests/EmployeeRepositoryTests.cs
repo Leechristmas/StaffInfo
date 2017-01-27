@@ -25,7 +25,8 @@ namespace Staffinfo.DAL.Tests
             var addressRepository = new Repository<Address>(new StaffContext());
             var passportRepository = new Repository<Passport>(new StaffContext());
             var employeeRepository = new Repository<Employee>(new StaffContext());
-            _repository = new StaffUnitRepository(addressRepository, employeeRepository, null, null, null, passportRepository, null, null, null, null, null, null, null, null);
+            _repository = new StaffUnitRepository(addressRepository, employeeRepository, null, null, null,
+                passportRepository, null, null, null, null, null, null, null, null, null, null);
         }
 
         #region TestContext

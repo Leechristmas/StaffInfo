@@ -29,9 +29,11 @@ namespace Staffinfo.DAL.Tests
             var outFromOffice = new Repository<OutFromOffice>(new StaffContext());
             var sertificationRepository = new Repository<Sertification>(new StaffContext());
             var workTermRepository= new Repository<WorkTerm>(new StaffContext());
+            var educationRepository = new Repository<EducationItem>(new StaffContext());
+            var contractRepository = new Repository<Contract>(new StaffContext());
 
             _repository = new StaffUnitRepository(addressRepository, employeeRepository, locationRepository, mesAchievementRepository, militaryRepository,
-                passportRepository, null, null, null, workTermRepository, null, disciplineRepository, outFromOffice, sertificationRepository);
+                passportRepository, null, null, null, workTermRepository, null, disciplineRepository, outFromOffice, sertificationRepository, educationRepository, contractRepository);
         }
 
         #region DisciplineItemsRepositoryTests
@@ -348,5 +350,100 @@ namespace Staffinfo.DAL.Tests
 
         #endregion
 
+        #region EduacationRepositoryTests
+
+        [TestMethod]
+        public async Task CRUD_ShouldCreateGetUpdateDeleteAnEducationItem()
+        {
+            var id = CreateEducationItem_ShouldCreateAndSaveAnEducationItem().Result;
+            var item = TestingCRUDHelper.GetItem_ShouldReturnAnItemById(_repository.EducationRepository, id);
+
+            TestingCRUDHelper.GetAllItems_ShouldReturnAllItemsFromDB(_repository.EducationRepository);
+
+            await Update_ShouldUpdateEducationItem(item);
+            await TestingCRUDHelper.Delete_ShouldDeleteSpecifiedItemFromDB(_repository.EducationRepository, id);
+        }
+
+        private async Task Update_ShouldUpdateEducationItem(EducationItem item)
+        {
+            item.Description = "testing of updating";
+
+            _repository.EducationRepository.Update(item);
+            await _repository.EducationRepository.SaveAsync();
+
+            EducationItem updated = _repository.EducationRepository.SelectAsync(item.Id).Result;
+
+            Assert.AreEqual(updated.Description, item.Description, "The \"description\" has not been updated!");
+        }
+
+        private async Task<int> CreateEducationItem_ShouldCreateAndSaveAnEducationItem()
+        {
+            EducationItem item = new EducationItem()
+            {
+                Institution = "inst_test",
+                Speciality = "spec_test",
+                StartDate = DateTime.Now.AddDays(-1),
+                FinishDate = DateTime.Now,
+                EmployeeId = 1,
+                Description = "desc_test"
+            };
+            
+            var created = _repository.EducationRepository.Create(item);
+            await _repository.EducationRepository.SaveAsync();
+
+            Assert.IsNotNull(created, "Operation of creation returned \"NULL\"");
+            Assert.IsTrue(created.Id > 0, "Object has invalid id!");
+
+            return created.Id;
+        }
+
+        #endregion
+
+        #region ContractRepositoryTests
+
+        [TestMethod]
+        public async Task CRUD_ShouldCreateGetUpdateDeleteAContract()
+        {
+            var id = CreateContract_ShouldCreateAndSaveAContract().Result;
+            var item = TestingCRUDHelper.GetItem_ShouldReturnAnItemById(_repository.ContractRepository, id);
+
+            TestingCRUDHelper.GetAllItems_ShouldReturnAllItemsFromDB(_repository.ContractRepository);
+
+            await Update_ShouldUpdateContract(item);
+            await TestingCRUDHelper.Delete_ShouldDeleteSpecifiedItemFromDB(_repository.ContractRepository, id);
+        }
+
+        private async Task Update_ShouldUpdateContract(Contract item)
+        {
+            item.Description = "testing of updating";
+
+            _repository.ContractRepository.Update(item);
+            await _repository.ContractRepository.SaveAsync();
+
+            Contract updated = _repository.ContractRepository.SelectAsync(item.Id).Result;
+
+            Assert.AreEqual(updated.Description, item.Description, "The \"description\" has not been updated!");
+        }
+
+        private async Task<int> CreateContract_ShouldCreateAndSaveAContract()
+        {
+            Contract item = new Contract()
+            {
+                StartDate = DateTime.Now.AddDays(-1),
+                FinishDate = DateTime.Now,
+                EmployeeId = 1,
+                Description = "desc_test"
+            };
+
+            var created = _repository.ContractRepository.Create(item);
+            await _repository.ContractRepository.SaveAsync();
+
+            Assert.IsNotNull(created, "Operation of creation returned \"NULL\"");
+            Assert.IsTrue(created.Id > 0, "Object has invalid id!");
+
+            return created.Id;
+        }
+
+        #endregion
     }
 }

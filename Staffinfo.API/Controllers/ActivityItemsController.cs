@@ -12,7 +12,7 @@ using Staffinfo.DAL.Repositories.Interfaces;
 namespace Staffinfo.API.Controllers
 {
     [Route("api/employees/activity")]
-    [Authorize]
+    //[Authorize]
     public class ActivityItemsController : ApiController
     {
         private readonly IUnitRepository _repository;
@@ -364,5 +364,116 @@ namespace Staffinfo.API.Controllers
 
         #endregion
 
+        #region Education
+
+        [HttpPost]
+        [Route("api/employees/activity/education")]
+        public async Task PostEducation([FromBody] EducationViewModel value)
+        {
+            EducationItem item = new EducationItem
+            {
+                Id = 0,
+                StartDate = value.StartDate,
+                FinishDate = value.FinishDate,
+                Institution = value.Institution,
+                Speciality = value.Speciality,
+                EmployeeId = value.EmployeeId,
+                Description = value.Description
+            };
+            _repository.EducationRepository.Create(item);
+            await _repository.EducationRepository.SaveAsync();
+        }
+
+        [HttpGet]
+        [Route("api/employees/activity/education/{emplId:int}")]
+        public async Task<IEnumerable<EducationViewModel>> GetEducationItems(int emplId)
+        {
+            IEnumerable<EducationItem> educationItems =
+                await _repository.EducationRepository.WhereAsync(i => i.EmployeeId == emplId);
+            return educationItems.Select(i => new EducationViewModel(i));
+        }
+
+        [HttpDelete]
+        [Route("api/employees/activity/education/{id:int}")]
+        public async Task DeleteEducation(int id)
+        {
+            await _repository.EducationRepository.Delete(id);
+            await _repository.EducationRepository.SaveAsync();
+        }
+
+        [HttpPut]
+        [Route("api/employees/activity/education/{id:int}")]
+        public async Task EditEducation(int id, [FromBody] EducationViewModel value)
+        {
+            EducationItem original = await _repository.EducationRepository.SelectAsync(id);
+            if (original != null)
+            {
+                original.StartDate = value.StartDate;
+                original.FinishDate = value.FinishDate;
+                original.Institution = value.Institution;
+                original.EmployeeId = value.EmployeeId;
+                original.Description = value.Description;
+                original.Speciality = value.Speciality;
+
+                _repository.EducationRepository.Update(original);
+                await _repository.EducationRepository.SaveAsync();
+            }
+        }
+
+        #endregion
+
+        #region Contracts
+
+        [HttpPost]
+        [Route("api/employees/activity/contracts")]
+        public async Task PostContract([FromBody] ContractViewModel value)
+        {
+            Contract item = new Contract
+            {
+                Id = 0,
+                StartDate = value.StartDate,
+                FinishDate = value.FinishDate,
+                EmployeeId = value.EmployeeId,
+                Description = value.Description
+            };
+            _repository.ContractRepository.Create(item);
+            await _repository.ContractRepository.SaveAsync();
+        }
+
+        [HttpGet]
+        [Route("api/employees/activity/contracts/{emplId:int}")]
+        public async Task<IEnumerable<ContractViewModel>> GetContracts(int emplId)
+        {
+            IEnumerable<Contract> items =
+                await _repository.ContractRepository.WhereAsync(i => i.EmployeeId == emplId);
+            return items.Select(i => new ContractViewModel(i));
+        }
+
+        [HttpDelete]
+        [Route("api/employees/activity/contracts/{id:int}")]
+        public async Task DeleteContract(int id)
+        {
+            await _repository.ContractRepository.Delete(id);
+            await _repository.ContractRepository.SaveAsync();
+        }
+
+        [HttpPut]
+        [Route("api/employees/activity/contracts/{id:int}")]
+        public async Task EditContract(int id, [FromBody] ContractViewModel value)
+        {
+            Contract original = await _repository.ContractRepository.SelectAsync(id);
+            if (original != null)
+            {
+                original.StartDate = value.StartDate;
+                original.FinishDate = value.FinishDate;
+                original.EmployeeId = value.EmployeeId;
+                original.Description = value.Description;
+
+                _repository.ContractRepository.Update(original);
+                await _repository.ContractRepository.SaveAsync();
+            }
+        }
+
+        #endregion
     }
 }

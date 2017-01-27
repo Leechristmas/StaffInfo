@@ -60,8 +60,10 @@
     <Compile Include="Context\StaffContext.cs" />
     <Compile Include="Mapping\AddressMap.cs" />
     <Compile Include="Mapping\BaseMap.cs" />
+    <Compile Include="Mapping\ContractMap.cs" />
     <Compile Include="Mapping\DisciplineItemMap.cs" />
     <Compile Include="Mapping\DismissedMap.cs" />
+    <Compile Include="Mapping\EducationItemMap.cs" />
     <Compile Include="Mapping\EmployeeMap.cs" />
     <Compile Include="Mapping\LocationMap.cs" />
     <Compile Include="Mapping\MesAchievementMap.cs" />
@@ -75,8 +77,10 @@
     <Compile Include="Mapping\WorkTermMap.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Common\Entity.cs" />
+    <Compile Include="Models\Contract.cs" />
     <Compile Include="Models\DisciplineItem.cs" />
     <Compile Include="Models\Dismissed.cs" />
+    <Compile Include="Models\EducationItem.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\MesAchievement.cs" />

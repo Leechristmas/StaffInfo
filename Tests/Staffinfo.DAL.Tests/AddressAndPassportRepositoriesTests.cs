@@ -21,7 +21,7 @@ namespace Staffinfo.DAL.Tests
         {
             var addressRepository = new Repository<Address>(new StaffContext());
             var passportRepository = new Repository<Passport>(new StaffContext());
-            _repository = new StaffUnitRepository(addressRepository, null, null, null, null, passportRepository, null, null, null, null, null, null, null, null);
+            _repository = new StaffUnitRepository(addressRepository, null, null, null, null, passportRepository, null, null, null, null, null, null, null, null, null, null);
         }
 
         #region TestContext
@@ -41,7 +41,7 @@ namespace Staffinfo.DAL.Tests
             {
                 testContextInstance = value;
             }
-        } 
+        }
         #endregion
 
         #region Additional test attributes

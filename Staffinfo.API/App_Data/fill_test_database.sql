@@ -174,3 +174,11 @@ INSERT INTO dbo.tbl_Sertification(EmployeeID, DueDate, Description)
       (1, '2010-11-10', N'description2');
 
 GO
+
+INSERT INTO dbo.tbl_Education(EmployeeID, Institution, Speciality, StartDate, FinishDate, Description)
+  VALUES(1, 'Institution_1', 'Speciality_1', '2010-02-03', '2011-02-03', 'qwe');
+
+GO
+
+INSERT INTO dbo.tbl_Contract(EmployeeID, StartDate, FinishDate, Description)
+  VALUES(1, '2010-02-03', '2011-02-03', 'qwe');

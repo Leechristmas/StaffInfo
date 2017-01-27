@@ -1,0 +1,50 @@
+﻿<md-dialog aria-label="Добавить запись">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{mode === 'add' ? 'Добавление': 'Редактирование'}}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content style="max-width: 800px; max-height: 810px; min-width: 600px;">
+        <form name="itemForm">
+            <md-content class="md-padding">
+                <div layout-gt-sm="row">
+                    
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Начало Периода</label>
+                        <md-datepicker name="startDate" ng-model="contract.startDate" required md-max-date="contract.finishDate" md-min-date="minDate" ng-focus="dtpckrOnFocus(contract, 'startDate')"></md-datepicker>
+                        <div ng-messages="itemForm.startDate.$error" class="validation-messages">
+                            <div ng-message="required">Необходимо заполнить это поле.</div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Конец Периода</label>
+                        <md-datepicker name="finishDate" ng-model="contract.finishDate" md-min-date="contract.startDate" md-max-date="maxDate" ng-focus="dtpckrOnFocus(contract, 'finishDate')"></md-datepicker>
+                        <div ng-messages="itemForm.finishDate.$error" class="validation-messages">
+                            <div ng-message="required">Необходимо заполнить это поле.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" style="width: 100%;">
+                        <label>Заметка</label>
+                        <md-icon md-svg-src="img/icons/ic_description_24px.svg" class="name"></md-icon>
+                        <textarea ng-model="contract.description" columns="1" md-maxlength="150" rows="3"></textarea>
+                    </md-input-container>
+                </div>
+
+            </md-content>
+        </form>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" class="dialog-footer">
+        <md-button ng-click="saveNewContract()" class="md-primary md-raised" ng-disabled="itemForm.$invalid">
+            Сохранить
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

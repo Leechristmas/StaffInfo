@@ -101,6 +101,34 @@ app.factory('employeesService', [
 
         //activity items (locations, ranks, posts, works, etc.) properties and methods
         var _activityItems = {
+            contracts: {
+                selectedContract: null,
+                getContracts: function () {
+                    return $http.get(serviceBase + 'api/employees/activity/contracts/' + _employees.actualEmployee.id);
+                },
+                saveContract: function(item) {
+                    if (item.id)//update
+                        return $http.put(serviceBase + 'api/employees/activity/contracts/' + item.id, item, {});
+                    return $http.post(serviceBase + 'api/employees/activity/contracts', item, {});
+                },
+                deleteContract: function (id) {
+                    return $http.delete(serviceBase + 'api/employees/activity/contracts/' + id);
+                }
+            },
+            education: {
+                selectedEducation: null,
+                saveEducation: function (item) {
+                    if (item.id)//update
+                        return $http.put(serviceBase + 'api/employees/activity/education/' + item.id, item, {});
+                    return $http.post(serviceBase + 'api/employees/activity/education', item, {});
+                },
+                deleteEducation: function (id) {
+                    return $http.delete(serviceBase + 'api/employees/activity/education/' + id);
+                },
+                getEducationItems: function () {
+                    return $http.get(serviceBase + 'api/employees/activity/education/' + _employees.actualEmployee.id);
+                }
+            },
             works: {
                 selectedWork: null,
                 saveWork: function (item) {
