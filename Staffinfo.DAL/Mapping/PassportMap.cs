@@ -8,6 +8,7 @@ namespace Staffinfo.DAL.Mapping
         {
             this.Property(t => t.PassportNumber).IsRequired().HasColumnName("PassportNumber");
             this.Property(t => t.PassportOrganization).IsRequired().HasColumnName("PassportOrganization");
+            this.Property(t => t.IdentityNumber).IsRequired().HasColumnName("IdentityNumber");
         }
     }
 }

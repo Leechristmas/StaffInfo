@@ -16,6 +16,9 @@ namespace Staffinfo.API.Models
         [DataMember(Name = "passportOrganization")]
         public string PassportOrganization { get; set; }
 
+        [DataMember(Name = "passportIdentityNumber")]
+        public string PassportIdentityNumber { get; set; }
+
         [DataMember(Name = "addressId")]
         public int? AddressId { get; set; }
 
@@ -56,6 +59,7 @@ namespace Staffinfo.API.Models
             PassportId = employee.PassportId;
             PassportNumber = employee.Passport.PassportNumber;
             PassportOrganization = employee.Passport.PassportOrganization;
+            PassportIdentityNumber = employee.Passport.IdentityNumber;
             FirstPhoneNumber = employee.FirstPhoneNumber;
             SecondPhoneNumber = employee.SecondPhoneNumber;
             RetirementDate = employee.RetirementDate;

@@ -106,7 +106,7 @@
                             </md-input-container>
                         </div>
 
-                        <h6 class="md-display-1">Пасспортные данные</h6>
+                        <h6 class="md-display-1">Паспортные данные</h6>
                         <div layout-gt-sm="row">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Номер паспорта</label>
@@ -117,6 +117,20 @@
                                 <input name="passportNumber" ng-model="newEmployee.passportNumber" required md-maxlength="9" ng-minlength="9"/>
                                 <div class="hint" style="margin-left: 30px;">
                                     Серия и номер паспорта: AA1234567
+                                </div>
+                            </md-input-container>
+                        </div>
+
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Идентификационный номер</label>
+                                <md-icon md-svg-icon="img/icons/ic_assignment_ind_24px.svg"></md-icon>
+                                <div ng-messages="addEmployeeForm.passportIdentityNumber.$error" style="padding-top: 35px;" class="validation-messages">
+                                    <div ng-message="required">Укажите идентификационнный номер паспорта.</div>
+                                </div>
+                                <input name="passportIdentityNumber" ng-model="newEmployee.passportIdentityNumber" required md-maxlength="14" ng-minlength="14" />
+                                <div class="hint" style="margin-left: 30px;">
+                                    Идентификационный номер - 14 символов
                                 </div>
                             </md-input-container>
                         </div>

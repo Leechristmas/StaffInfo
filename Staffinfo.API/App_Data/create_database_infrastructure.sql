@@ -67,6 +67,8 @@ GO
 --TABLES---------------------
 -----------------------------
 
+
+
 CREATE TABLE dbo.tbl_Rank (
   ID INT IDENTITY (1, 1) PRIMARY KEY
  ,RankName NVARCHAR(60) NOT NULL
@@ -116,6 +118,7 @@ CREATE TABLE dbo.tbl_Passport (
   ID INT IDENTITY (1, 1) PRIMARY KEY
  ,PassportNumber NVARCHAR(9) NOT NULL
  ,PassportOrganization NVARCHAR(50) NOT NULL
+ ,IdentityNumber NVARCHAR(14) NOT NULL
 );
 GO
 
@@ -136,6 +139,8 @@ CREATE TABLE dbo.tbl_Employee (
  ,Description NVARCHAR(100)
  ,FirstPhoneNumber NVARCHAR(13)
  ,SecondPhoneNumber NVARCHAR(13)
+ ,Gender NCHAR(1) --'W'/'M',
+ ,PersonalNumber NVARCHAR(7)
 --TODO
 );
 

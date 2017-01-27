@@ -71,13 +71,15 @@ namespace Staffinfo.API.Controllers
         }
 
         // POST: api/Employee
+        [HttpPost]
         public async Task AddEmployee([FromBody]EmployeeViewModel value)
         {
             //adding passport
             Passport passport = new Passport
             {
                 PassportNumber = value.PassportNumber,
-                PassportOrganization = value.PassportOrganization
+                PassportOrganization = value.PassportOrganization,
+                IdentityNumber = value.PassportIdentityNumber
             };
             passport = _repository.PassportRepository.Create(passport);
             await _repository.PassportRepository.SaveAsync();
@@ -138,6 +140,7 @@ namespace Staffinfo.API.Controllers
                 {
                     passport.PassportNumber = value.PassportNumber;
                     passport.PassportOrganization = value.PassportOrganization;
+                    passport.IdentityNumber = value.PassportIdentityNumber;
 
                     _repository.PassportRepository.Update(passport);
                     await _repository.PassportRepository.SaveAsync();

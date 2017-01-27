@@ -987,6 +987,7 @@ app.controller('employeesController', [
             zipCode: '123456',
             passportNumber: 'HB1234567',
             passportOrganization: 'тестовая организация',
+            passportIdentityNumber: '102proit265743',
             firstPhone: 'первый номер',
             secondPhone: 'второй номер'
         }
