@@ -3,6 +3,7 @@ using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
+using System.Web;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using OfficeOpenXml;
@@ -169,7 +170,9 @@ namespace Staffinfo.Reports
                 //    (Directory.GetParent(Directory.GetCurrentDirectory()).Parent?.Parent?.FullName + @"\" +
                 //     @"Staffinfo.Reports\Templates\Total_Employees.xlsx");
 
-                var templateDocument = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"..\Staffinfo.Reports\Templates\Total_Employees.xlsx");
+                //templateDocument = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"..\Staffinfo.Reports\Templates\Total_Employees.xlsx");
+                var templateDocument = Path.Combine(HttpContext.Current.Server.MapPath("~"),
+                    @"..\wwwroot\Templates\Total_Employees.xlsx");
                 MemoryStream output = new MemoryStream();
 
                 using (FileStream templateDocumentStream = File.OpenRead(templateDocument))
@@ -208,7 +211,7 @@ namespace Staffinfo.Reports
             }
             catch (Exception e)
             {
-                return null;
+                throw new Exception("Excel report generation error!", e);
             }
         }
     }
