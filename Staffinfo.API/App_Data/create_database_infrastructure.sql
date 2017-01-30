@@ -40,6 +40,7 @@ DROP TABLE dbo.tbl_Sertification;
 DROP TABLE dbo.tbl_OutFromOffice;
 DROP TABLE dbo.tbl_Education;
 DROP TABLE dbo.tbl_Contract;
+DROP TABLE dbo.tbl_Relative;
 DROP TABLE dbo.tbl_Employee;
 DROP TABLE dbo.tbl_Dismissed;
 DROP TABLE dbo.tbl_Rank;
@@ -68,9 +69,6 @@ GO
 -----------------------------
 --TABLES---------------------
 -----------------------------
-
-
-
 CREATE TABLE dbo.tbl_Rank (
   ID INT IDENTITY (1, 1) PRIMARY KEY
  ,RankName NVARCHAR(60) NOT NULL
@@ -151,6 +149,19 @@ CREATE TABLE dbo.tbl_Employee (
 --      FOREIGN KEY (AddressID) REFERENCES tbl_Address,
 --      CONSTRAINT fk_Employee_Passport
 --      FOREIGN KEY (PassportID) REFERENCES tbl_Passport;
+GO
+
+
+CREATE TABLE dbo.tbl_Relative(
+  ID INT IDENTITY(1,1) PRIMARY KEY
+ ,EmployeeID INT NOT NULL REFERENCES tbl_Employee ON DELETE CASCADE
+ ,Lastname NVARCHAR(30) NOT NULL
+ ,Firstname NVARCHAR(30) NOT NULL
+ ,Middlename NVARCHAR(30) NOT NULL
+ ,BirthDate Date NOT NULL
+ ,Status NVARCHAR(15)
+);
+
 GO
 
 --dismissed employees

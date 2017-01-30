@@ -439,6 +439,31 @@ app.controller('employeesController', [
             });
         };
 
+        $scope.showAddRelativeView = function (ev, mode, item) {
+            if (mode === 'add')
+                employeesService.activityItems.relatives.selecetedRelative = null;
+            else if (mode === 'edit') {
+                employeesService.activityItems.relatives.selecetedRelative = employeesService.common.getClone(item);
+                employeesService.activityItems.relatives.selecetedRelative.birthDate = $scope.getDate(item.birthDate);
+            }
+
+            $mdDialog.show({
+                controller: 'addEmployeeItemsController',
+                templateUrl: 'app/views/addRelativeView.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                locals: {
+                    mode: mode
+                }
+            }).then(function (answer) {
+                $scope.getRelatives(); //refresh the list
+                console.log('new relative has been added.');
+            }, function () {
+                console.log('adding view has been closed.');
+            });
+        };
+
         $scope.showAddSertificationView = function (ev, mode, item) {
             if (mode === 'add')
                 employeesService.activityItems.sertification.selectedSertification = null;
@@ -498,7 +523,7 @@ app.controller('employeesController', [
         };
 
         //confirmation deleting
-        $scope.confirmDeleting = function (ev, id, type) { //type: W - works; M - military; A - achievements; D - discipline items; O- 'out from office' items; C - contracts
+        $scope.confirmDeleting = function (ev, id, type) { //type: W - works; M - military; A - achievements; D - discipline items; O- 'out from office' items; C - contracts; R - relatives
 
             var confirm = $mdDialog.confirm()
                 .title('Удаление')
@@ -529,6 +554,8 @@ app.controller('employeesController', [
                         _deleteContract(id);
                     case "E":   //education
                         _deleteEducation(id);
+                    case "R":   //relatives
+                        _deleteRelative(id);
                     default:
                         break;
                 }
@@ -731,6 +758,41 @@ app.controller('employeesController', [
         var _deleteEducation = function (id) {
             $scope.promise = employeesService.activityItems.education.deleteEducation(id).then(function (response) {
                 $scope.getEducation(); //refresh
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                        '<div class="md-toast-content">' +
+                        'Запись была успешно удалена.' +
+                        '</div>' +
+                        '</md-toast>'
+                });
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+
+        //----------------------------------------------------
+
+        //RELATIVES-----------------------------------------------
+        $scope.relatives = [];
+
+        //returns education items for employee
+        $scope.getRelatives = function () {
+            $scope.promise = employeesService.activityItems.relatives.getRelatives().then(function (response) {
+                $scope.relatives = response.data;
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+
+        //deletes work by id
+        var _deleteRelative = function (id) {
+            $scope.promise = employeesService.activityItems.relatives.deleteRelatives(id).then(function (response) {
+                $scope.getRelatives(); //refresh
                 $mdToast.show({
                     hideDelay: 3000,
                     position: 'top right',
@@ -1061,9 +1123,36 @@ app.controller('employeesController', [
             ? { employeeId: employeesService.employees.getActualEmployee().id }
             : employeesService.activityItems.education.selectedEducation;
 
-        //saves new work
+        //saves new education
         $scope.saveNewEducation = function () {
             $scope.promise = employeesService.activityItems.education.saveEducation($scope.education).then(function (response) {
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                                    '<div class="md-toast-content">' +
+                                      (mode === 'edit' ? 'Запись успешно изменена.' : 'Запись успешно добавлена.') +
+                                    '</div>' +
+                                '</md-toast>'
+                });
+                $mdDialog.hide('save'); //throw the 'answer' to the main controller to refresh or do not the list
+            }, function (data) {
+                $mdDialog.hide('cancel');
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+        //----------------------------------------------------
+
+        //RELATIVES------------------------------------------------
+        $scope.relative = employeesService.activityItems.relatives.selecetedRelative == null
+            ? { employeeId  : employeesService.employees.getActualEmployee().id }
+            : employeesService.activityItems.relatives.selecetedRelative;
+
+        //saves new relative
+        $scope.saveNewRelative = function () {
+            $scope.promise = employeesService.activityItems.relatives.saveRelative($scope.relative).then(function (response) {
                 $mdToast.show({
                     hideDelay: 3000,
                     position: 'top right',

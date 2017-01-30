@@ -55,7 +55,8 @@ namespace Staffinfo.DAL.Context
                 .Add(new OutFromOfficeMap())
                 .Add(new SertificationMap())
                 .Add(new EducationItemMap())
-                .Add(new ContractMap());
+                .Add(new ContractMap())
+                .Add(new RelativeMap());
         }
 
         public virtual ObjectResult<int> GetExpirience(int employeeId)

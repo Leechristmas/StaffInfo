@@ -9,7 +9,7 @@ namespace Staffinfo.DAL.Repositories
     /// <summary>
     /// Unit repository (Unit Of Work pattern)
     /// </summary>
-    public class StaffUnitRepository : IUnitRepository, IStaffRepository
+    public sealed class StaffUnitRepository : IUnitRepository, IStaffRepository
     {
         [Inject]
         public StaffContext StaffContext { get; set; }
@@ -29,7 +29,8 @@ namespace Staffinfo.DAL.Repositories
             IRepository<OutFromOffice> outFromOfficeRepository,
             IRepository<Sertification> sertificationRepository,
             IRepository<EducationItem> educationRepository,
-            IRepository<Contract> contractRepository)
+            IRepository<Contract> contractRepository,
+            IRepository<Relative> relativeRepository)
         {
             AddressRepository = addressRepository;
             EmployeeRepository = employeeRepository;
@@ -47,6 +48,7 @@ namespace Staffinfo.DAL.Repositories
             SertificationRepository = sertificationRepository;
             EducationRepository = educationRepository;
             ContractRepository = contractRepository;
+            RelativeRepository = relativeRepository;
         }
 
         public IRepository<Address> AddressRepository { get; }
@@ -79,6 +81,7 @@ namespace Staffinfo.DAL.Repositories
 
         public IRepository<EducationItem> EducationRepository { get; }
         public IRepository<Contract> ContractRepository { get; }
+        public IRepository<Relative> RelativeRepository { get; }
 
         #region Implementing interface IDisposable
 
@@ -94,7 +97,7 @@ namespace Staffinfo.DAL.Repositories
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (disposed)
                 return;

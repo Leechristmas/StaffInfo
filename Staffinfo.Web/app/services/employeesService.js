@@ -218,6 +218,20 @@ app.factory('employeesService', [
                     return $http.post(serviceBase + 'api/employees/activity/out-from-office/', item, {});
                 }
             },
+            relatives: {
+                selecetedRelative: null,
+                getRelatives: function() {
+                    return $http.get(serviceBase + 'api/employees/activity/relatives/' + _employees.actualEmployee.id);
+                },
+                deleteRelatives: function(id) {
+                    return $http.delete(serviceBase + 'api/employee/activity/relatives' + id);
+                },
+                saveRelative: function(item) {
+                    if (item.id)
+                        return $http.put(serviceBase + 'api/employees/activity/relatives/' + item.id, item, {});
+                    return $http.post(serviceBase + 'api/employees/activity/relatives/', item, {});
+                }
+            },
             sertification: {
                 selectedSertification: null,
                 getSertifications: function (employeeId) {

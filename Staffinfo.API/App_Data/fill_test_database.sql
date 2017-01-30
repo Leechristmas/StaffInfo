@@ -182,3 +182,9 @@ GO
 
 INSERT INTO dbo.tbl_Contract(EmployeeID, StartDate, FinishDate, Description)
   VALUES(1, '2010-02-03', '2011-02-03', 'qwe');
+
+go
+
+INSERT INTO dbo.tbl_Relative (EmployeeID, Lastname, Firstname, Middlename, BirthDate, Status)
+  VALUES(1, N'Петрова', N'Лариса', N'Ивановна', '1982-04-02', N'Жена'),
+  (1, N'Петрова', N'Екатерина', N'Ивановна', '1982-04-02', N'дочь');

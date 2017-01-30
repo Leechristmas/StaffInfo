@@ -249,6 +249,7 @@
     <Compile Include="Models\MilitaryServiceViewModel.cs" />
     <Compile Include="Models\NamedEntity.cs" />
     <Compile Include="Models\OutFromOfficeViewModel.cs" />
+    <Compile Include="Models\RelativeViewModel.cs" />
     <Compile Include="Models\RetiredMinViewModel.cs" />
     <Compile Include="Models\Seniority.cs" />
     <Compile Include="Models\SertificationViewModel.cs" />

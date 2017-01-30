@@ -475,5 +475,63 @@ namespace Staffinfo.API.Controllers
         }
 
         #endregion
+
+        #region Relatives
+
+        [HttpPost]
+        [Route("api/employees/activity/relatives")]
+        public async Task PostRelative([FromBody] RelativeViewModel value)
+        {
+            Relative item = new Relative
+            {
+                Id = 0,
+                Lastname = value.Lastname,
+                Firstname = value.Firstname,
+                Middlename = value.Middlename,
+                BirthDate = value.BirthDate,
+                EmployeeID = value.EmployeeId,
+                Status = value.Status
+            };
+            _repository.RelativeRepository.Create(item);
+            await _repository.RelativeRepository.SaveAsync();
+        }
+
+        [HttpGet]
+        [Route("api/employees/activity/relatives/{emplId:int}")]
+        public async Task<IEnumerable<RelativeViewModel>> GetRelatives(int emplId)
+        {
+            IEnumerable<Relative> items =
+                await _repository.RelativeRepository.WhereAsync(i => i.EmployeeID == emplId);
+            return items.Select(i => new RelativeViewModel(i));
+        }
+
+        [HttpDelete]
+        [Route("api/employees/activity/relatives/{id:int}")]
+        public async Task DeleteRelative(int id)
+        {
+            await _repository.RelativeRepository.Delete(id);
+            await _repository.RelativeRepository.SaveAsync();
+        }
+
+        [HttpPut]
+        [Route("api/employees/activity/relatives/{id:int}")]
+        public async Task EditRelative(int id, [FromBody] RelativeViewModel value)
+        {
+            Relative original = await _repository.RelativeRepository.SelectAsync(id);
+            if (original != null)
+            {
+                original.Lastname = value.Lastname;
+                original.Firstname = value.Firstname;
+                original.Middlename = value.Middlename;
+                original.BirthDate = value.BirthDate;
+                original.Status = value.Status;
+                original.EmployeeID = value.EmployeeId;
+
+                _repository.RelativeRepository.Update(original);
+                await _repository.RelativeRepository.SaveAsync();
+            }
+        }
+
+        #endregion
     }
 }

@@ -31,9 +31,10 @@ namespace Staffinfo.DAL.Tests
             var workTermRepository= new Repository<WorkTerm>(new StaffContext());
             var educationRepository = new Repository<EducationItem>(new StaffContext());
             var contractRepository = new Repository<Contract>(new StaffContext());
+            var relativeRepository = new Repository<Relative>(new StaffContext());
 
             _repository = new StaffUnitRepository(addressRepository, employeeRepository, locationRepository, mesAchievementRepository, militaryRepository,
-                passportRepository, null, null, null, workTermRepository, null, disciplineRepository, outFromOffice, sertificationRepository, educationRepository, contractRepository);
+                passportRepository, null, null, null, workTermRepository, null, disciplineRepository, outFromOffice, sertificationRepository, educationRepository, contractRepository, relativeRepository);
         }
 
         #region DisciplineItemsRepositoryTests
@@ -437,6 +438,55 @@ namespace Staffinfo.DAL.Tests
 
             var created = _repository.ContractRepository.Create(item);
             await _repository.ContractRepository.SaveAsync();
+
+            Assert.IsNotNull(created, "Operation of creation returned \"NULL\"");
+            Assert.IsTrue(created.Id > 0, "Object has invalid id!");
+
+            return created.Id;
+        }
+
+        #endregion
+
+        #region RelativesRepositoryTests
+
+        [TestMethod]
+        public async Task CRUD_ShouldCreateGetUpdateDeleteARelative()
+        {
+            var id = CreateRelative_ShouldCreateAndSaveARelative().Result;
+            var item = TestingCRUDHelper.GetItem_ShouldReturnAnItemById(_repository.RelativeRepository, id);
+
+            TestingCRUDHelper.GetAllItems_ShouldReturnAllItemsFromDB(_repository.RelativeRepository);
+
+            await Update_ShouldUpdateRelative(item);
+            await TestingCRUDHelper.Delete_ShouldDeleteSpecifiedItemFromDB(_repository.RelativeRepository, id);
+        }
+
+        private async Task Update_ShouldUpdateRelative(Relative item)
+        {
+            item.Lastname = "testing";
+
+            _repository.RelativeRepository.Update(item);
+            await _repository.RelativeRepository.SaveAsync();
+
+            Relative updated = _repository.RelativeRepository.SelectAsync(item.Id).Result;
+
+            Assert.AreEqual(updated.Lastname, item.Lastname, "The \"lastname\" has not been updated!");
+        }
+
+        private async Task<int> CreateRelative_ShouldCreateAndSaveARelative()
+        {
+            Relative item = new Relative()
+            {
+                Lastname = "Ололоев",
+                Firstname = "Ололош",
+                Middlename = "Ололоевич",
+                EmployeeID = 1,
+                BirthDate = DateTime.Now,
+                Status = "сын"
+            };
+
+            var created = _repository.RelativeRepository.Create(item);
+            await _repository.RelativeRepository.SaveAsync();
 
             Assert.IsNotNull(created, "Operation of creation returned \"NULL\"");
             Assert.IsTrue(created.Id > 0, "Object has invalid id!");

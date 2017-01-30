@@ -25,9 +25,9 @@ namespace Staffinfo.DAL.Tests
             var postRepository = new Repository<Post>(new StaffContext());
             var rankRepository = new Repository<Rank>(new StaffContext());
             var serviceRepository = new Repository<Service>(new StaffContext());
-
+            
             _repository = new StaffUnitRepository(null, null, locationRepository, null, null, null, postRepository,
-                rankRepository, serviceRepository, null, null, null, null, null, null, null);
+                rankRepository, serviceRepository, null, null, null, null, null, null, null, null);
         }
 
         #region TestContext
