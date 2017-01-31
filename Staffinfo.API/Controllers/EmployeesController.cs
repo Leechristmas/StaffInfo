@@ -64,7 +64,7 @@ namespace Staffinfo.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("api/employees/{id:int}")]
-        public async Task<EmployeeViewModelMin> GetEmployee(int id)
+        public async Task<EmployeeViewModel> GetEmployee(int id)
         {
             Employee employee = await _repository.EmployeeRepository.SelectAsync(id);
             return new EmployeeViewModel(employee);

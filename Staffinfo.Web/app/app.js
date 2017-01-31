@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var app = angular.module('StaffinfoApp', ['ui.router', 'ngMaterial', 'ngMessages', 'md.data.table', 'fixed.table.header', 'LocalStorageModule', 'angular-loading-bar', 'chart.js', 'ui.rCalendar', 'angularUserSettings', 'ngIdle']);
+var app = angular.module('StaffinfoApp', ['ui.router', 'ui.mask', 'ngMaterial', 'ngMessages', 'md.data.table', 'fixed.table.header', 'LocalStorageModule', 'angular-loading-bar', 'chart.js', 'ui.rCalendar', 'angularUserSettings', 'ngIdle']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
@@ -73,6 +73,15 @@ app.config([
         IdleProvider.idle(idleConfig.idle); //idle time
         IdleProvider.timeout(idleConfig.timeout);
         KeepaliveProvider.interval(idleConfig.interval);
+    }
+]);
+
+//mask
+app.config([
+    'uiMask.ConfigProvider', function(uiMaskConfigProvider) {
+        uiMaskConfigProvider.maskDefinitions({ '9': /\d/, 'A': /[a-z]/, '*': /[a-zA-Z0-9]/ });
+        uiMaskConfigProvider.clearOnBlur(false);
+        uiMaskConfigProvider.eventsToHandle(['input', 'keyup', 'click']);
     }
 ]);
 

@@ -153,18 +153,16 @@
                             <h6 class="md-display-1">Контактный телефон</h6>
                             <div layout-gt-sm="row">
                                 <md-input-container class="md-block" flex-gt-sm>
-                                    <label>Тел. 1</label>
                                     <md-icon md-svg-icon="img/icons/ic_phone_24px.svg"></md-icon>
-                                    <input ng-model="changeable.firstPhoneNumber" md-maxlength="13" />
+                                    <input ng-model="changeable.firstPhoneNumber" md-maxlength="13"  ui-mask="+375 (99) 999 99 99"/>
                                     <div class="hint" style="margin-left: 30px;">
                                         +375 (XX) XXX XX XX
                                     </div>
                                 </md-input-container>
 
                                 <md-input-container class="md-block" flex-gt-sm>
-                                    <label>Тел. 2</label>
                                     <md-icon md-svg-icon="img/icons/ic_phone_24px.svg"></md-icon>
-                                    <input ng-model="changeable.secondPhoneNumber" md-maxlength="13" />
+                                    <input ng-model="changeable.secondPhoneNumber" md-maxlength="13"  ui-mask="+375 (99) 999 99 99"/>
                                     <div class="hint" style="margin-left: 30px;">
                                         +375 (XX) XXX XX XX
                                     </div>
