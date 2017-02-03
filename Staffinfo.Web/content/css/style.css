@@ -62,6 +62,7 @@
 footer {
     border-top: 1px solid #c0c0c0;
     color: #c0c0c0;
+    height: 20px;
 }
 .md-button.md-fab.md-fab-md {
     width: 36px;
@@ -71,10 +72,6 @@ footer {
 .md-button.md-fab.md-fab-sm {
     width: 26px;
     height: 26px;
-}
-
-.md-datepicker-input {
-    min-width: 200px;
 }
 
 .md-tabs-canvas {

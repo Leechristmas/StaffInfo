@@ -1,0 +1,31 @@
+﻿.range-slider-container {
+  position:relative;
+  width:100%;
+  height:30px;
+}
+
+.range-slider-left {
+  position:absolute;
+  top:0;
+  width:100%;
+}
+
+md-slider .md-track-container .md-track.md-track-fill {
+    background-color:rgb(132,132,132);
+  }
+
+.range-slider-right {
+  position:absolute;
+  top:0;
+  right:0px;
+}
+
+/*Overwrite specific to range adaptation*/
+.range-slider-right md-slider .md-thumb-container {
+  transition: -webkit-transform 0s linear;
+  transition: transform 0s linear;
+}
+
+.range-slider-left md-slider.md-default-theme .md-track.md-track-fill {
+  background-color:rgba(0,0,0,0.26) !important;
+}

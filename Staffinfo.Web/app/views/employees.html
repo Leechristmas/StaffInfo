@@ -17,6 +17,89 @@
         </md-button>
     </div>
 
+    <md-expansion-panel md-component-id="filtrationPanel">
+        <md-expansion-panel-collapsed>
+            <div class="md-title">Фильтр</div>
+            <div class="md-summary">(Нажмите, чтобы развернуть)</div>
+            <md-expansion-panel-icon></md-expansion-panel-icon>
+        </md-expansion-panel-collapsed>
+
+
+        <md-expansion-panel-expanded>
+
+            <md-expansion-panel-header>
+                <div class="md-title">Укажите критерии фильтрации</div>
+                <div class="md-summary"></div>
+                <md-expansion-panel-icon></md-expansion-panel-icon>
+            </md-expansion-panel-header>
+
+            <md-expansion-panel-content>
+
+                <form name="filterForm">
+                    <div class="row">
+                        <div class="col-md-6 filter-cell-left">
+                            <label>Дата Рождения: С </label>
+                            <md-datepicker name="startBirthDate" datepicker-validation-fix ng-model="filter.startBirthDate" md-min-date="filter.minDate" md-max-date="filter.finishBirthDate"></md-datepicker>
+                            <label style="margin-left: 10px;"> По </label>
+                            <md-datepicker name="finishBirthDate" datepicker-validation-fix ng-model="filter.finishBirthDate" md-max-date="filter.maxDate" md-min-date="filter.startBirthDate"></md-datepicker>
+                        </div>
+                        <md-input-container class="col-xs-5 md-block filter-cell">
+                            <label>Звание</label>
+                            <md-select name="rank" ng-model="filter.rankId" ng-focus="getRanks()">
+                                <md-optgroup>
+                                    <md-option ng-value="-1">--Не указано--</md-option>
+                                    <md-option ng-value="null">--Отсутствует--</md-option>
+                                    <md-option ng-value="rank.id" ng-repeat="rank in ranks">{{rank.name}}</md-option>
+                                </md-optgroup>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 filter-cell-left" style="margin-top: 0px;">
+                            <label>Выслуга:&nbsp;от&nbsp;{{filter.minSeniority}} лет&nbsp;до {{filter.maxSeniority}} лет</label>
+                            <div class='range-slider-container'>
+                                <div class='range-slider-left'>
+                                    <md-slider aria-label="upperValue" ng-model="filter.minSeniority" min='{{0}}' max='{{filter.maxSeniority}}'></md-slider>
+                                </div>
+                                <div class='range-slider-right' ng-style="{width: upperWidth}">
+                                    <md-slider aria-label="upperValue" ng-model="filter.maxSeniority" min="{{filter.minSeniority}}" max="{{35}}"></md-slider>
+                                </div>
+                            </div>
+                        </div>
+                        <md-input-container class="col-xs-5 md-block filter-cell">
+                            <label>Служба</label>
+                            <md-select name="service" ng-model="filter.serviceId" ng-focus="getServices()">
+                                <md-optgroup>
+                                    <md-option ng-value="-1">--Не указано--</md-option>
+                                    <md-option ng-value="null">--Отсутствует--</md-option>
+                                    <md-option ng-value="service.id" ng-repeat="service in services">{{service.serviceName}}</md-option>
+                                </md-optgroup>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <!-- temporary block for detecting errors -->
+                    <ul>
+                        <li ng-repeat="(key, errors) in filterForm.$error track by $index">
+                            <strong>{{ key }}</strong> errors
+                            <ul>
+                                <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </form>
+
+            </md-expansion-panel-content>
+
+            <md-expansion-panel-footer>
+                <div flex></div>
+                <md-button class="md-raised md-primary" ng-click="getEmployeesWithFiltration()">Применить</md-button>
+                <md-button class="md-primary" ng-click="clearFilter()">Очистить</md-button>
+                <md-button class="md-primary" ng-click="$panel.collapse()">Закрыть</md-button>
+            </md-expansion-panel-footer>
+
+        </md-expansion-panel-expanded>
+    </md-expansion-panel>
+
     <md-card style="margin: 0; margin-bottom: 10px">
         <md-input-container style="margin:15px;">
             <label>Поиск</label>
@@ -27,7 +110,8 @@
     <md-card class="table-container">
         <md-table-container>
             <table md-table md-progress="promise">
-                <thead md-head> <!--fix-head-->
+                <thead md-head>
+                    <!--fix-head-->
                     <tr md-row>
                         <th md-column>Фамилия</th>
                         <th md-column>Имя</th>

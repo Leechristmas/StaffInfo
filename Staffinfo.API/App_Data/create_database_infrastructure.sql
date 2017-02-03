@@ -128,12 +128,12 @@ CREATE TABLE dbo.tbl_Employee (
  ,EmployeeFirstname NVARCHAR(30) NOT NULL
  ,EmployeeLastname NVARCHAR(30) NOT NULL
  ,EmployeeMiddlename NVARCHAR(30) NOT NULL
- ,BirthDate DATETIME NOT NULL
+ ,BirthDate DATE NOT NULL
  ,PassportID INT NOT NULL
  ,AddressID INT NOT NULL
  ,ActualRankID INT DEFAULT NULL
  ,ActualPostID INT DEFAULT NULL
- ,RetirementDate DATETIME DEFAULT NULL
+ ,RetirementDate DATE DEFAULT NULL
  ,EmployeePhoto VARBINARY(MAX)
  ,PhotoMimeType NVARCHAR(10)
  ,Description NVARCHAR(100)
@@ -170,8 +170,8 @@ CREATE TABLE dbo.tbl_Dismissed (
  ,DismissedLastname NVARCHAR(30) NOT NULL
  ,DismissedFirstname NVARCHAR(30) NOT NULL
  ,DismissedMiddlename NVARCHAR(30) NOT NULL
- ,BirthDate DATETIME NOT NULL
- ,DismissalDate DATETIME NOT NULL
+ ,BirthDate DATE NOT NULL
+ ,DismissalDate DATE NOT NULL
  ,Clause NVARCHAR(10)
  ,ClauseDescription NVARCHAR(150)
 );
@@ -181,8 +181,8 @@ CREATE TABLE dbo.tbl_MESAchievement (
   ID INT IDENTITY (1, 1) PRIMARY KEY
  ,EmployeeID INT NOT NULL
  ,LocationID INT NOT NULL
- ,StartDate DATETIME NOT NULL
- ,FinishDate DATETIME DEFAULT NULL
+ ,StartDate DATE NOT NULL
+ ,FinishDate DATE DEFAULT NULL
  ,PostID INT NOT NULL
  ,RankID INT NOT NULL
  ,Description NVARCHAR(200)
@@ -224,8 +224,8 @@ CREATE TABLE dbo.tbl_WorkTerm (
  ,EmployeeID INT NOT NULL
  ,LocationID INT NOT NULL
  ,Post NVARCHAR(30) NOT NULL
- ,StartDate DATETIME NOT NULL
- ,FinishDate DATETIME NOT NULL
+ ,StartDate DATE NOT NULL
+ ,FinishDate DATE NOT NULL
  ,Description NVARCHAR(200)
 );
 
@@ -244,8 +244,8 @@ CREATE TABLE dbo.tbl_MilitaryService (
  ,EmployeeID INT NOT NULL
  ,LocationID INT NOT NULL
  ,Rank NVARCHAR(30) NOT NULL
- ,StartDate DATETIME NOT NULL
- ,FinishDate DATETIME NOT NULL
+ ,StartDate DATE NOT NULL
+ ,FinishDate DATE NOT NULL
  ,Description NVARCHAR(200)
 );
 
@@ -264,7 +264,7 @@ CREATE TABLE dbo.tbl_Notification (
  ,Author NVARCHAR(100)
  ,Title NVARCHAR(20) NOT NULL
  ,Details NVARCHAR(200)
- ,DueDate DATETIME NOT NULL
+ ,DueDate DATE NOT NULL
 );
 
 GO
@@ -274,7 +274,7 @@ CREATE TABLE dbo.tbl_GratitudesAndPunishment (
  ,EmployeeID INT REFERENCES dbo.tbl_Employee ON DELETE CASCADE
  ,Title NVARCHAR(60) NOT NULL
  ,ItemType NCHAR(1) NOT NULL --'G' - gratitude/ 'V' - violation
- ,Date DATETIME NOT NULL
+ ,Date DATE NOT NULL
  ,Description NVARCHAR(200)
  ,AwardOrFine BIGINT  --kopecs   
 );
@@ -284,7 +284,7 @@ GO
 CREATE TABLE dbo.tbl_Sertification (
   ID INT IDENTITY (1, 1) PRIMARY KEY
  ,EmployeeID INT REFERENCES dbo.tbl_Employee ON DELETE CASCADE
- ,DueDate DATETIME NOT NULL
+ ,DueDate DATE NOT NULL
  ,Description NVARCHAR(255)
 );
 
@@ -297,8 +297,8 @@ GO
 CREATE TABLE dbo.tbl_OutFromOffice (
   ID INT IDENTITY (1, 1) PRIMARY KEY
  ,EmployeeID INT REFERENCES dbo.tbl_Employee ON DELETE CASCADE
- ,StartDate DATETIME NOT NULL
- ,FinishDate DATETIME NOT NULL
+ ,StartDate DATE NOT NULL
+ ,FinishDate DATE NOT NULL
  ,Cause NCHAR(1) NOT NULL  --больничные(S), отпуска(V), отгулы(D)
  ,Description NVARCHAR(255)
 )
@@ -309,7 +309,7 @@ GO
 --PROCEDURES
 ------------------------------
 CREATE PROCEDURE dbo.pr_TransferEmployeeToDismissed @EmployeeId INT,
-@DismissalDate DATETIME,
+@DismissalDate DATE,
 @Clause NVARCHAR(10),
 @ClauseDescription NVARCHAR(150)
 AS
@@ -431,7 +431,7 @@ BEGIN
    ,Author NVARCHAR(100)
    ,Title NVARCHAR(20) NOT NULL
    ,Details NVARCHAR(200)
-   ,DueDate DATETIME NOT NULL
+   ,DueDate DATE NOT NULL
   );
 
   IF @IncludeCustomNotifications = 1
@@ -500,7 +500,7 @@ GO
 CREATE PROCEDURE dbo.pr_AddNotification @Author NVARCHAR(100),
 @Title NVARCHAR(20),
 @Details NVARCHAR(200),
-@DueDate DATETIME
+@DueDate DATE
 AS
 BEGIN
   INSERT INTO tbl_Notification (Author, Title, Details, DueDate)
@@ -636,7 +636,7 @@ AS
 BEGIN
 
   DECLARE @emplID INT
-         ,@date DATETIME;
+         ,@date DATE;
 
   DECLARE cur CURSOR FAST_FORWARD READ_ONLY LOCAL FOR SELECT
     i.EmployeeID
@@ -687,3 +687,10 @@ BEGIN
 END;
 
 GO
+
+------------------------------
+--ADDITIONAL
+------------------------------
+ALTER TABLE dbo.tbl_Employee
+      	ADD Seniority AS dbo.fn_GetSeniorityByEmployeeID(ID, 0);
+      GO

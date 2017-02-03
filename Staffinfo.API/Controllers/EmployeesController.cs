@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -27,18 +28,50 @@ namespace Staffinfo.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<EmployeeViewModelMin>> GetActualEmployees(int offset, int limit, string query)
+        public async Task<IEnumerable<EmployeeViewModelMin>> GetActualEmployees(int offset, int limit, string query, DateTime? startBirthDate, DateTime? finishBirthDate, int? rankId, int? serviceId, int? minSeniority, int? maxSeniority)
         {
-            IEnumerable<Employee> all;
-            if (String.IsNullOrEmpty(query))
-                all = await _repository.EmployeeRepository.WhereAsync(e => e.RetirementDate == null);
-            else
-                all =
-                    await
-                        _repository.EmployeeRepository.WhereAsync(
-                            e => e.RetirementDate == null && e.EmployeeLastname.StartsWith(query, StringComparison.OrdinalIgnoreCase));
+            Func<Employee, bool> filter;
 
+            //filter initialization
+            if (String.IsNullOrEmpty(query))
+                filter = employee =>
+                {
+                    if (employee.RetirementDate != null) return false;
+                    if (startBirthDate != null && employee.BirthDate < startBirthDate) return false;
+                    if (finishBirthDate != null && employee.BirthDate > finishBirthDate) return false;
+                    if (rankId != -1 && rankId != employee.ActualRankId) return false;
+                    if (serviceId != -1 && serviceId != employee.ActualPost?.ServiceId) return false;
+                    if ((minSeniority != null && employee.Seniority < minSeniority * 365) || (maxSeniority != null && employee.Seniority > maxSeniority * 365)) return false;
+
+                    return true;
+                };
+            else
+                filter = employee =>
+                {
+                    if (employee.RetirementDate != null) return false;
+                    if (startBirthDate != null && employee.BirthDate < startBirthDate) return false;
+                    if (finishBirthDate != null && employee.BirthDate > finishBirthDate) return false;
+                    if (rankId != -1 && rankId != employee.ActualRankId) return false;
+                    if (serviceId != -1 && serviceId != employee.ActualPost?.ServiceId) return false;
+                    if ((minSeniority != null && employee.Seniority < minSeniority * 365) || (maxSeniority != null && employee.Seniority > maxSeniority * 365)) return false;
+
+                    if (!String.IsNullOrEmpty(query) && !employee.EmployeeLastname.StartsWith(query, StringComparison.OrdinalIgnoreCase)) return false;
+
+                    return true;
+                };
+
+
+            //apply filtration
+            var all = await _repository.EmployeeRepository.WhereAsync(filter);
+            
+
+            var maxDate = all.Max(t => t.BirthDate);
+            var minDate = all.Min(t => t.BirthDate);
+
+            //adding of headers
             System.Web.HttpContext.Current.Response.Headers.Add("X-Total-Count", all.Count().ToString());
+            System.Web.HttpContext.Current.Response.Headers.Add("X-Max-Date", maxDate.ToString("yy-MM-dd"));
+            System.Web.HttpContext.Current.Response.Headers.Add("X-Min-Date", minDate.ToString("yy-MM-dd"));
 
             var queryResult =  all.Skip(offset).Take(limit).Select(e => new EmployeeViewModelMin
             {

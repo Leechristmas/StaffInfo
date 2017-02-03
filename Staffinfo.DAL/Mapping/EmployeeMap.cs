@@ -18,6 +18,7 @@ namespace Staffinfo.DAL.Mapping
             this.Property(t => t.SecondPhoneNumber).IsOptional().HasColumnName("SecondPhoneNumber");
             this.Property(t => t.Gender).IsRequired().HasColumnName("Gender");
             this.Property(t => t.PersonalNumber).IsRequired().HasColumnName("PersonalNumber");
+            this.Property(t => t.Seniority).IsRequired().HasColumnName("Seniority");
 
             //navigation properties
             this.Property(t => t.ActualRankId).IsOptional().HasColumnName("ActualRankID");

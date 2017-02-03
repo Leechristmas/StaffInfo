@@ -126,10 +126,6 @@ hr {}
     padding-bottom: 15px; 
 }
 
-footer {
-    height: 20px;
-}
-
 div.padded {
     height: 220px;
     padding: 10px;
@@ -164,7 +160,7 @@ div.padded p {
     /*height: 50px;*/
 }
 
-.png-icon{
+.png-icon  {
     margin: 5px auto auto;
     padding: 0;
     display: inline-block;
@@ -173,3 +169,38 @@ div.padded p {
     width: 50px; 
     /*height: 50px;*/
 }
+
+.md-summary {
+    color: #c0c0c0;
+    font-size: 12pt;
+}
+
+md-expansion-panel-header .md-title {
+    max-width: 300px;
+}
+
+.filter-cell md-input-container {
+    margin-bottom: 0;
+}
+
+.filter-cell-left {
+    min-height: 50px;
+    max-height: 70px;
+    margin-top: 12px;
+    padding: 2px;
+}
+
+.filter-cell {
+    margin-left: 35px;
+    max-height: 70px;
+    min-height: 50px;
+}
+
+.filter-field {
+    max-width: 250px;
+}
+
+.shadow {
+    box-shadow: 0 0 10px rgba(0,0,0,0.5); 
+    padding: 10px;
+   }

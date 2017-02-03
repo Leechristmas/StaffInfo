@@ -32,8 +32,16 @@ app.factory('employeesService', [
             //actual selected employee
             actualEmployee: {},
             //returns actual employees with pagination 
-            getEmployees: function (query) {
-                return $http.get(serviceBase + 'api/employees?offset=' + (query.page - 1) * query.limit + '&limit=' + query.limit + '&query=' + (query.filter ? query.filter : ''));
+            getEmployees: function (query, filterParams) {
+                if (filterParams)
+                    return $http.get(serviceBase + 'api/employees?offset=' + (query.page - 1) * query.limit + '&limit=' + query.limit + '&query=' +
+                        (query.filter ? query.filter : '') + '&startBirthDate=' + filterParams.startBirthDate.toJSON() + '&finishBirthDate=' +
+                        filterParams.finishBirthDate.toJSON() + '&rankId=' + filterParams.rankId + '&serviceId=' + filterParams.serviceId +
+                        '&minSeniority=' + filterParams.minSeniority + '&maxSeniority=' + filterParams.maxSeniority);
+                else
+                    return $http.get(serviceBase + 'api/employees?offset=' + (query.page - 1) * query.limit + '&limit=' + query.limit + '&query=' +
+                    (query.filter ? query.filter : '') + '&startBirthDate=&finishBirthDate=&rankId=-1&serviceId=-1&minSeniority=&maxSeniority=');
+
             },
             //deletes employee by id
             deleteEmployeeById: function (id) {
@@ -106,7 +114,7 @@ app.factory('employeesService', [
                 getContracts: function () {
                     return $http.get(serviceBase + 'api/employees/activity/contracts/' + _employees.actualEmployee.id);
                 },
-                saveContract: function(item) {
+                saveContract: function (item) {
                     if (item.id)//update
                         return $http.put(serviceBase + 'api/employees/activity/contracts/' + item.id, item, {});
                     return $http.post(serviceBase + 'api/employees/activity/contracts', item, {});
@@ -220,13 +228,13 @@ app.factory('employeesService', [
             },
             relatives: {
                 selecetedRelative: null,
-                getRelatives: function() {
+                getRelatives: function () {
                     return $http.get(serviceBase + 'api/employees/activity/relatives/' + _employees.actualEmployee.id);
                 },
-                deleteRelatives: function(id) {
+                deleteRelatives: function (id) {
                     return $http.delete(serviceBase + 'api/employee/activity/relatives' + id);
                 },
-                saveRelative: function(item) {
+                saveRelative: function (item) {
                     if (item.id)
                         return $http.put(serviceBase + 'api/employees/activity/relatives/' + item.id, item, {});
                     return $http.post(serviceBase + 'api/employees/activity/relatives/', item, {});

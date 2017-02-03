@@ -78,7 +78,8 @@
     <Content Include="app\controllers\retireesController.js" />
     <Content Include="app\controllers\settingsController.js" />
     <Content Include="app\controllers\signupController.js" />
-    <Content Include="app\directives\countdown.js" />
+    <Content Include="app\directives\datepickerValidationFix.js" />
+    <Content Include="app\directives\rangeSlider.js" />
     <Content Include="app\services\authInterceptorService.js" />
     <Content Include="app\services\authService.js" />
     <Content Include="app\services\dashboardService.js" />
@@ -122,7 +123,10 @@
     <Content Include="content\css\angular-material.layouts.ie_fixes.css" />
     <Content Include="content\css\angular-material.layouts.min.css" />
     <Content Include="content\css\angular-material.min.css" />
+    <Content Include="content\css\md-expansion-panel.css" />
+    <Content Include="content\css\md-expansion-panel.min.css" />
     <Content Include="content\css\site.css" />
+    <Content Include="content\css\slider.css" />
     <Content Include="content\css\style.css" />
     <Content Include="content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="content\fonts\glyphicons-halflings-regular.ttf" />
@@ -1001,6 +1005,8 @@
     <Content Include="scripts\md-data-table\md-data-table.js" />
     <Content Include="content\css\md-data-table.min.css" />
     <Content Include="scripts\md-data-table\md-data-table.min.js" />
+    <Content Include="scripts\md-expansion-panel.js" />
+    <Content Include="scripts\md-expansion-panel.min.js" />
     <Content Include="scripts\moment-with-locales.js" />
     <Content Include="scripts\moment-with-locales.min.js" />
     <Content Include="scripts\moment.js" />

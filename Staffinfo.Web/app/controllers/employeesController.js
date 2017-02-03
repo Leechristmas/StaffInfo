@@ -7,6 +7,7 @@ app.controller('employeesController', [
         //options for queries to API and pagination
         $scope.query = {
             order: 'employeeLastname',
+            applyFilter: false,
             limit: 10,
             page: 1,
             label: {
@@ -17,6 +18,17 @@ app.controller('employeesController', [
             filter: ''  //it would be better to refresh the list when filter has 3 chars at least.
         };
 
+        $scope.filter = {
+            startBirthDate: new Date(),
+            finishBirthDate: new Date(),
+            maxDate: new Date(),
+            minDate: new Date(),
+            rankId: -1,
+            serviceId: -1,
+            minSeniority: 0,
+            maxSeniority: 35   
+        }
+
         //returns date from string
         $scope.getDate = function (date) {
             var t = new Date(date);
@@ -25,22 +37,81 @@ app.controller('employeesController', [
 
         //----------------------------------------------------
 
-        //EMPLOYEES-------------------------------------------
 
-        //gets employees with pagination
-        $scope.getEmployees = function () {
-            $scope.promise = employeesService.employees.getEmployees($scope.query).then(function (response) {
-                $scope.employees = response.data;
-                $scope.total = response.headers('X-Total-Count');
-            }, function (data) {
-                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+        //FILTRATION-------------------------------------------
+        $scope.clearFilter = function () {
+            $scope.query.applyFilter = false;
+            $scope.filter.startBirthDate = $scope.filter.minDate;
+            $scope.filter.finishBirthDate = $scope.filter.maxDate;
+            $scope.filter.rankId = -1;
+            $scope.filter.serviceId = -1;
+            $scope.filter.minSeniority = 0;
+            $scope.filter.maxSeniority = 35;
+        }
+
+        //apply filter
+        $scope.getEmployeesWithFiltration = function () {
+            $scope.query.applyFilter = true;
+            $scope.getEmployees();
+        }
+
+        $scope.getRanks = function () {
+            if ($scope.ranks && $scope.ranks.length > 0) return;    //load if  it is necessary
+
+            employeesService.activityItems.getRanks().then(function(response) {
+                $scope.ranks = response.data;
+            }, function(error) {
+                messageService.errors.setError({ errorText: error.data, errorTitle: 'Статус - ' + error.status + ': ' + error.statusText });
                 $mdToast.show(messageService.errors.errorViewConfig);
             });
         }
 
+        $scope.getServices = function () {
+            if ($scope.services && $scope.services.length > 0) return;    //load if  it is necessary
+
+            employeesService.activityItems.getServices().then(function (response) {
+                $scope.services = response.data;
+            }, function (error) {
+                messageService.errors.setError({ errorText: error.data, errorTitle: 'Статус - ' + error.status + ': ' + error.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+        
+        //----------------------------------------------------
+
+        //EMPLOYEES-------------------------------------------
+
+        //gets employees with pagination
+        $scope.getEmployees = function () {
+            if ($scope.query.applyFilter === true) {
+                $scope.promise = employeesService.employees.getEmployees($scope.query, $scope.filter).then(function(response) {
+                    $scope.employees = response.data;
+                    $scope.total = response.headers('X-Total-Count');
+                }, function(data) {
+                    messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                    $mdToast.show(messageService.errors.errorViewConfig);
+                });
+            } else {
+                $scope.promise = employeesService.employees.getEmployees($scope.query).then(function (response) {
+                    $scope.employees = response.data;
+
+                    //set the filter options
+                    $scope.filter.minDate = new Date(response.headers('X-Min-Date'));
+                    $scope.filter.maxDate = new Date(response.headers('X-Max-Date'));
+                    $scope.filter.startBirthDate = new Date(response.headers('X-Min-Date'));
+                    $scope.filter.finishBirthDate = new Date(response.headers('X-Max-Date'));
+
+                    $scope.total = response.headers('X-Total-Count');
+                }, function (data) {
+                    messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                    $mdToast.show(messageService.errors.errorViewConfig);
+                });
+            }
+        }
+
         //employees list
         $scope.getEmployees();
-
+        
         //refresh employees list
         $scope.refreshEmployees = function () {
             $scope.promise = $scope.getEmployees();

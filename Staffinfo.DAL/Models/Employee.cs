@@ -38,6 +38,7 @@ namespace Staffinfo.DAL.Models
 
         [MaxLength(13)]
         public string SecondPhoneNumber { get; set; }
+        public int Seniority { get; set; }
 
         //navigation properties
         public int? ActualRankId { get; set; }
