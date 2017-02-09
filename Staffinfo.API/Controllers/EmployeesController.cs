@@ -31,6 +31,7 @@ namespace Staffinfo.API.Controllers
         public async Task<IEnumerable<EmployeeViewModelMin>> GetActualEmployees(int offset, int limit, string query, DateTime? startBirthDate, DateTime? finishBirthDate, int? rankId, int? serviceId, int? minSeniority, int? maxSeniority)
         {
             Func<Employee, bool> filter;
+            DateTime maxDate, minDate;
 
             //filter initialization
             if (String.IsNullOrEmpty(query))
@@ -63,10 +64,10 @@ namespace Staffinfo.API.Controllers
 
             //apply filtration
             var all = await _repository.EmployeeRepository.WhereAsync(filter);
-            
 
-            var maxDate = all.Max(t => t.BirthDate);
-            var minDate = all.Min(t => t.BirthDate);
+
+            maxDate = finishBirthDate ?? all.DefaultIfEmpty().Max(t => t.BirthDate);
+            minDate = startBirthDate ?? all.DefaultIfEmpty().Min(t => t.BirthDate);
 
             //adding of headers
             System.Web.HttpContext.Current.Response.Headers.Add("X-Total-Count", all.Count().ToString());
