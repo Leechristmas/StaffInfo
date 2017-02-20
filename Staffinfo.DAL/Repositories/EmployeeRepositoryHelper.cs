@@ -91,17 +91,19 @@ namespace Staffinfo.DAL.Repositories
         /// <param name="includeSertification">if include sertification</param>
         /// <param name="includeBirthDates">if include birth dates</param>
         /// <param name="includeRanks">if include ranks expiry dates</param>
+        /// <param name="includeContracts">if include contracts expiry dates</param>
         /// <returns></returns>
-        public static async Task<List<Notification>> GetNotifications(this IRepository<Employee> employeeRepository, bool includeCustomNotifications = false, bool includeSertification = false, bool includeBirthDates = false, bool includeRanks = false)
+        public static async Task<List<Notification>> GetNotifications(this IRepository<Employee> employeeRepository, bool includeCustomNotifications = false, bool includeSertification = false, bool includeBirthDates = false, bool includeRanks = false, bool includeContracts = false)
         {
             return
                 await
                     employeeRepository.Database.SqlQuery<Notification>(
-                        "dbo.pr_GetNotifications @includeCustomNotifications, @includeSertification, @includeBirthDates, @includeRanks;",
+                        "dbo.pr_GetNotifications @includeCustomNotifications, @includeSertification, @includeBirthDates, @includeRanks, @includeContracts;",
                         new SqlParameter("@includeCustomNotifications", includeCustomNotifications),
                         new SqlParameter("@includeSertification", includeSertification),
                         new SqlParameter("@includeBirthDates", includeBirthDates),
-                        new SqlParameter(@"includeRanks", includeRanks))
+                        new SqlParameter("@includeRanks", includeRanks),
+                        new SqlParameter("@includeContracts", includeContracts))
                         .ToListAsync();
         }
 

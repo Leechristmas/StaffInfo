@@ -328,7 +328,8 @@ app.controller('dashboardController', [
                 includeCustomNotifications: settingsService.calendarSettings.customAreIncluded(),
                 includeSertification: settingsService.calendarSettings.sertificationsAreIncluded(),
                 includeBirthDates: settingsService.calendarSettings.birthdaysAreIncluded(),
-                includeRanks: settingsService.calendarSettings.ranksExpiryDaysAreIncluded()
+                includeRanks: settingsService.calendarSettings.ranksExpiryDaysAreIncluded(),
+                includeContracts: settingsService.calendarSettings.contractsExpiryDaysAreIncluded()
         }).then(function (response) {//success
                 var events = response.data;
                 events.forEach(function (item) {

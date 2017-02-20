@@ -21,12 +21,12 @@ namespace Staffinfo.API.Controllers
 
         [HttpGet]
         [Route("api/dashboard/notifications")]
-        public async Task<List<Notification>> GetNotifications(bool includeCustomNotifications = false, bool includeSertification = false, bool includeBirthDates = false, bool includeRanks = false)
+        public async Task<List<Notification>> GetNotifications(bool includeCustomNotifications = false, bool includeSertification = false, bool includeBirthDates = false, bool includeRanks = false, bool includeContracts = false)
         {
             return
                 await
                     _repository.EmployeeRepository.GetNotifications(includeCustomNotifications, includeSertification,
-                        includeBirthDates, includeRanks);
+                        includeBirthDates, includeRanks, includeContracts);
         }
 
         [HttpPost]

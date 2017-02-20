@@ -332,16 +332,16 @@ BEGIN
   END
 
   INSERT INTO dbo.tbl_Dismissed (DismissedLastname, DismissedFirstname, DismissedMiddlename, BirthDate, DismissalDate, Clause, ClauseDescription)
-      SELECT
-        te.EmployeeLastname
-       ,te.EmployeeFirstname
-       ,te.EmployeeMiddlename
-       ,te.BirthDate
-       ,@DismissalDate
-       ,@Clause
-       ,@ClauseDescription
-      FROM dbo.tbl_Employee te
-      WHERE te.ID = @EmployeeId;
+    SELECT
+      te.EmployeeLastname
+     ,te.EmployeeFirstname
+     ,te.EmployeeMiddlename
+     ,te.BirthDate
+     ,@DismissalDate
+     ,@Clause
+     ,@ClauseDescription
+    FROM dbo.tbl_Employee te
+    WHERE te.ID = @EmployeeId;
 
   DELETE FROM dbo.tbl_Employee
   WHERE ID = @EmployeeId;
@@ -395,9 +395,9 @@ BEGIN
   );
 
   INSERT INTO #seniority (Seniority)
-      SELECT
-        dbo.fn_GetSeniorityByEmployeeID(te.ID, 0)
-      FROM tbl_Employee te;
+    SELECT
+      dbo.fn_GetSeniorityByEmployeeID(te.ID, 0)
+    FROM tbl_Employee te;
 
 
   DECLARE @step INT = 0;
@@ -405,12 +405,12 @@ BEGIN
   WHILE (@step / 365) <= @Max
   BEGIN
   INSERT INTO @data
-      SELECT
-        'от ' + CAST((@step / 365) AS NVARCHAR(3)) + ' до ' + CAST(((@step / 365) + @Scale) AS NVARCHAR(3))
-       ,COUNT(*)
-      FROM #seniority s
-      WHERE s.Seniority >= @step
-      AND s.Seniority < @step + @Scale * 365;
+    SELECT
+      'от ' + CAST((@step / 365) AS NVARCHAR(3)) + ' до ' + CAST(((@step / 365) + @Scale) AS NVARCHAR(3))
+     ,COUNT(*)
+    FROM #seniority s
+    WHERE s.Seniority >= @step
+    AND s.Seniority < @step + @Scale * 365;
   SET @step = @step + @Scale * 365
   END
 
@@ -425,7 +425,8 @@ GO
 CREATE PROCEDURE dbo.pr_GetNotifications @IncludeCustomNotifications BIT = 0,
 @IncludeSertification BIT = 0,  --when corresponding table will be added
 @IncludeBirthDates BIT = 0,
-@IncludeRanks BIT = 0
+@IncludeRanks BIT = 0,
+@IncludeContracts BIT = 0
 AS
 BEGIN
   CREATE TABLE #query (
@@ -439,60 +440,73 @@ BEGIN
   IF @IncludeCustomNotifications = 1
   BEGIN
     INSERT INTO #query (ID, Author, Title, Details, DueDate)
-        SELECT
-          tn.ID
-         ,tn.Author
-         ,tn.Title
-         ,tn.Details
-         ,tn.DueDate
-        FROM dbo.tbl_Notification tn
+      SELECT
+        tn.ID
+       ,tn.Author
+       ,tn.Title
+       ,tn.Details
+       ,tn.DueDate
+      FROM dbo.tbl_Notification tn
   END
 
   IF @IncludeBirthDates = 1
   BEGIN
     INSERT INTO #query (ID, Author, Title, Details, DueDate)
-        SELECT
-          -1
-         ,NULL
-         ,N'День Рождения'
-         ,N'День рождения сотрудника ' + te.EmployeeLastname + ' ' + te.EmployeeFirstname + ' ' + te.EmployeeMiddlename + ' (' + CONVERT(NVARCHAR, te.BirthDate, 104) + ')'
-         ,DATEADD(yy, DATEDIFF(yy, te.BirthDate, GETDATE()), te.BirthDate)
-        FROM dbo.tbl_Employee te
-        WHERE te.RetirementDate IS NULL;
+      SELECT
+        -1
+       ,NULL
+       ,N'День Рождения'
+       ,N'День рождения сотрудника ' + te.EmployeeLastname + ' ' + te.EmployeeFirstname + ' ' + te.EmployeeMiddlename + ' (' + CONVERT(NVARCHAR, te.BirthDate, 104) + ')'
+       ,DATEADD(yy, DATEDIFF(yy, te.BirthDate, GETDATE()), te.BirthDate)
+      FROM dbo.tbl_Employee te
+      WHERE te.RetirementDate IS NULL;
   END
 
   IF @IncludeSertification = 1
   BEGIN
     INSERT INTO #query (ID, Author, Title, Details, DueDate)
-        SELECT
-          -1
-         ,NULL
-         ,N'Аттестация'
-         ,N'Аттестация сотрудника ' + te.EmployeeLastname + ' ' + te.EmployeeFirstname + ' ' + te.EmployeeMiddlename
-         ,ts.DueDate
-        FROM dbo.tbl_Sertification ts
-            ,dbo.tbl_Employee te
-        WHERE ts.EmployeeID = te.ID
-        AND te.RetirementDate IS NULL;
+      SELECT
+        -1
+       ,NULL
+       ,N'Аттестация'
+       ,N'Аттестация сотрудника ' + te.EmployeeLastname + ' ' + te.EmployeeFirstname + ' ' + te.EmployeeMiddlename
+       ,ts.DueDate
+      FROM dbo.tbl_Sertification ts
+          ,dbo.tbl_Employee te
+      WHERE ts.EmployeeID = te.ID
+      AND te.RetirementDate IS NULL;
   END
 
   IF @IncludeRanks = 1
   BEGIN
     INSERT INTO #query (ID, Author, Title, Details, DueDate)
+      SELECT
+        -1
+       ,NULL
+       ,N'Выслуга звания'
+       ,N'Выслуга звания "' + tr.RankName + '" сотрудника ' + te.EmployeeLastname + ' ' + te.EmployeeFirstname + ' ' + te.EmployeeMiddlename
+       ,dbo.fn_GetRankExpiryDate(te.ID)
+      FROM dbo.tbl_Employee te
+          ,dbo.tbl_Rank tr
+      WHERE te.ActualRankID IS NOT NULL
+      AND te.ActualRankID = tr.ID
+      AND te.RetirementDate IS NULL;
+
+    IF @IncludeContracts = 1
+    BEGIN
+      INSERT INTO #query (ID, Author, Title, Details, DueDate)
         SELECT
-          -1
-         ,NULL
-         ,N'Выслуга звания'
-         ,N'Выслуга звания "' + tr.RankName + '" сотрудника ' + te.EmployeeLastname + ' ' + te.EmployeeFirstname + ' ' + te.EmployeeMiddlename
-         ,dbo.fn_GetRankExpiryDate(te.ID)
+          -1 AS id
+         ,NULL AS author
+         ,N'Истечение контракта' AS title
+         ,N'Истечение контракта (' + CONVERT(NVARCHAR, tc.StartDate, 103) + ' - ' + CONVERT(NVARCHAR, tc.FinishDate, 103) + ') сотрудника ' + te.EmployeeLastname + ' ' + te.EmployeeFirstname + ' ' + te.EmployeeMiddlename AS details
+         ,MAX(tc.FinishDate) AS dueDate
         FROM dbo.tbl_Employee te
-            ,dbo.tbl_Rank tr
-        WHERE te.ActualRankID IS NOT NULL
-        AND te.ActualRankID = tr.ID
-        AND te.RetirementDate IS NULL;
-
-
-
+            ,dbo.tbl_Contract tc
+        WHERE tc.EmployeeID = te.ID
+        AND te.RetirementDate IS NULL
+      GROUP BY tc.StartDate, tc.FinishDate, te.EmployeeLastname, te.EmployeeFirstname, te.EmployeeMiddlename;
+    END
   END
 
   SELECT
