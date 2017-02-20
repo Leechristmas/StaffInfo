@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization;
@@ -19,11 +20,23 @@ namespace Staffinfo.API.Filters
         {
             await Task.Run(() =>
             {
-                Log.Error("Ошибка", actionExecutedContext.Exception);
+                var ex = GetNativeException(actionExecutedContext.Exception);
+                var exType = ex.GetType();
+
+                string message = String.Empty;
+
+                if (exType == typeof (SqlException))
+                    message = "Ошибка базы данных: ";
+
+                message += ex.Message;  //for debug
+
+                Log.Error("Ошибка", ex);
                 actionExecutedContext.Response = new HttpResponseMessage()
                 {
+                    
+
                     Content =
-                        new StringContent($"Произошла ошибка: {GetNativeException(actionExecutedContext.Exception).Message}", Encoding.UTF8,
+                        new StringContent($"Произошла ошибка! {message}", Encoding.UTF8,
                             "text/plain"),
                     StatusCode = HttpStatusCode.InternalServerError
                 };

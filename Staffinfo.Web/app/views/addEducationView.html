@@ -46,7 +46,7 @@
 
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Конец Периода</label>
-                        <md-datepicker name="finishDate" ng-model="education.finishDate" md-min-date="education.startDate" md-max-date="maxDate" ng-focus="dtpckrOnFocus(education, 'finishDate')"></md-datepicker>
+                        <md-datepicker name="finishDate" ng-model="education.finishDate" required md-min-date="education.startDate" md-max-date="maxDate" ng-focus="dtpckrOnFocus(education, 'finishDate')"></md-datepicker>
                         <div ng-messages="itemForm.finishDate.$error" class="validation-messages">
                             <div ng-message="required">Необходимо заполнить это поле.</div>
                         </div>

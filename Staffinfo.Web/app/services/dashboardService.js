@@ -16,7 +16,7 @@ app.factory('dashboardService', ['$http', 'ngAuthSettings','authService', functi
         },
         getNotifications: function (options) {
             return $http.get(serviceBase + 'api/dashboard/notifications?includeCustomNotifications=' + options.includeCustomNotifications +
-                '&includeSertification=' + options.includeSertification + '&includeBirthDates=' + options.includeBirthDates);
+                '&includeSertification=' + options.includeSertification + '&includeBirthDates=' + options.includeBirthDates + '&includeRanks=' + options.includeRanks);
         },
         saveNotification: function (notification) {
             notification.author = authService.authentication.userName;

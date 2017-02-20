@@ -42,7 +42,7 @@ namespace Staffinfo.DAL.Repositories.Interfaces
         /// Updates the item
         /// </summary>
         /// <param name="item">item to update</param>
-        void Update(T item);
+        void Update(T item, params string[] propertiesToExclude);
 
         /// <summary>
         /// Removes the item from database

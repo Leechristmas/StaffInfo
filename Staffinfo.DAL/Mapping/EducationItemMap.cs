@@ -10,7 +10,7 @@ namespace Staffinfo.DAL.Mapping
             this.Property(t => t.Speciality).IsRequired().HasColumnName("Speciality");
             this.Property(t => t.StartDate).IsRequired().HasColumnName("StartDate");
             this.Property(t => t.FinishDate).IsRequired().HasColumnName("FinishDate");
-            this.Property(t => t.Description).IsRequired().HasColumnName("Description");
+            this.Property(t => t.Description).IsOptional().HasColumnName("Description");
 
             //navigation properties
             this.Property(t => t.EmployeeId).IsOptional().HasColumnName("EmployeeID");

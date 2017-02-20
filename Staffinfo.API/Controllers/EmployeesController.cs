@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Staffinfo.API.Models;
@@ -31,7 +33,6 @@ namespace Staffinfo.API.Controllers
         public async Task<IEnumerable<EmployeeViewModelMin>> GetActualEmployees(int offset, int limit, string query, DateTime? startBirthDate, DateTime? finishBirthDate, int? rankId, int? serviceId, int? minSeniority, int? maxSeniority)
         {
             Func<Employee, bool> filter;
-            DateTime maxDate, minDate;
 
             //filter initialization
             if (String.IsNullOrEmpty(query))
@@ -63,11 +64,14 @@ namespace Staffinfo.API.Controllers
 
 
             //apply filtration
-            var all = await _repository.EmployeeRepository.WhereAsync(filter);
+
+            var source = _repository.EmployeeRepository;
+
+            var all = await source.WhereAsync(filter);
 
 
-            maxDate = finishBirthDate ?? all.DefaultIfEmpty().Max(t => t.BirthDate);
-            minDate = startBirthDate ?? all.DefaultIfEmpty().Min(t => t.BirthDate);
+            var maxDate = finishBirthDate ?? (all.Any() ? all.Max(t => t.BirthDate) : (await source.SelectAsync()).Max(t => t.BirthDate));
+            var minDate = startBirthDate ?? (all.Any() ? all.Min(t => t.BirthDate) : (await source.SelectAsync()).Min(t => t.BirthDate));
 
             //adding of headers
             System.Web.HttpContext.Current.Response.Headers.Add("X-Total-Count", all.Count().ToString());
@@ -198,7 +202,7 @@ namespace Staffinfo.API.Controllers
                         
                 //Changing gender is forbidden!!!
 
-                _repository.EmployeeRepository.Update(original);
+                _repository.EmployeeRepository.Update(original, "Seniority");   //exclude seniority for updating
                 await _repository.EmployeeRepository.SaveAsync();
             }
         }

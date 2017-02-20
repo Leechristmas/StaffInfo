@@ -232,7 +232,7 @@ app.factory('employeesService', [
                     return $http.get(serviceBase + 'api/employees/activity/relatives/' + _employees.actualEmployee.id);
                 },
                 deleteRelatives: function (id) {
-                    return $http.delete(serviceBase + 'api/employee/activity/relatives' + id);
+                    return $http.delete(serviceBase + 'api/employees/activity/relatives/' + id);
                 },
                 saveRelative: function (item) {
                     if (item.id)

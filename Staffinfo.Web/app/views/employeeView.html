@@ -154,7 +154,7 @@
                             <div layout-gt-sm="row">
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <md-icon md-svg-icon="img/icons/ic_phone_24px.svg"></md-icon>
-                                    <input ng-model="changeable.firstPhoneNumber" md-maxlength="13"  ui-mask="+375 (99) 999 99 99"/>
+                                    <input aria-label="phone-1" ng-model="changeable.firstPhoneNumber" ui-mask="+375 (99) 999 99 99"/>
                                     <div class="hint" style="margin-left: 30px;">
                                         +375 (XX) XXX XX XX
                                     </div>
@@ -162,7 +162,7 @@
 
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <md-icon md-svg-icon="img/icons/ic_phone_24px.svg"></md-icon>
-                                    <input ng-model="changeable.secondPhoneNumber" md-maxlength="13"  ui-mask="+375 (99) 999 99 99"/>
+                                    <input aria-label="phone-1" ng-model="changeable.secondPhoneNumber" ui-mask="+375 (99) 999 99 99"/>
                                     <div class="hint" style="margin-left: 30px;">
                                         +375 (XX) XXX XX XX
                                     </div>
@@ -676,7 +676,7 @@
         </md-button>
         <md-button class="md-primary md-raised" ng-click="resetChanges()">
             <md-icon md-svg-icon="img/icons/ic_clear_24px.svg"></md-icon>
-            Отмена
+            Отменить изменения
         </md-button>
     </div>
 </div>

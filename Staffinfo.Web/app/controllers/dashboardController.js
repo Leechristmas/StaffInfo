@@ -327,8 +327,9 @@ app.controller('dashboardController', [
             $scope.promise = dashboardService.calendar.getNotifications({
                 includeCustomNotifications: settingsService.calendarSettings.customAreIncluded(),
                 includeSertification: settingsService.calendarSettings.sertificationsAreIncluded(),
-                includeBirthDates: settingsService.calendarSettings.birthdaysAreIncluded()
-            }).then(function (response) {//success
+                includeBirthDates: settingsService.calendarSettings.birthdaysAreIncluded(),
+                includeRanks: settingsService.calendarSettings.ranksExpiryDaysAreIncluded()
+        }).then(function (response) {//success
                 var events = response.data;
                 events.forEach(function (item) {
                     item.allDay = true;

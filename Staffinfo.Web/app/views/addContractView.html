@@ -22,8 +22,8 @@
                     </md-input-container>
 
                     <md-input-container class="md-block" flex-gt-sm>
-                        <label>Конец Периода</label>
-                        <md-datepicker name="finishDate" ng-model="contract.finishDate" md-min-date="contract.startDate" md-max-date="maxDate" ng-focus="dtpckrOnFocus(contract, 'finishDate')"></md-datepicker>
+                        <label>Конец Периода</label>    
+                        <md-datepicker name="finishDate" ng-model="contract.finishDate" required md-min-date="contract.startDate" md-max-date="maxDate" ng-focus="dtpckrOnFocus(contract, 'finishDate')"></md-datepicker>
                         <div ng-messages="itemForm.finishDate.$error" class="validation-messages">
                             <div ng-message="required">Необходимо заполнить это поле.</div>
                         </div>

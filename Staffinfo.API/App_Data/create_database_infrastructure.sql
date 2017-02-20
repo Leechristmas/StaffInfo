@@ -54,6 +54,7 @@ GO
 DROP FUNCTION dbo.fn_GetActualRankID;
 DROP FUNCTION dbo.fn_GetActualPostID;
 DROP FUNCTION dbo.fn_GetSeniorityByEmployeeID;
+DROP FUNCTION dbo.fn_GetRankExpiryDate;
 
 GO
 
@@ -152,13 +153,13 @@ CREATE TABLE dbo.tbl_Employee (
 GO
 
 
-CREATE TABLE dbo.tbl_Relative(
-  ID INT IDENTITY(1,1) PRIMARY KEY
+CREATE TABLE dbo.tbl_Relative (
+  ID INT IDENTITY (1, 1) PRIMARY KEY
  ,EmployeeID INT NOT NULL REFERENCES tbl_Employee ON DELETE CASCADE
  ,Lastname NVARCHAR(30) NOT NULL
  ,Firstname NVARCHAR(30) NOT NULL
  ,Middlename NVARCHAR(30) NOT NULL
- ,BirthDate Date NOT NULL
+ ,BirthDate DATE NOT NULL
  ,Status NVARCHAR(15)
 );
 
@@ -188,24 +189,6 @@ CREATE TABLE dbo.tbl_MESAchievement (
  ,Description NVARCHAR(200)
 );
 
-CREATE TABLE dbo.tbl_Education(
-  ID INT IDENTITY (1, 1) PRIMARY KEY
- ,EmployeeID INT NOT NULL REFERENCES dbo.tbl_Employee ON DELETE CASCADE
- ,Institution NVARCHAR(100) NOT NULL
- ,Speciality NVARCHAR(100) NOT NULL
- ,StartDate DATE NOT NULL
- ,FinishDate DATE NOT NULL
- ,Description NVARCHAR(200)
-);
-
-CREATE TABLE dbo.tbl_Contract(
-  ID INT IDENTITY(1,1) PRIMARY KEY
- ,EmployeeID INT NOT NULL REFERENCES dbo.tbl_Employee ON DELETE CASCADE
- ,StartDate DATE NOT NULL
- ,FinishDate DATE NOT NULL
- ,Description NVARCHAR(200)
-);
-
 ALTER TABLE dbo.tbl_MESAchievement
 ADD CONSTRAINT fk_MESAchievement_Employee
 FOREIGN KEY (EmployeeID) REFERENCES dbo.tbl_Employee ON DELETE CASCADE,
@@ -218,6 +201,24 @@ FOREIGN KEY (PostID) REFERENCES dbo.tbl_Post,
 CONSTRAINT unq_MESAchievement
 UNIQUE (EmployeeID, StartDate);
 GO
+
+CREATE TABLE dbo.tbl_Education (
+  ID INT IDENTITY (1, 1) PRIMARY KEY
+ ,EmployeeID INT NOT NULL REFERENCES dbo.tbl_Employee ON DELETE CASCADE
+ ,Institution NVARCHAR(100) NOT NULL
+ ,Speciality NVARCHAR(100) NOT NULL
+ ,StartDate DATE NOT NULL
+ ,FinishDate DATE NOT NULL
+ ,Description NVARCHAR(200)
+);
+
+CREATE TABLE dbo.tbl_Contract (
+  ID INT IDENTITY (1, 1) PRIMARY KEY
+ ,EmployeeID INT NOT NULL REFERENCES dbo.tbl_Employee ON DELETE CASCADE
+ ,StartDate DATE NOT NULL
+ ,FinishDate DATE NOT NULL
+ ,Description NVARCHAR(200)
+);
 
 CREATE TABLE dbo.tbl_WorkTerm (
   ID INT IDENTITY (1, 1) PRIMARY KEY
@@ -423,7 +424,8 @@ GO
 
 CREATE PROCEDURE dbo.pr_GetNotifications @IncludeCustomNotifications BIT = 0,
 @IncludeSertification BIT = 0,  --when corresponding table will be added
-@IncludeBirthDates BIT = 0
+@IncludeBirthDates BIT = 0,
+@IncludeRanks BIT = 0
 AS
 BEGIN
   CREATE TABLE #query (
@@ -472,6 +474,25 @@ BEGIN
             ,dbo.tbl_Employee te
         WHERE ts.EmployeeID = te.ID
         AND te.RetirementDate IS NULL;
+  END
+
+  IF @IncludeRanks = 1
+  BEGIN
+    INSERT INTO #query (ID, Author, Title, Details, DueDate)
+        SELECT
+          -1
+         ,NULL
+         ,N'Выслуга звания'
+         ,N'Выслуга звания "' + tr.RankName + '" сотрудника ' + te.EmployeeLastname + ' ' + te.EmployeeFirstname + ' ' + te.EmployeeMiddlename
+         ,dbo.fn_GetRankExpiryDate(te.ID)
+        FROM dbo.tbl_Employee te
+            ,dbo.tbl_Rank tr
+        WHERE te.ActualRankID IS NOT NULL
+        AND te.ActualRankID = tr.ID
+        AND te.RetirementDate IS NULL;
+
+
+
   END
 
   SELECT
@@ -535,6 +556,36 @@ BEGIN
 
   RETURN @RankID;
 END;
+
+GO
+
+CREATE FUNCTION dbo.fn_GetRankExpiryDate (@EmployeeID INT)
+RETURNS DATE
+AS
+BEGIN
+  DECLARE @Date DATE;
+  DECLARE @RankID INT;
+  DECLARE @RankSeniority INT;
+
+  SELECT
+    @RankID = RankID
+   ,@Date = tml.StartDate
+  FROM dbo.tbl_MESAchievement tml
+  WHERE tml.EmployeeID = @EmployeeID
+  AND tml.StartDate = (SELECT
+      MAX(StartDate)
+    FROM dbo.tbl_MESAchievement tml1
+    WHERE tml1.EmployeeID = @EmployeeID);
+
+  SELECT
+    @RankSeniority = tr.Term
+  FROM tbl_Rank tr
+  WHERE tr.ID = @RankID;
+
+  SET @Date = DATEADD(MONTH, @RankSeniority, @Date);
+
+  RETURN @Date;
+END
 
 GO
 
@@ -631,7 +682,7 @@ GO
 --forbid adding more than 1 null finish date for every employee
 CREATE TRIGGER MESAchievementInserTrigger
 ON tbl_MESAchievement
-FOR INSERT,UPDATE
+FOR INSERT, UPDATE
 AS
 BEGIN
 
@@ -692,5 +743,5 @@ GO
 --ADDITIONAL
 ------------------------------
 ALTER TABLE dbo.tbl_Employee
-      	ADD Seniority AS dbo.fn_GetSeniorityByEmployeeID(ID, 0);
-      GO
+ADD Seniority AS dbo.fn_GetSeniorityByEmployeeID(ID, 0);
+GO

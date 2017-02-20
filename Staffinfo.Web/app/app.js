@@ -101,6 +101,13 @@ app.config(function ($mdDateLocaleProvider) {
         return moment(date).format('DD.MM.YYYY');
     }
 });
+app.config(function ($mdDateLocaleProvider) {
+    $mdDateLocaleProvider.parseDate = function (dateString) {
+        var m = moment(dateString, 'DD.MM.YYYY', true);
+        return m.isValid() ? m.toDate() : new Date(NaN);
+    }
+});
+
 
 //interceptors
 app.config(function ($httpProvider) {

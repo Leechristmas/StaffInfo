@@ -17,6 +17,10 @@ app.factory('settingsService', ['$userSettings', function ($userSettings) {
         {
             key: 'Custom',
             title: 'Пользовательские'
+        },
+        {
+            key: 'RanksExpiryDays',
+            title: 'Выслуга звания'
         }],
         loadIncludedNotificatoinTypes: function () {
             return this.calendarNotificationTypes.filter(function (item) {
@@ -37,6 +41,10 @@ app.factory('settingsService', ['$userSettings', function ($userSettings) {
         },
         sertificationsAreIncluded: function () {
             if (this.includedNotificatoinTypes.find(x => x.key === 'Sertifications')) return true;
+            else return false;
+        },
+        ranksExpiryDaysAreIncluded: function() {
+            if (this.includedNotificatoinTypes.find(x => x.key === 'RanksExpiryDays')) return true;
             else return false;
         }
     }

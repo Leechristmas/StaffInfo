@@ -59,9 +59,17 @@ namespace Staffinfo.DAL.Repositories
             return Table.Add(item);
         }
 
-        public void Update(T item)
+        public void Update(T item, params string[] propToExclude)
         {
             StaffContext.Entry(item).State = EntityState.Modified;
+
+            if (propToExclude != null && propToExclude.Length > 0)
+            {
+                foreach (var p in propToExclude)
+                {
+                    StaffContext.Entry(item).Property(p).IsModified = false;
+                }
+            }
         }
 
         public async Task Delete(int id)
