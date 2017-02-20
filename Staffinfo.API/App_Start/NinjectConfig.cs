@@ -2,6 +2,7 @@
 using System.Reflection;
 using Ninject;
 using Ninject.Web.Common;
+using NLog;
 using Staffinfo.DAL.Context;
 using Staffinfo.DAL.Models;
 using Staffinfo.DAL.Repositories;
@@ -43,5 +44,6 @@ public static class NinjectConfig
         kernel.Bind<IRepository<EducationItem>>().To<Repository<EducationItem>>().InRequestScope();
         kernel.Bind<IRepository<Contract>>().To<Repository<Contract>>().InRequestScope();
         kernel.Bind<IRepository<Relative>>().To<Repository<Relative>>().InRequestScope();
+        kernel.Bind<ILogger>().ToMethod(lm => LogManager.GetLogger("ControllerLogger"));
     }
 }

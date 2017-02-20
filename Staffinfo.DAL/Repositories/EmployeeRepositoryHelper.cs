@@ -44,7 +44,7 @@ namespace Staffinfo.DAL.Repositories
             string clauseDescription)
         {
             await employeeRepository.Database.ExecuteSqlCommandAsync(
-               "dbo.pr_TransferEmployeeToDismissed @employeeId, @dismissalDate, @clause, @clauseDescription",
+               "dbo.sp_TransferEmployeeToDismissed @employeeId, @dismissalDate, @clause, @clauseDescription",
                new SqlParameter("@employeeId", employeeId),
                new SqlParameter("@dismissalDate", dismissalDate),
                new SqlParameter("@clause", clause),
@@ -80,7 +80,7 @@ namespace Staffinfo.DAL.Repositories
         {
             return
                 await
-                    employeeRepository.Database.SqlQuery<ServiceStructQueryResult>("dbo.pr_GetServicesStructure NULL").ToDictionaryAsync(a => a.Name, b => b.Count);
+                    employeeRepository.Database.SqlQuery<ServiceStructQueryResult>("dbo.sp_GetServicesStructure NULL").ToDictionaryAsync(a => a.Name, b => b.Count);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Staffinfo.DAL.Repositories
             return
                 await
                     employeeRepository.Database.SqlQuery<Notification>(
-                        "dbo.pr_GetNotifications @includeCustomNotifications, @includeSertification, @includeBirthDates, @includeRanks, @includeContracts;",
+                        "dbo.sp_GetNotifications @includeCustomNotifications, @includeSertification, @includeBirthDates, @includeRanks, @includeContracts;",
                         new SqlParameter("@includeCustomNotifications", includeCustomNotifications),
                         new SqlParameter("@includeSertification", includeSertification),
                         new SqlParameter("@includeBirthDates", includeBirthDates),
@@ -110,7 +110,7 @@ namespace Staffinfo.DAL.Repositories
         public static async Task<Notification> AddNotification(this IRepository<Employee> employeeRepository, Notification notification)
         {
             return await employeeRepository.Database.SqlQuery<Notification>(
-                 "dbo.pr_AddNotification @Author, @Title, @Details, @DueDate;",
+                 "dbo.sp_AddNotification @Author, @Title, @Details, @DueDate;",
                  new SqlParameter("@Author", notification.Author),
                  new SqlParameter("@Title", notification.Title),
                  new SqlParameter("@Details", notification.Details),

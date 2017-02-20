@@ -7,14 +7,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Filters;
-using log4net;
+using NLog;
 
 namespace Staffinfo.API.Filters
 {
     public class GlobalLogFilterAttribute: ExceptionFilterAttribute
     {
-        private static readonly ILog Log =
-            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILogger _logger =
+            LogManager.GetLogger("ExceptionFilterLogger");
 
         public override async Task OnExceptionAsync(HttpActionExecutedContext actionExecutedContext, CancellationToken cancellationToken)
         {
@@ -30,11 +30,9 @@ namespace Staffinfo.API.Filters
 
                 message += ex.Message;  //for debug
 
-                Log.Error("Ошибка", ex);
+                _logger.Log(LogLevel.Error, ex, $"Произошло исключение типа {exType.Name}. Подробнее: {ex.Message}");
                 actionExecutedContext.Response = new HttpResponseMessage()
                 {
-                    
-
                     Content =
                         new StringContent($"Произошла ошибка! {message}", Encoding.UTF8,
                             "text/plain"),

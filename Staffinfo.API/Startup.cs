@@ -11,7 +11,6 @@ using Owin;
 using Staffinfo.API.Providers;
 
 [assembly: OwinStartup(typeof(Staffinfo.API.Startup))]
-[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace Staffinfo.API
 {
     public class Startup

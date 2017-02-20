@@ -1,13 +1,14 @@
-DROP TABLE [dbo].[tbl_ApiLog];
-
+IF OBJECT_ID(N'dbo.tbl_ApiLog', 'U') IS NOT NULL
+  DROP TABLE dbo.tbl_ApiLog
 GO
 
-CREATE TABLE [dbo].[tbl_ApiLog] (
-    [Id] [int] IDENTITY (1, 1) NOT NULL,
-    [Date] [datetime] NOT NULL,
-    [Thread] [varchar] (255) NOT NULL,
-    [Level] [varchar] (50) NOT NULL,
-    [Logger] [varchar] (255) NOT NULL,
-    [Message] [varchar] (4000) NOT NULL,
-    [Exception] [varchar] (2000) NULL
-)
+IF OBJECT_ID(N'dbo.tbl_ApiLog', 'U') IS NULL
+  CREATE TABLE dbo.tbl_ApiLog (
+    ID INT IDENTITY
+   ,TIMESTAMP DATETIME NOT NULL
+   ,LogLevel NVARCHAR(20) NOT NULL
+   ,Message NVARCHAR(MAX) NULL
+   ,Help NVARCHAR(MAX) NULL
+   ,CONSTRAINT PK_tbl_ApiLog PRIMARY KEY CLUSTERED (ID)
+  ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO

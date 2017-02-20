@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
+using NLog;
 using Staffinfo.API.Models;
 using Staffinfo.DAL.Models;
 using Staffinfo.DAL.Repositories;
@@ -18,10 +20,12 @@ namespace Staffinfo.API.Controllers
     public class EmployeesController : ApiController
     {
         private readonly IUnitRepository _repository;
+        private readonly ILogger _logger;
 
-        public EmployeesController(IUnitRepository repository)
+        public EmployeesController(IUnitRepository repository, ILogger logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         // GET: api/Employees
@@ -39,8 +43,8 @@ namespace Staffinfo.API.Controllers
                 filter = employee =>
                 {
                     if (employee.RetirementDate != null) return false;
-                    if (startBirthDate != null && employee.BirthDate < startBirthDate) return false;
-                    if (finishBirthDate != null && employee.BirthDate > finishBirthDate) return false;
+                    if (startBirthDate != null && employee.BirthDate.Date < startBirthDate.Value.Date) return false;
+                    if (finishBirthDate != null && employee.BirthDate > finishBirthDate.Value.Date) return false;
                     if (rankId != -1 && rankId != employee.ActualRankId) return false;
                     if (serviceId != -1 && serviceId != employee.ActualPost?.ServiceId) return false;
                     if ((minSeniority != null && employee.Seniority < minSeniority * 365) || (maxSeniority != null && employee.Seniority > maxSeniority * 365)) return false;
@@ -51,8 +55,8 @@ namespace Staffinfo.API.Controllers
                 filter = employee =>
                 {
                     if (employee.RetirementDate != null) return false;
-                    if (startBirthDate != null && employee.BirthDate < startBirthDate) return false;
-                    if (finishBirthDate != null && employee.BirthDate > finishBirthDate) return false;
+                    if (startBirthDate != null && employee.BirthDate.Date < startBirthDate.Value.Date) return false;
+                    if (finishBirthDate != null && employee.BirthDate.Date > finishBirthDate.Value.Date) return false;
                     if (rankId != -1 && rankId != employee.ActualRankId) return false;
                     if (serviceId != -1 && serviceId != employee.ActualPost?.ServiceId) return false;
                     if ((minSeniority != null && employee.Seniority < minSeniority * 365) || (maxSeniority != null && employee.Seniority > maxSeniority * 365)) return false;
@@ -62,21 +66,22 @@ namespace Staffinfo.API.Controllers
                     return true;
                 };
 
-
-            //apply filtration
-
             var source = _repository.EmployeeRepository;
-
             var all = await source.WhereAsync(filter);
+            DateTime maxDate = DateTime.Now, minDate = DateTime.Now;
 
+            if (finishBirthDate != null) maxDate = finishBirthDate.Value;
+            else if (all.Any())
+                maxDate = all.Max(t => t.BirthDate);
 
-            var maxDate = finishBirthDate ?? (all.Any() ? all.Max(t => t.BirthDate) : (await source.SelectAsync()).Max(t => t.BirthDate));
-            var minDate = startBirthDate ?? (all.Any() ? all.Min(t => t.BirthDate) : (await source.SelectAsync()).Min(t => t.BirthDate));
+            if (startBirthDate != null) minDate = startBirthDate.Value;
+            else if (all.Any())
+                minDate = all.Min(t => t.BirthDate);
 
             //adding of headers
             System.Web.HttpContext.Current.Response.Headers.Add("X-Total-Count", all.Count().ToString());
-            System.Web.HttpContext.Current.Response.Headers.Add("X-Max-Date", maxDate.ToString("yy-MM-dd"));
-            System.Web.HttpContext.Current.Response.Headers.Add("X-Min-Date", minDate.ToString("yy-MM-dd"));
+            System.Web.HttpContext.Current.Response.Headers.Add("X-Max-Date", maxDate.ToString("yyyy-MM-dd"));
+            System.Web.HttpContext.Current.Response.Headers.Add("X-Min-Date", minDate.ToString("yyyy-MM-dd"));
 
             var queryResult =  all.Skip(offset).Take(limit).Select(e => new EmployeeViewModelMin
             {
@@ -151,6 +156,7 @@ namespace Staffinfo.API.Controllers
             };
             _repository.EmployeeRepository.Create(newEmpl);
             await _repository.EmployeeRepository.SaveAsync();
+            _logger.Info(new CultureInfo("ru-ru"), $"Информация о сотруднике \"{newEmpl.EmployeeLastname} {newEmpl.EmployeeFirstname} {newEmpl.EmployeeMiddlename}\" была добавлена пользователем {RequestContext.Principal.Identity.Name}");//TODO: username is empty
         }
 
         // PUT: api/Employee/5
@@ -202,8 +208,9 @@ namespace Staffinfo.API.Controllers
                         
                 //Changing gender is forbidden!!!
 
-                _repository.EmployeeRepository.Update(original, "Seniority");   //exclude seniority for updating
+                _repository.EmployeeRepository.Update(original);   //exclude seniority for updating
                 await _repository.EmployeeRepository.SaveAsync();
+                _logger.Info(new CultureInfo("ru-ru"), $"Информация о сотруднике #{original.Id} \"{original.EmployeeLastname} {original.EmployeeFirstname} {original.EmployeeMiddlename}\" была изменена пользователем {RequestContext.Principal.Identity.Name}");
             }
         }
 
@@ -212,8 +219,11 @@ namespace Staffinfo.API.Controllers
         [Route("api/employees/{id:int}")]
         public async Task Delete(int id)
         {
+            var empl = await _repository.EmployeeRepository.SelectAsync(id);
+
             await _repository.EmployeeRepository.Delete(id);
             await _repository.EmployeeRepository.SaveAsync();
+            _logger.Info(new CultureInfo("ru-ru"), $"Информация о сотруднике #{id} \"{empl.EmployeeLastname} {empl.EmployeeFirstname} {empl.EmployeeMiddlename}\" была удалена пользователем {RequestContext.Principal.Identity.Name}");
         }
 
         [HttpPost]

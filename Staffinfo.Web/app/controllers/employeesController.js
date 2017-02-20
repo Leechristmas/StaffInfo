@@ -47,6 +47,7 @@ app.controller('employeesController', [
             $scope.filter.serviceId = -1;
             $scope.filter.minSeniority = 0;
             $scope.filter.maxSeniority = 35;
+            $scope.getEmployees();
         }
 
         //apply filter
