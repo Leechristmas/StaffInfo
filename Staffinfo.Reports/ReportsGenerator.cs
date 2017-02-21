@@ -8,16 +8,16 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using Staffinfo.Reports.Abstract;
 
 namespace Staffinfo.Reports
 {
     /// <summary>
     /// Generates reports
     /// </summary>
-    public static class ReportsGenerator
+    public class ReportsGenerator: IReportGenerator
     {
-
-        public async static Task<MemoryStream> GetTotalEmployeesListAsPdf()
+        public async Task<MemoryStream> GetTotalEmployeesListAsPdf()
         {
             try
             {
@@ -153,7 +153,7 @@ namespace Staffinfo.Reports
             }
             catch (Exception ex)
             {
-                return null;
+                throw new Exception("PDF report generation error!", ex);
             }
         }
 
@@ -161,7 +161,7 @@ namespace Staffinfo.Reports
         /// Returns the 'total employees' report
         /// </summary>
         /// <returns></returns>
-        public async static Task<MemoryStream> GetTotalEmployeesListAsXlsx()
+        public async Task<MemoryStream> GetTotalEmployeesListAsXlsx()
         {
             try
             {

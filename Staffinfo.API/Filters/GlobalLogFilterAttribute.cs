@@ -11,11 +11,20 @@ using NLog;
 
 namespace Staffinfo.API.Filters
 {
+    /// <summary>
+    /// Exceptions filter
+    /// </summary>
     public class GlobalLogFilterAttribute: ExceptionFilterAttribute
     {
         private static readonly ILogger _logger =
             LogManager.GetLogger("ExceptionFilterLogger");
 
+        /// <summary>
+        /// Process a raised exception
+        /// </summary>
+        /// <param name="actionExecutedContext">exception</param>
+        /// <param name="cancellationToken">token to cancel the process</param>
+        /// <returns></returns>
         public override async Task OnExceptionAsync(HttpActionExecutedContext actionExecutedContext, CancellationToken cancellationToken)
         {
             await Task.Run(() =>

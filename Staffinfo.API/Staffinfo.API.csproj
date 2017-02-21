@@ -235,9 +235,7 @@
     <Compile Include="Controllers\ReferenceBooksController.cs" />
     <Compile Include="Controllers\ReportingController.cs" />
     <Compile Include="Controllers\RetireesController.cs" />
-    <Compile Include="Filters\GlobalExceptionHandler.cs" />
     <Compile Include="Filters\GlobalLogFilterAttribute.cs" />
-    <Compile Include="Filters\NotEmplExceptionFilterAttribute.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\ContractViewModel.cs" />
     <Compile Include="Models\DisciplineItemViewModel.cs" />

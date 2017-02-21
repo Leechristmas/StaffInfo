@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net.Http;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
 using NLog;
@@ -70,20 +67,22 @@ namespace Staffinfo.API.Controllers
             var all = await source.WhereAsync(filter);
             DateTime maxDate = DateTime.Now, minDate = DateTime.Now;
 
+            IEnumerable<Employee> employees = all as IList<Employee> ?? all.ToList();
+
             if (finishBirthDate != null) maxDate = finishBirthDate.Value;
-            else if (all.Any())
-                maxDate = all.Max(t => t.BirthDate);
+            else if (employees.Any())
+                maxDate = employees.Max(t => t.BirthDate);
 
             if (startBirthDate != null) minDate = startBirthDate.Value;
-            else if (all.Any())
-                minDate = all.Min(t => t.BirthDate);
+            else if (employees.Any())
+                minDate = employees.Min(t => t.BirthDate);
 
             //adding of headers
-            System.Web.HttpContext.Current.Response.Headers.Add("X-Total-Count", all.Count().ToString());
+            System.Web.HttpContext.Current.Response.Headers.Add("X-Total-Count", employees.Count().ToString());
             System.Web.HttpContext.Current.Response.Headers.Add("X-Max-Date", maxDate.ToString("yyyy-MM-dd"));
             System.Web.HttpContext.Current.Response.Headers.Add("X-Min-Date", minDate.ToString("yyyy-MM-dd"));
 
-            var queryResult =  all.Skip(offset).Take(limit).Select(e => new EmployeeViewModelMin
+            var queryResult =  employees.Skip(offset).Take(limit).Select(e => new EmployeeViewModelMin
             {
                 Id = e.Id,
                 EmployeeLastname = e.EmployeeLastname,
@@ -231,7 +230,7 @@ namespace Staffinfo.API.Controllers
         public async Task TransferToRetired([FromBody]Employee employee)
         {
             Employee original = await _repository.EmployeeRepository.SelectAsync(employee.Id);
-            if (original != null && employee?.RetirementDate != null)
+            if (original != null && employee.RetirementDate != null)
             {
                 original.RetirementDate = employee.RetirementDate;
 
@@ -244,7 +243,8 @@ namespace Staffinfo.API.Controllers
         [Route("api/employees/dismissedtransfer")]
         public async Task TransferToDismissed([FromBody]Dismissal dismissal)
         {
-            if(!dismissal.IsCorrect) throw new Exception("Parameter is null");
+            if(dismissal.EmployeeId == null) throw new ArgumentException("Parameter is null- dismissal.EmployeeId", nameof(dismissal));
+            if(dismissal.DismissalDate == null) throw new ArgumentException("Parameter is null- dismissal.DismissalDate", nameof(dismissal));
 
             Employee original = await _repository.EmployeeRepository.SelectAsync(dismissal.EmployeeId.Value);
             if (original != null)

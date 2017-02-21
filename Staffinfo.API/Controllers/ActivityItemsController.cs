@@ -22,7 +22,6 @@ namespace Staffinfo.API.Controllers
             _repository = repository;
         }
 
-
         #region WorkItems
 
         [HttpGet]

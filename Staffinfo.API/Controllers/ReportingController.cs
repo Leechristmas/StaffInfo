@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
-using iTextSharp.text;
-using Staffinfo.DAL.Repositories.Interfaces;
-using Staffinfo.Reports;
+using NLog;
+using Staffinfo.Reports.Abstract;
 
 namespace Staffinfo.API.Controllers
 {
@@ -18,11 +15,13 @@ namespace Staffinfo.API.Controllers
     //[Authorize]
     public class ReportingController : ApiController
     {
-        private readonly IUnitRepository _repository;
+        private readonly IReportGenerator _generator;
+        private readonly ILogger _logger;
 
-        public ReportingController(IUnitRepository repository)
+        public ReportingController(IReportGenerator generator, ILogger logger)
         {
-            _repository = repository;
+            _generator = generator;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -38,7 +37,7 @@ namespace Staffinfo.API.Controllers
                 if (String.CompareOrdinal(format, "pdf") == 0)
                 {
                     filename = $"Сотрудники-{DateTime.Now.ToString("d", new CultureInfo("ru-RU"))}.pdf";
-                    stream = new MemoryStream((await ReportsGenerator.GetTotalEmployeesListAsPdf()).ToArray());
+                    stream = new MemoryStream((await _generator.GetTotalEmployeesListAsPdf()).ToArray());
                     result.Content = new StreamContent(stream);
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                     result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
@@ -49,7 +48,7 @@ namespace Staffinfo.API.Controllers
                 else
                 {
                     filename = $"Сотрудники-{DateTime.Now.ToString("d", new CultureInfo("ru-RU"))}.xlsx";
-                    stream = await ReportsGenerator.GetTotalEmployeesListAsXlsx();
+                    stream = await _generator.GetTotalEmployeesListAsXlsx();
                     stream.Position = 0;
                     result.Content = new StreamContent(stream);
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
@@ -58,12 +57,17 @@ namespace Staffinfo.API.Controllers
                         FileName = filename
                     };
                 }
+                _logger.Info(new CultureInfo("ru-RU"), "\"Комплексный отчет по сотрудникам\" был успешно сформирован");
 
                 return result;
             }
             catch (Exception ex)
             {
-                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                _logger.Error(new CultureInfo("ru-RU"), $"Произошла ошибка при формировании отчета: {ex.Message}");
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError)
+                {
+                    Content = new StringContent(ex.Message)
+                };
             }
         }
     }
