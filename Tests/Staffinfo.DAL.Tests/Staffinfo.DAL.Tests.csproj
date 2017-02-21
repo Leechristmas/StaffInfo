@@ -75,13 +75,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AddressAndPassportRepositoriesTests.cs" />
-    <Compile Include="Custom.cs" />
-    <Compile Include="EmployeeRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReferenceBooksRepositoriesTests.cs" />
-    <Compile Include="EmployeeActivityItemsRepositoriesTests.cs" />
-    <Compile Include="TestingCRUDHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Staffinfo.API\Staffinfo.API.csproj">

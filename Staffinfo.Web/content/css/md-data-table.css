@@ -90,7 +90,7 @@ md-edit-dialog > .md-actions .md-button + .md-button {
   margin-right: -6px !important;
 }
 .md-table-pagination md-select .md-select-value span.md-select-icon:after {
-  top: initial;
+  top: inherit;
   -webkit-transform: scaleY(0.5) scaleX(1);
           transform: scaleY(0.5) scaleX(1);
 }
@@ -148,7 +148,7 @@ md-select.md-table-select > .md-select-value > span.md-select-icon {
   margin: 0;
 }
 md-select.md-table-select > .md-select-value > span.md-select-icon:after {
-  top: initial;
+  top: inherit;
 }
 .md-select-menu-container.md-table-select,
 .md-select-menu-container.md-pagination-select {
