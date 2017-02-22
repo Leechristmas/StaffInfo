@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
-using Ninject;
 using Staffinfo.DAL.Context;
 using Staffinfo.DAL.Models.Common;
 using Staffinfo.DAL.Repositories.Interfaces;
@@ -17,19 +15,13 @@ namespace Staffinfo.DAL.Repositories
     /// <typeparam name="T">the model type</typeparam>
     public class Repository<T>: IStaffRepository, IRepository<T>, IDisposable where T : Entity
     {
-        [Inject]
         public StaffContext StaffContext { get; set; }
 
         public Database Database { get; set; }
 
-        public Repository()
-        {
-            Table = StaffContext.Set<T>();
-            Database = StaffContext.Database;
-        }
-
         public Repository(StaffContext context)
         {
+            var c = typeof(T);
             StaffContext = context;
             Table = StaffContext.Set<T>();
             Database = StaffContext.Database;

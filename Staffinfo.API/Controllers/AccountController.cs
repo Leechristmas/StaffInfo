@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
+using Staffinfo.API.Abstract;
 using Staffinfo.API.Models;
 
 namespace Staffinfo.API.Controllers
@@ -8,11 +9,16 @@ namespace Staffinfo.API.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
-        private readonly AuthRepository _repo = null;
+        private readonly IAuthRepository _repo = null;
 
         public AccountController()
         {
             _repo = new AuthRepository();
+        }
+
+        public AccountController(IAuthRepository repo)
+        {
+            _repo = repo;
         }
 
         // POST api/Account/Register

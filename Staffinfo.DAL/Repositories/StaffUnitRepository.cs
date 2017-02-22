@@ -1,5 +1,4 @@
 ﻿using System;
-using Ninject;
 using Staffinfo.DAL.Context;
 using Staffinfo.DAL.Models;
 using Staffinfo.DAL.Repositories.Interfaces;
@@ -9,12 +8,10 @@ namespace Staffinfo.DAL.Repositories
     /// <summary>
     /// Unit repository (Unit Of Work pattern)
     /// </summary>
-    public sealed class StaffUnitRepository : IUnitRepository, IStaffRepository
+    public sealed class StaffUnitRepository : IUnitRepository //IStaffRepository
     {
-        [Inject]
-        public StaffContext StaffContext { get; set; }
-
-        public StaffUnitRepository(IRepository<Address> addressRepository,
+        public StaffUnitRepository(
+            IRepository<Address> addressRepository,
             IRepository<Employee> employeeRepository,
             IRepository<Location> locationRepository,
             IRepository<MesAchievement> mesAchievementRepository,

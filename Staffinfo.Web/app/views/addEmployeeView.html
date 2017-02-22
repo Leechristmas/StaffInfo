@@ -171,7 +171,7 @@
                         <div layout-gt-sm="row">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <md-icon md-svg-icon="img/icons/ic_phone_24px.svg"></md-icon>
-                                <input ng-model="newEmployee.firstPhoneNumber" md-maxlength="13" ui-mask="+375 (99) 999 99 99"/>
+                                <input ng-model="newEmployee.firstPhoneNumber" aria-label="phone-1" ui-mask="+375 (99) 999 99 99"/>
                                 <div class="hint" style="margin-left: 30px;"><!-- margin is needed because of the icon -->
                                     +375 (XX) XXX XX XX
                                 </div>
@@ -179,7 +179,7 @@
 
                             <md-input-container class="md-block" flex-gt-sm>
                                 <md-icon md-svg-icon="img/icons/ic_phone_24px.svg"></md-icon>
-                                <input ng-model="newEmployee.secondPhoneNumber" md-maxlength="13" ui-mask="+375 (99) 999 99 99"/>
+                                <input ng-model="newEmployee.secondPhoneNumber" aria-label="phone-2" ui-mask="+375 (99) 999 99 99"/>
                                 <div class="hint" style="margin-left: 30px;">
                                     +375 (XX) XXX XX XX
                                 </div>

@@ -2,11 +2,12 @@
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Staffinfo.API.Abstract;
 using Staffinfo.API.Models;
 
 namespace Staffinfo.API
 {
-    public class AuthRepository : IDisposable
+    public class AuthRepository : IAuthRepository
     {
         private readonly AuthContext _ctx;
 

@@ -24,6 +24,9 @@ namespace Staffinfo.DAL.Models
         [Required]
         public DateTime Date { get; set; }
 
+        /// <summary>
+        /// Money (in kopecks)
+        /// </summary>
         [Required]
         public long AwardOrFine { get; set; }
 

@@ -7,6 +7,8 @@ using Staffinfo.DAL.Context;
 using Staffinfo.DAL.Models;
 using Staffinfo.DAL.Repositories;
 using Staffinfo.DAL.Repositories.Interfaces;
+using Staffinfo.Reports;
+using Staffinfo.Reports.Abstract;
 
 namespace Staffinfo.API
 {
@@ -46,7 +48,8 @@ namespace Staffinfo.API
             kernel.Bind<IRepository<EducationItem>>().To<Repository<EducationItem>>().InRequestScope();
             kernel.Bind<IRepository<Contract>>().To<Repository<Contract>>().InRequestScope();
             kernel.Bind<IRepository<Relative>>().To<Repository<Relative>>().InRequestScope();
-            kernel.Bind<ILogger>().ToMethod(lm => LogManager.GetLogger("ControllerLogger"));
+            kernel.Bind<ILogger>().ToMethod(lm => LogManager.GetLogger("ControllerLogger")).InRequestScope();
+            kernel.Bind<IReportGenerator>().To<ReportsGenerator>().InRequestScope();
         }
     }
 }
