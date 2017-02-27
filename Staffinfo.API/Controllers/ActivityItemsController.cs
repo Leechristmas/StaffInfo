@@ -12,7 +12,7 @@ using Staffinfo.DAL.Repositories.Interfaces;
 namespace Staffinfo.API.Controllers
 {
     [Route("api/employees/activity")]
-    //[Authorize]
+    [Authorize]
     public class ActivityItemsController : ApiController
     {
         private readonly IUnitRepository _repository;
