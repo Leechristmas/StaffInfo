@@ -19,7 +19,7 @@
 
     <md-content>
         <form name="employeeForm">
-            <md-tabs md-dynamic-height style="max-height: 800px;">
+            <md-tabs md-selected="selectedTabIndex" md-dynamic-height style="max-height: 800px;">
                 <md-tab md-on-select="personalInfoTabConfig()">
                     <md-tab-label>
                         <p class="unselectable">
@@ -674,7 +674,7 @@
             <md-icon md-svg-icon="img/icons/ic_save_24px.svg"></md-icon>
             Сохранить
         </md-button>
-        <md-button class="md-primary md-raised" ng-click="resetChanges()">
+        <md-button class="md-primary md-raised" ng-click="resetChanges()" ng-if="selectedTabIndex === 0 || selectedTabIndex === 1">
             <md-icon md-svg-icon="img/icons/ic_clear_24px.svg"></md-icon>
             Отменить изменения
         </md-button>

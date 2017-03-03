@@ -231,11 +231,14 @@ app.controller('employeesController', [
 
 
 //COMMON----------------------------------------------
+        $scope.selectedTabIndex = 0;
+
 
         $scope.maxBirthDate = employeesService.common.maxBirthDate;
         $scope.minBirthDate = employeesService.common.minBirthDate;
         $scope.minRetirementDate = '';
 
+        //gathers data for the personal tab
         $scope.personalInfoTabConfig = function() {
             $scope.promise = employeesService.activityItems.mesAchievements.getMesAchievements().then(function (response) {//calculating constraint for retirement date
                 $scope.mesAchievements = response.data;
@@ -1006,11 +1009,27 @@ app.controller('employeesController', [
                 item[field] = new Date();
         }
 
+    //transition between tabs
+        $scope.selectedTabIndex = 0;
+        $scope.goToTab = function (index, form) {
+            if (form) { //reset form
+                form.$setPristine();
+                form.$setUntouched();
+            }
+            if (index === 1) { //adding location tab
+                //reset the model
+                $scope.location.locationName = '';
+                $scope.location.address = '';
+                $scope.location.description = '';
+            }
+            $scope.selectedTabIndex = index;    //transition to the tab
+        }
+
         $scope.minDate = employeesService.activityItems.constants.minDate;
         $scope.maxDate = employeesService.activityItems.constants.maxDate;
         $scope.mode = mode;
 
-        //posts init
+    //posts init
         $scope.getPosts = function (serviceId) {
             employeesService.activityItems.getPosts(serviceId).then(function (response) {
                 $scope.posts = response.data;
@@ -1020,7 +1039,7 @@ app.controller('employeesController', [
             });
         }
 
-        //ranks init
+    //ranks init
         employeesService.activityItems.getRanks().then(function (response) {
             $scope.ranks = response.data;
         }, function (data) {
@@ -1028,13 +1047,7 @@ app.controller('employeesController', [
             $mdToast.show(messageService.errors.errorViewConfig);
         });
 
-        //locations init
-        employeesService.activityItems.getLocations().then(function (response) {
-            $scope.locations = response.data;
-        }, function (data) {
-            messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
-            $mdToast.show(messageService.errors.errorViewConfig);
-        });
+        
 
         //services init
         employeesService.activityItems.getServices().then(function (response) {
@@ -1044,6 +1057,45 @@ app.controller('employeesController', [
             $mdToast.show(messageService.errors.errorViewConfig);
         });
         //----------------------------------------------------
+
+        //REF-ITEMS
+
+        $scope.location = {};
+
+        //locations init
+        $scope.initLocations = function() {
+            employeesService.activityItems.locations.getLocations().then(function (response) {
+                $scope.locations = response.data;
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+
+        $scope.saveLocation = function(item, form) {
+            $scope.promise = employeesService.activityItems.locations.saveLocation(item).then(function(response) {
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                        '<div class="md-toast-content">' +
+                        (mode === 'edit' ? 'Запись успешно изменена.' : 'Запись успешно добавлена.') +
+                        '</div>' +
+                        '</md-toast>'
+                });
+                $scope.goToTab(0, form); //go to the main tab
+                $scope.initLocations(); //update locations list
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+
+        $scope.initLocations();
+        
+        //----------------------------------------------------
+
 
         //OUT FROM OFFICE-------------------------------------
 
@@ -1079,7 +1131,7 @@ app.controller('employeesController', [
             : employeesService.activityItems.mesAchievements.selectedMesAchievement;
 
         if (mode === 'edit') $scope.getPosts($scope.mesAchItem.serviceId);
-
+    
         //saves new mes achievement
         $scope.saveNewMesAchievement = function () {
 

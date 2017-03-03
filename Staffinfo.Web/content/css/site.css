@@ -203,4 +203,8 @@ md-expansion-panel-header .md-title {
 .shadow {
     box-shadow: 0 0 10px rgba(0,0,0,0.5); 
     padding: 10px;
-   }
+}
+
+#mes-tabs md-tabs-wrapper md-tabs-canvas {
+    display: none;
+}

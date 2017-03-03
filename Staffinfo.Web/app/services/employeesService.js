@@ -191,8 +191,18 @@ app.factory('employeesService', [
             getServices: function () {
                 return $http.get(serviceBase + 'api/reference-books/services');
             },
-            getLocations: function () {
-                return $http.get(serviceBase + 'api/reference-books/locations');
+            locations: {
+                getLocations: function () {
+                    return $http.get(serviceBase + 'api/reference-books/locations');
+                },
+                saveLocation: function(item) {
+                    if (item.id) //update
+                        return $http.put(serviceBase + 'api/reference-books/locations/' + item.id, item, {});
+                    return $http.post(serviceBase + 'api/reference-books/locations', item, {});
+                },
+                deleteLocation: function(id) {
+                    return $http.delete(serviceBase + 'api/reference-books/locations/' + id);
+                }
             },
             //properties and methods of discipline items
             disciplineItems: {
