@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Staffinfo.DAL.Infrastructure;
 using Staffinfo.DAL.Models;
 using Staffinfo.DAL.Repositories;
 using Staffinfo.DAL.Repositories.Interfaces;

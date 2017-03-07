@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Staffinfo.API.Models;
+using Staffinfo.DAL.Infrastructure;
 using Staffinfo.DAL.Models;
 using Staffinfo.DAL.Repositories.Interfaces;
 
@@ -377,6 +378,7 @@ namespace Staffinfo.API.Controllers
                 Institution = value.Institution,
                 Speciality = value.Speciality,
                 EmployeeId = value.EmployeeId,
+                LevelCode = value.EducationLevelId,
                 Description = value.Description
             };
             _repository.EducationRepository.Create(item);
@@ -411,12 +413,20 @@ namespace Staffinfo.API.Controllers
                 original.FinishDate = value.FinishDate;
                 original.Institution = value.Institution;
                 original.EmployeeId = value.EmployeeId;
+                original.LevelCode = value.EducationLevelId;
                 original.Description = value.Description;
                 original.Speciality = value.Speciality;
 
                 _repository.EducationRepository.Update(original);
                 await _repository.EducationRepository.SaveAsync();
             }
+        }
+
+        [HttpGet]
+        [Route("api/employees/activity/education/levels")]
+        public async Task<IEnumerable<EducationLevel>> GetEducationLevels()
+        {
+            return await _repository.EducationRepository.GetEducationLevels();
         }
 
         #endregion

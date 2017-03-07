@@ -486,6 +486,7 @@
                                     <thead md-head fix-head>
                                         <tr md-row>
                                             <th md-column class="td-center">Учебное заведение</th>
+                                            <th md-column class="td-center">Уровень</th>
                                             <th md-column class="td-center">Специальность</th>
                                             <th md-column class="td-center">Дата начала обучения</th>
                                             <th md-column class="td-center">Дата завершения</th>
@@ -496,6 +497,7 @@
                                         <tr ng-if="educationItems.length === 0"><td colspan="4" class="td-center text-center emptyRow">Пусто</td></tr>
                                         <tr ng-if="educationItems.length != 0" md-row md-select-id="id" ng-repeat="item in educationItems | orderBy: '-startDate'">
                                             <td md-cell class="td-center">{{item.institution}}</td>
+                                            <td md-cell class="td-center">{{item.educationLevel}}</td>
                                             <td md-cell class="td-center">{{item.speciality}}</td>
                                             <td md-cell class="td-center">{{getDate(item.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell class="td-center">{{getDate(item.finishDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>

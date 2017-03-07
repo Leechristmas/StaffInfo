@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\StaffContext.cs" />
+    <Compile Include="Infrastructure\EducationRepositoryHelper.cs" />
     <Compile Include="Mapping\AddressMap.cs" />
     <Compile Include="Mapping\BaseMap.cs" />
     <Compile Include="Mapping\ContractMap.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Models\DisciplineItem.cs" />
     <Compile Include="Models\Dismissed.cs" />
     <Compile Include="Models\EducationItem.cs" />
+    <Compile Include="Models\EducationLevel.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\MesAchievement.cs" />
@@ -92,7 +94,7 @@
     <Compile Include="Models\Service.cs" />
     <Compile Include="Models\WorkTerm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\EmployeeRepositoryHelper.cs" />
+    <Compile Include="Infrastructure\EmployeeRepositoryHelper.cs" />
     <Compile Include="Repositories\Interfaces\IRepository.cs" />
     <Compile Include="Repositories\Interfaces\IStaffRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUnitRepository.cs" />

@@ -1025,6 +1025,11 @@ app.controller('employeesController', [
             $scope.selectedTabIndex = index;    //transition to the tab
         }
 
+        //check if the string is empty
+        function isEmpty(value) {
+            return typeof value == 'string' && !value.trim() || typeof value == 'undefined' || value === null;
+        }
+
         $scope.minDate = employeesService.activityItems.constants.minDate;
         $scope.maxDate = employeesService.activityItems.constants.maxDate;
         $scope.mode = mode;
@@ -1046,7 +1051,6 @@ app.controller('employeesController', [
             messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
             $mdToast.show(messageService.errors.errorViewConfig);
         });
-
         
 
         //services init
@@ -1072,6 +1076,15 @@ app.controller('employeesController', [
             });
         }
 
+        $scope.initEducationLevels = function () {
+            employeesService.activityItems.education.getEducationLevels().then(function (response) {
+                $scope.educationLevels = response.data;
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        };
+
         $scope.saveLocation = function(item, form) {
             $scope.promise = employeesService.activityItems.locations.saveLocation(item).then(function(response) {
                 $mdToast.show({
@@ -1093,6 +1106,7 @@ app.controller('employeesController', [
         }
 
         $scope.initLocations();
+        $scope.initEducationLevels();
         
         //----------------------------------------------------
 
@@ -1246,7 +1260,7 @@ app.controller('employeesController', [
         $scope.education = employeesService.activityItems.education.selectedEducation == null
             ? { employeeId: employeesService.employees.getActualEmployee().id }
             : employeesService.activityItems.education.selectedEducation;
-
+    
         //saves new education
         $scope.saveNewEducation = function () {
             $scope.promise = employeesService.activityItems.education.saveEducation($scope.education).then(function (response) {

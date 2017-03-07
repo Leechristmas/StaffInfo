@@ -27,5 +27,8 @@ namespace Staffinfo.DAL.Models
 
         public virtual Employee Employee { get; set; }
 
+        public int? LevelCode { get; set; }
+        public virtual EducationLevel EducationLevel { get; set; }
+
     }
 }

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Threading.Tasks;
 using Staffinfo.DAL.Models;
 using Staffinfo.DAL.Repositories.Interfaces;
 
-namespace Staffinfo.DAL.Repositories
+namespace Staffinfo.DAL.Infrastructure
 {
     public static class EmployeeRepositoryHelper
     {

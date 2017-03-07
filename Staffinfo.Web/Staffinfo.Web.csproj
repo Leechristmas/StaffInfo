@@ -145,6 +145,7 @@
     <Content Include="img\icons\ic_arrow_back_24px.svg" />
     <Content Include="img\icons\ic_assignment_24px.svg" />
     <Content Include="img\icons\ic_assignment_ind_24px.svg" />
+    <Content Include="img\icons\ic_book_24px.svg" />
     <Content Include="img\icons\ic_call_to_action_24px.svg" />
     <Content Include="img\icons\ic_clear_24px.svg" />
     <Content Include="img\icons\ic_close_24px.svg" />

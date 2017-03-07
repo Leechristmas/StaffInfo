@@ -18,7 +18,7 @@ namespace Staffinfo.DAL.Context
         //TODO: remove the dependency of connection name
         public StaffContext(): base("Name=StaffContext")
         {
-            Database.SetInitializer<StaffContext>(null);
+            //Database.SetInitializer<StaffContext>(null);
         }
 
         public virtual DbSet<Address> Addresses { get; set; }
@@ -55,6 +55,7 @@ namespace Staffinfo.DAL.Context
                 .Add(new DismissedMap())
                 .Add(new DisciplineItemMap())
                 .Add(new OutFromOfficeMap())
+                .Add(new EducationLevelMap())
                 .Add(new EducationItemMap())
                 .Add(new ContractMap())
                 .Add(new RelativeMap())

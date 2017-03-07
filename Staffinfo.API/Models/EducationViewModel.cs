@@ -25,6 +25,12 @@ namespace Staffinfo.API.Models
         [DataMember]
         public int? EmployeeId { get; set; }
 
+        [DataMember]
+        public int? EducationLevelId { get; set; }
+        
+        [DataMember]
+        public string EducationLevel { get; set; }
+        
         public EducationViewModel()
         {
             
@@ -36,6 +42,11 @@ namespace Staffinfo.API.Models
             Institution = item.Institution;
             Speciality = item.Speciality;
             StartDate = item.StartDate;
+            EducationLevelId = item.LevelCode;
+            EducationLevel = $"{item.EducationLevel.Transcript}" +
+                             (String.IsNullOrEmpty(item.EducationLevel.Description)
+                                 ? ""
+                                 : $"({item.EducationLevel.Description})");
             FinishDate = item.FinishDate;
             EmployeeId = item.EmployeeId;
             Description = item.Description;

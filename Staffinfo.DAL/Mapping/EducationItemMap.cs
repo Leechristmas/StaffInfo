@@ -15,6 +15,20 @@ namespace Staffinfo.DAL.Mapping
             //navigation properties
             this.Property(t => t.EmployeeId).IsOptional().HasColumnName("EmployeeID");
             HasOptional(t => t.Employee).WithMany().HasForeignKey(t => t.EmployeeId);
+
+            this.Property(t => t.LevelCode).IsOptional().HasColumnName("LevelCode");
+            HasOptional(t => t.EducationLevel).WithMany().HasForeignKey(t => t.LevelCode);
         }
     }
+
+    public class EducationLevelMap : BaseMap<EducationLevel>
+    {
+        public EducationLevelMap(): base("tbl_EducationLevel")
+        {
+            this.Property(t => t.Transcript).IsRequired().HasColumnName("Transcript");
+            this.Property(t => t.Weight).IsRequired().HasColumnName("Weight");
+            this.Property(t => t.Description).IsOptional().HasColumnName("Description");
+        }
+    }
+
 }

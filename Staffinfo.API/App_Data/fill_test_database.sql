@@ -29,6 +29,15 @@ INSERT INTO dbo.tbl_Service (ServiceName, ServiceShortName, ServiceGroupId)
 
 GO
 
+INSERT INTO tbl_EducationLevel VALUES
+  ('япедмее наыее', 1, ''),
+  ('япедмее опнтеяяхнмюкэмне', 2, ''),
+  ('бшяьее', 3, 'аюйюкюбп'),
+  ('бшяьее', 4, 'яоежхюкхяр/люцхярп'),
+  ('бшяьее', 5, 'онякедхокнлмне');
+
+GO
+
 INSERT INTO dbo.tbl_Post (PostName, ServiceID, PostWeight)
   VALUES (N'мЮВ. НРПЪДЮ', 1, 1),	--юООЮПЮР НРПЪДЮ
         (N'гЮЛ. ОН нрп', 1, 2),
@@ -169,14 +178,14 @@ INSERT INTO dbo.tbl_GratitudesAndPunishment(Title, EmployeeID, ItemType, Date, D
 
 GO
 
-INSERT INTO dbo.tbl_Sertification(EmployeeID, DueDate, Description)
-  VALUES (1, '2010-12-10', N'description1'),
-      (1, '2010-11-10', N'description2');
+INSERT INTO dbo.tbl_Sertification(EmployeeID, DueDate, Level, Description)
+  VALUES (1, '2010-12-10', 'йКЮЯЯМНЯРЭ 2', N'description1'),
+      (1, '2010-11-10', 'йКЮЯЯМНЯРЭ 2', N'description2');
 
 GO
 
-INSERT INTO dbo.tbl_Education(EmployeeID, Institution, Speciality, StartDate, FinishDate, Description)
-  VALUES(1, 'Institution_1', 'Speciality_1', '2010-02-03', '2011-02-03', 'qwe');
+INSERT INTO dbo.tbl_Education(EmployeeID, Institution, Speciality, LevelCode, StartDate, FinishDate, Description)
+  VALUES(1, 'Institution_1', 'Speciality_1', 1, '2010-02-03', '2011-02-03', 'qwe');
 
 GO
 

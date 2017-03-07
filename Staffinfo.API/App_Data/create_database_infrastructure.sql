@@ -39,6 +39,7 @@ DROP TABLE dbo.tbl_GratitudesAndPunishment;
 DROP TABLE dbo.tbl_Sertification;
 DROP TABLE dbo.tbl_OutFromOffice;
 DROP TABLE dbo.tbl_Education;
+DROP TABLE dbo.tbl_EducationLevel;
 DROP TABLE dbo.tbl_Contract;
 DROP TABLE dbo.tbl_Relative;
 DROP TABLE dbo.tbl_Employee;
@@ -203,15 +204,27 @@ CONSTRAINT unq_MESAchievement
 UNIQUE (EmployeeID, StartDate);
 GO
 
+CREATE TABLE dbo.tbl_EducationLevel (
+  ID INT IDENTITY(1,1)
+ ,Transcript NVARCHAR(50) NOT NULL
+ ,Weight SMALLINT NOT NULL
+ ,Description NVARCHAR(50) NULL
+ ,CONSTRAINT PK_tbl_EducationLevel_ID PRIMARY KEY CLUSTERED (ID)
+) ON [PRIMARY]
+GO
+
 CREATE TABLE dbo.tbl_Education (
   ID INT IDENTITY (1, 1) PRIMARY KEY
  ,EmployeeID INT NOT NULL REFERENCES dbo.tbl_Employee ON DELETE CASCADE
  ,Institution NVARCHAR(100) NOT NULL
  ,Speciality NVARCHAR(100) NOT NULL
+ ,LevelCode INT NOT NULL REFERENCES tbl_EducationLevel
  ,StartDate DATE NOT NULL
  ,FinishDate DATE NOT NULL
  ,Description NVARCHAR(200)
 );
+
+GO
 
 CREATE TABLE dbo.tbl_Contract (
   ID INT IDENTITY (1, 1) PRIMARY KEY
@@ -220,7 +233,7 @@ CREATE TABLE dbo.tbl_Contract (
  ,FinishDate DATE NOT NULL
  ,Description NVARCHAR(200)
 );
-
+GO
 CREATE TABLE dbo.tbl_WorkTerm (
   ID INT IDENTITY (1, 1) PRIMARY KEY
  ,EmployeeID INT NOT NULL
@@ -230,7 +243,7 @@ CREATE TABLE dbo.tbl_WorkTerm (
  ,FinishDate DATE NOT NULL
  ,Description NVARCHAR(200)
 );
-
+GO
 ALTER TABLE dbo.tbl_WorkTerm
 ADD CONSTRAINT fk_WorkTerm_Employee
 FOREIGN KEY (EmployeeID) REFERENCES dbo.tbl_Employee ON DELETE CASCADE,
@@ -287,6 +300,7 @@ CREATE TABLE dbo.tbl_Sertification (
   ID INT IDENTITY (1, 1) PRIMARY KEY
  ,EmployeeID INT REFERENCES dbo.tbl_Employee ON DELETE CASCADE
  ,DueDate DATE NOT NULL
+ ,Level NVARCHAR(15)
  ,Description NVARCHAR(255)
 );
 

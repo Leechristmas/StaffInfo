@@ -135,6 +135,9 @@ app.factory('employeesService', [
                 },
                 getEducationItems: function () {
                     return $http.get(serviceBase + 'api/employees/activity/education/' + _employees.actualEmployee.id);
+                },
+                getEducationLevels: function() {
+                    return $http.get(serviceBase + 'api/employees/activity/education/levels');
                 }
             },
             works: {
