@@ -40,7 +40,7 @@
                         <md-icon md-svg-src="img/icons/ic_book_24px.svg"></md-icon>
                         <md-select name="grade" ng-model="education.educationLevelId" required>
                             <md-optgroup>
-                                <md-option ng-value="grade.id" ng-repeat="grade in educationLevels">{{grade.transcript}} {{!isEmpty(grade.description) ? grade.description : ''}}</md-option>
+                                <md-option ng-value="grade.id" ng-repeat="grade in educationLevels">{{grade.transcript}} {{!isEmpty(grade.description) ? '(' + grade.description + ')' : ''}}</md-option>
                             </md-optgroup>
                         </md-select>
                         <div ng-messages="itemForm.grade.$error" class="validation-messages">

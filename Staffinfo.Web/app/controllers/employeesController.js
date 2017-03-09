@@ -1026,7 +1026,7 @@ app.controller('employeesController', [
         }
 
         //check if the string is empty
-        function isEmpty(value) {
+        $scope.isEmpty = function (value) {
             return typeof value == 'string' && !value.trim() || typeof value == 'undefined' || value === null;
         }
 
