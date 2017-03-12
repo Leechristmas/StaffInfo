@@ -159,6 +159,7 @@ namespace Staffinfo.API.Controllers
                 original.EmployeeId = value.EmployeeId;
                 original.DueDate = value.DueDate;
                 original.Description = value.Description;
+                original.Level = value.Level;
 
                 _repository.SertificationRepository.Update(original);
                 await _repository.SertificationRepository.SaveAsync();
@@ -174,7 +175,8 @@ namespace Staffinfo.API.Controllers
                 Id = 0,
                 EmployeeId = model.EmployeeId,
                 DueDate = model.DueDate,
-                Description = model.Description
+                Description = model.Description,
+                Level = model.Level
             };
             _repository.SertificationRepository.Create(sertification);
             await _repository.SertificationRepository.SaveAsync();

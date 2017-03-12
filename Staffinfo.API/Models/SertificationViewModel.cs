@@ -16,6 +16,9 @@ namespace Staffinfo.API.Models
         [DataMember]
         public string Description { get; set; }
 
+        [DataMember]
+        public string Level { get; set; }
+
         public SertificationViewModel()
         {
             
@@ -26,7 +29,8 @@ namespace Staffinfo.API.Models
             Id = sertification.Id;
             if (sertification.EmployeeId != null) EmployeeId = sertification.EmployeeId.Value;
             DueDate = sertification.DueDate;
-            Description = sertification.Description;  
+            Description = sertification.Description;
+            Level = sertification.Level;
         }
 
     }

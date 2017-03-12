@@ -396,6 +396,7 @@
                                     <thead md-head fix-head>
                                         <tr md-row>
                                             <th md-column class="td-center">Дата</th>
+                                            <th md-column class="td-center">Классность</th>
                                             <th md-column>Описание</th>
                                         </tr>
                                     </thead>
@@ -403,6 +404,7 @@
                                         <tr ng-if="sertifications.length === 0"><td colspan="4" class="td-center text-center emptyRow">Пусто</td></tr>
                                         <tr ng-if="sertifications.length != 0" md-row md-select-id="id" ng-repeat="item in sertifications | orderBy: '-dueDate'">
                                             <td md-cell class="td-center">{{getDate(item.dueDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
+                                            <td md-cell class="td-center">{{item.level}}</td>
                                             <td md-cell>{{item.description}}</td>
                                             <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'S')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
                                             <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="showAddSertificationView($event, 'edit', item)" class="pull-right"><md-icon md-svg-src="img/icons/ic_mode_edit_24px.svg"></md-icon><md-tooltip md-direction="bottom">Редактировать запись</md-tooltip></md-button></td>
@@ -490,18 +492,16 @@
                                             <th md-column class="td-center">Специальность</th>
                                             <th md-column class="td-center">Дата начала обучения</th>
                                             <th md-column class="td-center">Дата завершения</th>
-                                            <th md-column>Описание</th>
                                         </tr>
                                     </thead>
                                     <tbody md-body>
-                                        <tr ng-if="educationItems.length === 0"><td colspan="4" class="td-center text-center emptyRow">Пусто</td></tr>
+                                        <tr ng-if="educationItems.length === 0"><td colspan="5" class="td-center text-center emptyRow">Пусто</td></tr>
                                         <tr ng-if="educationItems.length != 0" md-row md-select-id="id" ng-repeat="item in educationItems | orderBy: '-startDate'">
                                             <td md-cell class="td-center">{{item.institution}}</td>
                                             <td md-cell class="td-center">{{item.educationLevel}}</td>
                                             <td md-cell class="td-center">{{item.speciality}}</td>
                                             <td md-cell class="td-center">{{getDate(item.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
                                             <td md-cell class="td-center">{{getDate(item.finishDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</td>
-                                            <td md-cell>{{item.description}}</td>
                                             <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="confirmDeleting($event, item.id, 'E')" class="pull-right"><md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg"></md-icon><md-tooltip md-direction="bottom">Удалить запись</md-tooltip></md-button></td>
                                             <td md-cell style="width: 25px; padding: 0;"><md-button aria-label="delete button" style="min-width: 25px;" ng-click="showAddEducationView($event, 'edit', item)" class="pull-right"><md-icon md-svg-src="img/icons/ic_mode_edit_24px.svg"></md-icon><md-tooltip md-direction="bottom">Редактировать запись</md-tooltip></md-button></td>
                                         </tr>

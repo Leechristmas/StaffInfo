@@ -15,6 +15,25 @@
                 <div layout-gt-sm="row">
 
                     <md-input-container class="md-block" flex-gt-sm>
+                        <label>Начало Периода</label>
+                        <md-datepicker name="startDate" ng-model="education.startDate" required md-max-date="education.finishDate" md-min-date="minDate" ng-focus="dtpckrOnFocus(education, 'startDate')"></md-datepicker>
+                        <div ng-messages="itemForm.startDate.$error" class="validation-messages">
+                            <div ng-message="required">Необходимо заполнить это поле.</div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Конец Периода</label>
+                        <md-datepicker name="finishDate" ng-model="education.finishDate" required md-min-date="education.startDate" md-max-date="maxDate" ng-focus="dtpckrOnFocus(education, 'finishDate')"></md-datepicker>
+                        <div ng-messages="itemForm.finishDate.$error" class="validation-messages">
+                            <div ng-message="required">Необходимо заполнить это поле.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
+
+                    <md-input-container class="md-block" flex-gt-sm>
                         <label>Учебное заведение</label>
                         <md-icon md-svg-src="img/icons/ic_title_24px.svg"></md-icon>
                         <input ng-model="education.institution" name="institution" required md-maxlength="100"/>
@@ -48,26 +67,7 @@
                         </div>
                     </md-input-container>
                 </div>
-
-                <div layout-gt-sm="row">
-
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>Начало Периода</label>
-                        <md-datepicker name="startDate" ng-model="education.startDate" required md-max-date="education.finishDate" md-min-date="minDate" ng-focus="dtpckrOnFocus(education, 'startDate')"></md-datepicker>
-                        <div ng-messages="itemForm.startDate.$error" class="validation-messages">
-                            <div ng-message="required">Необходимо заполнить это поле.</div>
-                        </div>
-                    </md-input-container>
-
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>Конец Периода</label>
-                        <md-datepicker name="finishDate" ng-model="education.finishDate" required md-min-date="education.startDate" md-max-date="maxDate" ng-focus="dtpckrOnFocus(education, 'finishDate')"></md-datepicker>
-                        <div ng-messages="itemForm.finishDate.$error" class="validation-messages">
-                            <div ng-message="required">Необходимо заполнить это поле.</div>
-                        </div>
-                    </md-input-container>
-                </div>
-
+                
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" style="width: 100%;">
                         <label>Заметка</label>
