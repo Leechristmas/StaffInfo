@@ -1,28 +1,28 @@
 --USE u0250751_StaffinfoTestDB;
 
-ALTER TABLE dbo.tbl_Post
-DROP CONSTRAINT fk_Post_Service;
-GO
-
-ALTER TABLE dbo.tbl_MESAchievement
-DROP CONSTRAINT fk_MESAchievement_Employee,
-CONSTRAINT fk_MESAchievement_Location,
-CONSTRAINT fk_MESAchievement_Rank,
-CONSTRAINT fk_MESAchievement_Post,
-CONSTRAINT unq_MESAchievement;
-GO
-
-ALTER TABLE dbo.tbl_WorkTerm
-DROP CONSTRAINT fk_WorkTerm_Employee,
-CONSTRAINT fk_WorkTerm_Location,
-CONSTRAINT unq_WorkTerm;
-GO
-
-ALTER TABLE dbo.tbl_MilitaryService
-DROP CONSTRAINT fk_MilitaryService_Employee,
-CONSTRAINT fk_MilitaryService_Location,
-CONSTRAINT unq_MilitaryService;
-GO
+--ALTER TABLE dbo.tbl_Post
+--DROP CONSTRAINT fk_Post_Service;
+--GO
+--
+--ALTER TABLE dbo.tbl_MESAchievement
+--DROP CONSTRAINT fk_MESAchievement_Employee,
+--CONSTRAINT fk_MESAchievement_Location,
+--CONSTRAINT fk_MESAchievement_Rank,
+--CONSTRAINT fk_MESAchievement_Post,
+--CONSTRAINT unq_MESAchievement;
+--GO
+--
+--ALTER TABLE dbo.tbl_WorkTerm
+--DROP CONSTRAINT fk_WorkTerm_Employee,
+--CONSTRAINT fk_WorkTerm_Location,
+--CONSTRAINT unq_WorkTerm;
+--GO
+--
+--ALTER TABLE dbo.tbl_MilitaryService
+--DROP CONSTRAINT fk_MilitaryService_Employee,
+--CONSTRAINT fk_MilitaryService_Location,
+--CONSTRAINT unq_MilitaryService;
+--GO
 
 --ALTER TABLE dbo.tbl_Employee
 --DROP CONSTRAINT fk_Employee_Passport,
@@ -32,7 +32,6 @@ GO
 
 DROP TABLE dbo.tbl_MESAchievement;
 DROP TABLE dbo.tbl_WorkTerm;
-DROP TABLE dbo.tbl_Location;
 DROP TABLE dbo.tbl_Passport;
 DROP TABLE dbo.tbl_Address;
 DROP TABLE dbo.tbl_GratitudesAndPunishment;
@@ -42,12 +41,13 @@ DROP TABLE dbo.tbl_Education;
 DROP TABLE dbo.tbl_EducationLevel;
 DROP TABLE dbo.tbl_Contract;
 DROP TABLE dbo.tbl_Relative;
-DROP TABLE dbo.tbl_Employee;
 DROP TABLE dbo.tbl_Dismissed;
 DROP TABLE dbo.tbl_Rank;
 DROP TABLE dbo.tbl_Post;
 DROP TABLE dbo.tbl_Service;
 DROP TABLE dbo.tbl_MilitaryService;
+DROP TABLE dbo.tbl_Employee;
+DROP TABLE dbo.tbl_Location;
 DROP TABLE dbo.tbl_Notification;
 
 GO
