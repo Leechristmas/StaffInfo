@@ -80,6 +80,7 @@
     <Content Include="app\controllers\signupController.js" />
     <Content Include="app\directives\datepickerValidationFix.js" />
     <Content Include="app\directives\rangeSlider.js" />
+    <Content Include="app\directives\tooltip.js" />
     <Content Include="app\services\authInterceptorService.js" />
     <Content Include="app\services\authService.js" />
     <Content Include="app\services\dashboardService.js" />
@@ -115,6 +116,7 @@
     <Content Include="app\views\sessionExpiredView.html" />
     <Content Include="app\views\settingsView.html" />
     <Content Include="app\views\signup.html" />
+    <Content Include="app\views\tooltip.html" />
     <Content Include="content\css\calendar.css" />
     <Content Include="content\css\angular-material.css" />
     <Content Include="content\css\angular-material.layout-attributes.css" />

@@ -34,6 +34,7 @@ namespace Staffinfo.API.Filters
 
                 string message = String.Empty;
 
+                //typifying of exceptions
                 if (exType == typeof (SqlException))
                     message = "Ошибка базы данных: ";
 
