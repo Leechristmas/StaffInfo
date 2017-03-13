@@ -391,6 +391,10 @@
                                 </md-tooltip>
                             </md-button>
 
+                            <md-checkbox ng-model="includePlannedSertification" aria-label="planned sertification" ng-disabled="false" ng-click="toggleSertifications(includePlannedSertification)" style="margin-left: 10px;">
+                                Отображать только запланированные
+                            </md-checkbox>
+
                             <md-table-container class="scrollableTable">
                                 <table md-table md-progress="promise">
                                     <thead md-head fix-head>

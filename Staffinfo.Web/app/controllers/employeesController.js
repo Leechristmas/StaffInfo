@@ -228,11 +228,9 @@ app.controller('employeesController', [
         };
 
     }]).controller('detailsController', ['$scope', '$mdDialog', 'employeesService', 'messageService', '$timeout', '$mdToast', '$state', function ($scope, $mdDialog, employeesService, messageService, $timeout, $mdToast, $state) {
-
-
-//COMMON----------------------------------------------
+        
+        //COMMON----------------------------------------------
         $scope.selectedTabIndex = 0;
-
 
         $scope.maxBirthDate = employeesService.common.maxBirthDate;
         $scope.minBirthDate = employeesService.common.minBirthDate;
@@ -958,12 +956,22 @@ app.controller('employeesController', [
 
         //SERTIFICATION---------------------------------------
 
+        $scope.totalSertifications = [];
         $scope.sertifications = [];
+
+        $scope.toggleSertifications = function(includePlannedSertification) {
+            if (!includePlannedSertification)//special inversion because of that the values is not changed yet before executing this function
+                $scope.sertifications = $scope.totalSertifications.filter(function (s) {
+                    return new Date(s.dueDate).getDate() > new Date().getDate();
+                });
+            else
+                $scope.sertifications = $scope.totalSertifications;
+        }
 
         //returns sertifications for employee
         $scope.getSertifications = function () {
             $scope.promise = employeesService.activityItems.sertification.getSertifications(employeesService.employees.actualEmployee.id).then(function (response) {
-                $scope.sertifications = response.data;
+                $scope.sertifications = $scope.totalSertifications = response.data;
             }, function (data) {
                 messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
                 $mdToast.show(messageService.errors.errorViewConfig);
