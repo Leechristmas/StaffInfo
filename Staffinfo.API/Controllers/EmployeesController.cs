@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
+using Microsoft.AspNet.Identity;
 using NLog;
+using Staffinfo.API.Infrastructure;
 using Staffinfo.API.Models;
 using Staffinfo.DAL.Infrastructure;
 using Staffinfo.DAL.Models;
-using Staffinfo.DAL.Repositories;
 using Staffinfo.DAL.Repositories.Interfaces;
 
 namespace Staffinfo.API.Controllers
@@ -154,9 +156,11 @@ namespace Staffinfo.API.Controllers
                 Gender = value.Gender,
                 PersonalNumber = value.PersonalNumber
             };
+
             _repository.EmployeeRepository.Create(newEmpl);
             await _repository.EmployeeRepository.SaveAsync();
-            _logger.Info(new CultureInfo("ru-ru"), $"Информация о сотруднике \"{newEmpl.EmployeeLastname} {newEmpl.EmployeeFirstname} {newEmpl.EmployeeMiddlename}\" была добавлена пользователем {RequestContext.Principal.Identity.Name}");//TODO: username is empty
+
+            _logger.Log(new Guid(HttpContext.Current.User.Identity.GetUserId()), LogLevel.Info, $"Информация о сотруднике \"{newEmpl.EmployeeLastname} {newEmpl.EmployeeFirstname} {newEmpl.EmployeeMiddlename}\" была ДОБАВЛЕНА пользователем \"{HttpContext.Current.User.Identity.Name}\"", "controller", "");
         }
 
         // PUT: api/Employee/5
@@ -207,10 +211,10 @@ namespace Staffinfo.API.Controllers
                 original.PersonalNumber = value.PersonalNumber;
                         
                 //Changing gender is forbidden!!!
-
                 _repository.EmployeeRepository.Update(original);   //exclude seniority for updating
                 await _repository.EmployeeRepository.SaveAsync();
-                _logger.Info(new CultureInfo("ru-ru"), $"Информация о сотруднике #{original.Id} \"{original.EmployeeLastname} {original.EmployeeFirstname} {original.EmployeeMiddlename}\" была изменена пользователем {RequestContext.Principal.Identity.Name}");
+
+                _logger.Log(new Guid(HttpContext.Current.User.Identity.GetUserId()), LogLevel.Info, $"Информация о сотруднике \"{original.EmployeeLastname} {original.EmployeeFirstname} {original.EmployeeMiddlename}\" была ИЗМЕНЕНА пользователем \"{HttpContext.Current.User.Identity.Name}\"", "controller", "");
             }
         }
 
@@ -223,7 +227,8 @@ namespace Staffinfo.API.Controllers
 
             await _repository.EmployeeRepository.Delete(id);
             await _repository.EmployeeRepository.SaveAsync();
-            _logger.Info(new CultureInfo("ru-ru"), $"Информация о сотруднике #{id} \"{empl.EmployeeLastname} {empl.EmployeeFirstname} {empl.EmployeeMiddlename}\" была удалена пользователем {RequestContext.Principal.Identity.Name}");
+
+            _logger.Log(new Guid(HttpContext.Current.User.Identity.GetUserId()), LogLevel.Info, $"Информация о сотруднике \"{empl.EmployeeLastname} {empl.EmployeeFirstname} {empl.EmployeeMiddlename}\" была УДАЛЕНА пользователем \"{HttpContext.Current.User.Identity.Name}\"", "controller", "");
         }
 
         [HttpPost]
@@ -237,6 +242,8 @@ namespace Staffinfo.API.Controllers
 
                 _repository.EmployeeRepository.Update(original);
                 await _repository.EmployeeRepository.SaveAsync();
+
+                _logger.Log(new Guid(HttpContext.Current.User.Identity.GetUserId()), LogLevel.Info, $"Сотрудник \"{original.EmployeeLastname} {original.EmployeeFirstname} {original.EmployeeMiddlename}\" БЫЛ ПЕРЕВЕДЕН в базу данных ПЕНСИОНЕРЫ пользователем \"{HttpContext.Current.User.Identity.Name}\"", "controller", "");
             }
         }
 
@@ -251,6 +258,7 @@ namespace Staffinfo.API.Controllers
             if (original != null)
             {
                 await _repository.EmployeeRepository.TransferToDismissed(dismissal.EmployeeId.Value, dismissal.DismissalDate.Value, dismissal.Clause, dismissal.ClauseDescription);
+                _logger.Log(new Guid(HttpContext.Current.User.Identity.GetUserId()), LogLevel.Info, $"Сотрудник \"{original.EmployeeLastname} {original.EmployeeFirstname} {original.EmployeeMiddlename}\" БЫЛ ПЕРЕВЕДЕН в базу данных УВОЛЕННЫЕ пользователем \"{HttpContext.Current.User.Identity.Name}\"", "controller", "");
             }
         }
 
@@ -271,7 +279,7 @@ namespace Staffinfo.API.Controllers
                 WorkSeniorityDays = 0
             };
 
-            return seniority;//
+            return seniority;
         }
 
         /// <summary>

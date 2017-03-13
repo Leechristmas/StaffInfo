@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
+using NLog;
 using Staffinfo.API.Abstract;
 using Staffinfo.API.Models;
 
@@ -10,9 +11,11 @@ namespace Staffinfo.API.Controllers
     public class AccountController : ApiController
     {
         private readonly IAuthRepository _repo = null;
+        private readonly ILogger _logger;
 
-        public AccountController()
+        public AccountController(ILogger logger)
         {
+            _logger = logger;
             _repo = new AuthRepository();
         }
 
@@ -39,6 +42,8 @@ namespace Staffinfo.API.Controllers
             {
                 return errorResult;
             }
+
+            _logger.Log(LogLevel.Info, $"Зарегестрирован пользователь \"{userModel.UserName}\"");
 
             return Ok();
         }
