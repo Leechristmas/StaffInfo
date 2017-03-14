@@ -32,7 +32,7 @@ namespace Staffinfo.API.Tests
             //    });
 
 
-            _controller = new AccountController(repo.Object);
+            _controller = new AccountController(repo.Object, null);
         }
         
         [TestMethod]

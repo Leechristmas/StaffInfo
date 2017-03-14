@@ -3,6 +3,7 @@ using System.Reflection;
 using Ninject;
 using Ninject.Web.Common;
 using NLog;
+using Staffinfo.API.Abstract;
 using Staffinfo.DAL.Context;
 using Staffinfo.DAL.Models;
 using Staffinfo.DAL.Repositories;
@@ -50,6 +51,7 @@ namespace Staffinfo.API
             kernel.Bind<IRepository<Relative>>().To<Repository<Relative>>().InRequestScope();
             kernel.Bind<ILogger>().ToMethod(lm => LogManager.GetLogger("ControllerLogger")).InRequestScope();
             kernel.Bind<IReportGenerator>().To<ReportsGenerator>().InRequestScope();
+            kernel.Bind<IAuthRepository>().To<AuthRepository>().InRequestScope();
         }
     }
 }

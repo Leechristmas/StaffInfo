@@ -9,6 +9,7 @@ namespace Staffinfo.API.Abstract
     public interface IAuthRepository: IDisposable
     {
         Task<IdentityResult> RegisterUser(UserModel userModel);
+        Task<IdentityResult> CreateRoleAsync(string roleName);
         Task<IdentityUser> FindUser(string userName, string password);
     }
 }

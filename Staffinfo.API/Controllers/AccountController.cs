@@ -13,17 +13,12 @@ namespace Staffinfo.API.Controllers
         private readonly IAuthRepository _repo = null;
         private readonly ILogger _logger;
 
-        public AccountController(ILogger logger)
+        public AccountController(IAuthRepository repo, ILogger logger)
         {
             _logger = logger;
             _repo = new AuthRepository();
         }
-
-        public AccountController(IAuthRepository repo)
-        {
-            _repo = repo;
-        }
-
+        
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
@@ -45,6 +40,22 @@ namespace Staffinfo.API.Controllers
 
             _logger.Log(LogLevel.Info, $"Зарегестрирован пользователь \"{userModel.UserName}\"");
 
+            return Ok();
+        }
+
+        [AllowAnonymous]
+        [Route("Roles/{roleName}")]
+        public async Task<IHttpActionResult> RegisterRole(string roleName)
+        {
+            IdentityResult result = await _repo.CreateRoleAsync(roleName);
+
+            IHttpActionResult errorResult = GetErrorResult(result);
+
+            if (errorResult != null)
+            {
+                return errorResult;
+            }
+            
             return Ok();
         }
 

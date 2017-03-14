@@ -44,7 +44,14 @@ namespace Staffinfo.API.Providers
                 var identity = await _userManager.CreateIdentityAsync(user, context.Options.AuthenticationType);
                 
                 identity.AddClaim(new Claim("sub", context.UserName));
-                identity.AddClaim(new Claim("role", "user"));
+
+                var roles = await _userManager.GetRolesAsync(identity.GetUserId());
+
+                if(roles != null)
+                    foreach (var role in roles)
+                    {
+                        identity.AddClaim(new Claim(ClaimTypes.Role, role));
+                    }
 
                 context.Validated(identity);
             }

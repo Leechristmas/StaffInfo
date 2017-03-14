@@ -6,5 +6,7 @@ namespace Staffinfo.API
     {
         public AuthContext(): base("AuthContext")
         { }
+
+        public static AuthContext Create() => new AuthContext();
     }
 }

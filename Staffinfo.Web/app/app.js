@@ -14,42 +14,50 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             url: "/signup",
             controller: "signupController",
             templateUrl: "app/views/signup.html",
-            noLogin: true
+            noLogin: true,
+            allowedRoles: ['admin']
         }).state('dashboard', {
             url: "/dashboard",
             controller: "dashboardController",
             templateUrl: "app/views/dashboard.html",
-            noLogin: false
+            noLogin: false,
+            allowedRoles: ['admin', 'reader']
         }).state('employees', {
             url: "/employees",
             controller: "employeesController",
             templateUrl: "app/views/employees.html",
-            noLogin: true
+            noLogin: false,
+            allowedRoles: ['admin', 'reader']
         }).state('retirees', {
             url: '/retirees',
             controller: 'retireesController',
             templateUrl: 'app/views/retirees.html',
-            noLogin: false
+            noLogin: false,
+            allowedRoles: ['admin']
         }).state('dismissed', {
             url: '/dismissed',
             controller: 'dismissedController',
             templateUrl: 'app/views/dismissed.html',
-            noLogin: false
+            noLogin: false,
+            allowedRoles: ['admin']
         }).state('details', {
             url: "/employees/details",
             controller: 'detailsController',
             templateUrl: 'app/views/employeeView.html',
-            noLogin: false
+            noLogin: false,
+            allowedRoles: ['admin']
         }).state('settings', {
             url: "/settings",
             controller: 'settingsController',
             templateUrl: 'app/views/settingsView.html',
-            noLogin: false
+            noLogin: false,
+            allowedRoles: ['admin']
         }).state('reporting', {
             url: "/reporting",
             controller: "reportingController",
             templateUrl: 'app/views/reportingView.html',
-            noLogin: false
+            noLogin: false,
+            allowedRoles: ['admin', 'reader']
         });
 
     $urlRouterProvider.otherwise("/dashboard");
@@ -134,16 +142,11 @@ app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesServic
                   Idle.unwatch();
           }
 
-          //var t = Idle.running();
-
           if (!toState.noLogin && !authService.isAuthenticated()) {
               event.preventDefault();
               $rootScope.$state.go('login');
           }
-          //if (toState.name === 'details' && !employeesService.employees.actualEmployee.hasOwnProperty('id')) {//redirect if actual employee is empty (manually refreshing)
-          //    event.preventDefault();
-          //    $rootScope.$state.go('employees');
-          //}
+
           if (toState.name === 'login') {//SERVER session time has expired!
               if (!localStorageService.get('authorizationData'))
                   authService.logOut();
