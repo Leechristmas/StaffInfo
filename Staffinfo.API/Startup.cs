@@ -38,7 +38,6 @@ namespace Staffinfo.API
                 }
             });
 
-
             HttpConfiguration config = new HttpConfiguration();
 
             ConfigureOAuth(app);

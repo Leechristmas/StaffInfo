@@ -122,7 +122,7 @@ app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptorService');
 });
 
-app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesService', 'localStorageService', 'Idle', function ($rootScope, $state, $stateParams, authService, employeesService, localStorageService, Idle) {
+app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesService', 'localStorageService', 'Idle', '$mdToast', function ($rootScope, $state, $stateParams, authService, employeesService, localStorageService, Idle, $mdToast) {
     //Idle.watch();
 
     authService.fillAuthData();
@@ -132,11 +132,40 @@ app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesServic
 
     $rootScope.user = null;
 
+    //checks if the user has permission for moving to the state
+    var checkRoles = function (userRoles, allowedRoles) {
+        userRoles = angular.fromJson(userRoles);
+        var isAllowed = true;
+
+        userRoles.forEach(r => {
+            if (!allowedRoles.includes(r)) {
+                isAllowed = false;
+                return;
+            }
+        });
+        return isAllowed;
+    }
+
     $rootScope.$on('$stateChangeStart',
       function (event, toState, toParams, fromState, fromParams) {
 
-          if (toState.name !== 'login')
+          if (toState.name !== 'login') {
+
               Idle.watch();
+              if (!checkRoles(authService.authentication.roles, toState.allowedRoles)) {
+                  event.preventDefault();
+                  $mdToast.show({
+                      hideDelay: 3000,
+                      position: 'top right',
+                      controller: 'toastController',
+                      template: '<md-toast class="md-toast-success">' +
+                                      '<div class="md-toast-content">' +
+                                        'У Вас недостаточно прав!' +
+                                      '</div>' +
+                                  '</md-toast>'
+                  });
+              }
+          }
           else {
               if (!authService.isAuthenticated() && !Idle.isExpired())
                   Idle.unwatch();

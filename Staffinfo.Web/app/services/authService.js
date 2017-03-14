@@ -8,7 +8,8 @@ app.factory('authService', [
 
         var _authentication = {
             isAuth: false,
-            userName: ""
+            userName: "",
+            roles: []
         };
 
         var _saveRegistration = function (registration) {
@@ -25,10 +26,11 @@ app.factory('authService', [
 
             $http.post(serviceBase + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
                 .success(function (response) {
-                    localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName });
+                    localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, roles: response.roles });
 
                     _authentication.isAuth = true;
                     _authentication.userName = loginData.userName;
+                    _authentication.roles = response.roles;
 
                     deferred.resolve(response);
                     //Idle.watch();
@@ -48,6 +50,7 @@ app.factory('authService', [
 
             _authentication.isAuth = false;
             _authentication.userName = "";
+            _authentication.roles = [];
 
             //Idle.unwatch();
         };
@@ -58,6 +61,7 @@ app.factory('authService', [
             if (authData) {
                 _authentication.isAuth = true;
                 _authentication.userName = authData.userName;
+                _authentication.roles = authData.roles;
             } else
                 _logOut();
         }
