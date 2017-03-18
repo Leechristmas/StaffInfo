@@ -117,6 +117,7 @@
     <Content Include="app\views\settingsView.html" />
     <Content Include="app\views\signup.html" />
     <Content Include="app\views\tooltip.html" />
+    <Content Include="app\views\usersView.html" />
     <Content Include="content\css\calendar.css" />
     <Content Include="content\css\angular-material.css" />
     <Content Include="content\css\angular-material.layout-attributes.css" />

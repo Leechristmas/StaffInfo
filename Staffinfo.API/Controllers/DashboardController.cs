@@ -8,6 +8,7 @@ using Staffinfo.DAL.Repositories.Interfaces;
 
 namespace Staffinfo.API.Controllers
 {
+    [Authorize]
     [Route("api/dashboard")]
     public class DashboardController: ApiController
     {

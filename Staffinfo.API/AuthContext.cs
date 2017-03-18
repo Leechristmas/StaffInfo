@@ -32,11 +32,11 @@ namespace Staffinfo.API
 
                 manager.Create(role);
             }
-            if (!context.Roles.Any(r => r.Name == "reporter"))
+            if (!context.Roles.Any(r => r.Name == "reader"))
             {
                 var store = new RoleStore<IdentityRole>(context);
                 var manager = new RoleManager<IdentityRole>(store);
-                var role = new IdentityRole("reporter");
+                var role = new IdentityRole("reader");
 
                 manager.Create(role);
             }
@@ -60,6 +60,32 @@ namespace Staffinfo.API
 
                 manager.Create(user);
                 manager.AddToRole(user.Id, "admin");
+            }
+            if (!context.Users.Any(r => r.UserName == "test_editor"))
+            {
+                var store = new UserStore<IdentityUser>(context);
+                var manager = new UserManager<IdentityUser>(store);
+                var user = new IdentityUser
+                {
+                    UserName = "test_editor",
+                    PasswordHash = new PasswordHasher().HashPassword("123456")
+                };
+
+                manager.Create(user);
+                manager.AddToRole(user.Id, "editor");
+            }
+            if (!context.Users.Any(r => r.UserName == "test_reader"))
+            {
+                var store = new UserStore<IdentityUser>(context);
+                var manager = new UserManager<IdentityUser>(store);
+                var user = new IdentityUser
+                {
+                    UserName = "test_reader",
+                    PasswordHash = new PasswordHasher().HashPassword("123456")
+                };
+
+                manager.Create(user);
+                manager.AddToRole(user.Id, "reader");
             }
         }
     }

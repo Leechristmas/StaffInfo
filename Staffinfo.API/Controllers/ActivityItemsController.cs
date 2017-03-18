@@ -12,8 +12,8 @@ using Staffinfo.DAL.Repositories.Interfaces;
 
 namespace Staffinfo.API.Controllers
 {
+    [Authorize(Roles = "admin, editor")]
     [Route("api/employees/activity")]
-    [Authorize]
     public class ActivityItemsController : ApiController
     {
         private readonly IUnitRepository _repository;

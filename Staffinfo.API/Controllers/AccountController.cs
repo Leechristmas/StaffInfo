@@ -20,7 +20,7 @@ namespace Staffinfo.API.Controllers
         }
         
         // POST api/Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles = "admin")]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(UserModel userModel)
         {
@@ -43,7 +43,7 @@ namespace Staffinfo.API.Controllers
             return Ok();
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "admin")]
         [Route("Roles/{roleName}")]
         public async Task<IHttpActionResult> RegisterRole(string roleName)
         {

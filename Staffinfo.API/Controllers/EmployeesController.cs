@@ -15,8 +15,8 @@ using Staffinfo.DAL.Repositories.Interfaces;
 
 namespace Staffinfo.API.Controllers
 {
-    [Route("api/employees")]
     [Authorize]
+    [Route("api/employees")]
     public class EmployeesController : ApiController
     {
         private readonly IUnitRepository _repository;
@@ -165,6 +165,7 @@ namespace Staffinfo.API.Controllers
 
         // PUT: api/Employee/5
         [HttpPut]
+        [Authorize(Roles = "admin, editor")]
         [Route("api/employees/{id:int}")]
         public async Task EditEmployee(int id, [FromBody]EmployeeViewModel value)
         {
@@ -220,6 +221,7 @@ namespace Staffinfo.API.Controllers
 
         // DELETE: api/Employee/5
         [HttpDelete]
+        [Authorize(Roles = "admin, editor")]
         [Route("api/employees/{id:int}")]
         public async Task Delete(int id)
         {
@@ -232,6 +234,7 @@ namespace Staffinfo.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin, editor")]
         [Route("api/employees/retiredtransfer")]
         public async Task TransferToRetired([FromBody]Employee employee)
         {
@@ -248,6 +251,7 @@ namespace Staffinfo.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin, editor")]
         [Route("api/employees/dismissedtransfer")]
         public async Task TransferToDismissed([FromBody]Dismissal dismissal)
         {

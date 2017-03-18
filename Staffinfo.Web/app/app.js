@@ -21,43 +21,49 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             controller: "dashboardController",
             templateUrl: "app/views/dashboard.html",
             noLogin: false,
-            allowedRoles: ['admin', 'reader']
+            allowedRoles: ['admin', 'editor', 'reader']
         }).state('employees', {
             url: "/employees",
             controller: "employeesController",
             templateUrl: "app/views/employees.html",
             noLogin: false,
-            allowedRoles: ['admin', 'reader']
+            allowedRoles: ['admin', 'editor', 'reader']
         }).state('retirees', {
             url: '/retirees',
             controller: 'retireesController',
             templateUrl: 'app/views/retirees.html',
             noLogin: false,
-            allowedRoles: ['admin']
+            allowedRoles: ['admin', 'editor', 'reader']
         }).state('dismissed', {
             url: '/dismissed',
             controller: 'dismissedController',
             templateUrl: 'app/views/dismissed.html',
             noLogin: false,
-            allowedRoles: ['admin']
+            allowedRoles: ['admin', 'editor', 'reader']
         }).state('details', {
             url: "/employees/details",
             controller: 'detailsController',
             templateUrl: 'app/views/employeeView.html',
             noLogin: false,
-            allowedRoles: ['admin']
+            allowedRoles: ['admin', 'editor']
         }).state('settings', {
             url: "/settings",
             controller: 'settingsController',
             templateUrl: 'app/views/settingsView.html',
             noLogin: false,
-            allowedRoles: ['admin']
+            allowedRoles: ['admin', 'editor', 'reader']
         }).state('reporting', {
             url: "/reporting",
             controller: "reportingController",
             templateUrl: 'app/views/reportingView.html',
             noLogin: false,
-            allowedRoles: ['admin', 'reader']
+            allowedRoles: ['admin', 'editor', 'reader']
+        }).state('users', {
+            url: "/users",
+            controller: "userController",
+            templateUrl: 'app/views/usersView.html',
+            noLogin: false,
+            allowedRoles: ['admin']
         });
 
     $urlRouterProvider.otherwise("/dashboard");

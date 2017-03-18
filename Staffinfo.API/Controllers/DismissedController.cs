@@ -8,6 +8,7 @@ using Staffinfo.DAL.Repositories.Interfaces;
 
 namespace Staffinfo.API.Controllers
 {
+    [Authorize]
     [Route("api/dismissed")]
     public class DismissedController: ApiController
     {
