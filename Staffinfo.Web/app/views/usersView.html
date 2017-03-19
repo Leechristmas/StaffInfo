@@ -2,14 +2,13 @@
     <div>
         <h2>Пользователи</h2>
     </div>
-    <!-- Container #2 -->
-    <div flex layout="row" ng-controller="userController">
 
-        <!-- Container #3 -->
+    <!--<div flex layout="row" ng-controller="userController">
+
         <md-sidenav md-is-locked-open="true" class="md-whiteframe-z2">
             <md-list>
                 <md-list-item ng-repeat="u in users">
-                    <md-button ng-click="selectUser(u)" ng-class="{'selected' : u === ul.selected }">
+                    <md-button flex class="text-left" ng-click="selectUser(u)" ng-class="{'selected' : u === ul.selected }">
                         <md-icon md-svg-src="img/icons/ic_account_circle_black_24px.svg"></md-icon>
                         {{u.lastname}}
                     </md-button>
@@ -17,8 +16,7 @@
             </md-list>
         </md-sidenav>
 
-        <!-- Container #4 -->
-        <md-content flex id="content" class="md-whiteframe-z2">
+        <md-content flex id="content" class="md-padding md-whiteframe-z2" ng-if="selected">
             <div id="photo">
                 <img ng-src="{{selected.employeePhoto != undefined ? 'data:image/jpeg;base64,'+selected.employeePhoto : '/img/default-avatar.jpg'}}" id="user-photo" class="img-thumbnail" />
             </div>
@@ -31,6 +29,6 @@
             </div>
         </md-content>
 
-    </div>
+    </div>-->
 
 </md-content>

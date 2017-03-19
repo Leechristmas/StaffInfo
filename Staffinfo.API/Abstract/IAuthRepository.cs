@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Staffinfo.API.Models;
+using System.Collections.Generic;
 
 namespace Staffinfo.API.Abstract
 {
@@ -11,5 +12,7 @@ namespace Staffinfo.API.Abstract
         Task<IdentityResult> RegisterUser(UserModel userModel);
         Task<IdentityResult> CreateRoleAsync(string roleName);
         Task<IdentityUser> FindUser(string userName, string password);
+        Task<List<IdentityUser>> GetUsersAsync();
+        Task<List<UserViewModel>> GetUsersViewModelsAsync();
     }
 }

@@ -237,6 +237,7 @@
     <Compile Include="Controllers\ReferenceBooksController.cs" />
     <Compile Include="Controllers\ReportingController.cs" />
     <Compile Include="Controllers\RetireesController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\GlobalLogFilterAttribute.cs" />
     <Compile Include="Infrastructure\LogHelper.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
@@ -255,6 +256,7 @@
     <Compile Include="Models\Seniority.cs" />
     <Compile Include="Models\SertificationViewModel.cs" />
     <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\WorkTermViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\AuthorizationServerProvider.cs" />

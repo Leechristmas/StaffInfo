@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Staffinfo.API.Abstract;
 using Staffinfo.API.Models;
+using System.Linq;
+using System.Data.Entity;
+using Staffinfo.DAL.Models;
+using Staffinfo.DAL.Repositories.Interfaces;
 
 namespace Staffinfo.API
 {
@@ -12,7 +17,8 @@ namespace Staffinfo.API
         private readonly AuthContext _ctx;
 
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager; 
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IRepository<Employee> _employeeRepository;
 
         public AuthRepository()
         {
@@ -60,6 +66,31 @@ namespace Staffinfo.API
             _ctx.Dispose();
             _userManager.Dispose();
 
+        }
+
+        public async Task<List<IdentityUser>> GetUsersAsync()
+        {
+            var users = await _ctx.Users.ToListAsync();
+            return users;
+        }
+
+        public async Task<List<UserViewModel>> GetUsersViewModelsAsync()
+        {
+            var usersIds = await _ctx.Users.ToListAsync();
+
+            var users = usersIds.Select(u => new UserViewModel(u)).ToList();
+            
+            foreach(var u in users)
+            {
+                u.Roles = (await _userManager.GetRolesAsync(u.Id)).ToList();
+                if(u.EmployeeId != null)
+                {
+                    var empl = await _employeeRepository.SelectAsync(u.EmployeeId.Value);
+                    u.EmployeePhoto = empl.EmployeePhoto;
+                }
+            }
+
+            return users;
         }
     }
 }
