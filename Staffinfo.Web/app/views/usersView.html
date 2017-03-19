@@ -3,7 +3,15 @@
         <h2>Пользователи</h2>
     </div>
 
-    <!--<div flex layout="row" ng-controller="userController">
+    <md-button class="md-primary md-raised" style="margin-left: 0" ng-click="showUserRegistrationForm($event)">
+        <md-icon md-svg-src="img/icons/ic_person_add_24px.svg" aria-label="Close dialog"></md-icon>
+        Добавить
+        <md-tooltip md-direction="bottom">
+            Зарегистрировать нового пользователя
+        </md-tooltip>
+    </md-button>
+
+    <div flex layout="row" ng-controller="userController">
 
         <md-sidenav md-is-locked-open="true" class="md-whiteframe-z2">
             <md-list>
@@ -17,18 +25,35 @@
         </md-sidenav>
 
         <md-content flex id="content" class="md-padding md-whiteframe-z2" ng-if="selected">
-            <div id="photo">
-                <img ng-src="{{selected.employeePhoto != undefined ? 'data:image/jpeg;base64,'+selected.employeePhoto : '/img/default-avatar.jpg'}}" id="user-photo" class="img-thumbnail" />
-            </div>
-            <div id="personal info">
-                <h4>{{selected.lastname}} {{selected.firstname}} {{selected.middlename}}</h4>
-            </div>
-            <div id="permissions"></div>
-            <div id="actions">
+            <fieldset>
+                <legend class="legend">Общее</legend>
+                <div layout="row" layout-wrap flex>
+                    <img ng-src="{{selected.employeePhoto != undefined ? 'data:image/jpeg;base64,'+selected.employeePhoto : '/img/default-avatar.jpg'}}" id="user-photo" class="img-thumbnail" />
+                    <div style="margin-left:20px;">
+                        <h2>{{selected.lastname}} {{selected.firstname}} {{selected.middlename}}</h2>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend class="legend">Права</legend>
+                <div layout="row" layout-wrap flex>
+                    <md-checkbox ng-model="selected.isAdmin" aria-label="is admin" ng-disabled="false" ng-change="isAdmin()" style="margin-left: 10px;">
+                        Администратор
+                    </md-checkbox>
+                    <md-checkbox ng-model="selected.isEditor" aria-label="is editor" ng-disabled="false" style="margin-left: 10px;">
+                        Редактирование
+                    </md-checkbox>
+                    <md-checkbox ng-model="selected.isReader" aria-label="is reader" ng-disabled="false" style="margin-left: 10px;">
+                        Чтение
+                    </md-checkbox>
+                </div>
+            </fieldset>
+
                 
             </div>
         </md-content>
 
-    </div>-->
+    </div>
 
 </md-content>

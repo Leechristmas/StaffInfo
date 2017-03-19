@@ -78,9 +78,6 @@ namespace Staffinfo.API
 
                 manager.Create(user);
 
-                user.Claims.Add(new IdentityUserClaim { ClaimType = "lastname", ClaimValue = "Котов" });
-                user.Claims.Add(new IdentityUserClaim { ClaimType = "firstname", ClaimValue = "Иван" });
-                user.Claims.Add(new IdentityUserClaim { ClaimType = "middlename", ClaimValue = "Адольфович" });
                 user.Claims.Add(new IdentityUserClaim { ClaimType = "employeeId", ClaimValue = "1" });
 
                 manager.AddToRole(user.Id, "editor");
@@ -96,6 +93,9 @@ namespace Staffinfo.API
                 };
 
                 manager.Create(user);
+
+                user.Claims.Add(new IdentityUserClaim { ClaimType = "employeeId", ClaimValue = "2" });
+
                 manager.AddToRole(user.Id, "reader");
             }
         }

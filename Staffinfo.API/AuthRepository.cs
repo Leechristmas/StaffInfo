@@ -20,11 +20,12 @@ namespace Staffinfo.API
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IRepository<Employee> _employeeRepository;
 
-        public AuthRepository()
+        public AuthRepository(IRepository<Employee> employeeRepository)
         {
             _ctx = new AuthContext();
             _userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(_ctx));
             _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(_ctx));
+            _employeeRepository = employeeRepository;
         }
 
         public async Task<IdentityResult> RegisterUser(UserModel userModel)
@@ -86,11 +87,34 @@ namespace Staffinfo.API
                 if(u.EmployeeId != null)
                 {
                     var empl = await _employeeRepository.SelectAsync(u.EmployeeId.Value);
+
                     u.EmployeePhoto = empl.EmployeePhoto;
+                    u.Firstname = empl.EmployeeFirstname;
+                    u.Lastname = empl.EmployeeLastname;
+                    u.Middlename = empl.EmployeeMiddlename;
                 }
             }
 
             return users;
+        }
+
+        public async Task<IdentityResult> RegisterUserAsync(UserViewModel userModel)
+        {
+            IdentityUser user = new IdentityUser
+            {
+                UserName = userModel.Login,
+                Email = userModel.Email
+            };
+
+            var result = await _userManager.CreateAsync(user, userModel.Password);
+
+            if (result.Succeeded)
+            {
+                var registered = await _userManager.FindAsync(userModel.Login, userModel.Password);
+                result = await _userManager.AddToRolesAsync(registered.Id, userModel.Roles.ToArray());
+            }
+
+            return result;
         }
     }
 }

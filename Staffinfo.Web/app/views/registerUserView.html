@@ -1,0 +1,115 @@
+﻿<md-dialog aria-label="user registration">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Регистрация нового пользователя</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content style="max-width: 800px; max-height: 810px; min-width: 300px;">
+        <md-tabs id="user-registration" md-selected="selectedTabIndex" md-dynamic-height md-border-bottom>
+            <md-tab>
+                <md-tab-label ng-show="false"></md-tab-label>
+                <md-tab-body>
+                    <md-content class="md-padding">
+                        <fieldset>
+                            <legend class="legend">Укажите сотрудника для регистрации в качестве пользователя</legend>
+                            <form name="users">
+                                <div layout-gt-sm="row">
+                                    <md-input-container class="md-block" flex-gt-sm>
+                                        <label>Сотрудник</label>
+                                        <md-icon md-svg-src="img/icons/ic_account_circle_black_24px.svg"></md-icon>
+                                        <md-select name="employee" ng-model="user.employeeId" required>
+                                            <md-optgroup>
+                                                <md-option ng-value="e.id" ng-repeat="e in employees">{{e.name}}</md-option>
+                                            </md-optgroup>
+                                        </md-select>
+                                        <div ng-messages="users.employee.$error" class="validation-messages">
+                                            <div ng-message="required">Укажите сотрудника для регистрации.</div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                            </form>
+                        </fieldset>
+                    </md-content>
+                </md-tab-body>
+            </md-tab>
+            <md-tab>
+                <md-tab-label></md-tab-label>
+                <md-tab-body>
+                    <md-content class="md-padding">
+                        <fieldset>
+                            <legend class="legend">Дополнительная информация</legend>
+                            <form name="adInfo">
+                                <div layout-gt-sm="row">
+                                    <md-input-container class="md-block" flex-gt-sm>
+                                        <label>Email</label>
+                                        <md-icon md-svg-src="img/icons/ic_email_black_24px.svg"></md-icon>
+                                        <input name="email" ng-model="user.email" type="email" md-maxlength="30" />
+                                    </md-input-container>
+                                </div>
+                                <div layout-gt-sm="row">
+                                    <md-input-container class="md-block" flex-gt-sm>
+                                        <label>Логин</label>
+                                        <md-icon md-svg-src="img/icons/ic_assignment_ind_24px.svg"></md-icon>
+                                        <input name="login" data-ng-model="user.login" required>
+                                    </md-input-container>
+                                </div>
+                                <div layout-gt-sm="row">
+                                    <md-input-container class="md-block" flex-gt-sm>
+                                        <label>Пароль</label>
+                                        <md-icon md-svg-src="img/icons/ic_enhanced_encryption_black_24px.svg"></md-icon>
+                                        <input type="password" name="password" ng-model="user.password" required md-maxlength="10">
+                                    </md-input-container>
+                                </div>
+                                <!--<div layout-gt-sm="row">
+                                    <md-input-container class="md-block" flex-gt-sm>
+                                        <label>Подтвердите пароль</label>
+                                        <md-icon md-svg-src="img/icons/ic_email_black_24px.svg"></md-icon>
+                                        <input type="password" class="form-control" placeholder="Password" data-ng-model="user.password" required>
+                                    </md-input-container>
+                                </div>-->
+                            </form>
+                        </fieldset>
+                    </md-content>
+                </md-tab-body>
+            </md-tab>
+            <md-tab>
+                <md-tab-label></md-tab-label>
+                <md-tab-body>
+                    <md-content class="md-padding">
+                        <fieldset>
+                            <legend class="legend">Права</legend>
+                            <form name="permissions">
+                                <div layout-gt-sm="row">
+                                    <md-checkbox ng-checked="true">
+                                        <span>Редактирование</span>
+                                    </md-checkbox>
+                                    <md-checkbox ng-checked="true" ng-disabled="true">
+                                        <span>Чтение</span>
+                                    </md-checkbox>
+                                </div>
+                            </form>
+                        </fieldset>
+                    </md-content>
+                </md-tab-body>
+            </md-tab>
+        </md-tabs>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" class="dialog-footer">
+        <md-button ng-click="goBack()" class="md-primary md-raised" ng-if="selectedTabIndex > 0">
+            <md-icon md-svg-icon="img/icons/ic_arrow_back_24px.svg"></md-icon>
+            Назад
+        </md-button>
+        <md-button ng-click="goNext()" class="md-primary md-raised" ng-if="selectedTabIndex < 2" ng-disabled="users.$invalid">
+            <md-icon md-svg-icon="img/icons/ic_arrow_forward_white_24px.svg"></md-icon>
+            Далее
+        </md-button>
+        <md-button ng-click="register()" class="md-primary md-raised" ng-if="selectedTabIndex === 2" ng-disabled="(users.$invalid || adInfo.$invalid)">
+            <md-icon md-svg-icon="img/icons/ic_save_24px.svg"></md-icon>
+            Зарегистрировать
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

@@ -209,6 +209,10 @@ md-expansion-panel-header .md-title {
     display: none;
 }
 
+#user-registration md-tabs-wrapper md-tabs-canvas {
+    display: none;
+}
+
 .empl-record {
     transition: 2s;
 }

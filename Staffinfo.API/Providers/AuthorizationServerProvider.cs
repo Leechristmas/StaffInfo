@@ -35,7 +35,7 @@ namespace Staffinfo.API.Providers
         {
             //context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
 
-            using (AuthRepository repo = new AuthRepository())
+            using (AuthRepository repo = new AuthRepository(null))
             {
                 IdentityUser user = await repo.FindUser(context.UserName, context.Password);
 

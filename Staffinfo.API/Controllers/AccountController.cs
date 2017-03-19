@@ -16,7 +16,7 @@ namespace Staffinfo.API.Controllers
         public AccountController(IAuthRepository repo, ILogger logger)
         {
             _logger = logger;
-            _repo = new AuthRepository();
+            _repo = repo;
         }
         
         // POST api/Account/Register

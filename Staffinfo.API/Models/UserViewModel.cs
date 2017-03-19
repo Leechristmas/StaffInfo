@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -14,6 +15,13 @@ namespace Staffinfo.API.Models
         public string Lastname { get; set; }
         public string Firstname { get; set; }
         public string Middlename { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
         public List<string> Roles { get; set; }
         public int? EmployeeId { get; set; }
         public byte[] EmployeePhoto { get; set; }
