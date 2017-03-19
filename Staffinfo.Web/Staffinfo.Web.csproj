@@ -78,6 +78,7 @@
     <Content Include="app\controllers\retireesController.js" />
     <Content Include="app\controllers\settingsController.js" />
     <Content Include="app\controllers\signupController.js" />
+    <Content Include="app\controllers\userController.js" />
     <Content Include="app\directives\datepickerValidationFix.js" />
     <Content Include="app\directives\rangeSlider.js" />
     <Content Include="app\directives\tooltip.js" />
@@ -144,6 +145,7 @@
     <Content Include="img\default-avatar.png" />
     <Content Include="img\icons\doc.png" />
     <Content Include="img\icons\excel.png" />
+    <Content Include="img\icons\ic_account_circle_black_24px.svg" />
     <Content Include="img\icons\ic_add_24px.svg" />
     <Content Include="img\icons\ic_arrow_back_24px.svg" />
     <Content Include="img\icons\ic_assignment_24px.svg" />
