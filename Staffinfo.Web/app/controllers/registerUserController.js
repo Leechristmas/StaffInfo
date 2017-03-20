@@ -1,11 +1,26 @@
 ﻿app.controller('registerUserController', ['$scope', 'userService', 'messageService', '$mdToast', '$mdDialog', function ($scope, userService, messageService, $mdToast, $mdDialog) {
 
     $scope.employees = [];
-    $scope.user = {};
+    $scope.user = {
+        roles: []
+    };
 
     $scope.getEmployees = function () {
         $scope.promise = userService.getEmployees().then(function (response) {
             $scope.employees = response.data;
+        }, function (error) {
+            messageService.errors.setError({ errorText: error.data, errorTitle: 'Статус - ' + error.status + ': ' + error.statusText });
+            $mdToast.show(messageService.errors.errorViewConfig);
+        });
+    }
+
+    $scope.registerUser = function () {
+
+        if ($scope.user.isEditor) $scope.user.roles.push("editor");
+        if ($scope.user.isReader) $scope.user.roles.push("reader");
+
+        $scope.promise = userService.registerUser($scope.user).then(function (response) {
+
         }, function (error) {
             messageService.errors.setError({ errorText: error.data, errorTitle: 'Статус - ' + error.status + ': ' + error.statusText });
             $mdToast.show(messageService.errors.errorViewConfig);

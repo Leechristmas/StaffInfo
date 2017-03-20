@@ -24,13 +24,12 @@ app.controller('userController',
             });
         }
 
+        //TODO
         $scope.isAdmin = function () {
             if ($scope.selected.isAdmin && !$scope.selected.roles.includes("admin"))
                 $scope.selected.roles.push("admin");
             //else if ($scope.selected.isAdmin && !$scope.selected.roles.includes("admin"))
         }
-
-        
 
         $scope.showUserRegistrationForm = function (ev) {
             $mdDialog.show({

@@ -84,10 +84,10 @@
                             <legend class="legend">Права</legend>
                             <form name="permissions">
                                 <div layout-gt-sm="row">
-                                    <md-checkbox ng-checked="true">
+                                    <md-checkbox ng-model="user.isEditor">
                                         <span>Редактирование</span>
                                     </md-checkbox>
-                                    <md-checkbox ng-checked="true" ng-disabled="true">
+                                    <md-checkbox ng-model="user.isReader" ng-checked="true" ng-disabled="true">
                                         <span>Чтение</span>
                                     </md-checkbox>
                                 </div>
@@ -107,7 +107,7 @@
             <md-icon md-svg-icon="img/icons/ic_arrow_forward_white_24px.svg"></md-icon>
             Далее
         </md-button>
-        <md-button ng-click="register()" class="md-primary md-raised" ng-if="selectedTabIndex === 2" ng-disabled="(users.$invalid || adInfo.$invalid)">
+        <md-button ng-click="registerUser()" class="md-primary md-raised" ng-if="selectedTabIndex === 2" ng-disabled="(users.$invalid || adInfo.$invalid)">
             <md-icon md-svg-icon="img/icons/ic_save_24px.svg"></md-icon>
             Зарегистрировать
         </md-button>

@@ -98,7 +98,7 @@ namespace Staffinfo.API
             return users;
         }
 
-        public async Task<IdentityResult> RegisterUserAsync(UserViewModel userModel)
+        public async Task<IdentityResult> RegisterUser(UserViewModel userModel)
         {
             IdentityUser user = new IdentityUser
             {

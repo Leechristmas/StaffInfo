@@ -52,7 +52,7 @@ namespace Staffinfo.API.Controllers
         [Route("register")]
         public async Task Register([FromBody] UserViewModel userModel)
         {
-
+            var result = await _repo.RegisterUser(userModel);
         }
 
     }
