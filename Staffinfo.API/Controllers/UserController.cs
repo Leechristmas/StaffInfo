@@ -38,10 +38,11 @@ namespace Staffinfo.API.Controllers
         }
 
         [HttpGet]
-        [Route("employees")]
-        public async Task<List<NamedEntity>> GetEmployees()
+        [Route("not-registered")]
+        public async Task<List<NamedEntity>> GetNotRegisteredUsers()
         {
-            var query = await _employeeRepository.SelectAsync();
+            var registered = (await _repo.GetUsersViewModelsAsync()).Where(u => u.EmployeeId != null).Select(u => u.EmployeeId);
+            var query = await _employeeRepository.WhereAsync(e => !registered.Contains(e.Id));
 
             List<NamedEntity> empls = query.Select(e => new NamedEntity { Id = e.Id, Name = $"{e.EmployeeLastname} - {e.ActualPost?.PostName}" }).ToList();
 

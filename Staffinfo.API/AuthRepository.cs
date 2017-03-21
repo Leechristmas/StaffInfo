@@ -97,7 +97,7 @@ namespace Staffinfo.API
 
             return users;
         }
-
+        
         public async Task<IdentityResult> RegisterUser(UserViewModel userModel)
         {
             IdentityUser user = new IdentityUser
@@ -112,6 +112,7 @@ namespace Staffinfo.API
             {
                 var registered = await _userManager.FindAsync(userModel.Login, userModel.Password);
                 result = await _userManager.AddToRolesAsync(registered.Id, userModel.Roles.ToArray());
+                result = await _userManager.AddClaimAsync(registered.Id, new System.Security.Claims.Claim("employeeId", userModel.EmployeeId.Value.ToString()));
             }
 
             return result;

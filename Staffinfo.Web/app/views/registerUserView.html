@@ -23,7 +23,7 @@
                                         <md-icon md-svg-src="img/icons/ic_account_circle_black_24px.svg"></md-icon>
                                         <md-select name="employee" ng-model="user.employeeId" required>
                                             <md-optgroup>
-                                                <md-option ng-value="e.id" ng-repeat="e in employees">{{e.name}}</md-option>
+                                                <md-option ng-value="e.id" ng-repeat="e in employees | orderBy: 'name'">{{e.name}}</md-option>
                                             </md-optgroup>
                                         </md-select>
                                         <div ng-messages="users.employee.$error" class="validation-messages">

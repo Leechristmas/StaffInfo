@@ -10,7 +10,7 @@ app.factory('userService', ['$http', 'ngAuthSettings', function ($http, ngAuthSe
     }
 
     var getEmployees = function () {
-        return $http.get(serviceBase + 'api/users/employees');
+        return $http.get(serviceBase + 'api/users/not-registered');
     }
 
     var registerUser = function (user) {

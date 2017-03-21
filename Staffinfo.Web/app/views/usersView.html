@@ -11,11 +11,14 @@
         </md-tooltip>
     </md-button>
 
-    <div flex layout="row" ng-controller="userController">
+    <div layout="row" layout-sm="column" layout-align="space-around" ng-if="isLoading">
+        <md-progress-circular md-mode="indeterminate" md-diameter="30"></md-progress-circular>
+    </div>
 
-        <md-sidenav md-is-locked-open="true" class="md-whiteframe-z2">
+    <div flex layout="row" ng-controller="userController" style="margin-top: 30px;">
+        <md-sidenav md-is-locked-open="true" class="md-whiteframe-z2">            
             <md-list>
-                <md-list-item ng-repeat="u in users">
+                <md-list-item ng-repeat="u in users | orderBy: 'lastname'">
                     <md-button flex class="text-left" ng-click="selectUser(u)" ng-class="{'selected' : u === ul.selected }">
                         <md-icon md-svg-src="img/icons/ic_account_circle_black_24px.svg"></md-icon>
                         {{u.lastname}}

@@ -16,11 +16,14 @@ app.controller('userController',
         }
 
         $scope.getUsers = function () {
+            $scope.isLoading = true;
             $scope.promise = userService.getUsers().then(function (response) {
                 $scope.users = response.data;
+                $scope.isLoading = false;
             }, function (error) {
                 messageService.errors.setError({ errorText: error.data, errorTitle: 'Статус - ' + error.status + ': ' + error.statusText });
                 $mdToast.show(messageService.errors.errorViewConfig);
+                $scope.isLoading = false;
             });
         }
 
@@ -40,6 +43,7 @@ app.controller('userController',
                 clickOutsideToClose: true
             }).then(function (answer) {
                 console.log('new user has been registered.');
+                $scope.getUsers();//update users list
             }, function () {
                 console.log('registration view has been closed.');
             });

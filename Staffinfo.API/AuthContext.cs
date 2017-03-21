@@ -20,7 +20,7 @@ namespace Staffinfo.API
         public static AuthContext Create() => new AuthContext();
     }
 
-    public class AuthContextSeedinitializer : DropCreateDatabaseAlways<AuthContext>
+    public class AuthContextSeedinitializer : DropCreateDatabaseIfModelChanges<AuthContext>
     {
         protected override void Seed(AuthContext context)
         {
