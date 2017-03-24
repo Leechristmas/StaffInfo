@@ -15,8 +15,8 @@
         <md-progress-circular md-mode="indeterminate" md-diameter="30"></md-progress-circular>
     </div>
 
-    <div flex layout="row" ng-controller="userController" style="margin-top: 30px;">
-        <md-sidenav md-is-locked-open="true" class="md-whiteframe-z2">            
+    <div flex layout="row" ng-controller="userController" style="margin-top: 30px;" >
+        <md-sidenav md-is-locked-open="true" class="md-whiteframe-z2">
             <md-list>
                 <md-list-item ng-repeat="u in users | orderBy: 'lastname'">
                     <md-button flex class="text-left" ng-click="selectUser(u)" ng-class="{'selected' : u === ul.selected }">
@@ -28,35 +28,44 @@
         </md-sidenav>
 
         <md-content flex id="content" class="md-padding md-whiteframe-z2" ng-if="selected">
-            <fieldset>
-                <legend class="legend">Общее</legend>
-                <div layout="row" layout-wrap flex>
-                    <img ng-src="{{selected.employeePhoto != undefined ? 'data:image/jpeg;base64,'+selected.employeePhoto : '/img/default-avatar.jpg'}}" id="user-photo" class="img-thumbnail" />
-                    <div style="margin-left:20px;">
-                        <h2>{{selected.lastname}} {{selected.firstname}} {{selected.middlename}}</h2>
+            <div layout="row" layout-wrap flex>
+                <img ng-src="{{selected.employeePhoto != undefined ? 'data:image/jpeg;base64,'+selected.employeePhoto : '/img/default-avatar.jpg'}}" id="user-photo" class="img-thumbnail" />
+                <fieldset style="margin-left: 20px;" >
+                    <legend class="legend">Общее</legend>
+                    <div layout="column" layout-wrap flex>
+                        <div>
+                            <h2>{{selected.lastname}} {{selected.firstname}} {{selected.middlename}}</h2>
+                        </div>
+                        <div>
+                            <p>{{selected.actualPost}}</p>
+                        </div>
                     </div>
-                </div>
-            </fieldset>
+                </fieldset>
+            </div>
 
-            <fieldset>
+            <fieldset style="margin-top: 10px;">
                 <legend class="legend">Права</legend>
                 <div layout="row" layout-wrap flex>
-                    <md-checkbox ng-model="selected.isAdmin" aria-label="is admin" ng-disabled="false" ng-change="isAdmin()" style="margin-left: 10px;">
+                    <md-checkbox ng-model="selected.isAdmin" aria-label="is admin" ng-disabled="false" style="margin-left: 10px;">
                         Администратор
+                        <md-tooltip md-direction="bottom">
+                            Дает сотруднику доступ к управлению учетными записями и полные права на редактирование любой информации
+                        </md-tooltip>
                     </md-checkbox>
                     <md-checkbox ng-model="selected.isEditor" aria-label="is editor" ng-disabled="false" style="margin-left: 10px;">
                         Редактирование
+                        <md-tooltip md-direction="bottom">
+                            Дает сотруднику доступ на редактирование служебной информации
+                        </md-tooltip>
                     </md-checkbox>
-                    <md-checkbox ng-model="selected.isReader" aria-label="is reader" ng-disabled="false" style="margin-left: 10px;">
+                    <md-checkbox aria-label="is reader" ng-checked="true" ng-disabled="true" style="margin-left: 10px;"> <!-- ng-model="selected.isReader"  -->
                         Чтение
+                        <md-tooltip md-direction="bottom">
+                            Дает сотруднику доступ на просмотр служебной информации
+                        </md-tooltip>
                     </md-checkbox>
                 </div>
             </fieldset>
-
-                
-            </div>
         </md-content>
-
     </div>
-
 </md-content>

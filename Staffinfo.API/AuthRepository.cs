@@ -88,10 +88,14 @@ namespace Staffinfo.API
                 {
                     var empl = await _employeeRepository.SelectAsync(u.EmployeeId.Value);
 
-                    u.EmployeePhoto = empl.EmployeePhoto;
-                    u.Firstname = empl.EmployeeFirstname;
-                    u.Lastname = empl.EmployeeLastname;
-                    u.Middlename = empl.EmployeeMiddlename;
+                    if (empl != null)
+                    {
+                        u.EmployeePhoto = empl.EmployeePhoto;
+                        u.Firstname = empl.EmployeeFirstname;
+                        u.Lastname = empl.EmployeeLastname;
+                        u.Middlename = empl.EmployeeMiddlename;
+                        u.ActualPost = empl.ActualPost.PostName;
+                    }
                 }
             }
 

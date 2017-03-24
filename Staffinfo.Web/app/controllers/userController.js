@@ -2,10 +2,11 @@
 
 app.controller('userController',
 [
-    '$scope', 'userService', '$mdToast', 'messageService', '$mdDialog', function($scope, userService, $mdToast, messageService, $mdDialog) {
+    '$scope', 'userService', '$mdToast', 'messageService', '$mdDialog', 'authService', function ($scope, userService, $mdToast, messageService, $mdDialog, authService) {
         $scope.users = [];
         $scope.selected = null;
         $scope.selectedTabIndex = 0;
+        $scope.authorizedUser = authService.authentication;
 
         $scope.selectUser = function(user)
         {
@@ -27,12 +28,18 @@ app.controller('userController',
             });
         }
 
-        //TODO
-        $scope.isAdmin = function () {
-            if ($scope.selected.isAdmin && !$scope.selected.roles.includes("admin"))
-                $scope.selected.roles.push("admin");
-            //else if ($scope.selected.isAdmin && !$scope.selected.roles.includes("admin"))
-        }
+        ////TODO
+        //$scope.isAdmin = function () {
+        //    var currentUserRoles = authService.authentication.roles;
+
+        //    return currentUserRoles.includes("admin");
+
+        //    //if ($scope.selected.isAdmin && !$scope.selected.roles.includes("admin"))
+        //    //    $scope.selected.roles.push("admin");
+        //    //else if ($scope.selected.isAdmin && !$scope.selected.roles.includes("admin"))
+        //}
+
+
 
         $scope.showUserRegistrationForm = function (ev) {
             $mdDialog.show({
