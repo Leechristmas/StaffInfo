@@ -2,7 +2,7 @@
 
 app.controller('userController',
 [
-    '$scope', 'userService', '$mdToast', 'messageService', '$mdDialog', 'authService', function ($scope, userService, $mdToast, messageService, $mdDialog, authService) {
+    '$scope', 'userService', '$mdToast', 'messageService', '$mdDialog', 'authService', 'employeesService', '$state', function ($scope, userService, $mdToast, messageService, $mdDialog, authService, employeesService, $state) {
         $scope.users = [];
         $scope.selected = null;
         $scope.selectedTabIndex = 0;
@@ -28,6 +28,50 @@ app.controller('userController',
             });
         }
 
+        //deletes the specified employee
+        var _deleteAccount = function (id) {
+            $scope.promise = userService.deleteAccount(id).then(function (response) {
+                $scope.getUsers();//refresh
+                $scope.selected = null;
+                $mdToast.show({
+                    hideDelay: 3000,
+                    position: 'top right',
+                    controller: 'toastController',
+                    template: '<md-toast class="md-toast-success">' +
+                    '<div class="md-toast-content">' +
+                    'Учетные данные успешно удалены.' +
+                    '</div>' +
+                    '</md-toast>'
+                });
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        }
+
+        //shows confirmation of employee deletion 
+        $scope.confirmDeleting = function (ev, id) {
+            var confirm = $mdDialog.confirm()
+                .title('Удаление')
+                .textContent('Вы уверены, что хотите удалить учетные данные сотрудника ' +
+                    $scope.selected.lastname +
+                    ' ' +
+                    $scope.selected.firstname +
+                    ' ' +
+                    $scope.selected.middlename +
+                    '?')
+                .ariaLabel('Deleting')
+                .targetEvent(ev)
+                .ok('Удалить')
+                .cancel('Отмена');
+            $mdDialog.show(confirm).then(function () {
+                //delete the employee
+                _deleteAccount(id);
+            }, function () {
+                //cancel
+            });
+        }
+
         ////TODO
         //$scope.isAdmin = function () {
         //    var currentUserRoles = authService.authentication.roles;
@@ -39,7 +83,22 @@ app.controller('userController',
         //    //else if ($scope.selected.isAdmin && !$scope.selected.roles.includes("admin"))
         //}
 
+        //opens the dialog window with detailed information about specified employee
+        $scope.showDetails = function (ev, id) {
+            employeesService.employees.getEmployeeById(id).then(function (response) {
 
+                //TODO: set JSON parser for data - date is parsed not correct
+                var employee = response.data;
+                employee.birthDate = new Date(employee.birthDate);
+
+                employeesService.employees.setActualEmployee(employee);
+
+                $state.go('details');
+            }, function (data) {
+                messageService.errors.setError({ errorText: data.data, errorTitle: 'Статус - ' + data.status + ': ' + data.statusText });
+                $mdToast.show(messageService.errors.errorViewConfig);
+            });
+        };
 
         $scope.showUserRegistrationForm = function (ev) {
             $mdDialog.show({

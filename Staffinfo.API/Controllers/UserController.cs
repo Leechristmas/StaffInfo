@@ -56,5 +56,12 @@ namespace Staffinfo.API.Controllers
             var result = await _repo.RegisterUser(userModel);
         }
 
+        [HttpDelete]
+        [Route("all/{accountId}")]
+        public async Task DeleteAccount([FromUri] string accountId)
+        {
+            var result = await _repo.DeleteUser(accountId);
+        }
+
     }
 }

@@ -28,6 +28,17 @@ namespace Staffinfo.API
             _employeeRepository = employeeRepository;
         }
 
+        public async Task<IdentityResult> DeleteUser(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            IdentityResult result = null;
+
+            if(user != null)
+            result = await _userManager.DeleteAsync(user);
+
+            return result;
+        }
+
         public async Task<IdentityResult> RegisterUser(UserModel userModel)
         {
             IdentityUser user = new IdentityUser

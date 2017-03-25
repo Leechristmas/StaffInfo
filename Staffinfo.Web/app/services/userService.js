@@ -17,9 +17,14 @@ app.factory('userService', ['$http', 'ngAuthSettings', function ($http, ngAuthSe
         return $http.post(serviceBase + 'api/users/register', user, {});
     }
 
+    var deleteAccount = function(accountId) {
+        return $http.delete(serviceBase + 'api/users/all/' + accountId);
+    }
+
     userServiceFactory.getUsers = getUsers;
     userServiceFactory.getEmployees = getEmployees;
     userServiceFactory.registerUser = registerUser;
+    userServiceFactory.deleteAccount = deleteAccount;
 
     return userServiceFactory;
 }]);

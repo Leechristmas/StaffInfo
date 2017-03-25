@@ -66,6 +66,22 @@
                     </md-checkbox>
                 </div>
             </fieldset>
+            <div>
+                <md-button class="md-primary md-raised" ng-click="showDetails($event, selected.employeeId)">
+                    <md-icon md-svg-src="img/icons/ic_arrow_forward_white_24px.svg" aria-label="go to profile"></md-icon>
+                    Профиль
+                    <md-tooltip md-direction="bottom">
+                        Перейти к просмотру подробной информации о сотруднике
+                    </md-tooltip>
+                </md-button>
+                <md-button class="md-primary" ng-click="confirmDeleting($event, selected.id)">
+                    <md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg" aria-label="remove credentials"></md-icon>
+                    Удалить
+                    <md-tooltip md-direction="bottom">
+                        Удалить учетную запись сотрудника
+                    </md-tooltip>
+                </md-button>
+            </div>
         </md-content>
     </div>
 </md-content>

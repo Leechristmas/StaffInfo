@@ -15,5 +15,6 @@ namespace Staffinfo.API.Abstract
         Task<IdentityUser> FindUser(string userName, string password);
         Task<List<IdentityUser>> GetUsersAsync();
         Task<List<UserViewModel>> GetUsersViewModelsAsync();
+        Task<IdentityResult> DeleteUser(string userId);
     }
 }

@@ -20,7 +20,7 @@
         if ($scope.user.isReader) $scope.user.roles.push("reader");
 
         $scope.promise = userService.registerUser($scope.user).then(function (response) {
-
+            $scope.cancel();
         }, function (error) {
             messageService.errors.setError({ errorText: error.data, errorTitle: 'Статус - ' + error.status + ': ' + error.statusText });
             $mdToast.show(messageService.errors.errorViewConfig);
