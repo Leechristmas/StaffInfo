@@ -13,8 +13,12 @@ namespace Staffinfo.API.Abstract
         Task<IdentityResult> RegisterUser(UserViewModel userModel);
         Task<IdentityResult> CreateRoleAsync(string roleName);
         Task<IdentityUser> FindUser(string userName, string password);
+        Task<IdentityUser> FindUser(string userId);
         Task<List<IdentityUser>> GetUsersAsync();
         Task<List<UserViewModel>> GetUsersViewModelsAsync();
         Task<IdentityResult> DeleteUser(string userId);
+        Task RemoveRoleFromUser(string userId, string role);
+        Task AddRoleToUser(string userId, string role);
+        Task<IdentityResult> ChangePassword(string userId, string currentPassword, string newPassword);
     }
 }

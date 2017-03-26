@@ -241,6 +241,7 @@
     <Compile Include="Filters\GlobalLogFilterAttribute.cs" />
     <Compile Include="Infrastructure\LogHelper.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
+    <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\ContractViewModel.cs" />
     <Compile Include="Models\DisciplineItemViewModel.cs" />
     <Compile Include="Models\Dismissal.cs" />
@@ -251,6 +252,7 @@
     <Compile Include="Models\MilitaryServiceViewModel.cs" />
     <Compile Include="Models\NamedEntity.cs" />
     <Compile Include="Models\OutFromOfficeViewModel.cs" />
+    <Compile Include="Models\Permission.cs" />
     <Compile Include="Models\RelativeViewModel.cs" />
     <Compile Include="Models\RetiredMinViewModel.cs" />
     <Compile Include="Models\Seniority.cs" />

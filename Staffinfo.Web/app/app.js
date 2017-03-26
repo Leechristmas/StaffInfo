@@ -141,11 +141,11 @@ app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesServic
     //checks if the user has permission for moving to the state
     var checkRoles = function (userRoles, allowedRoles) {
         userRoles = angular.fromJson(userRoles);
-        var isAllowed = true;
+        var isAllowed = false;
 
         userRoles.forEach(r => {
-            if (!allowedRoles.includes(r)) {
-                isAllowed = false;
+            if (allowedRoles.includes(r)) {
+                isAllowed = true;
                 return;
             }
         });

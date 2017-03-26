@@ -64,6 +64,13 @@ namespace Staffinfo.API
             return user;
         }
 
+        public async Task<IdentityUser> FindUser(string userId)
+        {
+            IdentityUser user = await _userManager.FindByIdAsync(userId);
+
+            return user;
+        }
+
         public async Task<IdentityResult> CreateRoleAsync(string roleName)
         {
             IdentityRole role = new IdentityRole(roleName);
@@ -105,14 +112,31 @@ namespace Staffinfo.API
                         u.Firstname = empl.EmployeeFirstname;
                         u.Lastname = empl.EmployeeLastname;
                         u.Middlename = empl.EmployeeMiddlename;
-                        u.ActualPost = empl.ActualPost.PostName;
+                        u.ActualPost = empl.ActualPost?.PostName;
                     }
                 }
             }
 
             return users;
         }
-        
+
+        public async Task<IdentityResult> ChangePassword(string userId, string currentPassword, string newPassword)
+        {
+            var result = await _userManager.ChangePasswordAsync(userId, currentPassword, newPassword);
+
+            return result;
+        }
+
+        public async Task AddRoleToUser(string userId, string role)
+        {
+            await _userManager.AddToRoleAsync(userId, role);
+        }
+
+        public async Task RemoveRoleFromUser(string userId, string role)
+        {
+            await _userManager.RemoveFromRoleAsync(userId, role);
+        }
+
         public async Task<IdentityResult> RegisterUser(UserViewModel userModel)
         {
             IdentityUser user = new IdentityUser
@@ -127,6 +151,7 @@ namespace Staffinfo.API
             {
                 var registered = await _userManager.FindAsync(userModel.Login, userModel.Password);
                 result = await _userManager.AddToRolesAsync(registered.Id, userModel.Roles.ToArray());
+                if(userModel.EmployeeId != null)
                 result = await _userManager.AddClaimAsync(registered.Id, new System.Security.Claims.Claim("employeeId", userModel.EmployeeId.Value.ToString()));
             }
 

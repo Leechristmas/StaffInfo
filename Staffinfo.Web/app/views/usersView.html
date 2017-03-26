@@ -3,16 +3,24 @@
         <h2>Пользователи</h2>
     </div>
 
-    <md-button class="md-primary md-raised" style="margin-left: 0" ng-click="showUserRegistrationForm($event)">
-        <md-icon md-svg-src="img/icons/ic_person_add_24px.svg" aria-label="Close dialog"></md-icon>
-        Добавить
-        <md-tooltip md-direction="bottom">
-            Зарегистрировать нового пользователя
-        </md-tooltip>
-    </md-button>
+    <div layout="row" flex>
+        <md-button class="md-primary md-raised" style="margin-left: 0" ng-click="showUserRegistrationForm($event)">
+            <md-icon md-svg-src="img/icons/ic_person_add_24px.svg" aria-label="Close dialog"></md-icon>
+            Добавить
+            <md-tooltip md-direction="bottom">
+                Зарегистрировать нового пользователя
+            </md-tooltip>
+        </md-button>
+        <md-button class="md-fab md-primary md-fab-md" aria-label="Refresh" ng-click="getUsers()">
+            <md-icon md-svg-src="img/icons/ic_refresh_24px.svg"></md-icon>
+            <md-tooltip md-direction="bottom">
+                Обновить
+            </md-tooltip>
+        </md-button>
+    </div>
 
     <div layout="row" layout-sm="column" layout-align="space-around" ng-if="isLoading">
-        <md-progress-circular md-mode="indeterminate" md-diameter="30"></md-progress-circular>
+        <md-progress-circular md-mode="indeterminate" md-diameter="96"></md-progress-circular>
     </div>
 
     <div flex layout="row" ng-controller="userController" style="margin-top: 30px;" >
@@ -34,7 +42,7 @@
                     <legend class="legend">Общее</legend>
                     <div layout="column" layout-wrap flex>
                         <div>
-                            <h2>{{selected.lastname}} {{selected.firstname}} {{selected.middlename}}</h2>
+                            <h2>{{selected.lastname}} {{selected.firstname}} {{selected.middlename}} ({{selected.login}})</h2>
                         </div>
                         <div>
                             <p>{{selected.actualPost}}</p>
@@ -46,13 +54,13 @@
             <fieldset style="margin-top: 10px;">
                 <legend class="legend">Права</legend>
                 <div layout="row" layout-wrap flex>
-                    <md-checkbox ng-model="selected.isAdmin" aria-label="is admin" ng-disabled="false" style="margin-left: 10px;">
+                    <md-checkbox ng-model="selected.isadmin" ng-click="setPermission(selected.id, 'admin')" aria-label="is admin"  ng-disabled="authorizedUser.userName === selected.login" style="margin-left: 10px;">
                         Администратор
                         <md-tooltip md-direction="bottom">
                             Дает сотруднику доступ к управлению учетными записями и полные права на редактирование любой информации
                         </md-tooltip>
                     </md-checkbox>
-                    <md-checkbox ng-model="selected.isEditor" aria-label="is editor" ng-disabled="false" style="margin-left: 10px;">
+                    <md-checkbox ng-model="selected.iseditor" ng-click="setPermission(selected.id, 'editor')" aria-label="is editor"  ng-disabled="authorizedUser.userName === selected.login" style="margin-left: 10px;">
                         Редактирование
                         <md-tooltip md-direction="bottom">
                             Дает сотруднику доступ на редактирование служебной информации
@@ -74,7 +82,13 @@
                         Перейти к просмотру подробной информации о сотруднике
                     </md-tooltip>
                 </md-button>
-                <md-button class="md-primary" ng-click="confirmDeleting($event, selected.id)">
+                <md-button class="md-primary" ng-click="showChangePasswordView($event)">
+                    Сменить пароль
+                    <md-tooltip md-direction="bottom">
+                        Назначить новый пароль для учетной записи
+                    </md-tooltip>
+                </md-button>
+                <md-button class="md-primary" ng-click="confirmDeleting($event, selected.id)"  ng-disabled="authorizedUser.userName === selected.login">
                     <md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg" aria-label="remove credentials"></md-icon>
                     Удалить
                     <md-tooltip md-direction="bottom">
