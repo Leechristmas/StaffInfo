@@ -124,6 +124,7 @@
     <Content Include="app\views\signup.html" />
     <Content Include="app\views\tooltip.html" />
     <Content Include="app\views\usersView.html" />
+    <Content Include="content\css\angular-page-loader.css" />
     <Content Include="content\css\calendar.css" />
     <Content Include="content\css\angular-material.css" />
     <Content Include="content\css\angular-material.layout-attributes.css" />
@@ -209,6 +210,8 @@
     <Content Include="scripts\angular-material\angular-material.min.js" />
     <Content Include="scripts\angular-message-format.min.js.map" />
     <Content Include="scripts\angular-messages.min.js.map" />
+    <Content Include="scripts\angular-page-loader\angular-page-loader.js" />
+    <Content Include="scripts\angular-page-loader\angular-page-loader.min.js" />
     <Content Include="scripts\angular-parse-ext.min.js.map" />
     <Content Include="scripts\angular-resource.min.js.map" />
     <Content Include="scripts\angular-route.min.js.map" />
@@ -244,8 +247,8 @@
     <Content Include="scripts\angular\angular.min.js" />
     <Content Include="scripts\calendar-tpls.js" />
     <Content Include="scripts\chart-additional.js" />
-    <Content Include="scripts\Chart.js" />
-    <Content Include="scripts\Chart.min.js" />
+    <Content Include="scripts\chart.js" />
+    <Content Include="scripts\chart.min.js" />
     <Content Include="scripts\i18n\angular-locale_aa-dj.js" />
     <Content Include="scripts\i18n\angular-locale_aa-er.js" />
     <Content Include="scripts\i18n\angular-locale_aa-et.js" />
@@ -1000,6 +1003,7 @@
     <Content Include="content\fonts\PlayRegular\PlayRegular.ttf" />
     <Content Include="content\fonts\PlayRegular\PlayRegular.woff" />
     <None Include="Properties\PublishProfiles\Staffinfo - Web Deploy.pubxml" />
+    <Content Include="scripts\angular-material\angular-material-icons.min.js" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
