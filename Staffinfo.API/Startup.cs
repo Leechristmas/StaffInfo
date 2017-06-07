@@ -11,7 +11,6 @@ using Owin;
 using Staffinfo.API.Providers;
 
 [assembly: OwinStartup(typeof(Staffinfo.API.Startup))]
-[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace Staffinfo.API
 {
     public class Startup
@@ -27,6 +26,8 @@ namespace Staffinfo.API
                 SupportsCredentials = true
             };
             policy.ExposedHeaders.Add("X-Total-Count");
+            policy.ExposedHeaders.Add("X-Max-Date");
+            policy.ExposedHeaders.Add("X-Min-Date");
             //policy.Origins.Add("http://localhost:49086");
             //policy.ExposedHeaders.Add("Access-Control-Allow-Origin");
             app.UseCors(new CorsOptions
@@ -36,7 +37,6 @@ namespace Staffinfo.API
                     PolicyResolver = context => Task.FromResult(policy)
                 }
             });
-
 
             HttpConfiguration config = new HttpConfiguration();
 

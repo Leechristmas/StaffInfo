@@ -14,8 +14,19 @@
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Дата аттестации</label>
-                        <md-datepicker name="dueDate" ng-model="sertification.dueDate" required md-min-date="minDate"  ng-focus="dtpckrOnFocus(sertification, 'dueDate')"></md-datepicker>
+                        <md-datepicker class="long-datepicker" name="dueDate" ng-model="sertification.dueDate" required md-min-date="minDate"  ng-focus="dtpckrOnFocus(sertification, 'dueDate')"></md-datepicker>
                         <div ng-messages="addSertificationForm.dueDate.$error" class="validation-messages">
+                            <div ng-message="required">Необходимо заполнить это поле.</div>
+                        </div>
+                    </md-input-container>                    
+                </div>
+
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Классность</label>
+                        <md-icon md-svg-src="img/icons/ic_grade_24px.svg" class="name"></md-icon>
+                        <input name="level" ng-model="sertification.level" required md-maxlength="15" />
+                        <div ng-messages="addSertificationForm.level.$error" class="validation-messages">
                             <div ng-message="required">Необходимо заполнить это поле.</div>
                         </div>
                     </md-input-container>
@@ -34,6 +45,7 @@
 
     <md-dialog-actions layout="row" class="dialog-footer">
         <md-button ng-click="saveNewSertification()" class="md-primary md-raised" ng-disabled="addSertificationForm.$invalid">
+            <md-icon md-svg-icon="img/icons/ic_save_24px.svg"></md-icon>
             Сохранить
         </md-button>
     </md-dialog-actions>

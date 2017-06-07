@@ -765,7 +765,7 @@ button.md-button::-moz-focus-inner {
   font-weight: 500;
   font-size: 14px;
   font-style: inherit;
-  font-variant: inherit;
+  font-variant: normal;
   font-family: inherit;
   text-decoration: none;
   overflow: hidden;
@@ -4726,7 +4726,7 @@ md-switch {
       cursor: default; }
   md-switch .md-container {
     cursor: -webkit-grab;
-    cursor: grab;
+    cursor: default;
     width: 36px;
     height: 24px;
     position: relative;
@@ -4742,7 +4742,7 @@ md-switch {
   md-switch:not([disabled]) .md-dragging,
   md-switch:not([disabled]).md-dragging .md-container {
     cursor: -webkit-grabbing;
-    cursor: grabbing; }
+    cursor: default; }
   md-switch.md-focused:not([disabled]) .md-thumb:before {
     left: -8px;
     top: -8px;
@@ -5151,7 +5151,7 @@ md-toast {
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;
-    direction: row;
+    direction: inherit;
     -webkit-box-align: center;
     -webkit-align-items: center;
             align-items: center;

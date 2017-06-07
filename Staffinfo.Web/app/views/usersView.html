@@ -1,0 +1,101 @@
+﻿<md-content class="md-padding">
+    <div>
+        <h2>Пользователи</h2>
+    </div>
+
+    <div layout="row" flex>
+        <md-button class="md-primary md-raised" style="margin-left: 0" ng-click="showUserRegistrationForm($event)">
+            <md-icon md-svg-src="img/icons/ic_person_add_24px.svg" aria-label="Close dialog"></md-icon>
+            Добавить
+            <md-tooltip md-direction="bottom">
+                Зарегистрировать нового пользователя
+            </md-tooltip>
+        </md-button>
+        <md-button class="md-fab md-primary md-fab-md" aria-label="Refresh" ng-click="getUsers()">
+            <md-icon md-svg-src="img/icons/ic_refresh_24px.svg"></md-icon>
+            <md-tooltip md-direction="bottom">
+                Обновить
+            </md-tooltip>
+        </md-button>
+    </div>
+
+    <div layout="row" layout-sm="column" layout-align="space-around" ng-if="isLoading">
+        <md-progress-circular md-mode="indeterminate" md-diameter="96"></md-progress-circular>
+    </div>
+
+    <div flex layout="row" ng-controller="userController" style="margin-top: 30px;" >
+        <md-sidenav md-is-locked-open="true" class="md-whiteframe-z2">
+            <md-list>
+                <md-list-item ng-repeat="u in users | orderBy: 'lastname'">
+                    <md-button flex class="text-left" ng-click="selectUser(u)" ng-class="{'selected' : u === ul.selected }">
+                        <md-icon md-svg-src="img/icons/ic_account_circle_black_24px.svg"></md-icon>
+                        {{u.lastname}}
+                    </md-button>
+                </md-list-item>
+            </md-list>
+        </md-sidenav>
+
+        <md-content flex id="content" class="md-padding md-whiteframe-z2" ng-if="selected">
+            <div layout="row" layout-wrap flex>
+                <img ng-src="{{selected.employeePhoto != undefined ? 'data:image/jpeg;base64,'+selected.employeePhoto : '/img/default-avatar.jpg'}}" id="user-photo" class="img-thumbnail" />
+                <fieldset style="margin-left: 20px;" >
+                    <legend class="legend">Общее</legend>
+                    <div layout="column" layout-wrap flex>
+                        <div>
+                            <h2>{{selected.lastname}} {{selected.firstname}} {{selected.middlename}} ({{selected.login}})</h2>
+                        </div>
+                        <div>
+                            <p>{{selected.actualPost}}</p>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <fieldset style="margin-top: 10px;">
+                <legend class="legend">Права</legend>
+                <div layout="row" layout-wrap flex>
+                    <md-checkbox ng-model="selected.isadmin" ng-click="setPermission(selected.id, 'admin')" aria-label="is admin"  ng-disabled="authorizedUser.userName === selected.login" style="margin-left: 10px;">
+                        Администратор
+                        <md-tooltip md-direction="bottom">
+                            Дает сотруднику доступ к управлению учетными записями и полные права на редактирование любой информации
+                        </md-tooltip>
+                    </md-checkbox>
+                    <md-checkbox ng-model="selected.iseditor" ng-click="setPermission(selected.id, 'editor')" aria-label="is editor"  ng-disabled="authorizedUser.userName === selected.login" style="margin-left: 10px;">
+                        Редактирование
+                        <md-tooltip md-direction="bottom">
+                            Дает сотруднику доступ на редактирование служебной информации
+                        </md-tooltip>
+                    </md-checkbox>
+                    <md-checkbox aria-label="is reader" ng-checked="true" ng-disabled="true" style="margin-left: 10px;"> <!-- ng-model="selected.isReader"  -->
+                        Чтение
+                        <md-tooltip md-direction="bottom">
+                            Дает сотруднику доступ на просмотр служебной информации
+                        </md-tooltip>
+                    </md-checkbox>
+                </div>
+            </fieldset>
+            <div>
+                <md-button class="md-primary md-raised" ng-click="showDetails($event, selected.employeeId)">
+                    <md-icon md-svg-src="img/icons/ic_arrow_forward_white_24px.svg" aria-label="go to profile"></md-icon>
+                    Профиль
+                    <md-tooltip md-direction="bottom">
+                        Перейти к просмотру подробной информации о сотруднике
+                    </md-tooltip>
+                </md-button>
+                <md-button class="md-primary" ng-click="showChangePasswordView($event)">
+                    Сменить пароль
+                    <md-tooltip md-direction="bottom">
+                        Назначить новый пароль для учетной записи
+                    </md-tooltip>
+                </md-button>
+                <md-button class="md-primary" ng-click="confirmDeleting($event, selected.id)"  ng-disabled="authorizedUser.userName === selected.login">
+                    <md-icon md-svg-src="img/icons/ic_delete_forever_24px.svg" aria-label="remove credentials"></md-icon>
+                    Удалить
+                    <md-tooltip md-direction="bottom">
+                        Удалить учетную запись сотрудника
+                    </md-tooltip>
+                </md-button>
+            </div>
+        </md-content>
+    </div>
+</md-content>

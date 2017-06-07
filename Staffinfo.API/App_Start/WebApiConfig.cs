@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Web.Http;
@@ -16,7 +14,7 @@ namespace Staffinfo.API
             // Web API configuration and services
 
             config.Filters.Add(new GlobalLogFilterAttribute());
-            log4net.Config.XmlConfigurator.Configure();
+            //log4net.Config.XmlConfigurator.Configure();
 
             // Web API routes
             config.MapHttpAttributeRoutes();

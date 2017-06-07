@@ -6,10 +6,12 @@
     <link href="content/css/bootstrap.min.css" rel="stylesheet" />
     <link href="content/css/loading-bar.min.css" rel="stylesheet" />
     <link href="content/css/angular-material.min.css" rel="stylesheet" />
-    <link href="content/css/md-data-table.css" rel="stylesheet" />
+    <link href="content/css/md-data-table.css" rel="stylesheet"/>
+    <link href="content/css/md-expansion-panel.min.css" rel="stylesheet"/>
     <link href="content/css/calendar.css" rel="stylesheet" />
+    <link href="content/css/slider.css" rel="stylesheet" />
     <link href="content/css/style.css" rel="stylesheet" />
-    <link href="content/css/site.css" rel="stylesheet" />
+    <link href="content/css/site.css" rel="stylesheet"/>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 </head>
@@ -51,9 +53,13 @@
                     </md-menu-content>
                 </md-menu>
                 <!--</div>-->
-                <md-button aria-label="Go Back" data-ng-hide="!authentication.isAuth" href="#/reports">
+                <md-button aria-label="Reports" data-ng-hide="!authentication.isAuth" href="#/reporting">
                     <md-icon md-svg-src="img/icons/ic_description_24px.svg"></md-icon>
                     Отчеты
+                </md-button>
+                <md-button aria-label="Users" data-ng-hide="!authentication.isAuth" href="#/users">
+                    <md-icon md-svg-src="img/icons/ic_group_24px.svg"></md-icon>
+                    Пользователи
                 </md-button>
                 <md-button aria-label="Settings" data-ng-hide="!authentication.isAuth" href="#/settings">
                     <md-icon md-svg-src="img/icons/ic_settings_24px.svg"></md-icon>
@@ -75,7 +81,7 @@
     </div>
 
     <div flex layout="row">
-        <md-content ui-view="" class="content">
+        <md-content ui-view="" class="content md-whiteframe-4dp">
 
         </md-content>
     </div>
@@ -83,7 +89,7 @@
 
 
     <footer>
-        <h5 class="text-center"><strong>&copy;Shevchuk</strong></h5>
+        <h5 class="text-center"><strong>Developed by dshauchuk@gmail.com</strong></h5>
     </footer>
 
     
@@ -109,6 +115,10 @@
     <!-- MdDataTable library -->
     <script src="scripts/md-data-table/md-data-table.js"></script>
     <script src="scripts/md-data-table/md-data-table-fixed-header.js"></script>
+    <!-- UI-mask lib -->
+    <script src="scripts/mask.js"></script>
+    <!-- Expansion panel -->
+    <script src="scripts/md-expansion-panel.js"></script>
     <!-- Load app main script -->
     <script src="app/app.js"></script>
     <!-- Load services -->
@@ -119,6 +129,12 @@
     <script src="app/services/employeesService.js"></script>
     <script src="app/services/messageService.js"></script>
     <script src="app/services/idleService.js"></script>
+    <script src="app/services/reportingService.js"></script>
+    <script src="app/services/userService.js"></script>
+    <!-- Load directives -->
+    <script src="app/directives/datepickerValidationFix.js"></script>
+    <script src="app/directives/rangeSlider.js"></script>
+    <!--<script src="app/directives/tooltip.js"></script>-->
     <!-- Load controllers -->
     <script src="app/controllers/indexController.js"></script>
     <script src="app/controllers/homeController.js"></script>
@@ -130,6 +146,10 @@
     <script src="app/controllers/dismissedController.js"></script>
     <script src="app/controllers/settingsController.js"></script>
     <script src="app/controllers/dialogController.js"></script>
+    <script src="app/controllers/reportingController.js"></script>
+    <script src="app/controllers/userController.js"></script>
+    <script src="app/controllers/registerUserController.js"></script>
+    <script src="app/controllers/changePasswordController.js"></script>
     <!-- calendar -->
     <script src="scripts/calendar-tpls.js"></script>
     <script src="app/controllers/calendarController.js"></script>

@@ -1,5 +1,4 @@
 ﻿using System;
-using Ninject;
 using Staffinfo.DAL.Context;
 using Staffinfo.DAL.Models;
 using Staffinfo.DAL.Repositories.Interfaces;
@@ -9,24 +8,26 @@ namespace Staffinfo.DAL.Repositories
     /// <summary>
     /// Unit repository (Unit Of Work pattern)
     /// </summary>
-    public class StaffUnitRepository: IUnitRepository, IStaffRepository
+    public sealed class StaffUnitRepository : IUnitRepository //IStaffRepository
     {
-        [Inject]
-        public StaffContext StaffContext { get; set; }
-        
-        public StaffUnitRepository(IRepository<Address> addressRepository, 
-            IRepository<Employee> employeeRepository, 
-            IRepository<Location> locationRepository, 
-            IRepository<MesAchievement> mesAchievementRepository, 
-            IRepository<MilitaryService> militaryServiceRepository, 
-            IRepository<Passport> passportRepository, 
-            IRepository<Post> postRepository, 
-            IRepository<Rank> rankRepository, 
-            IRepository<Service> serviceRepository, 
+        public StaffUnitRepository(
+            IRepository<Address> addressRepository,
+            IRepository<Employee> employeeRepository,
+            IRepository<Location> locationRepository,
+            IRepository<MesAchievement> mesAchievementRepository,
+            IRepository<MilitaryService> militaryServiceRepository,
+            IRepository<Passport> passportRepository,
+            IRepository<Post> postRepository,
+            IRepository<Rank> rankRepository,
+            IRepository<Service> serviceRepository,
             IRepository<WorkTerm> workTermRepository,
             IRepository<Dismissed> dismissedRepository,
             IRepository<DisciplineItem> disciplineItemRepository,
-            IRepository<OutFromOffice> outFromOfficeRepository, IRepository<Sertification> sertificationRepository)
+            IRepository<OutFromOffice> outFromOfficeRepository,
+            IRepository<Sertification> sertificationRepository,
+            IRepository<EducationItem> educationRepository,
+            IRepository<Contract> contractRepository,
+            IRepository<Relative> relativeRepository)
         {
             AddressRepository = addressRepository;
             EmployeeRepository = employeeRepository;
@@ -42,11 +43,14 @@ namespace Staffinfo.DAL.Repositories
             DisciplineItemRepository = disciplineItemRepository;
             OutFromOfficeRepository = outFromOfficeRepository;
             SertificationRepository = sertificationRepository;
+            EducationRepository = educationRepository;
+            ContractRepository = contractRepository;
+            RelativeRepository = relativeRepository;
         }
 
         public IRepository<Address> AddressRepository { get; }
 
-        public IRepository<Dismissed> DismissedRepository { get; } 
+        public IRepository<Dismissed> DismissedRepository { get; }
 
         public IRepository<Employee> EmployeeRepository { get; }
 
@@ -68,8 +72,13 @@ namespace Staffinfo.DAL.Repositories
 
         public IRepository<DisciplineItem> DisciplineItemRepository { get; }
 
-        public IRepository<OutFromOffice> OutFromOfficeRepository { get; } 
-        public IRepository<Sertification> SertificationRepository { get; } 
+        public IRepository<OutFromOffice> OutFromOfficeRepository { get; }
+
+        public IRepository<Sertification> SertificationRepository { get; }
+
+        public IRepository<EducationItem> EducationRepository { get; }
+        public IRepository<Contract> ContractRepository { get; }
+        public IRepository<Relative> RelativeRepository { get; }
 
         #region Implementing interface IDisposable
 
@@ -85,7 +94,7 @@ namespace Staffinfo.DAL.Repositories
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (disposed)
                 return;

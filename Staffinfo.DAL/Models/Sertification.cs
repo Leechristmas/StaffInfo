@@ -16,5 +16,8 @@ namespace Staffinfo.DAL.Models
         [MaxLength(255)]
         public string Description { get; set; }
 
+        [MaxLength(15)]
+        public string Level { get; set; }
+
     }
 }

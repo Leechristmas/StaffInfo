@@ -20,7 +20,7 @@ app.factory('authInterceptorService', ['$q', '$location', 'localStorageService',
             $location.path('/login');
 
             if (localStorageService.get('authorizationData')) {
-                console.log('server session has expired.')
+                console.log('server session has expired.');
                 //messageService.errors.setError({ errorText: 'Время серверной сессии истекло. Пожалуйста, авторизуйтесь заново, чтобы продолжить работу', errorTitle: 'Внимание' });
             }
         }

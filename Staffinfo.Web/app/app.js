@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var app = angular.module('StaffinfoApp', ['ui.router', 'ngMaterial', 'ngMessages', 'md.data.table', 'fixed.table.header', 'LocalStorageModule', 'angular-loading-bar', 'chart.js', 'ui.rCalendar', 'angularUserSettings', 'ngIdle']);
+var app = angular.module('StaffinfoApp', ['ui.router', 'ui.mask', 'ngMaterial', 'material.components.expansionPanels', 'ngMessages', 'md.data.table', 'fixed.table.header', 'LocalStorageModule', 'angular-loading-bar', 'chart.js', 'ui.rCalendar', 'angularUserSettings', 'ngIdle']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
@@ -14,37 +14,56 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             url: "/signup",
             controller: "signupController",
             templateUrl: "app/views/signup.html",
-            noLogin: true
+            noLogin: true,
+            allowedRoles: ['admin']
         }).state('dashboard', {
             url: "/dashboard",
             controller: "dashboardController",
             templateUrl: "app/views/dashboard.html",
-            noLogin: false
+            noLogin: false,
+            allowedRoles: ['admin', 'editor', 'reader']
         }).state('employees', {
             url: "/employees",
             controller: "employeesController",
             templateUrl: "app/views/employees.html",
-            noLogin: true
+            noLogin: false,
+            allowedRoles: ['admin', 'editor', 'reader']
         }).state('retirees', {
             url: '/retirees',
             controller: 'retireesController',
             templateUrl: 'app/views/retirees.html',
-            noLogin: false
+            noLogin: false,
+            allowedRoles: ['admin', 'editor', 'reader']
         }).state('dismissed', {
             url: '/dismissed',
             controller: 'dismissedController',
             templateUrl: 'app/views/dismissed.html',
-            noLogin: false
+            noLogin: false,
+            allowedRoles: ['admin', 'editor', 'reader']
         }).state('details', {
             url: "/employees/details",
             controller: 'detailsController',
             templateUrl: 'app/views/employeeView.html',
-            noLogin: false
+            noLogin: false,
+            allowedRoles: ['admin', 'editor']
         }).state('settings', {
             url: "/settings",
             controller: 'settingsController',
             templateUrl: 'app/views/settingsView.html',
-            noLogin: false
+            noLogin: false,
+            allowedRoles: ['admin', 'editor', 'reader']
+        }).state('reporting', {
+            url: "/reporting",
+            controller: "reportingController",
+            templateUrl: 'app/views/reportingView.html',
+            noLogin: false,
+            allowedRoles: ['admin', 'editor', 'reader']
+        }).state('users', {
+            url: "/users",
+            controller: "userController",
+            templateUrl: 'app/views/usersView.html',
+            noLogin: false,
+            allowedRoles: ['admin']
         });
 
     $urlRouterProvider.otherwise("/dashboard");
@@ -71,6 +90,15 @@ app.config([
     }
 ]);
 
+//mask
+app.config([
+    'uiMask.ConfigProvider', function(uiMaskConfigProvider) {
+        uiMaskConfigProvider.maskDefinitions({ '9': /\d/, 'A': /[a-z]/, '*': /[a-zA-Z0-9]/ });
+        uiMaskConfigProvider.clearOnBlur(false);
+        uiMaskConfigProvider.eventsToHandle(['input', 'keyup', 'click']);
+    }
+]);
+
 //color theme configuring
 app.config(function ($mdThemingProvider) {
     $mdThemingProvider
@@ -87,13 +115,20 @@ app.config(function ($mdDateLocaleProvider) {
         return moment(date).format('DD.MM.YYYY');
     }
 });
+app.config(function ($mdDateLocaleProvider) {
+    $mdDateLocaleProvider.parseDate = function (dateString) {
+        var m = moment(dateString, 'DD.MM.YYYY', true);
+        return m.isValid() ? m.toDate() : new Date(NaN);
+    }
+});
+
 
 //interceptors
 app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptorService');
 });
 
-app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesService', 'localStorageService', 'Idle', function ($rootScope, $state, $stateParams, authService, employeesService, localStorageService, Idle) {
+app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesService', 'localStorageService', 'Idle', '$mdToast', function ($rootScope, $state, $stateParams, authService, employeesService, localStorageService, Idle, $mdToast) {
     //Idle.watch();
 
     authService.fillAuthData();
@@ -103,26 +138,50 @@ app.run(['$rootScope', '$state', '$stateParams', 'authService', 'employeesServic
 
     $rootScope.user = null;
 
+    //checks if the user has permission for moving to the state
+    var checkRoles = function (userRoles, allowedRoles) {
+        userRoles = angular.fromJson(userRoles);
+        var isAllowed = false;
+
+        userRoles.forEach(r => {
+            if (allowedRoles.includes(r)) {
+                isAllowed = true;
+                return;
+            }
+        });
+        return isAllowed;
+    }
+
     $rootScope.$on('$stateChangeStart',
       function (event, toState, toParams, fromState, fromParams) {
 
-          if (toState.name !== 'login')
+          if (toState.name !== 'login') {
+
               Idle.watch();
+              if (!checkRoles(authService.authentication.roles, toState.allowedRoles)) {
+                  event.preventDefault();
+                  $mdToast.show({
+                      hideDelay: 3000,
+                      position: 'top right',
+                      controller: 'toastController',
+                      template: '<md-toast class="md-toast-success">' +
+                                      '<div class="md-toast-content">' +
+                                        'У Вас недостаточно прав!' +
+                                      '</div>' +
+                                  '</md-toast>'
+                  });
+              }
+          }
           else {
               if (!authService.isAuthenticated() && !Idle.isExpired())
                   Idle.unwatch();
           }
 
-          //var t = Idle.running();
-
           if (!toState.noLogin && !authService.isAuthenticated()) {
               event.preventDefault();
               $rootScope.$state.go('login');
           }
-          //if (toState.name === 'details' && !employeesService.employees.actualEmployee.hasOwnProperty('id')) {//redirect if actual employee is empty (manually refreshing)
-          //    event.preventDefault();
-          //    $rootScope.$state.go('employees');
-          //}
+
           if (toState.name === 'login') {//SERVER session time has expired!
               if (!localStorageService.get('authorizationData'))
                   authService.logOut();

@@ -32,8 +32,16 @@ app.factory('employeesService', [
             //actual selected employee
             actualEmployee: {},
             //returns actual employees with pagination 
-            getEmployees: function (query) {
-                return $http.get(serviceBase + 'api/employees?offset=' + (query.page - 1) * query.limit + '&limit=' + query.limit + '&query=' + (query.filter ? query.filter : ''));
+            getEmployees: function (query, filterParams) {
+                if (filterParams)
+                    return $http.get(serviceBase + 'api/employees?offset=' + (query.page - 1) * query.limit + '&limit=' + query.limit + '&query=' +
+                        (query.filter ? query.filter : '') + '&startBirthDate=' + filterParams.startBirthDate.toJSON() + '&finishBirthDate=' +
+                        filterParams.finishBirthDate.toJSON() + '&rankId=' + filterParams.rankId + '&serviceId=' + filterParams.serviceId +
+                        '&minSeniority=' + filterParams.minSeniority + '&maxSeniority=' + filterParams.maxSeniority);
+                else
+                    return $http.get(serviceBase + 'api/employees?offset=' + (query.page - 1) * query.limit + '&limit=' + query.limit + '&query=' +
+                    (query.filter ? query.filter : '') + '&startBirthDate=&finishBirthDate=&rankId=-1&serviceId=-1&minSeniority=&maxSeniority=');
+
             },
             //deletes employee by id
             deleteEmployeeById: function (id) {
@@ -101,6 +109,37 @@ app.factory('employeesService', [
 
         //activity items (locations, ranks, posts, works, etc.) properties and methods
         var _activityItems = {
+            contracts: {
+                selectedContract: null,
+                getContracts: function () {
+                    return $http.get(serviceBase + 'api/employees/activity/contracts/' + _employees.actualEmployee.id);
+                },
+                saveContract: function (item) {
+                    if (item.id)//update
+                        return $http.put(serviceBase + 'api/employees/activity/contracts/' + item.id, item, {});
+                    return $http.post(serviceBase + 'api/employees/activity/contracts', item, {});
+                },
+                deleteContract: function (id) {
+                    return $http.delete(serviceBase + 'api/employees/activity/contracts/' + id);
+                }
+            },
+            education: {
+                selectedEducation: null,
+                saveEducation: function (item) {
+                    if (item.id)//update
+                        return $http.put(serviceBase + 'api/employees/activity/education/' + item.id, item, {});
+                    return $http.post(serviceBase + 'api/employees/activity/education', item, {});
+                },
+                deleteEducation: function (id) {
+                    return $http.delete(serviceBase + 'api/employees/activity/education/' + id);
+                },
+                getEducationItems: function () {
+                    return $http.get(serviceBase + 'api/employees/activity/education/' + _employees.actualEmployee.id);
+                },
+                getEducationLevels: function() {
+                    return $http.get(serviceBase + 'api/employees/activity/education/levels');
+                }
+            },
             works: {
                 selectedWork: null,
                 saveWork: function (item) {
@@ -155,8 +194,18 @@ app.factory('employeesService', [
             getServices: function () {
                 return $http.get(serviceBase + 'api/reference-books/services');
             },
-            getLocations: function () {
-                return $http.get(serviceBase + 'api/reference-books/locations');
+            locations: {
+                getLocations: function () {
+                    return $http.get(serviceBase + 'api/reference-books/locations');
+                },
+                saveLocation: function(item) {
+                    if (item.id) //update
+                        return $http.put(serviceBase + 'api/reference-books/locations/' + item.id, item, {});
+                    return $http.post(serviceBase + 'api/reference-books/locations', item, {});
+                },
+                deleteLocation: function(id) {
+                    return $http.delete(serviceBase + 'api/reference-books/locations/' + id);
+                }
             },
             //properties and methods of discipline items
             disciplineItems: {
@@ -188,6 +237,20 @@ app.factory('employeesService', [
                     if (item.id)//update
                         return $http.put(serviceBase + 'api/employees/activity/out-from-office/' + item.id, item, {});
                     return $http.post(serviceBase + 'api/employees/activity/out-from-office/', item, {});
+                }
+            },
+            relatives: {
+                selecetedRelative: null,
+                getRelatives: function () {
+                    return $http.get(serviceBase + 'api/employees/activity/relatives/' + _employees.actualEmployee.id);
+                },
+                deleteRelatives: function (id) {
+                    return $http.delete(serviceBase + 'api/employees/activity/relatives/' + id);
+                },
+                saveRelative: function (item) {
+                    if (item.id)
+                        return $http.put(serviceBase + 'api/employees/activity/relatives/' + item.id, item, {});
+                    return $http.post(serviceBase + 'api/employees/activity/relatives/', item, {});
                 }
             },
             sertification: {

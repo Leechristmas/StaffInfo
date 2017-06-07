@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Threading.Tasks;
 using Staffinfo.DAL.Models;
 using Staffinfo.DAL.Repositories.Interfaces;
 
-namespace Staffinfo.DAL.Repositories
+namespace Staffinfo.DAL.Infrastructure
 {
     public static class EmployeeRepositoryHelper
     {
@@ -44,7 +42,7 @@ namespace Staffinfo.DAL.Repositories
             string clauseDescription)
         {
             await employeeRepository.Database.ExecuteSqlCommandAsync(
-               "dbo.pr_TransferEmployeeToDismissed @employeeId, @dismissalDate, @clause, @clauseDescription",
+               "dbo.sp_TransferEmployeeToDismissed @employeeId, @dismissalDate, @clause, @clauseDescription",
                new SqlParameter("@employeeId", employeeId),
                new SqlParameter("@dismissalDate", dismissalDate),
                new SqlParameter("@clause", clause),
@@ -80,7 +78,7 @@ namespace Staffinfo.DAL.Repositories
         {
             return
                 await
-                    employeeRepository.Database.SqlQuery<ServiceStructQueryResult>("dbo.pr_GetServicesStructure NULL").ToDictionaryAsync(a => a.Name, b => b.Count);
+                    employeeRepository.Database.SqlQuery<ServiceStructQueryResult>("dbo.sp_GetServicesStructure NULL").ToDictionaryAsync(a => a.Name, b => b.Count);
         }
 
         /// <summary>
@@ -90,23 +88,27 @@ namespace Staffinfo.DAL.Repositories
         /// <param name="includeCustomNotifications">if include notifications created by user</param>
         /// <param name="includeSertification">if include sertification</param>
         /// <param name="includeBirthDates">if include birth dates</param>
+        /// <param name="includeRanks">if include ranks expiry dates</param>
+        /// <param name="includeContracts">if include contracts expiry dates</param>
         /// <returns></returns>
-        public static async Task<List<Notification>> GetNotifications(this IRepository<Employee> employeeRepository, bool includeCustomNotifications = false, bool includeSertification = false, bool includeBirthDates = false)
+        public static async Task<List<Notification>> GetNotifications(this IRepository<Employee> employeeRepository, bool includeCustomNotifications = false, bool includeSertification = false, bool includeBirthDates = false, bool includeRanks = false, bool includeContracts = false)
         {
             return
                 await
                     employeeRepository.Database.SqlQuery<Notification>(
-                        "dbo.pr_GetNotifications @includeCustomNotifications, @includeSertification, @includeBirthDates;",
+                        "dbo.sp_GetNotifications @includeCustomNotifications, @includeSertification, @includeBirthDates, @includeRanks, @includeContracts;",
                         new SqlParameter("@includeCustomNotifications", includeCustomNotifications),
                         new SqlParameter("@includeSertification", includeSertification),
-                        new SqlParameter("@includeBirthDates", includeBirthDates))
+                        new SqlParameter("@includeBirthDates", includeBirthDates),
+                        new SqlParameter("@includeRanks", includeRanks),
+                        new SqlParameter("@includeContracts", includeContracts))
                         .ToListAsync();
         }
 
         public static async Task<Notification> AddNotification(this IRepository<Employee> employeeRepository, Notification notification)
         {
             return await employeeRepository.Database.SqlQuery<Notification>(
-                 "dbo.pr_AddNotification @Author, @Title, @Details, @DueDate;",
+                 "dbo.sp_AddNotification @Author, @Title, @Details, @DueDate;",
                  new SqlParameter("@Author", notification.Author),
                  new SqlParameter("@Title", notification.Title),
                  new SqlParameter("@Details", notification.Details),

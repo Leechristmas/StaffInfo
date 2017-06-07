@@ -1,15 +1,15 @@
 INSERT INTO dbo.tbl_Rank(RankName, RankWeight, Term)
-  VALUES (N'Младший сержант', 1, 1),
-          (N'Сержант', 2, 2),
-          (N'Старший сержант', 3, 3),
-          (N'Старшина', 4, 3),
-          (N'Прапорщик', 5, 5),
-          (N'Младший лейтенант', 6, 1),
-          (N'Лейтенант', 7, 2),
-          (N'Старший лейтенант', 8, 3),
-          (N'Капитан', 9, 3),
-          (N'Майор', 10, 4),
-          (N'Подполковник', 11, 5);
+  VALUES (N'Младший сержант', 1, 12),
+          (N'Сержант', 2, 24),
+          (N'Старший сержант', 3, 36),
+          (N'Старшина', 4, 36),
+          (N'Прапорщик', 5, 60),
+          (N'Младший лейтенант', 6, 12),
+          (N'Лейтенант', 7, 24),
+          (N'Старший лейтенант', 8, 36),
+          (N'Капитан', 9, 36),
+          (N'Майор', 10, 48),
+          (N'Подполковник', 11, 60);
 
 GO
 
@@ -26,6 +26,15 @@ INSERT INTO dbo.tbl_Service (ServiceName, ServiceShortName, ServiceGroupId)
         (N'Кинологическое отделение', NULL, 802),
         (N'Отделение связи и оповещения', NULL, 803),
         (N'Пожарно-спасательное отделение', NULL, 804);
+
+GO
+
+INSERT INTO tbl_EducationLevel VALUES
+  ('СРЕДНЕЕ ОБЩЕЕ', 1, ''),
+  ('СРЕДНЕЕ ПРОФЕССИОНАЛЬНОЕ', 2, ''),
+  ('ВЫСШЕЕ', 3, 'БАКАЛАВР'),
+  ('ВЫСШЕЕ', 4, 'СПЕЦИАЛИСТ/МАГИСТР'),
+  ('ВЫСШЕЕ', 5, 'ПОСЛЕДИПЛОМНОЕ');
 
 GO
 
@@ -90,40 +99,40 @@ INSERT INTO dbo.tbl_Address(City, Area, DetailedAddress, ZipCode)
 
 GO
 
-INSERT INTO dbo.tbl_Passport(PassportNumber, PassportOrganization)
-  VALUES (N'HB7865463', N'Гомельский РОВД'),
-	 (N'HB2495463', N'Гомельский РОВД'),
-	 (N'HB7852456', N'Гомельский РОВД'),
-	 (N'HB3893042', N'Гомельский РОВД'),
-	 (N'HB1354675', N'Гомельский РОВД'),
-	 (N'HB7353223', N'Гомельский РОВД'),
-	 (N'HB8288383', N'Гомельский РОВД'),
-	 (N'HB7737228', N'Гомельский РОВД'),
-	 (N'HB8984857', N'Гомельский РОВД'),
-	 (N'HB1786232', N'Гомельский РОВД'),
-	 (N'HB4788524', N'Гомельский РОВД'),
-	 (N'HB3664234', N'Гомельский РОВД'),
-	 (N'HB8304983', N'Гомельский РОВД'),
-	 (N'HB8263567', N'Гомельский РОВД');
+INSERT INTO dbo.tbl_Passport(PassportNumber, PassportOrganization, IdentityNumber)
+  VALUES (N'HB7865463', N'Гомельский РОВД', N'123456789qwert'),
+	 (N'HB2495463', N'Гомельский РОВД', N'123fdf789qwert'),
+	 (N'HB7852456', N'Гомельский РОВД', N'12jjjg789qwert'),
+	 (N'HB3893042', N'Гомельский РОВД', N'123226789qwert'),
+	 (N'HB1354675', N'Гомельский РОВД', N'123456789qwert'),
+	 (N'HB7353223', N'Гомельский РОВД', N'123456789qw32t'),
+	 (N'HB8288383', N'Гомельский РОВД', N'123456789q11rt'),
+	 (N'HB7737228', N'Гомельский РОВД', N'123456789qwert'),
+	 (N'HB8984857', N'Гомельский РОВД', N'1234hjb2343jrt'),
+	 (N'HB1786232', N'Гомельский РОВД', N'123456234qwert'),
+	 (N'HB4788524', N'Гомельский РОВД', N'1234567894fwrt'),
+	 (N'HB3664234', N'Гомельский РОВД', N'123456789qdfrt'),
+	 (N'HB8304983', N'Гомельский РОВД', N'1234567fw43frt'),
+	 (N'HB8263567', N'Гомельский РОВД', N'123409834jfdrt');
 
 
 GO
 
-INSERT INTO dbo.tbl_Employee(EmployeeFirstname, EmployeeLastname, EmployeeMiddlename, BirthDate, PassportID, AddressID, RetirementDate, Description)
-  VALUES (N'Иван', N'Котов', N'Адольфович', '1974-10-01', 1, 1, NULL, NULL),
-	(N'Петр', N'Герасимов', N'Степанович', '1975-02-04', 2, 2, NULL, NULL),
-	(N'Сергей', N'Левчук', N'Прохорович', '1969-01-04', 3, 3, NULL, NULL),
-	(N'Василий', N'Крапов', N'Петрович', '1974-04-06', 4, 4, NULL, NULL),
-	(N'Артем', N'Иванов', N'Иванович', '1981-04-03', 5, 5, NULL, NULL),
-	(N'Степан', N'Квят', N'Маркович', '1983-04-06', 6, 6, NULL, NULL),
-	(N'Петр', N'Артемов', N'Иванович', '1981-03-11', 7, 7, NULL, NULL),
-	(N'Захар', N'Иванов', N'Николаевич', '1984-11-09', 8, 8, NULL, NULL),
-	(N'Архип', N'Жирков', N'Андреевич', '1983-04-06', 9, 9, NULL, NULL),
-	(N'Павел', N'Рыбаконь', N'Николаевич', '1989-04-03', 10, 10, NULL, NULL),
-	(N'Дмитрий', N'Андропов', N'Алексеевич', '1991-04-08', 11, 11, NULL, NULL),
-	(N'Иван', N'Чтецов', N'Николаевич', '1987-05-01', 12, 12, NULL, NULL),
-	(N'Алексей', N'Шевцов', N'Николаевич', '1980-12-06', 13, 13, NULL, NULL),
-	(N'Ян', N'Клопов', N'Иванович', '1979-09-03', 14, 14, NULL, NULL);
+INSERT INTO dbo.tbl_Employee(EmployeeFirstname, EmployeeLastname, EmployeeMiddlename, BirthDate, PassportID, AddressID, RetirementDate, Description, Gender, PersonalNumber)
+  VALUES (N'Иван', N'Котов', N'Адольфович', '1974-10-01', 1, 1, NULL, NULL, N'M', N'Г-12345'),
+	(N'Петр', N'Герасимов', N'Степанович', '1975-02-04', 2, 2, NULL, NULL, N'M', N'Г-12311'),
+	(N'Сергей', N'Левчук', N'Прохорович', '1969-01-04', 3, 3, NULL, NULL, N'M', N'Г-12314'),
+	(N'Василий', N'Крапов', N'Петрович', '1974-04-06', 4, 4, NULL, NULL, N'M', N'Г-12313'),
+	(N'Артем', N'Иванов', N'Иванович', '1981-04-03', 5, 5, NULL, NULL, N'M', N'Г-12312'),
+	(N'Степан', N'Квят', N'Маркович', '1983-04-06', 6, 6, NULL, NULL, N'M', N'Г-12308'),
+	(N'Петр', N'Артемов', N'Иванович', '1981-03-11', 7, 7, NULL, NULL, N'M', N'Г-12423'),
+	(N'Захар', N'Иванов', N'Николаевич', '1984-11-09', 8, 8, NULL, NULL, N'M', N'Г-12322'),
+	(N'Архип', N'Жирков', N'Андреевич', '1983-04-06', 9, 9, NULL, NULL, N'M', N'Г-12321'),
+	(N'Павел', N'Рыбаконь', N'Николаевич', '1989-04-03', 10, 10, NULL, NULL, N'M', N'Г-12333'),
+	(N'Дмитрий', N'Андропов', N'Алексеевич', '1991-04-08', 11, 11, NULL, NULL, N'M', N'Г-12366'),
+	(N'Иван', N'Чтецов', N'Николаевич', '1987-05-01', 12, 12, NULL, NULL, N'M', N'Г-12378'),
+	(N'Алексей', N'Шевцов', N'Николаевич', '1980-12-06', 13, 13, NULL, NULL, N'M', N'Г-12388'),
+	(N'Ян', N'Клопов', N'Иванович', '1979-09-03', 14, 14, NULL, NULL, N'M', N'Г-12399');
 
 GO
 
@@ -169,8 +178,22 @@ INSERT INTO dbo.tbl_GratitudesAndPunishment(Title, EmployeeID, ItemType, Date, D
 
 GO
 
-INSERT INTO dbo.tbl_Sertification(EmployeeID, DueDate, Description)
-  VALUES (1, '2010-12-10', N'description1'),
-      (1, '2010-11-10', N'description2');
+INSERT INTO dbo.tbl_Sertification(EmployeeID, DueDate, Level, Description)
+  VALUES (1, '2010-12-10', 'Классность 2', N'description1'),
+      (1, '2010-11-10', 'Классность 2', N'description2');
 
 GO
+
+INSERT INTO dbo.tbl_Education(EmployeeID, Institution, Speciality, LevelCode, StartDate, FinishDate, Description)
+  VALUES(1, 'Institution_1', 'Speciality_1', 1, '2010-02-03', '2011-02-03', 'qwe');
+
+GO
+
+INSERT INTO dbo.tbl_Contract(EmployeeID, StartDate, FinishDate, Description)
+  VALUES(1, '2010-02-03', '2011-02-03', 'qwe');
+
+go
+
+INSERT INTO dbo.tbl_Relative (EmployeeID, Lastname, Firstname, Middlename, BirthDate, Status)
+  VALUES(1, N'Петрова', N'Лариса', N'Ивановна', '1982-04-02', N'Жена'),
+  (1, N'Петрова', N'Екатерина', N'Ивановна', '1982-04-02', N'дочь');

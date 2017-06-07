@@ -1,0 +1,76 @@
+﻿<md-dialog aria-label="Добавить запись">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{mode === 'add' ? 'Добавление': 'Редактирование'}}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content style="max-width: 800px; max-height: 810px; min-width: 600px;">
+        <form name="itemForm">
+            <md-content class="md-padding">
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm md-open-on-focus>
+                        <label>Фамилия</label>
+                        <md-icon md-svg-src="img/icons/ic_person_24px.svg"></md-icon>
+                        <input name="lastname" ng-model="relative.lastname" required md-maxlength="30">
+                        <div ng-messages="itemForm.lastname.$error" class="validation-messages">
+                            <div ng-message="required">Укажите фамилию.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Имя</label>
+                        <md-icon md-svg-src="img/icons/ic_person_24px.svg"></md-icon>
+                        <input name="firstname" ng-model="relative.firstname" required md-maxlength="30">
+                        <div ng-messages="itemForm.firstname.$error" class="validation-messages">
+                            <div ng-message="required">Укажите имя.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Отчество</label>
+                        <md-icon md-svg-src="img/icons/ic_person_24px.svg"></md-icon>
+                        <input name="middlename" ng-model="relative.middlename" required md-maxlength="30">
+                        <div ng-messages="itemForm.middlename.$error" class="validation-messages">
+                            <div ng-message="required">Укажите отчество.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Родство</label>
+                        <md-select placeholder="Родство" name="status" ng-model="relative.status">
+                            <md-option value="Супруг(а)">Супруг(а)</md-option>
+                            <md-option value="Отец">Отец</md-option>
+                            <md-option value="Мать">Мать</md-option>
+                            <md-option value="Сын">Сын</md-option>
+                            <md-option value="Дочь">Дочь</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Дата Рождения</label>
+                        <md-datepicker ng-model="relative.birthDate" name="birthDate" required md-max-date="maxDate" md-min-date="minDate" ng-focus="dtpckrOnFocus(relative, 'birthDate')"></md-datepicker>
+                        <div ng-messages="itemForm.birthDate.$error" class="validation-messages">
+                            <div ng-message="required">Необходимо заполнить это поле.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </md-content>
+        </form>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" class="dialog-footer">
+        <md-button ng-click="saveNewRelative()" class="md-primary md-raised" ng-disabled="itemForm.$invalid">
+            <md-icon md-svg-icon="img/icons/ic_save_24px.svg"></md-icon>
+            Сохранить
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

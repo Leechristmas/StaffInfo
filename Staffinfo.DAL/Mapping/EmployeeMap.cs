@@ -1,4 +1,5 @@
-﻿using Staffinfo.DAL.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Staffinfo.DAL.Models;
 
 namespace Staffinfo.DAL.Mapping
 {
@@ -6,6 +7,24 @@ namespace Staffinfo.DAL.Mapping
     {
         public EmployeeMap(): base("tbl_Employee")
         {
+            //this.MapToStoredProcedures(p => p.Insert(sp => sp.HasName("sp_InsertEmployee")
+            //    .Parameter(pm => pm.EmployeeFirstname, "firstname")
+            //    .Parameter(pm => pm.EmployeeLastname, "lastname")
+            //    .Parameter(pm => pm.EmployeeMiddlename, "middlename")
+            //    .Parameter(pm => pm.Description, "description")
+            //    .Parameter(pm => pm.ActualPostId, "actualPostId")
+            //    .Parameter(pm => pm.ActualRankId, "actualRankId")
+            //    .Parameter(pm => pm.AddressId, "addressId")
+            //    .Parameter(pm => pm.BirthDate, "birthDate")
+            //    .Parameter(pm => pm.EmployeePhoto, "employeePhoto")
+            //    .Parameter(pm => pm.PhotoMimeType, "photoMimeType")
+            //    .Parameter(pm => pm.FirstPhoneNumber, "firstPhoneNumber")
+            //    .Parameter(pm => pm.SecondPhoneNumber, "secondPhoneNumber")
+            //    .Parameter(pm => pm.Gender, "gender")
+            //    .Parameter(pm => pm.PersonalNumber, "personalNumber")
+            //    .Parameter(pm => pm.PassportId, "passportId")
+            //    .Parameter(pm => pm.RetirementDate, "retirementDate")));
+
             this.Property(t => t.EmployeeFirstname).HasColumnName("EmployeeFirstname");
             this.Property(t => t.EmployeeLastname).HasColumnName("EmployeeLastname");
             this.Property(t => t.EmployeeMiddlename).HasColumnName("EmployeeMiddlename");
@@ -16,6 +35,9 @@ namespace Staffinfo.DAL.Mapping
             this.Property(t => t.Description).IsOptional().HasColumnName("Description");
             this.Property(t => t.FirstPhoneNumber).IsOptional().HasColumnName("FirstPhoneNumber");
             this.Property(t => t.SecondPhoneNumber).IsOptional().HasColumnName("SecondPhoneNumber");
+            this.Property(t => t.Gender).IsRequired().HasColumnName("Gender");
+            this.Property(t => t.PersonalNumber).IsRequired().HasColumnName("PersonalNumber");
+            this.Property(t => t.Seniority).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);//.IsRequired().HasColumnName("Seniority");
 
             //navigation properties
             this.Property(t => t.ActualRankId).IsOptional().HasColumnName("ActualRankID");

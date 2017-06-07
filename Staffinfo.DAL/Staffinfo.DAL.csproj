@@ -42,10 +42,6 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -58,10 +54,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\StaffContext.cs" />
+    <Compile Include="Infrastructure\EducationRepositoryHelper.cs" />
     <Compile Include="Mapping\AddressMap.cs" />
     <Compile Include="Mapping\BaseMap.cs" />
+    <Compile Include="Mapping\ContractMap.cs" />
     <Compile Include="Mapping\DisciplineItemMap.cs" />
     <Compile Include="Mapping\DismissedMap.cs" />
+    <Compile Include="Mapping\EducationItemMap.cs" />
     <Compile Include="Mapping\EmployeeMap.cs" />
     <Compile Include="Mapping\LocationMap.cs" />
     <Compile Include="Mapping\MesAchievementMap.cs" />
@@ -70,13 +69,17 @@
     <Compile Include="Mapping\PassportMap.cs" />
     <Compile Include="Mapping\PostMap.cs" />
     <Compile Include="Mapping\RankMap.cs" />
+    <Compile Include="Mapping\RelativeMap.cs" />
     <Compile Include="Mapping\SertificationMap.cs" />
     <Compile Include="Mapping\ServiceMap.cs" />
     <Compile Include="Mapping\WorkTermMap.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Common\Entity.cs" />
+    <Compile Include="Models\Contract.cs" />
     <Compile Include="Models\DisciplineItem.cs" />
     <Compile Include="Models\Dismissed.cs" />
+    <Compile Include="Models\EducationItem.cs" />
+    <Compile Include="Models\EducationLevel.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\MesAchievement.cs" />
@@ -86,11 +89,12 @@
     <Compile Include="Models\Passport.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\Rank.cs" />
+    <Compile Include="Models\Relative.cs" />
     <Compile Include="Models\Sertification.cs" />
     <Compile Include="Models\Service.cs" />
     <Compile Include="Models\WorkTerm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\EmployeeRepositoryHelper.cs" />
+    <Compile Include="Infrastructure\EmployeeRepositoryHelper.cs" />
     <Compile Include="Repositories\Interfaces\IRepository.cs" />
     <Compile Include="Repositories\Interfaces\IStaffRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUnitRepository.cs" />

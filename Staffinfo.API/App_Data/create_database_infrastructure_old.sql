@@ -1,28 +1,28 @@
 --USE u0250751_StaffinfoTestDB;
 
-ALTER TABLE dbo.tbl_Post
-DROP CONSTRAINT fk_Post_Service;
-GO
-
-ALTER TABLE dbo.tbl_MESAchievement
-DROP CONSTRAINT fk_MESAchievement_Employee,
-CONSTRAINT fk_MESAchievement_Location,
-CONSTRAINT fk_MESAchievement_Rank,
-CONSTRAINT fk_MESAchievement_Post,
-CONSTRAINT unq_MESAchievement;
-GO
-
-ALTER TABLE dbo.tbl_WorkTerm
-DROP CONSTRAINT fk_WorkTerm_Employee,
-CONSTRAINT fk_WorkTerm_Location,
-CONSTRAINT unq_WorkTerm;
-GO
-
-ALTER TABLE dbo.tbl_MilitaryService
-DROP CONSTRAINT fk_MilitaryService_Employee,
-CONSTRAINT fk_MilitaryService_Location,
-CONSTRAINT unq_MilitaryService;
-GO
+--ALTER TABLE dbo.tbl_Post
+--DROP CONSTRAINT fk_Post_Service;
+--GO
+--
+--ALTER TABLE dbo.tbl_MESAchievement
+--DROP CONSTRAINT fk_MESAchievement_Employee,
+--CONSTRAINT fk_MESAchievement_Location,
+--CONSTRAINT fk_MESAchievement_Rank,
+--CONSTRAINT fk_MESAchievement_Post,
+--CONSTRAINT unq_MESAchievement;
+--GO
+--
+--ALTER TABLE dbo.tbl_WorkTerm
+--DROP CONSTRAINT fk_WorkTerm_Employee,
+--CONSTRAINT fk_WorkTerm_Location,
+--CONSTRAINT unq_WorkTerm;
+--GO
+--
+--ALTER TABLE dbo.tbl_MilitaryService
+--DROP CONSTRAINT fk_MilitaryService_Employee,
+--CONSTRAINT fk_MilitaryService_Location,
+--CONSTRAINT unq_MilitaryService;
+--GO
 
 --ALTER TABLE dbo.tbl_Employee
 --DROP CONSTRAINT fk_Employee_Passport,
@@ -32,18 +32,22 @@ GO
 
 DROP TABLE dbo.tbl_MESAchievement;
 DROP TABLE dbo.tbl_WorkTerm;
-DROP TABLE dbo.tbl_Location;
 DROP TABLE dbo.tbl_Passport;
 DROP TABLE dbo.tbl_Address;
 DROP TABLE dbo.tbl_GratitudesAndPunishment;
 DROP TABLE dbo.tbl_Sertification;
 DROP TABLE dbo.tbl_OutFromOffice;
-DROP TABLE dbo.tbl_Employee;
+DROP TABLE dbo.tbl_Education;
+DROP TABLE dbo.tbl_EducationLevel;
+DROP TABLE dbo.tbl_Contract;
+DROP TABLE dbo.tbl_Relative;
 DROP TABLE dbo.tbl_Dismissed;
 DROP TABLE dbo.tbl_Rank;
 DROP TABLE dbo.tbl_Post;
 DROP TABLE dbo.tbl_Service;
 DROP TABLE dbo.tbl_MilitaryService;
+DROP TABLE dbo.tbl_Employee;
+DROP TABLE dbo.tbl_Location;
 DROP TABLE dbo.tbl_Notification;
 
 GO
@@ -51,22 +55,23 @@ GO
 DROP FUNCTION dbo.fn_GetActualRankID;
 DROP FUNCTION dbo.fn_GetActualPostID;
 DROP FUNCTION dbo.fn_GetSeniorityByEmployeeID;
+DROP FUNCTION dbo.fn_GetRankExpiryDate;
 
 GO
 
-DROP PROCEDURE dbo.pr_TransferEmployeeToDismissed;
-DROP PROCEDURE dbo.pr_GetServicesStructure;
-DROP PROCEDURE dbo.pr_GetSeniorityStatistic_NOT_USED;
-DROP PROCEDURE dbo.pr_GetNotifications;
-DROP PROCEDURE dbo.pr_DeleteNotification;
-DROP PROCEDURE dbo.pr_AddNotification;
+DROP PROCEDURE dbo.sp_TransferEmployeeToDismissed;
+DROP PROCEDURE dbo.sp_GetServicesStructure;
+DROP PROCEDURE dbo.sp_GetSeniorityStatistic_NOT_USED;
+DROP PROCEDURE dbo.sp_GetNotifications;
+DROP PROCEDURE dbo.sp_DeleteNotification;
+DROP PROCEDURE dbo.sp_AddNotification;
+DROP PROCEDURE dbo.sp_InsertEmployee;
 
 GO
 
 -----------------------------
 --TABLES---------------------
 -----------------------------
-
 CREATE TABLE dbo.tbl_Rank (
   ID INT IDENTITY (1, 1) PRIMARY KEY
  ,RankName NVARCHAR(60) NOT NULL
@@ -116,6 +121,7 @@ CREATE TABLE dbo.tbl_Passport (
   ID INT IDENTITY (1, 1) PRIMARY KEY
  ,PassportNumber NVARCHAR(9) NOT NULL
  ,PassportOrganization NVARCHAR(50) NOT NULL
+ ,IdentityNumber NVARCHAR(14) NOT NULL
 );
 GO
 
@@ -125,17 +131,19 @@ CREATE TABLE dbo.tbl_Employee (
  ,EmployeeFirstname NVARCHAR(30) NOT NULL
  ,EmployeeLastname NVARCHAR(30) NOT NULL
  ,EmployeeMiddlename NVARCHAR(30) NOT NULL
- ,BirthDate DATETIME NOT NULL
+ ,BirthDate DATE NOT NULL
  ,PassportID INT NOT NULL
  ,AddressID INT NOT NULL
  ,ActualRankID INT DEFAULT NULL
  ,ActualPostID INT DEFAULT NULL
- ,RetirementDate DATETIME DEFAULT NULL
+ ,RetirementDate DATE DEFAULT NULL
  ,EmployeePhoto VARBINARY(MAX)
  ,PhotoMimeType NVARCHAR(10)
  ,Description NVARCHAR(100)
  ,FirstPhoneNumber NVARCHAR(13)
  ,SecondPhoneNumber NVARCHAR(13)
+ ,Gender NCHAR(1) NOT NULL--'W'/'M',
+ ,PersonalNumber NVARCHAR(7) NOT NULL UNIQUE
 --TODO
 );
 
@@ -146,14 +154,27 @@ CREATE TABLE dbo.tbl_Employee (
 --      FOREIGN KEY (PassportID) REFERENCES tbl_Passport;
 GO
 
+
+CREATE TABLE dbo.tbl_Relative (
+  ID INT IDENTITY (1, 1) PRIMARY KEY
+ ,EmployeeID INT NOT NULL REFERENCES tbl_Employee ON DELETE CASCADE
+ ,Lastname NVARCHAR(30) NOT NULL
+ ,Firstname NVARCHAR(30) NOT NULL
+ ,Middlename NVARCHAR(30) NOT NULL
+ ,BirthDate DATE NOT NULL
+ ,Status NVARCHAR(15)
+);
+
+GO
+
 --dismissed employees
 CREATE TABLE dbo.tbl_Dismissed (
   ID INT IDENTITY (1, 1) PRIMARY KEY
  ,DismissedLastname NVARCHAR(30) NOT NULL
  ,DismissedFirstname NVARCHAR(30) NOT NULL
  ,DismissedMiddlename NVARCHAR(30) NOT NULL
- ,BirthDate DATETIME NOT NULL
- ,DismissalDate DATETIME NOT NULL
+ ,BirthDate DATE NOT NULL
+ ,DismissalDate DATE NOT NULL
  ,Clause NVARCHAR(10)
  ,ClauseDescription NVARCHAR(150)
 );
@@ -163,8 +184,8 @@ CREATE TABLE dbo.tbl_MESAchievement (
   ID INT IDENTITY (1, 1) PRIMARY KEY
  ,EmployeeID INT NOT NULL
  ,LocationID INT NOT NULL
- ,StartDate DATETIME NOT NULL
- ,FinishDate DATETIME DEFAULT NULL
+ ,StartDate DATE NOT NULL
+ ,FinishDate DATE DEFAULT NULL
  ,PostID INT NOT NULL
  ,RankID INT NOT NULL
  ,Description NVARCHAR(200)
@@ -183,16 +204,46 @@ CONSTRAINT unq_MESAchievement
 UNIQUE (EmployeeID, StartDate);
 GO
 
+CREATE TABLE dbo.tbl_EducationLevel (
+  ID INT IDENTITY(1,1)
+ ,Transcript NVARCHAR(50) NOT NULL
+ ,Weight SMALLINT NOT NULL
+ ,Description NVARCHAR(50) NULL
+ ,CONSTRAINT PK_tbl_EducationLevel_ID PRIMARY KEY CLUSTERED (ID)
+) ON [PRIMARY]
+GO
+
+CREATE TABLE dbo.tbl_Education (
+  ID INT IDENTITY (1, 1) PRIMARY KEY
+ ,EmployeeID INT NOT NULL REFERENCES dbo.tbl_Employee ON DELETE CASCADE
+ ,Institution NVARCHAR(100) NOT NULL
+ ,Speciality NVARCHAR(100) NOT NULL
+ ,LevelCode INT NOT NULL REFERENCES tbl_EducationLevel
+ ,StartDate DATE NOT NULL
+ ,FinishDate DATE NOT NULL
+ ,Description NVARCHAR(200)
+);
+
+GO
+
+CREATE TABLE dbo.tbl_Contract (
+  ID INT IDENTITY (1, 1) PRIMARY KEY
+ ,EmployeeID INT NOT NULL REFERENCES dbo.tbl_Employee ON DELETE CASCADE
+ ,StartDate DATE NOT NULL
+ ,FinishDate DATE NOT NULL
+ ,Description NVARCHAR(200)
+);
+GO
 CREATE TABLE dbo.tbl_WorkTerm (
   ID INT IDENTITY (1, 1) PRIMARY KEY
  ,EmployeeID INT NOT NULL
  ,LocationID INT NOT NULL
  ,Post NVARCHAR(30) NOT NULL
- ,StartDate DATETIME NOT NULL
- ,FinishDate DATETIME NOT NULL
+ ,StartDate DATE NOT NULL
+ ,FinishDate DATE NOT NULL
  ,Description NVARCHAR(200)
 );
-
+GO
 ALTER TABLE dbo.tbl_WorkTerm
 ADD CONSTRAINT fk_WorkTerm_Employee
 FOREIGN KEY (EmployeeID) REFERENCES dbo.tbl_Employee ON DELETE CASCADE,
@@ -208,8 +259,8 @@ CREATE TABLE dbo.tbl_MilitaryService (
  ,EmployeeID INT NOT NULL
  ,LocationID INT NOT NULL
  ,Rank NVARCHAR(30) NOT NULL
- ,StartDate DATETIME NOT NULL
- ,FinishDate DATETIME NOT NULL
+ ,StartDate DATE NOT NULL
+ ,FinishDate DATE NOT NULL
  ,Description NVARCHAR(200)
 );
 
@@ -228,7 +279,7 @@ CREATE TABLE dbo.tbl_Notification (
  ,Author NVARCHAR(100)
  ,Title NVARCHAR(20) NOT NULL
  ,Details NVARCHAR(200)
- ,DueDate DATETIME NOT NULL
+ ,DueDate DATE NOT NULL
 );
 
 GO
@@ -238,7 +289,7 @@ CREATE TABLE dbo.tbl_GratitudesAndPunishment (
  ,EmployeeID INT REFERENCES dbo.tbl_Employee ON DELETE CASCADE
  ,Title NVARCHAR(60) NOT NULL
  ,ItemType NCHAR(1) NOT NULL --'G' - gratitude/ 'V' - violation
- ,Date DATETIME NOT NULL
+ ,Date DATE NOT NULL
  ,Description NVARCHAR(200)
  ,AwardOrFine BIGINT  --kopecs   
 );
@@ -248,7 +299,8 @@ GO
 CREATE TABLE dbo.tbl_Sertification (
   ID INT IDENTITY (1, 1) PRIMARY KEY
  ,EmployeeID INT REFERENCES dbo.tbl_Employee ON DELETE CASCADE
- ,DueDate DATETIME NOT NULL
+ ,DueDate DATE NOT NULL
+ ,Level NVARCHAR(15)
  ,Description NVARCHAR(255)
 );
 
@@ -261,8 +313,8 @@ GO
 CREATE TABLE dbo.tbl_OutFromOffice (
   ID INT IDENTITY (1, 1) PRIMARY KEY
  ,EmployeeID INT REFERENCES dbo.tbl_Employee ON DELETE CASCADE
- ,StartDate DATETIME NOT NULL
- ,FinishDate DATETIME NOT NULL
+ ,StartDate DATE NOT NULL
+ ,FinishDate DATE NOT NULL
  ,Cause NCHAR(1) NOT NULL  --больничные(S), отпуска(V), отгулы(D)
  ,Description NVARCHAR(255)
 )
@@ -272,29 +324,87 @@ GO
 ------------------------------
 --PROCEDURES
 ------------------------------
-CREATE PROCEDURE dbo.pr_TransferEmployeeToDismissed @EmployeeId INT,
-@DismissalDate DATETIME,
-@Clause NVARCHAR(10),
-@ClauseDescription NVARCHAR(150)
+--needed because of skipping a seniority field
+CREATE PROCEDURE dbo.sp_InsertEmployee @lastname NVARCHAR(30)
+, @firstname NVARCHAR(30)
+, @middlename NVARCHAR(30)
+, @birthdate DATE
+, @passportId INT
+, @addressId INT
+, @actualRankId INT
+, @actualPostId INT
+, @retirementDate DATE
+, @employeePhoto VARBINARY(MAX)
+, @photoMimeType NVARCHAR(10)
+, @description NVARCHAR(100)
+, @firstPhoneNumber NVARCHAR(13)
+, @secondPhoneNumber NVARCHAR(13)
+, @gender NCHAR(1)
+, @personalNumber NVARCHAR(7)
 AS
 BEGIN
-  IF @DismissalDate IS NULL
-  BEGIN
-    RAISERROR ('@DismissalDate is null!', 16, 2);
-    RETURN;
-  END
+  INSERT INTO dbo.tbl_Employee (EmployeeFirstname
+    ,EmployeeLastname
+    ,EmployeeMiddlename
+    ,BirthDate
+    ,PassportID
+    ,AddressID
+    ,ActualRankID
+    ,ActualPostID
+    ,RetirementDate
+    ,EmployeePhoto
+    ,PhotoMimeType
+    ,Description
+    ,FirstPhoneNumber
+    ,SecondPhoneNumber
+    ,Gender
+    ,PersonalNumber)
+    VALUES (@firstname
+  ,@lastname
+  ,@middlename
+  ,@birthdate
+  ,@passportId
+  ,@addressId
+  ,@actualRankId
+  ,@actualPostId
+  ,@retirementDate
+  ,@employeePhoto
+  ,@photoMimeType
+  ,@description
+  ,@firstPhoneNumber
+  ,@secondPhoneNumber
+  ,@gender
+  ,@personalNumber);
+  
+  SELECT Scope_Identity() as Id;
+  
+END;
 
-  IF (NOT EXISTS (SELECT
-        *
-      FROM dbo.tbl_Employee te
-      WHERE te.ID = @EmployeeId)
-    )
-  BEGIN
-    RAISERROR ('Employee does not exist!', 16, 2);
-    RETURN;
-  END
+GO
 
-  INSERT INTO dbo.tbl_Dismissed (DismissedLastname, DismissedFirstname, DismissedMiddlename, BirthDate, DismissalDate, Clause, ClauseDescription)
+  CREATE PROCEDURE dbo.sp_TransferEmployeeToDismissed @EmployeeId INT,
+  @DismissalDate DATE,
+  @Clause NVARCHAR(10),
+  @ClauseDescription NVARCHAR(150)
+  AS
+  BEGIN
+    IF @DismissalDate IS NULL
+    BEGIN
+      RAISERROR ('@DismissalDate is null!', 16, 2);
+      RETURN;
+    END
+
+    IF (NOT EXISTS (SELECT
+          *
+        FROM dbo.tbl_Employee te
+        WHERE te.ID = @EmployeeId)
+      )
+    BEGIN
+      RAISERROR ('Employee does not exist!', 16, 2);
+      RETURN;
+    END
+
+    INSERT INTO dbo.tbl_Dismissed (DismissedLastname, DismissedFirstname, DismissedMiddlename, BirthDate, DismissalDate, Clause, ClauseDescription)
       SELECT
         te.EmployeeLastname
        ,te.EmployeeFirstname
@@ -306,101 +416,103 @@ BEGIN
       FROM dbo.tbl_Employee te
       WHERE te.ID = @EmployeeId;
 
-  DELETE FROM dbo.tbl_Employee
-  WHERE ID = @EmployeeId;
+    DELETE FROM dbo.tbl_Employee
+    WHERE ID = @EmployeeId;
 
-END
+  END
 
 GO
 
-CREATE PROCEDURE dbo.pr_GetServicesStructure @ServiceId INT
-AS
-BEGIN
-  IF @ServiceId IS NOT NULL
+  CREATE PROCEDURE dbo.sp_GetServicesStructure @ServiceId INT
+  AS
   BEGIN
-    SELECT DISTINCT
-      ts.ServiceName AS Name
-     ,COUNT(*) AS Count
-    FROM tbl_Service ts
-        ,tbl_MESAchievement tm
-        ,tbl_Post tp
-    WHERE tm.PostID = tp.ID
-    AND tp.ServiceID = ts.ID
-    AND tp.ServiceID = @ServiceId
-    GROUP BY ts.ServiceName
-  END
-  ELSE
-  BEGIN
-    SELECT DISTINCT
-      ts.ServiceName AS Name
-     ,COUNT(*) AS Count
-    FROM tbl_Service ts
-        ,tbl_MESAchievement tm
-        ,tbl_Post tp
-    WHERE tm.PostID = tp.ID
-    AND tp.ServiceID = ts.ID
-    GROUP BY ts.ServiceName
-  END
+    IF @ServiceId IS NOT NULL
+    BEGIN
+      SELECT DISTINCT
+        ts.ServiceName AS Name
+       ,COUNT(*) AS count
+      FROM tbl_Service ts
+          ,tbl_MESAchievement tm
+          ,tbl_Post tp
+      WHERE tm.PostID = tp.ID
+      AND tp.ServiceID = ts.ID
+      AND tp.ServiceID = @ServiceId
+      GROUP BY ts.ServiceName
+    END
+    ELSE
+    BEGIN
+      SELECT DISTINCT
+        ts.ServiceName AS Name
+       ,COUNT(*) AS count
+      FROM tbl_Service ts
+          ,tbl_MESAchievement tm
+          ,tbl_Post tp
+      WHERE tm.PostID = tp.ID
+      AND tp.ServiceID = ts.ID
+      GROUP BY ts.ServiceName
+    END
 
-END
+  END
 
 GO
 
-CREATE PROCEDURE dbo.pr_GetSeniorityStatistic_NOT_USED @Scale INT, @Min INT, @Max INT
-AS
-BEGIN
-  DECLARE @data TABLE (
-    Name NVARCHAR(20)
-   ,Count INT
-  );
-  CREATE TABLE #seniority (
-    Seniority INT
-  );
+  CREATE PROCEDURE dbo.sp_GetSeniorityStatistic_NOT_USED @Scale INT, @Min INT, @Max INT
+  AS
+  BEGIN
+    DECLARE @data TABLE (
+      Name NVARCHAR(20)
+     ,count INT
+    );
+    CREATE TABLE #seniority (
+      Seniority INT
+    );
 
-  INSERT INTO #seniority (Seniority)
+    INSERT INTO #seniority (Seniority)
       SELECT
         dbo.fn_GetSeniorityByEmployeeID(te.ID, 0)
       FROM tbl_Employee te;
 
 
-  DECLARE @step INT = 0;
+    DECLARE @step INT = 0;
 
-  WHILE (@step / 365) <= @Max
-  BEGIN
-  INSERT INTO @data
+    WHILE (@step / 365) <= @Max
+    BEGIN
+    INSERT INTO @data
       SELECT
         'от ' + CAST((@step / 365) AS NVARCHAR(3)) + ' до ' + CAST(((@step / 365) + @Scale) AS NVARCHAR(3))
        ,COUNT(*)
       FROM #seniority s
       WHERE s.Seniority >= @step
       AND s.Seniority < @step + @Scale * 365;
-  SET @step = @step + @Scale * 365
+    SET @step = @step + @Scale * 365
+    END
+
+    SELECT
+      *
+    FROM @data;
+
   END
-
-  SELECT
-    *
-  FROM @data;
-
-END
 
 GO
 
-CREATE PROCEDURE dbo.pr_GetNotifications @IncludeCustomNotifications BIT = 0,
-@IncludeSertification BIT = 0,  --when corresponding table will be added
-@IncludeBirthDates BIT = 0
-AS
-BEGIN
-  CREATE TABLE #query (
-    ID INT
-   ,Author NVARCHAR(100)
-   ,Title NVARCHAR(20) NOT NULL
-   ,Details NVARCHAR(200)
-   ,DueDate DATETIME NOT NULL
-  );
-
-  IF @IncludeCustomNotifications = 1
+  CREATE PROCEDURE dbo.sp_GetNotifications @IncludeCustomNotifications BIT = 0,
+  @IncludeSertification BIT = 0,  --when corresponding table will be added
+  @IncludeBirthDates BIT = 0,
+  @IncludeRanks BIT = 0,
+  @IncludeContracts BIT = 0
+  AS
   BEGIN
-    INSERT INTO #query (ID, Author, Title, Details, DueDate)
+    CREATE TABLE #query (
+      ID INT
+     ,Author NVARCHAR(100)
+     ,Title NVARCHAR(20) NOT NULL
+     ,Details NVARCHAR(200)
+     ,DueDate DATE NOT NULL
+    );
+
+    IF @IncludeCustomNotifications = 1
+    BEGIN
+      INSERT INTO #query (ID, Author, Title, Details, DueDate)
         SELECT
           tn.ID
          ,tn.Author
@@ -408,11 +520,11 @@ BEGIN
          ,tn.Details
          ,tn.DueDate
         FROM dbo.tbl_Notification tn
-  END
+    END
 
-  IF @IncludeBirthDates = 1
-  BEGIN
-    INSERT INTO #query (ID, Author, Title, Details, DueDate)
+    IF @IncludeBirthDates = 1
+    BEGIN
+      INSERT INTO #query (ID, Author, Title, Details, DueDate)
         SELECT
           -1
          ,NULL
@@ -421,11 +533,11 @@ BEGIN
          ,DATEADD(yy, DATEDIFF(yy, te.BirthDate, GETDATE()), te.BirthDate)
         FROM dbo.tbl_Employee te
         WHERE te.RetirementDate IS NULL;
-  END
+    END
 
-  IF @IncludeSertification = 1
-  BEGIN
-    INSERT INTO #query (ID, Author, Title, Details, DueDate)
+    IF @IncludeSertification = 1
+    BEGIN
+      INSERT INTO #query (ID, Author, Title, Details, DueDate)
         SELECT
           -1
          ,NULL
@@ -436,74 +548,140 @@ BEGIN
             ,dbo.tbl_Employee te
         WHERE ts.EmployeeID = te.ID
         AND te.RetirementDate IS NULL;
+    END
+
+    IF @IncludeRanks = 1
+    BEGIN
+      INSERT INTO #query (ID, Author, Title, Details, DueDate)
+        SELECT
+          -1
+         ,NULL
+         ,N'Выслуга звания'
+         ,N'Выслуга звания "' + tr.RankName + '" сотрудника ' + te.EmployeeLastname + ' ' + te.EmployeeFirstname + ' ' + te.EmployeeMiddlename
+         ,dbo.fn_GetRankExpiryDate(te.ID)
+        FROM dbo.tbl_Employee te
+            ,dbo.tbl_Rank tr
+        WHERE te.ActualRankID IS NOT NULL
+        AND te.ActualRankID = tr.ID
+        AND te.RetirementDate IS NULL;
+
+      IF @IncludeContracts = 1
+      BEGIN
+        INSERT INTO #query (ID, Author, Title, Details, DueDate)
+          SELECT
+            -1 AS ID
+           ,NULL AS Author
+           ,N'Истечение контракта' AS Title
+           ,N'Истечение контракта (' + CONVERT(NVARCHAR, tc.StartDate, 103) + ' - ' + CONVERT(NVARCHAR, tc.FinishDate, 103) + ') сотрудника ' + te.EmployeeLastname + ' ' + te.EmployeeFirstname + ' ' + te.EmployeeMiddlename AS Details
+           ,MAX(tc.FinishDate) AS DueDate
+          FROM dbo.tbl_Employee te
+              ,dbo.tbl_Contract tc
+          WHERE tc.EmployeeID = te.ID
+          AND te.RetirementDate IS NULL
+          GROUP BY tc.StartDate
+                  ,tc.FinishDate
+                  ,te.EmployeeLastname
+                  ,te.EmployeeFirstname
+                  ,te.EmployeeMiddlename;
+      END
+    END
+
+    SELECT
+      *
+    FROM #query q;
+
+  END;
+
+GO
+
+  CREATE PROCEDURE dbo.sp_DeleteNotification @NotificationId INT
+  AS
+  BEGIN
+    IF EXISTS (SELECT
+          *
+        FROM dbo.tbl_Notification n
+        WHERE n.ID = @NotificationId)
+      DELETE FROM dbo.tbl_Notification
+      WHERE ID = @NotificationId;
+    ELSE
+      RAISERROR ('Notification with specified id does not exist is null!', 16, 2);
   END
 
-  SELECT
-    *
-  FROM #query q;
+GO
 
-END;
+  CREATE PROCEDURE dbo.sp_AddNotification @Author NVARCHAR(100),
+  @Title NVARCHAR(20),
+  @Details NVARCHAR(200),
+  @DueDate DATE
+  AS
+  BEGIN
+    INSERT INTO tbl_Notification (Author, Title, Details, DueDate)
+      VALUES (@Author, @Title, @Details, @DueDate);
+    SELECT
+      *
+    FROM tbl_Notification tn
+    WHERE tn.ID = (SELECT
+        MAX(ID)
+      FROM tbl_Notification tn1)
+  END
+
+GO
+  ------------------------------
+  --FUNCTIONS
+  ------------------------------
+  --Returns the actual rank id for the specified user
+  CREATE FUNCTION dbo.fn_GetActualRankID (@EmployeeId INT)
+  RETURNS INT
+  AS
+  BEGIN
+    DECLARE @RankID INT;
+
+    SELECT
+      @RankID = RankID
+    FROM dbo.tbl_MESAchievement tml
+    WHERE tml.EmployeeID = @EmployeeId
+    AND tml.StartDate = (SELECT
+        MAX(StartDate)
+      FROM dbo.tbl_MESAchievement tml1
+      WHERE tml1.EmployeeID = @EmployeeId);
+
+    RETURN @RankID;
+  END;
 
 GO
 
-CREATE PROCEDURE dbo.pr_DeleteNotification @NotificationId INT
+CREATE FUNCTION dbo.fn_GetRankExpiryDate (@EmployeeId INT)
+RETURNS DATE
 AS
 BEGIN
-  IF EXISTS (SELECT
-        *
-      FROM dbo.tbl_Notification n
-      WHERE n.ID = @NotificationId)
-    DELETE FROM dbo.tbl_Notification
-    WHERE ID = @NotificationId;
-  ELSE
-    RAISERROR ('Notification with specified id does not exist is null!', 16, 2);
-END
-
-GO
-
-CREATE PROCEDURE dbo.pr_AddNotification @Author NVARCHAR(100),
-@Title NVARCHAR(20),
-@Details NVARCHAR(200),
-@DueDate DATETIME
-AS
-BEGIN
-  INSERT INTO tbl_Notification (Author, Title, Details, DueDate)
-    VALUES (@Author, @Title, @Details, @DueDate);
-  SELECT
-    *
-  FROM tbl_Notification tn
-  WHERE tn.ID = (SELECT
-      MAX(ID)
-    FROM tbl_Notification tn1)
-END
-
-GO
-------------------------------
---FUNCTIONS
-------------------------------
---Returns the actual rank id for the specified user
-CREATE FUNCTION dbo.fn_GetActualRankID (@EmployeeID INT)
-RETURNS INT
-AS
-BEGIN
+  DECLARE @Date DATE;
   DECLARE @RankID INT;
+  DECLARE @RankSeniority INT;
 
   SELECT
     @RankID = RankID
+   ,@Date = tml.StartDate
   FROM dbo.tbl_MESAchievement tml
-  WHERE tml.EmployeeID = @EmployeeID
+  WHERE tml.EmployeeID = @EmployeeId
   AND tml.StartDate = (SELECT
       MAX(StartDate)
     FROM dbo.tbl_MESAchievement tml1
-    WHERE tml1.EmployeeID = @EmployeeID);
+    WHERE tml1.EmployeeID = @EmployeeId);
 
-  RETURN @RankID;
-END;
+  SELECT
+    @RankSeniority = tr.Term
+  FROM tbl_Rank tr
+  WHERE tr.ID = @RankID;
+
+  SET @Date = DATEADD(MONTH, @RankSeniority, @Date);
+
+  RETURN @Date;
+END
 
 GO
 
 --Returns the actual post id for the specified user
-CREATE FUNCTION dbo.fn_GetActualPostID (@EmployeeID INT)
+CREATE FUNCTION dbo.fn_GetActualPostID (@EmployeeId INT)
 RETURNS INT
 AS
 BEGIN
@@ -512,11 +690,11 @@ BEGIN
   SELECT
     @PostID = PostID
   FROM dbo.tbl_MESAchievement tml
-  WHERE tml.EmployeeID = @EmployeeID
+  WHERE tml.EmployeeID = @EmployeeId
   AND tml.StartDate = (SELECT
       MAX(StartDate)
     FROM dbo.tbl_MESAchievement tml1
-    WHERE tml1.EmployeeID = @EmployeeID);
+    WHERE tml1.EmployeeID = @EmployeeId);
 
   RETURN @PostID;
 END
@@ -525,7 +703,7 @@ GO
 
 --Type: 
 --1-MES; 2-Military; 0-Common
-CREATE FUNCTION dbo.fn_GetSeniorityByEmployeeID (@EmployeeID INT, @Type INT)
+CREATE FUNCTION dbo.fn_GetSeniorityByEmployeeID (@EmployeeId INT, @Type INT)
 RETURNS INT
 AS
 BEGIN
@@ -540,7 +718,7 @@ BEGIN
         ELSE tm.FinishDate
       END)
     FROM tbl_MESAchievement tm
-    WHERE tm.EmployeeID = @EmployeeID;
+    WHERE tm.EmployeeID = @EmployeeId;
   END
 
   IF (@Type = 2
@@ -552,7 +730,7 @@ BEGIN
         ELSE tms.FinishDate
       END)
     FROM tbl_MilitaryService tms
-    WHERE tms.EmployeeID = @EmployeeID;
+    WHERE tms.EmployeeID = @EmployeeId;
   END
 
   RETURN @TotalDays;
@@ -595,12 +773,12 @@ GO
 --forbid adding more than 1 null finish date for every employee
 CREATE TRIGGER MESAchievementInserTrigger
 ON tbl_MESAchievement
-FOR INSERT,UPDATE
+FOR INSERT, UPDATE
 AS
 BEGIN
 
   DECLARE @emplID INT
-         ,@date DATETIME;
+         ,@date DATE;
 
   DECLARE cur CURSOR FAST_FORWARD READ_ONLY LOCAL FOR SELECT
     i.EmployeeID
@@ -650,4 +828,11 @@ BEGIN
 
 END;
 
+GO
+
+------------------------------
+--ADDITIONAL
+------------------------------
+ALTER TABLE dbo.tbl_Employee
+ADD Seniority AS dbo.fn_GetSeniorityByEmployeeID(ID, 0);
 GO

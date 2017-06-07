@@ -10,11 +10,20 @@ namespace Staffinfo.API.Models
         [DataMember(Name = "passportId")]
         public int? PassportId { get; set; }
 
+        [DataMember(Name = "gender")]
+        public string Gender { get; set; }
+
+        [DataMember(Name = "personalNumber")]
+        public string PersonalNumber { get; set; }
+
         [DataMember(Name = "passportNumber")]
         public string PassportNumber { get; set; }
     
         [DataMember(Name = "passportOrganization")]
         public string PassportOrganization { get; set; }
+
+        [DataMember(Name = "passportIdentityNumber")]
+        public string PassportIdentityNumber { get; set; }
 
         [DataMember(Name = "addressId")]
         public int? AddressId { get; set; }
@@ -56,10 +65,13 @@ namespace Staffinfo.API.Models
             PassportId = employee.PassportId;
             PassportNumber = employee.Passport.PassportNumber;
             PassportOrganization = employee.Passport.PassportOrganization;
+            PassportIdentityNumber = employee.Passport.IdentityNumber;
             FirstPhoneNumber = employee.FirstPhoneNumber;
             SecondPhoneNumber = employee.SecondPhoneNumber;
             RetirementDate = employee.RetirementDate;
             EmployeePhoto = employee.EmployeePhoto;
+            Gender = employee.Gender;
+            PersonalNumber = employee.PersonalNumber;
         }
     }
 }

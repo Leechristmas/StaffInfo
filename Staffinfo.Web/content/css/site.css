@@ -126,6 +126,101 @@ hr {}
     padding-bottom: 15px; 
 }
 
-footer {
-    height: 20px;
+div.padded {
+    height: 220px;
+    padding: 10px;
+    margin: 20px;
+}
+
+.md-button.report-button:hover {
+    background-color: transparent;
+    -webkit-transform: scale(1.1);
+     -moz-transform: scale(1.1);
+     -o-transform: scale(1.1);
+}
+
+.md-button.report-button.md-focused {
+    background-color: transparent;
+}
+
+div.padded p {
+    padding: 7px;
+    font-size: 12px;
+    color: #888;
+    -moz-transition: all 0.5s ease-out;
+    -o-transition: all 0.5s ease-out;
+    -webkit-transition: all 0.5s ease-out;
+}
+
+.report-button {
+    min-width: 50px;
+    margin: 0;
+    padding: 0;
+    width: 50px; 
+    /*height: 50px;*/
+}
+
+.png-icon  {
+    margin: 5px auto auto;
+    padding: 0;
+    display: inline-block;
+    background-repeat: no-repeat no-repeat;
+    pointer-events: none;
+    width: 50px; 
+    /*height: 50px;*/
+}
+
+.md-summary {
+    color: #c0c0c0;
+    font-size: 12pt;
+}
+
+md-expansion-panel-header .md-title {
+    max-width: 300px;
+}
+
+.filter-cell md-input-container {
+    margin-bottom: 0;
+}
+
+.filter-cell-left {
+    min-height: 50px;
+    max-height: 70px;
+    margin-top: 12px;
+    padding: 2px;
+}
+
+.filter-cell {
+    margin-left: 35px;
+    max-height: 70px;
+    min-height: 50px;
+}
+
+.filter-field {
+    max-width: 250px;
+}
+
+.shadow {
+    box-shadow: 0 0 10px rgba(0,0,0,0.5); 
+    padding: 10px;
+}
+
+#mes-tabs md-tabs-wrapper md-tabs-canvas {
+    display: none;
+}
+
+#user-registration md-tabs-wrapper md-tabs-canvas {
+    display: none;
+}
+
+.empl-record {
+    transition: 2s;
+}
+
+.text-left.md-button{
+    text-align: left;
+}
+
+md-list .md-button.selected {
+    color: #03a9f4;
 }

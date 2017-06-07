@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Routing;
+using Staffinfo.DAL.Infrastructure;
 using Staffinfo.DAL.Models;
 using Staffinfo.DAL.Repositories;
 using Staffinfo.DAL.Repositories.Interfaces;
 
 namespace Staffinfo.API.Controllers
 {
+    [Authorize]
     [Route("api/dashboard")]
     public class DashboardController: ApiController
     {
@@ -21,12 +22,12 @@ namespace Staffinfo.API.Controllers
 
         [HttpGet]
         [Route("api/dashboard/notifications")]
-        public async Task<List<Notification>> GetNotifications(bool includeCustomNotifications = false, bool includeSertification = false, bool includeBirthDates = false)
+        public async Task<List<Notification>> GetNotifications(bool includeCustomNotifications = false, bool includeSertification = false, bool includeBirthDates = false, bool includeRanks = false, bool includeContracts = false)
         {
             return
                 await
                     _repository.EmployeeRepository.GetNotifications(includeCustomNotifications, includeSertification,
-                        includeBirthDates);
+                        includeBirthDates, includeRanks, includeContracts);
         }
 
         [HttpPost]

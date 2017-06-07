@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
+using NLog;
+using Staffinfo.API.Abstract;
 using Staffinfo.API.Models;
 
 namespace Staffinfo.API.Controllers
@@ -13,15 +10,17 @@ namespace Staffinfo.API.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
-        private readonly AuthRepository _repo = null;
+        private readonly IAuthRepository _repo = null;
+        private readonly ILogger _logger;
 
-        public AccountController()
+        public AccountController(IAuthRepository repo, ILogger logger)
         {
-            _repo = new AuthRepository();
+            _logger = logger;
+            _repo = repo;
         }
-
+        
         // POST api/Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles = "admin")]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(UserModel userModel)
         {
@@ -39,6 +38,24 @@ namespace Staffinfo.API.Controllers
                 return errorResult;
             }
 
+            _logger.Log(LogLevel.Info, $"Зарегестрирован пользователь \"{userModel.UserName}\"");
+
+            return Ok();
+        }
+
+        [Authorize(Roles = "admin")]
+        [Route("Roles/{roleName}")]
+        public async Task<IHttpActionResult> RegisterRole(string roleName)
+        {
+            IdentityResult result = await _repo.CreateRoleAsync(roleName);
+
+            IHttpActionResult errorResult = GetErrorResult(result);
+
+            if (errorResult != null)
+            {
+                return errorResult;
+            }
+            
             return Ok();
         }
 

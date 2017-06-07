@@ -31,9 +31,11 @@ namespace Staffinfo.API.Controllers
                         _repository.EmployeeRepository.WhereAsync(
                             e => e.RetirementDate != null && e.EmployeeLastname.StartsWith(query, StringComparison.OrdinalIgnoreCase));
 
-            System.Web.HttpContext.Current.Response.Headers.Add("X-Total-Count", all.Count().ToString());
+            IEnumerable<Employee> employees = all as IList<Employee> ?? all.ToList();
 
-            return all.Skip(offset).Take(limit).Select(e => new RetiredMinViewModel(e));
+            System.Web.HttpContext.Current.Response.Headers.Add("X-Total-Count", employees.Count().ToString());
+
+            return employees.Skip(offset).Take(limit).Select(e => new RetiredMinViewModel(e));
         }
 
     }

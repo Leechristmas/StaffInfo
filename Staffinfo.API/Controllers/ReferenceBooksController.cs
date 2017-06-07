@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Staffinfo.API.Models;
@@ -84,6 +81,54 @@ namespace Staffinfo.API.Controllers
             IEnumerable<Location> locations = await _repository.LocationRepository.SelectAsync();
             return locations.OrderBy(l => l.LocationName)
                 .Select(l => new NamedEntity { Id = l.Id, Name = l.LocationName });
+        }
+
+        [Route("api/reference-books/locations/{id:int}")]
+        public async Task<Location> GetLocation(int id)
+        {
+            return await _repository.LocationRepository.SelectAsync(id);
+        }
+
+        [HttpDelete]
+        [Route("api/reference-books/locations")]
+        public async Task DeleteLocation(int id)
+        {
+            await _repository.LocationRepository.Delete(id);
+            await _repository.LocationRepository.SaveAsync();
+        }
+
+        [HttpPut]
+        [Route("api/reference-books/locations")]
+        public async Task EditLocation(int id, [FromBody] Location item)
+        {
+            var original = await _repository.LocationRepository.SelectAsync(id);
+
+            if (original != null)
+            {
+                original.LocationName = item.LocationName;
+                original.Address = item.Address;
+                original.Description = item.Description;
+
+                _repository.LocationRepository.Update(original);
+                await _repository.LocationRepository.SaveAsync();
+            }
+        }
+
+
+        [HttpPost]
+        [Route("api/reference-books/locations")]
+        public async Task PostLocation([FromBody] Location item)
+        {
+            var location = new Location
+            {
+                Id = 0,
+                LocationName = item.LocationName,
+                Address = item.Address,
+                Description = item.Description
+            };
+
+            _repository.LocationRepository.Create(location);
+            await _repository.LocationRepository.SaveAsync();
         }
 
     }

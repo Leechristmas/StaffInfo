@@ -8,6 +8,7 @@ namespace Staffinfo.DAL.Mapping
         {
             this.Property(t => t.DueDate).IsRequired().HasColumnName("DueDate");
             this.Property(t => t.Description).HasColumnName("Description");
+            this.Property(t => t.Level).IsRequired().HasColumnName("Level");
 
             this.Property(t => t.EmployeeId).IsOptional().HasColumnName("EmployeeID");
             this.HasOptional(t => t.Employee).WithMany().HasForeignKey(t => t.EmployeeId);
