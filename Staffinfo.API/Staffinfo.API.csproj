@@ -212,9 +212,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\create_database_infrastructure.sql" />
-    <Content Include="App_Data\create_log_infrastructure.sql" />
-    <Content Include="App_Data\fill_test_database.sql" />
+    <Content Include="App_Data\scripts\create_auth_db.sql" />
+    <Content Include="App_Data\scripts\create_staffinfo_db.sql" />
+    <Content Include="App_Data\scripts\fill_staffinfo_test_db.sql" />
     <Content Include="favicon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

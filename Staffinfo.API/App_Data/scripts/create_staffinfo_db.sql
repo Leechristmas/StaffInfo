@@ -1,4 +1,14 @@
-п»ї------------------------------------------------
+-- Creates credentials 
+--CREATE LOGIN StaffinfoDbUser   
+--    WITH PASSWORD = '123456qwerty';  
+--GO  
+--
+---- Creates a database user for the login created above.  
+--CREATE USER StaffinfoDbUser FOR LOGIN StaffinfoDbUser;  
+--GO  
+
+
+------------------------------------------------
 ---DROP/CREATE TABLES
 ------------------------------------------------
 IF OBJECT_ID(N'dbo.tbl_MESAchievement', 'U') IS NOT NULL
@@ -374,7 +384,7 @@ CREATE TABLE dbo.tbl_OutFromOffice (
    ,EmployeeID INT REFERENCES dbo.tbl_Employee ON DELETE CASCADE
    ,StartDate DATE NOT NULL
    ,FinishDate DATE NOT NULL
-   ,Cause NCHAR(1) NOT NULL  --Р±РѕР»СЊРЅРёС‡РЅС‹Рµ(S), РѕС‚РїСѓСЃРєР°(V), РѕС‚РіСѓР»С‹(D)
+   ,Cause NCHAR(1) NOT NULL  --больничные(S), отпуска(V), отгулы(D)
    ,Description NVARCHAR(255)
   );
 GO
@@ -576,7 +586,7 @@ IF OBJECT_ID(N'dbo.sp_GetSeniorityStatistic_NOT_USED', 'P') IS NULL
     BEGIN
     INSERT INTO @data
       SELECT
-        ''РѕС‚ '' + CAST((@step / 365) AS NVARCHAR(3)) + '' РґРѕ '' + CAST(((@step / 365) + @Scale) AS NVARCHAR(3))
+        ''от '' + CAST((@step / 365) AS NVARCHAR(3)) + '' до '' + CAST(((@step / 365) + @Scale) AS NVARCHAR(3))
        ,COUNT(*)
       FROM #seniority s
       WHERE s.Seniority >= @step
@@ -634,8 +644,8 @@ IF OBJECT_ID(N'dbo.sp_GetNotifications', 'P') IS NULL
         SELECT
           -1
          ,NULL
-         ,N''Р”РµРЅСЊ Р РѕР¶РґРµРЅРёСЏ''
-         ,N''Р”РµРЅСЊ СЂРѕР¶РґРµРЅРёСЏ СЃРѕС‚СЂСѓРґРЅРёРєР° '' + te.EmployeeLastname + '' '' + te.EmployeeFirstname + '' '' + te.EmployeeMiddlename + '' ('' + CONVERT(NVARCHAR, te.BirthDate, 104) + '')''
+         ,N''День Рождения''
+         ,N''День рождения сотрудника '' + te.EmployeeLastname + '' '' + te.EmployeeFirstname + '' '' + te.EmployeeMiddlename + '' ('' + CONVERT(NVARCHAR, te.BirthDate, 104) + '')''
          ,DATEADD(yy, DATEDIFF(yy, te.BirthDate, GETDATE()), te.BirthDate)
         FROM dbo.tbl_Employee te
         WHERE te.RetirementDate IS NULL;
@@ -647,8 +657,8 @@ IF OBJECT_ID(N'dbo.sp_GetNotifications', 'P') IS NULL
         SELECT
           -1
          ,NULL
-         ,N''РђС‚С‚РµСЃС‚Р°С†РёСЏ''
-         ,N''РђС‚С‚РµСЃС‚Р°С†РёСЏ СЃРѕС‚СЂСѓРґРЅРёРєР° '' + te.EmployeeLastname + '' '' + te.EmployeeFirstname + '' '' + te.EmployeeMiddlename
+         ,N''Аттестация''
+         ,N''Аттестация сотрудника '' + te.EmployeeLastname + '' '' + te.EmployeeFirstname + '' '' + te.EmployeeMiddlename
          ,ts.DueDate
         FROM dbo.tbl_Sertification ts
             ,dbo.tbl_Employee te
@@ -662,8 +672,8 @@ IF OBJECT_ID(N'dbo.sp_GetNotifications', 'P') IS NULL
         SELECT
           -1
          ,NULL
-         ,N''Р’С‹СЃР»СѓРіР° Р·РІР°РЅРёСЏ''
-         ,N''Р’С‹СЃР»СѓРіР° Р·РІР°РЅРёСЏ "'' + tr.RankName + ''" СЃРѕС‚СЂСѓРґРЅРёРєР° '' + te.EmployeeLastname + '' '' + te.EmployeeFirstname + '' '' + te.EmployeeMiddlename
+         ,N''Выслуга звания''
+         ,N''Выслуга звания "'' + tr.RankName + ''" сотрудника '' + te.EmployeeLastname + '' '' + te.EmployeeFirstname + '' '' + te.EmployeeMiddlename
          ,dbo.fn_GetRankExpiryDate(te.ID)
         FROM dbo.tbl_Employee te
             ,dbo.tbl_Rank tr
@@ -677,8 +687,8 @@ IF OBJECT_ID(N'dbo.sp_GetNotifications', 'P') IS NULL
           SELECT
             -1 AS ID
            ,NULL AS Author
-           ,N''РСЃС‚РµС‡РµРЅРёРµ РєРѕРЅС‚СЂР°РєС‚Р°'' AS Title
-           ,N''РСЃС‚РµС‡РµРЅРёРµ РєРѕРЅС‚СЂР°РєС‚Р° ('' + CONVERT(NVARCHAR, tc.StartDate, 103) + '' - '' + CONVERT(NVARCHAR, tc.FinishDate, 103) + '') СЃРѕС‚СЂСѓРґРЅРёРєР° '' + te.EmployeeLastname + '' '' + te.EmployeeFirstname + '' '' + te.EmployeeMiddlename AS Details
+           ,N''Истечение контракта'' AS Title
+           ,N''Истечение контракта ('' + CONVERT(NVARCHAR, tc.StartDate, 103) + '' - '' + CONVERT(NVARCHAR, tc.FinishDate, 103) + '') сотрудника '' + te.EmployeeLastname + '' '' + te.EmployeeFirstname + '' '' + te.EmployeeMiddlename AS Details
            ,MAX(tc.FinishDate) AS DueDate
           FROM dbo.tbl_Employee te
               ,dbo.tbl_Contract tc
