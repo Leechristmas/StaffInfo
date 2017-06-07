@@ -70,7 +70,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 });
 
 //http path to the API
-var serviceBase = 'http://localhost:21200/';//'http://staffinfoapi.azurewebsites.net/'; 
+var serviceBase = 'http://localhost:81/';
 app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase
 });
@@ -121,7 +121,6 @@ app.config(function ($mdDateLocaleProvider) {
         return m.isValid() ? m.toDate() : new Date(NaN);
     }
 });
-
 
 //interceptors
 app.config(function ($httpProvider) {

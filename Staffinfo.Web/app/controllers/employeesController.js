@@ -195,7 +195,8 @@ app.controller('employeesController', [
 
         //----------------------------------------------------
 
-    }]).controller('toastController', ['$scope', '$mdDialog', 'messageService', '$mdToast', function ($scope, $mdDialog, messageService, $mdToast) {
+    }])
+   .controller('toastController', ['$scope', '$mdDialog', 'messageService', '$mdToast', function ($scope, $mdDialog, messageService, $mdToast) {
 
         var isDlgOpen = false;
 
@@ -227,7 +228,8 @@ app.controller('employeesController', [
                 });
         };
 
-    }]).controller('detailsController', ['$scope', '$mdDialog', 'employeesService', 'messageService', '$timeout', '$mdToast', '$state', function ($scope, $mdDialog, employeesService, messageService, $timeout, $mdToast, $state) {
+    }])
+   .controller('detailsController', ['$scope', '$mdDialog', 'employeesService', 'messageService', '$timeout', '$mdToast', '$state', function ($scope, $mdDialog, employeesService, messageService, $timeout, $mdToast, $state) {
         
         //COMMON----------------------------------------------
         $scope.selectedTabIndex = 0;
@@ -304,7 +306,7 @@ app.controller('employeesController', [
 
                     //Removes the Data Type Prefix 
                     //And set the view model to the new value
-                    $scope.changeable.employeePhoto = base64Image.replace(/data:image\/jpeg;base64,/g, '');
+                    $scope.changeable.employeePhoto = e.target.result.replace(/data:image\/jpeg;base64,/g, '');
                 }
 
                 //Renders Image on Page

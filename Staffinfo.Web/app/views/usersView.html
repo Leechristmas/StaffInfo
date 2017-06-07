@@ -24,7 +24,7 @@
     </div>
 
     <div flex layout="row" ng-controller="userController" style="margin-top: 30px;" >
-        <md-sidenav md-is-locked-open="true" class="md-whiteframe-z2">
+        <md-sidenav md-is-locked-open="true" class="md-whiteframe-z2" ng-hide="users.length <= 0">
             <md-list>
                 <md-list-item ng-repeat="u in users | orderBy: 'lastname'">
                     <md-button flex class="text-left" ng-click="selectUser(u)" ng-class="{'selected' : u === ul.selected }">
