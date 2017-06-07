@@ -224,3 +224,7 @@ md-expansion-panel-header .md-title {
 md-list .md-button.selected {
     color: #03a9f4;
 }
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+} 
