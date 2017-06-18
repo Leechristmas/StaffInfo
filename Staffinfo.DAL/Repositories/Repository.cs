@@ -10,7 +10,7 @@ using Staffinfo.DAL.Repositories.Interfaces;
 namespace Staffinfo.DAL.Repositories
 {
     /// <summary>
-    /// Generic repository for every model
+    /// Generic repository for each model
     /// </summary>
     /// <typeparam name="T">the model type</typeparam>
     public class Repository<T>: IStaffRepository, IRepository<T>, IDisposable where T : Entity

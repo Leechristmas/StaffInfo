@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staffinfo.DAL", "Staffinfo.DAL\Staffinfo.DAL.csproj", "{9960415B-90F6-4F66-AC50-1EE384E3E0FE}"
 EndProject
@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staffinfo.Reports", "Staffi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staffinfo.DAL.Tests", "Tests\Staffinfo.DAL.Tests\Staffinfo.DAL.Tests.csproj", "{33D3D377-CC29-4237-94A4-A38CBD1A7C7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staffinfo.API.Tests", "Staffinfo.API.Tests\Staffinfo.API.Tests.csproj", "{36B0A814-A836-4767-AAB2-FD9A1150CFEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staffinfo.API.Tests", "Tests\Staffinfo.API.Tests\Staffinfo.API.Tests.csproj", "{36B0A814-A836-4767-AAB2-FD9A1150CFEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
